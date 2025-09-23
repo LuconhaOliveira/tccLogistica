@@ -48,4 +48,4 @@ def logoff():
     Usuario.deslogar()
     return redirect("/login")
 
-app.run(debug = True)
+app.run()
