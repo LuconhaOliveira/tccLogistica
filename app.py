@@ -2,7 +2,7 @@
 from flask import Flask, render_template, request, redirect, session
 import datetime
 import mysql.connector
-from data.conexao import Conexao
+from data.conexao import Conection
 from model.controllers.controler_usuario import Usuario
 
 app = Flask(__name__)
@@ -15,12 +15,12 @@ def pagina_principal():
 
     return render_template("index.html")
 
+# Rota para a página de cadastro
 @app.route("/pagina/cadastrar")
 def pagina_cadastrar():
 
     return render_template("cadastro.html")
 
-# Rota para a página de cadastro
 @app.route("/post/cadastro", methods = ["POST"])
 def post_cadastro():
 

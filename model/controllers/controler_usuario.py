@@ -1,5 +1,5 @@
 from hashlib import sha256
-from data.conexao import Conexao
+from data.conexao import Conection
 from flask import session
 
 class Usuario:
@@ -9,11 +9,11 @@ class Usuario:
         
         senha = sha256(senha.encode()).hexdigest()
             
-        conexao = Conexao.criar_conexao()
+        conexao = Conection.create_connection()
 
         cursor = conexao.cursor()
 
-        sql = """INSERT INTO usuarios (
+        sql = """INSERT INTO usuario (
                         cpf, 
                         nome,
                         senha)
