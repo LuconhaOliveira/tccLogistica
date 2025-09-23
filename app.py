@@ -10,10 +10,10 @@ app = Flask(__name__)
 # ------------------------------------------------------------------------------------------------------# 
 
 # Rota para a página principal
-@app.route("/")
-def pagina_principal():
+# @app.route("/")
+# def pagina_principal():
 
-    return render_template("index.html")
+#     return render_template("index.html")
 
 # Rota para a página de cadastro
 @app.route("/pagina/cadastrar")
@@ -38,7 +38,7 @@ def post_cadastro():
     
     return redirect("/pagina/login")
 
-@app.route("/lorem")
+@app.route("/")
 def ipsum():
     return render_template("lorem-ipsum.html")
 

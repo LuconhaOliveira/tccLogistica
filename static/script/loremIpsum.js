@@ -3,10 +3,10 @@ document.querySelector('#logoff').addEventListener('click',()=>{
         title: "Deseja mesmo sair da sua conta?",
         icon: "question",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
         confirmButtonText: "Sim",
-        cancelButtonText: "Não"
+        cancelButtonText: "Não",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33"
     }).then((result) => {
         if (result.isConfirmed) {
             requisicao_logoff();
