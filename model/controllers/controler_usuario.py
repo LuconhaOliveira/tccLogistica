@@ -13,7 +13,7 @@ class Usuario:
 
         cursor = conexao.cursor()
 
-        sql = """INSERT INTO usuario (
+        sql = """INSERT INTO usuarios (
                         cpf, 
                         nome,
                         senha)
