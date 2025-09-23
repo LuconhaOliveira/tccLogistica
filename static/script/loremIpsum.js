@@ -17,9 +17,14 @@ document.querySelector('#logoff').addEventListener('click',()=>{
 async function requisicao_logoff(){
     try {
         const url = "https://tcclogistica.onrender.com/logoff";
-        const response = await fetch(url); // ✅ await aqui
-        console.log(response); // ✅ agora mostra os dados reais
-        console.log(response.status);
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.text(); // ou .json()
+        console.log("Resposta:", data);
     } catch (erro) {
         console.error("Erro ao obter dados:", erro);
     }
