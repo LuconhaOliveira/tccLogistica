@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="Pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Cadastro</title>
+</head>
+
+<body>
+    <div class="container--div-informacoesUsuario">
+        <form action="">
+            <h1>Faça seu Cadastro</h1>
+
+            <p>Insira seu CPF:</p>
+            <input type="text" autocomplete="off" maxlength="14" >
+        </form>
+    </div>
+</body>
+
+<!---------------------------------------------------------------------------------------------------------------------------->
+
+<script>
+    inputCpf = document.querySelector("input");
+    inputCpf.addEventListener('keypress', () =>{
+        let inputCpfLength = inputCpf.value.length;
+
+        // A cada tres numeros, vai inserir um ponto(.) e o outro ponto é na posição sete
+        if(inputCpfLength === 3 ) || (inputCpfLength === 7)
+        {
+            inputCpf.value += '.';
+        }
+    })
+
+</script>
+
+</html>
