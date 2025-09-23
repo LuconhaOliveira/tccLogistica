@@ -1,5 +1,5 @@
 # Importando os arquivos
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, jsonify, render_template, request, redirect, session
 import datetime
 import mysql.connector
 from data.conexao import Conection
@@ -45,7 +45,7 @@ def ipsum():
 @app.route("/logoff")
 def logoff():
     Usuario.deslogar()
-    return redirect("/login")
+    return jsonify({"redirect": "/"}), 200
 
 @app.route("/login")
 def login():

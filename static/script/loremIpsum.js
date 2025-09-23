@@ -23,8 +23,10 @@ async function requisicao_logoff(){
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data = await response.text(); // ou .json()
-        console.log("Resposta:", data);
+        const data = await response.json();
+        if (data.redirect) {
+            window.location.href = data.redirect;
+        }
     } catch (erro) {
         console.error("Erro ao obter dados:", erro);
     }

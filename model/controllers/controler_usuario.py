@@ -32,5 +32,4 @@ class Usuario:
 
 
     def deslogar():
-        session["cpf"] = False
-        session["nome"] = False
+        session.clear()
