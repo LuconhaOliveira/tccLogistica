@@ -38,4 +38,14 @@ def post_cadastro():
     
     return redirect("/pagina/login")
 
+@app.route("/lorem")
+def ipsum():
+    return render_template("lorem-ipsum.html")
+
+@app.route("/logoff")
+def logoff():
+
+    Usuario.deslogar()
+    return redirect("/login")
+
 app.run(debug = True)

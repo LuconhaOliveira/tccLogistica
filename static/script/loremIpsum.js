@@ -1,4 +1,3 @@
-
 document.querySelector('#logoff').addEventListener('click',()=>{
     Swal.fire({
         title: "Deseja mesmo sair da sua conta?",
@@ -9,8 +8,18 @@ document.querySelector('#logoff').addEventListener('click',()=>{
         confirmButtonText: "Sim",
         cancelButtonText: "Não"
     }).then((result) => {
-        if (result.isConfirmed)  ()=>{
-            console.log("sim");
+        if (result.isConfirmed) {
+            requisicao_logoff();
         }
     });
 });
+
+async function requisicao_logoff(){
+    try {
+        const url = "https://tcc-logistica-1.onrender.com/logoff";
+        const response = await fetch(url); // ✅ await aqui
+        console.log(response); // ✅ agora mostra os dados reais
+    } catch (erro) {
+        console.error("Erro ao obter dados:", erro);
+    }
+} 

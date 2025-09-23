@@ -29,3 +29,8 @@ class Usuario:
 
         cursor.close()
         conexao.close()
+
+
+    def deslogar():
+        session["cpf"] = False
+        session["nome"] = False
