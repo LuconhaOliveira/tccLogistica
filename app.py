@@ -44,7 +44,6 @@ def ipsum():
 
 @app.route("/logoff")
 def logoff():
-
     Usuario.deslogar()
     return redirect("/login")
 
