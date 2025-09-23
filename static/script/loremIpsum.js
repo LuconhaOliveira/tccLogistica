@@ -16,7 +16,7 @@ document.querySelector('#logoff').addEventListener('click',()=>{
 
 async function requisicao_logoff(){
     try {
-        const url = "https://tcc-logistica-1.onrender.com/logoff";
+        const url = "https://tcclogistica.onrender.com/logoff";
         const response = await fetch(url); // ✅ await aqui
         console.log(response); // ✅ agora mostra os dados reais
     } catch (erro) {
