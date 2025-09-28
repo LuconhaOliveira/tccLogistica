@@ -2,6 +2,7 @@
 <html lang="Pt-br">
 
 <head>
+    <link rel="stylesheet" href="../static/styles/tela-cadastro.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela de Cadastro</title>
@@ -12,26 +13,26 @@
         <form action="">
             <h1>Faça seu Cadastro</h1>
 
-            <p>Insira seu CPF:</p>
-            <input type="text" autocomplete="off" maxlength="14" >
+            <label>Insira seu nome:</label>
+            <input type="text" name="cadastro-nome" id="cadastro-nome"  maxlength="50" required>
+
+            <label>Insira seu CPF:</label>
+            <input type="text" name="cadastro-cpf" id="cadastro-cpf" placeholder="Ex: 000.000.000-00" maxlength="14" required>
+
+
         </form>
     </div>
 </body>
 
 <!---------------------------------------------------------------------------------------------------------------------------->
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+
+<!-- Código de formatação do cpf -->
 <script>
-    inputCpf = document.querySelector("input");
-    inputCpf.addEventListener('keypress', () =>{
-        let inputCpfLength = inputCpf.value.length;
-
-        // A cada tres numeros, vai inserir um ponto(.) e o outro ponto é na posição sete
-        if(inputCpfLength === 3 ) || (inputCpfLength === 7)
-        {
-            inputCpf.value += '.';
-        }
-    })
-
+      $('#cadastro-cpf').mask('000.000.000-00', {reverse: true});
 </script>
 
 </html>
