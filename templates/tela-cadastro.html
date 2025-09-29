@@ -3,6 +3,10 @@
 
 <head>
     <link rel="stylesheet" href="../static/styles/tela-cadastro.css">
+    <!-- ícones Google Icons -->
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <!-- Link importação do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela de Cadastro</title>
@@ -18,73 +22,45 @@
      </header>
 
 <!--------------------------------------------------------------------------------------------------------------------------->
+ 
+    <!-- Formulário -->
+    <main>
+        <!-- action/method: backend do login -->
+        <form action="/post/cadastro" method="post">
 
-<main>
-    <!-- action/method: backend do login -->
-    <form action="/post/cadastro" method="post">
+            <h1>Faça Login</h1>
+            <div class="mb-3">
+                <label for="exampleInputCPF" class="form-label">Insira seu CPF:</label>
+                <!-- name: backend do login -->
+                <input name="cadastro-cpf"  maxlength="11" class="form-control" id="exampleInputCPF" aria-describedby="CPFHelp">
+                <div id="CPFHelp" class="form-text"></div>
+            </div>
 
-        <h1>Faça Login</h1>
-        <div class="mb-3">
-            <label for="exampleInputCPF" class="form-label">Insira seu CPF:</label>
-            <!-- name: backend do login -->
-            <input name="login-cpf" type="number" maxlength="11" class="form-control" id="exampleInputCPF" aria-describedby="CPFHelp">
-            <div id="CPFHelp" class="form-text"></div>
-        </div>
+            <div class="mb-3">
+                <label for="exampleInputName" class="form-label">Insira seu nome:</label>
+                <!-- name: backend do login -->
+                <input name="cadastro-nome" type="text" maxlength="50" class="form-control" id="exampleInputName" aria-describedby="NameHelp">
+                <div id="NameHelp" class="form-text"></div>
+            </div>
 
-        <div class="mb-3">
-            <label for="exampleInputName" class="form-label">Insira seu CPF:</label>
-            <!-- name: backend do login -->
-            <input name="login-name" type="number" maxlength="11" class="form-control" id="exampleInputName" aria-describedby="NameHelp">
-            <div id="NameHelp" class="form-text"></div>
-        </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Insira sua senha</label>
+                <!-- name: backend do login -->
+                <input name="cadastro-senha" type="password" class="form-control" id="exampleInputPassword1">
+            </div>
 
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Insira sua senha</label>
-            <!-- name: backend do login -->
-            <input name="login-senha" type="password" class="form-control" id="exampleInputPassword1">
-        </div>
-
-        <div class="mb-3 form-check">
-        <button type="submit" class="btn btn-primary">Login</button>
-        <a href="">esqueci minha senha</a>
-        <label for="">Ainda não tem uma conta?</label>
-        <a href="">Cadastre-se</a>
-
-    </form>
-</main>
-
-    <!-- Formulário de cadastro -->
-    <!-- <main>
-        <div class="container--div-informacoesUsuario">
-
-                <form action="/post/login" method="POST" class="form--cadastro-usuario">
-                    <h1>Faça seu Cadastro</h1>
-
-                    <label for="cadastro-nome">Insira seu nome:</label>
-                    <input type="text" name="cadastro-nome" id="cadastro-nome"  maxlength="50" required>
-
-                    <label for="cadastro-cpf">Insira seu CPF:</label>
-                    <input type="text" name="cadastro-cpf" id="cadastro-cpf" placeholder="Ex: 000.000.000-00" maxlength="14" required>
-
-                    <label for="cadastro-senha">Insira sua senha:</label>
-                    <input type="password" name="cadastro-senha" id="cadastro-senha" maxlength="20" minlength="8" required>
-
-                    <button class="form--botao-cadastra" id="botao-cadastra">
-                        Cadastrar
-                    </button>
-                </form>
-
-            <p>Já possui conta?</p> 
+            <div class="mb-3 form-check">
+            <button class="btn btn-primary" type="submit">Cadastrar</button>
+            <label for="">Já possui uma conta?</label>
             <a href="/pagina/login">Faça login!</a>
 
-        </div>
-    </main>
-    
+        </form>
 
-    <footer class="container--footer">
-        <!--  -->
-    </footer>
-</body> -->
+        <footer>
+        <!-- inserir mais tarde -->
+        </footer>
+    </main>
+    </body>
 
 <!---------------------------------------------------------------------------------------------------------------------------->
 
@@ -94,7 +70,7 @@
 
 <!-- Código de formatação do cpf -->
 <script>
-      $('#cadastro-cpf').mask('000.000.000-00', {reverse: true});
+      $('#exampleInputCPF').mask('000.000.000-00', {reverse: true});
 </script>
 
 </html>
