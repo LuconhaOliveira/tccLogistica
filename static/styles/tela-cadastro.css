@@ -1,110 +1,118 @@
 /* Reset */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* body */
+body {
+    background-color: #fff;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
 /* Header */
 .container--header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  background-color: #CFCFCF;
-  display: flex;
-  align-items: center;
-  padding: 14px;
-  z-index: 1000;
+    width: 100%;
+    background-color: #cfcfcf;
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+footer{
+      width: 100%;
+    background-color: #cfcfcf;
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 /* Logo */
 .img--InStock-logo {
-  max-width: 300px;
-  height: auto;
-  flex-shrink: 0;
+    width: 120px;
 }
 
-/* Footer */
-.container--footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 40px;
-  background-color: #CFCFCF;
+
+/* Form */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
 }
 
-/* Espaço entre header e conteúdo */
-body {
-  padding-top: 200px;
-  padding-bottom: 60px;
-  background-color: #ffffff;
+form {
+    background-color: #f2f2f2;
+    padding: 30px 40px;
+    border-radius: 12px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    width: 750px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Container do form */
-.container--div-informacoesUsuario {
-  max-width: 680px;
-  height: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #eeeeee;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+/* Titulo do form */
+form h1 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 25px;
+    font-weight: bold;
 }
 
-/* Estilo do form h1 */
-.form--cadastro-usuario h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333333;
+/* label (textos em cima dos inputs) */
+.form-label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    display: block;
 }
 
-/* Label (texto em cima dos inputs)*/
-.form--cadastro-usuario label {
-  display: flex;
-  margin-top: 30px;
-  margin-bottom: 0px;
-  color: #000000;
+/* Botão de cadastro */
+button[type="submit"] {
+    background-color: #cfcfcf;
+    color: #313131;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.5s ;
 }
 
-/* Input */
-.form--cadastro-usuario input {
-  width: 100%;
-  margin-top: 10px;
-  padding: 15px;
-  border: none;
-  border-radius: 15px;
-  background-color: #fff;
+button[type="submit"]:hover {
+    background-color: #EF782F;
+    color: #ececec;
 }
 
-/* botao */
-button {
-  width: 298px;
-  height: 50px;
-  margin-top: 50px;
-  background-color: #d4d4d4;
-  flex-shrink: 0;
-  margin-left: 170px;
-  border: none;
-  border-radius: 15px;
+/* Link do login */
+form label {
+    font-size: 12px;
+    margin-top: 10px;
 }
 
-p{
-  text-align: center;
-  margin-top: 40px;
-  margin-left: 219px;
-  color: #333333;
-  display: inline-block;
+form a {
+    font-size: 12px;
+    text-decoration: underline;
+    margin-left: 5px;
+    color: #EF782F;
+    font-weight: bold;
 }
 
-a {
-  display: inline-block;
-  margin-top: 5px;
-  text-align: center;
-  margin-left: 3px;
-  color: #ff6600;
-  text-decoration: underline;
+form a:hover {
+    transform: scale(1.2);
+    text-decoration: wavy;
 }
