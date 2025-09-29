@@ -9,19 +9,47 @@
 </head>
 
 <body>
-    <div class="container--div-informacoesUsuario">
-        <form action="">
-            <h1>Faça seu Cadastro</h1>
 
-            <label>Insira seu nome:</label>
-            <input type="text" name="cadastro-nome" id="cadastro-nome"  maxlength="50" required>
+<!--------------------------------------------------------------------------------------------------------------------------->
 
-            <label>Insira seu CPF:</label>
-            <input type="text" name="cadastro-cpf" id="cadastro-cpf" placeholder="Ex: 000.000.000-00" maxlength="14" required>
+    <!-- Header -->
+     <header class="container--header">
+        <img src="/static/img/InStock_logo_transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;">
+     </header>
 
+<!--------------------------------------------------------------------------------------------------------------------------->
 
-        </form>
-    </div>
+    <!-- Formulário de cadastro -->
+    <main>
+        <div class="container--div-informacoesUsuario">
+
+                <form action="/post/login" method="POST" class="form--cadastro-usuario">
+                    <h1>Faça seu Cadastro</h1>
+
+                    <label for="cadastro-nome">Insira seu nome:</label>
+                    <input type="text" name="cadastro-nome" id="cadastro-nome"  maxlength="50" required>
+
+                    <label for="cadastro-cpf">Insira seu CPF:</label>
+                    <input type="text" name="cadastro-cpf" id="cadastro-cpf" placeholder="Ex: 000.000.000-00" maxlength="14" required>
+
+                    <label for="cadastro-senha">Insira sua senha:</label>
+                    <input type="password" name="cadastro-senha" id="cadastro-senha" maxlength="20" minlength="8" required>
+
+                    <button class="form--botao-cadastra" id="botao-cadastra">
+                        Cadastrar
+                    </button>
+                </form>
+
+            <p>Já possui conta?</p> 
+            <a href="/pagina/login">Faça login!</a>
+
+        </div>
+    </main>
+    
+
+    <footer class="container--footer">
+        <!--  -->
+    </footer>
 </body>
 
 <!---------------------------------------------------------------------------------------------------------------------------->
