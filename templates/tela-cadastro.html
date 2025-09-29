@@ -19,8 +19,42 @@
 
 <!--------------------------------------------------------------------------------------------------------------------------->
 
+<main>
+    <!-- action/method: backend do login -->
+    <form action="/post/cadastro" method="post">
+
+        <h1>Faça Login</h1>
+        <div class="mb-3">
+            <label for="exampleInputCPF" class="form-label">Insira seu CPF:</label>
+            <!-- name: backend do login -->
+            <input name="login-cpf" type="number" maxlength="11" class="form-control" id="exampleInputCPF" aria-describedby="CPFHelp">
+            <div id="CPFHelp" class="form-text"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputName" class="form-label">Insira seu CPF:</label>
+            <!-- name: backend do login -->
+            <input name="login-name" type="number" maxlength="11" class="form-control" id="exampleInputName" aria-describedby="NameHelp">
+            <div id="NameHelp" class="form-text"></div>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Insira sua senha</label>
+            <!-- name: backend do login -->
+            <input name="login-senha" type="password" class="form-control" id="exampleInputPassword1">
+        </div>
+
+        <div class="mb-3 form-check">
+        <button type="submit" class="btn btn-primary">Login</button>
+        <a href="">esqueci minha senha</a>
+        <label for="">Ainda não tem uma conta?</label>
+        <a href="">Cadastre-se</a>
+
+    </form>
+</main>
+
     <!-- Formulário de cadastro -->
-    <main>
+    <!-- <main>
         <div class="container--div-informacoesUsuario">
 
                 <form action="/post/login" method="POST" class="form--cadastro-usuario">
@@ -50,7 +84,7 @@
     <footer class="container--footer">
         <!--  -->
     </footer>
-</body>
+</body> -->
 
 <!---------------------------------------------------------------------------------------------------------------------------->
 
