@@ -11,13 +11,13 @@ app = Flask(__name__)
 # Usada para criptografar os cookies de sessão (como 'cpf'), garantindo que os dados da sessão não possam ser lidos ou adulterados pelo usuário.
 app.secret_key = "ch@v3s3cr3t4444&&@"
 
-# PÁGINA INICIAL ------------------------------------------------------------------------------------------------------# 
+# PÁGINA PRINCIPAL ------------------------------------------------------------------------------------------------------# 
 
-# Rota para a página inicial
-@app.route("/")
+# Rota para a página principal
+@app.route("/pagina/principal")
 def pagina_principal():
 
-    return render_template('pagina_login.html')
+    return render_template('pagina_principal.html')
 
 # CADASTRO ------------------------------------------------------------------------------------------------------# 
 
@@ -40,6 +40,7 @@ def post_cadastro():
     
     return redirect("/pagina/login")
 
+# LOGIN ------------------------------------------------------------------------------------------------------# 
 
 @app.route("/logoff")
 def logoff():
@@ -50,7 +51,7 @@ def logoff():
 # Rota que lida com a requisição GET para a página de login.
 # Acessa a URL "/pagina_login" e renderiza o arquivo HTML 'pagina_login.html',
 # exibindo o formulário de login para o usuário.
-@app.route("/pagina/login")
+@app.route("/")
 def pagina_logar():
 
     return render_template('pagina_login.html')
