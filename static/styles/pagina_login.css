@@ -1,0 +1,137 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* body */
+.container--body {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header */
+.container--header {
+    width: 100%;
+    background-color: #cfcfcf;
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.container--footer{
+    width: 100%;
+    background-color: #cfcfcf;
+    padding: 10px 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Logo */
+.img--InStock-logo {
+    width: 120px;
+}
+
+
+/* Form */
+.container--main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container--form {
+    background-color: #f2f2f2;
+    padding: 30px 40px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    width: 750px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Titulo do form */
+form h1 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* label (textos em cima dos inputs) */
+.form-label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    display: block;
+}
+
+/* Botão de Login */
+button[type="submit"] {
+    background-color: #cfcfcf;
+    color: #313131;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.5s ;
+}
+
+button[type="submit"]:hover {
+    background-color: #EF782F;
+    color: #ececec;
+}
+
+.container--a--label-possuiConta{
+
+    text-align: center;
+
+}
+
+/* Link do login */
+.container--a--label-possuiConta label{
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+/* HREF link */
+.container--a--label-possuiConta a{
+    font-size: 12px;
+    text-decoration: underline;
+    color: #EF782F;
+    font-weight: bold;
+}
+.a--esqueci-senha{
+    font-size: 12px;
+    text-decoration: underline;
+    color: #EF782F;
+    font-weight: bold;
+    
+}
+
+.a--esqueci-senha:hover{
+    transform: scale(1.2);
+    text-decoration: wavy;
+}
+
+.container--a--label-possuiConta a:hover {
+    transform: scale(1.2);
+    text-decoration: wavy;
+}
+
+.form-check{
+    padding: 0 !important;
+}
