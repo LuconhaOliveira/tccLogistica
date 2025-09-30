@@ -12,6 +12,7 @@ app.config['SECRET_KEY'] = 'teste123'
 # Rota para a página principal
 @app.route("/")
 def pagina_principal():
+    session["cpf"] = "11223344556"
     estantes = Estante.buscar_estantes()
 
     filtros = [i["categoria"] for i in estantes]
@@ -80,4 +81,3 @@ def post_login():
         return redirect("/pagina/login")
 
 
-# app.run(debug = True)
