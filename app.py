@@ -1,5 +1,5 @@
 # Importando os arquivos
-from flask import Flask, jsonify, render_template, request, redirect, session
+from flask import Flask, jsonify, render_template, request, redirect, session, url_for
 import datetime
 from model.controllers.controller_usuario import Usuario
 from model.controllers.controller_produtos import ControleProduto
@@ -73,11 +73,13 @@ def post_login():
 
     if login_valido:
         session['cpf'] = cpf
+        session['nome'] = login_valido
+
         # Se o login for bem-sucedido, redireciona para a página principal
-        return render_template('pagina_principal.html')
+        return render_template('index.html')
     else:
         # Se falhar, redireciona para a página de login com uma mensagem de erro
-        return redirect("/pagina/login")
+        return redirect(url_for('pagina_logar'))
 
 
 
