@@ -25,7 +25,7 @@ def pagina_principal():
 @app.route("/pagina/cadastrar")
 def pagina_cadastrar():
 
-    return render_template("cadastro.html")
+    return render_template("tela-cadastro.html")
 
 @app.route("/post/cadastro", methods = ["POST"])
 def post_cadastro():
