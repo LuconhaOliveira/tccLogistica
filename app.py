@@ -22,16 +22,15 @@ def pagina_principal():
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
 
-    return render_template("pagina-principal.html",estantes=estantes,filtros=filtros)
+    return render_template("index.html",estantes=estantes,filtros=filtros)
 
 # CADASTRO ------------------------------------------------------------------------------------------------------# 
-
 
 # Rota para a página de cadastro
 @app.route("/pagina/cadastrar")
 def pagina_cadastrar():
 
-    return render_template("tela-cadastro.html")
+    return render_template("pagina_cadastro.html")
 
 @app.route("/post/cadastro", methods = ["POST"])
 def post_cadastro():
@@ -52,7 +51,6 @@ def post_cadastro():
 def logoff():
     Usuario.deslogar()
     return jsonify({"redirect": "/pagina/login"}), 200
-
 
 # Rota que lida com a requisição GET para a página de login.
 # Acessa a URL "/pagina_login" e renderiza o arquivo HTML 'pagina_login.html',
