@@ -7,7 +7,7 @@
     --orange-color: #EF782F;
     --grey-light: #DFDFDF;
     --grey-medium: #9C9C9C;
-    --grey-dark: #404247;
+    --grey-dark: #3e3e3e;
     --black: #000000;
     --white: #FFFFFF;
 
@@ -17,8 +17,10 @@
     --font-jersey: "Jersey 20", sans-serif;
 
     /* tamanho dos textos */
+    --font-size-16: 16px;
+    --font-size-20: 20px;
     --font-size-24: 24px;
-    --font-size-30: 34px;
+    --font-size-30: 30px;
     --font-size-40: 40px;
 
 }
