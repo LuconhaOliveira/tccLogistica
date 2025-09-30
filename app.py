@@ -9,7 +9,7 @@ app.config['SECRET_KEY'] = 'teste123'
 
 # ------------------------------------------------------------------------------------------------------# 
 
-# Rota para a página principal
+# Rota para a página inicial
 @app.route("/")
 def pagina_principal():
 
