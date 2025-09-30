@@ -8,7 +8,7 @@
 
 /* body */
 .container--body {
-    background-color: #fff;
+    background-color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,7 +18,7 @@
 /* Header */
 .container--header {
     width: 100%;
-    background-color: #cfcfcf;
+    background-color: var(--grey-dark);
     padding: 10px 20px;
     height: 100px;
     display: flex;
@@ -28,7 +28,7 @@
 
 .container--footer{
     width: 100%;
-    background-color: #cfcfcf;
+    background-color: var(--grey-dark);;
     padding: 10px 20px;
     height: 30px;
     display: flex;
@@ -49,28 +49,32 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .container--form {
-    background-color: #f2f2f2;
+    background-color: var(--grey-light);
     padding: 30px 40px;
     border-radius: 12px;
-    margin-bottom: 30px;
+    
     width: 750px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Titulo do form */
-form h1 {
+.container--form h1 {
     text-align: center;
-    font-size: 22px;
+    font-size: var(--font-size-30);
     margin-bottom: 25px;
     font-weight: bold;
 }
 
 /* label (textos em cima dos inputs) */
-.form-label {
-    font-size: 14px;
+.form-label{
+
+    width: 100px;
+    font-size: var(--font-size-20);
     margin-bottom: 5px;
     font-weight: 500;
     display: block;
@@ -78,8 +82,8 @@ form h1 {
 
 /* Botão de Login */
 button[type="submit"] {
-    background-color: #cfcfcf;
-    color: #313131;
+    background-color: var(--grey-medium);
+    color: var(--black);
     font-weight: bold;
     border: none;
     border-radius: 12px;
@@ -91,8 +95,8 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #EF782F;
-    color: #ececec;
+    background-color: var(--orange-color);
+    color: var(--white);
 }
 
 .container--a--label-possuiConta{
@@ -103,21 +107,22 @@ button[type="submit"]:hover {
 
 /* Link do login */
 .container--a--label-possuiConta label{
-    font-size: 12px;
+    font-size: var(--font-size-16);
     margin-top: 10px;
 }
 
 /* HREF link */
 .container--a--label-possuiConta a{
-    font-size: 12px;
+    font-size: var(--font-size-16);
     text-decoration: underline;
-    color: #EF782F;
+    color: var(--orange-color);
     font-weight: bold;
 }
 .a--esqueci-senha{
-    font-size: 12px;
+
+    font-size: var(--font-size-16);
     text-decoration: underline;
-    color: #EF782F;
+    color: var(--orange-color);
     font-weight: bold;
     
 }
