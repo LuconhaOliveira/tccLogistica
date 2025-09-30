@@ -44,7 +44,7 @@ def post_cadastro():
 
     Usuario.cadastrar_usuario(cpf, nome, senha)
     
-    return redirect("/pagina/login")
+    return redirect("/")
 
 # LOGIN ------------------------------------------------------------------------------------------------------# 
 
