@@ -80,4 +80,9 @@ def post_login():
         # Se falhar, redireciona para a página de login com uma mensagem de erro
         return redirect("/pagina/login")
 
+@app.route("/estante/<id>")
+def pagina_logar(id):
+    Estante.buscar_estante(id)
+    
+    return render_template('pagina_login.html')
 
