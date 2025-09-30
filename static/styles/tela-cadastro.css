@@ -1,16 +1,14 @@
 /* Reset */
-* {
+*{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* body */
-body {
+.container--body {
     background-color: #fff;
     display: flex;
-    box-sizing: border-box;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
@@ -27,11 +25,11 @@ body {
     justify-content: flex-start;
 }
 
-footer{
-      width: 100%;
+.container--footer{
+    width: 100%;
     background-color: #cfcfcf;
     padding: 10px 20px;
-    height: 100px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -44,27 +42,27 @@ footer{
 
 
 /* Form */
-main {
+.container--main {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: 30px;
+     padding-bottom: 20px;
+    padding-top: 20px;
 }
 
-form {
+.container--form {
     background-color: #f2f2f2;
     padding: 30px 40px;
     border-radius: 12px;
-    margin-right: 20px;
-    margin-bottom: 30px;
+    
     width: 750px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Titulo do form */
-form h1 {
+.container--form h1 {
     text-align: center;
     font-size: 22px;
     margin-bottom: 25px;
@@ -79,7 +77,7 @@ form h1 {
     display: block;
 }
 
-/* Botão de cadastro */
+/* Botão de Login */
 button[type="submit"] {
     background-color: #cfcfcf;
     color: #313131;
@@ -98,21 +96,43 @@ button[type="submit"]:hover {
     color: #ececec;
 }
 
+.container--label--a-logar{
+
+    text-align: center;
+
+}
+
 /* Link do login */
-form label {
+.container--label--a-logar label{
     font-size: 12px;
     margin-top: 10px;
 }
 
-form a {
+/* HREF link */
+.container--label--a-logar a{
     font-size: 12px;
     text-decoration: underline;
-    margin-left: 5px;
     color: #EF782F;
     font-weight: bold;
 }
+.a--esqueci-senha{
+    font-size: 12px;
+    text-decoration: underline;
+    color: #EF782F;
+    font-weight: bold;
+    
+}
 
-form a:hover {
+.a--esqueci-senha:hover{
     transform: scale(1.2);
     text-decoration: wavy;
+}
+
+.container--label--a-logar a:hover {
+    transform: scale(1.2);
+    text-decoration: wavy;
+}
+
+.form-check{
+    padding: 0 !important;
 }
