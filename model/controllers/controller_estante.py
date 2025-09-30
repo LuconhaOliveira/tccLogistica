@@ -41,7 +41,7 @@ class Estante:
             if not conexao:
                 return None
 
-            cursor = conexao.cursor()
+            cursor = conexao.cursor(dictionary=True)
             
             sql = "SELECT estante.enderecamento,estante.estante,categoria.nome FROM estante INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria WHERE cpf= %s and enderecamento=%s"
             valores = (session["cpf"],id)
