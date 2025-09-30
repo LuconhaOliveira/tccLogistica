@@ -84,4 +84,4 @@ def post_login():
 def pagina_estante(id):
     Estante.buscar_estante(id)
 
-    return render_template('pagina_login.html')
+    return redirect('/pagina/login')
