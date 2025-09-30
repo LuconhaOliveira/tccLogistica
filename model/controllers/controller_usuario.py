@@ -31,6 +31,9 @@ class Usuario:
         cursor.close()
         conexao.close()
 
+
+    def deslogar():
+        session.clear()
     
     @staticmethod
     def validar_login(cpf, senha):
