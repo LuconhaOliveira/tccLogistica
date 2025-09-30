@@ -44,3 +44,24 @@ class Categoria:
 
         cursor.close()
         conexao.close()
+
+    # Conexao com o banco de dados para criar uma caracteristica com base no tipo
+    def cadastrar_tipo_categoria(nome, cod_tipo, cpf):
+            
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor()
+
+        sql = """INSERT INTO caracteristica (
+                        nome, cod_tipo, cpf)
+                    VALUES (
+                        %s, %s, %s)"""
+
+        valores = (nome, cod_tipo, cpf)
+
+        cursor.execute(sql, valores)
+
+        conexao.commit()
+
+        cursor.close()
+        conexao.close()
