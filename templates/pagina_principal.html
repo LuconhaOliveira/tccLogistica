@@ -3,7 +3,7 @@
 
 <head>
 
-    <link rel="stylesheet" href="pagina-principal.css">
+    <link rel="stylesheet" href="/static/styles/pagina-principal.css">
     <!-- ícones Google Icons -->
      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Link importação do Bootstrap -->
@@ -20,7 +20,7 @@
 
     <!-- header bootstrap -->
      <header class="container--header">
-        <img src="/static/img/InStock_logo_transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;">
+        <img src="/static/img/InStock_logo_transparente.png" class="img--InStock-logo" alt="InStock Logo">
         <ul class="nav justify-content-end">
             <li class="nav-item">
                 <span class="nav-link active" aria-current="page" href="#">Bem vindo(a), [nome do usuário]</span>
@@ -38,14 +38,14 @@
 
         <!-- Add o icon "mais" no botão -->
         <section class="btn-cadastrarProdCatEst">
-            <button type="button" id="botaoToggle">
+            <button type="button" id="botaoToggle" class="btn btn-primary">
                 <span class="material-symbols-outlined">
                     add_2
                 </span>
             </button>
 
         <!--  Opcoes que estão dentro do botão  -->
-            <div class="opcoes" id="opcoesBotao" style="display: none; position: absolute;">
+            <div class="opcoesAdicionar" id="opcoesBotao">
                 <a href="/post/produto">Adicionar Produto</a>
                 <a href="/">Adicionar Categoria</a>
                 <a href="/post/cadastro_estante/adicionar">Adicionar Estante</a>
@@ -54,7 +54,7 @@
 
         <!-- Card lateral esquerdo, aqui vai as categorias, estantes e produtos cadastrados -->
         <section class="card-filtrosCategoria">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 0;">
                 <div class="card-body">
                     <h5 class="card-title">Categorias</h5>
                     <h6 class="card-subtitle mb-2 text-body-secondary">Estante:</h6>
@@ -66,7 +66,7 @@
      
      </main>
 
-    <footer>
+    <footer class="container--footer">
         <!-- Add coisa depois -->
     </footer>
     
@@ -77,11 +77,11 @@
 
     // pega o botão, espera um clique e a cada clique ele vai inverter a visibilidade da div(opcoes) efeito de toggle
     document.addEventListener('DOMContentLoaded', function() {
-      const toggleButton = document.getElementById('toggleButton');
+      const botaoToggle = document.getElementById('botaoToggle');
       const opcoesDiv = document.getElementById('opcoesBotao');
 
-      if (toggleButton && opcoesDiv) {
-        toggleButton.addEventListener('click', function(event) {
+      if (botaoToggle && opcoesDiv) {
+        botaoToggle.addEventListener('click', function(event) {
           event.stopPropagation();
           
           if (opcoesDiv.style.display === 'none') {

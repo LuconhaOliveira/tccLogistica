@@ -1,3 +1,136 @@
-.container--header{
-    background-color: #A4A4A4;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
+
+.container--header {
+    width: 100%;
+    background-color: #cfcfcf;
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.container--footer{
+    width: 100%;
+    margin-top: 545px;
+    background-color: #cfcfcf;
+    padding: 10px 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.btn-cadastrarProdCatEst .btn.btn-primary {
+    position: fixed;
+    margin-left: 1340px;
+    margin-top: 460px;
+    background-color: #EF782F;
+    border: none;
+    border-radius: 100px;
+
+}
+
+.btn-cadastrarProdCatEst .btn.btn-primary:hover {
+    background-color: #EF782F;
+    border: none;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.762);
+}
+
+.card-filtrosCategoria .card .card-body {
+  position: fixed;
+  height: 547px;
+  width: 169px;
+  background-color: #BCBCBC;
+  box-sizing: border-box;
+}
+
+.img--InStock-logo {
+    width: 150px;
+}
+
+.container--body {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+}
+
+.container--header .nav.justify-content-end {
+    margin-left: auto;
+}
+
+.container--header .nav.justify-content-end .nav-link.active{
+    color: black;
+    font-size: large;
+    margin-right: 50px;
+}
+
+.container--header .nav.justify-content-end .nav-link{
+    margin-left: auto;
+    color: black;
+    font-size: large;
+}
+
+.btn-cadastrarProdCatEst .material-symbols-outlined{
+    height: 40px;
+    width: 30px;
+}
+
+.btn  .material-symbols-outlined  {
+    align-content: center;
+    font-size: 30px;
+
+}
+
+.btn-cadastrarProdCatEst .opcoesAdicionar {
+    text-align: right;
+    border-radius: 15px;
+    width: 200px; 
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 5px; 
+    background-color: #A9A9A9;
+    float: right;
+    display: none;
+}
+
+    .opcoesAdicionar a{
+        display: block; 
+        padding: 10px;
+        text-align: left;
+        text-decoration: none;
+        color: #000000;
+
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 9px;
+        margin-right: 10px;
+
+        border-radius: 20px;
+        align-items: center;
+      
+        align-content: center;
+        background-color: #D9D9D9;
+        
+    }
+
+
+    .opcoesAdicionar a:hover {
+        background-color: #EF782F ;
+        color: white;
+    }
+
+    .opcoesAdicionar{
+        position: relative;
+        top: 240px;
+        display: none;
+        right: 30px;
+    }
