@@ -1,15 +1,16 @@
 # Importando os arquivos
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, jsonify, render_template, request, redirect, session
 import datetime
 from model.controllers.controler_usuario import Usuario
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'teste123'
 
 # ------------------------------------------------------------------------------------------------------# 
 
 # Rota para a página principal
-@app.route("/")
-def pagina_principal():
+# @app.route("/")
+# def pagina_principal():
 
     # return render_template("index.html")
     return render_template('pagina_login.html')
@@ -37,6 +38,11 @@ def post_cadastro():
     
     return redirect("/pagina/login")
 
+
+@app.route("/logoff")
+def logoff():
+    Usuario.deslogar()
+    return jsonify({"redirect": "/login"}), 200
 
 
 # Rota que lida com a requisição GET para a página de login.
