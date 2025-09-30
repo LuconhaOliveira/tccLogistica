@@ -16,10 +16,16 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 # Rota para a página principal
 @app.route("/pagina/principal")
 def pagina_principal():
+    session["cpf"] = "11223344556"
+    estantes = Estante.buscar_estantes()
 
-    return render_template('pagina_principal.html')
+    filtros = [i["categoria"] for i in estantes]
+    filtros = list(set(filtros))
+
+    return render_template("pagina-principal.html",estantes=estantes,filtros=filtros)
 
 # CADASTRO ------------------------------------------------------------------------------------------------------# 
+
 
 # Rota para a página de cadastro
 @app.route("/pagina/cadastrar")
@@ -45,7 +51,7 @@ def post_cadastro():
 @app.route("/logoff")
 def logoff():
     Usuario.deslogar()
-    return jsonify({"redirect": "/login"}), 200
+    return jsonify({"redirect": "/pagina/login"}), 200
 
 
 # Rota que lida com a requisição GET para a página de login.
@@ -82,7 +88,12 @@ def post_login():
         return redirect(url_for('pagina_logar'))
 
 
+@app.route("/estante/<id>")
+def pagina_estante(id):
+    Estante.buscar_estante(id)
 
+    return render_template('pagina_estantes.html')
+  
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
 def pagina_produto():

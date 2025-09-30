@@ -12,11 +12,11 @@ class Conection:
     _LOCAL_PORT = 3306
     
     # Definimos as credenciais para o banco de dados online.
-    _ONLINE_HOST = 'db.exemplo-servidor.com' 
-    _ONLINE_DATABASE = 'seu_banco_online'   
-    _ONLINE_USER = 'seu_usuario'            
-    _ONLINE_PASSWORD = 'sua_senha_segura'   
-    _ONLINE_PORT = 3306                      
+    _ONLINE_HOST = 'lucas-mysql-service-ds-aluno-d374.i.aivencloud.com' 
+    _ONLINE_DATABASE = 'tcc_logistica'   
+    _ONLINE_USER = 'avnadmin'            
+    _ONLINE_PASSWORD = 'AVNS_YoiuI6G-rpT4G7mGW3A'   
+    _ONLINE_PORT = 28179                 
 
     @staticmethod
     def create_connection(is_online=False):
