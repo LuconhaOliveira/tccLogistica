@@ -52,7 +52,7 @@ class Estante:
             
             cursor.execute(sql, valores)
             
-            resultado = cursor.fetchone()
+            resultado = cursor.fetchall()
             
             if resultado:
                 return resultado
