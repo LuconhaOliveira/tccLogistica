@@ -1,17 +1,20 @@
 from data.conexao import Conection
 from flask import session
+import datetime
 
 class Categoria:
 
     # Conexao com o banco de dados para criar uma categoria
     def cadastrar_categoria(nome):
+
+        data_hora = datetime.datetime.today()
             
         conexao = Conection.create_connection()
 
         cursor = conexao.cursor()
 
         sql = """INSERT INTO categoria (
-                        nome)
+                        nome, data_hora)
                     VALUES (
                         %s)"""
 
