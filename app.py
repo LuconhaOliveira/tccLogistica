@@ -80,4 +80,4 @@ def post_login():
         return redirect("/pagina/login")
 
 
-app.run(debug = True)
+# app.run(debug = True)
