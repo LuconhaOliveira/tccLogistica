@@ -34,31 +34,35 @@
         </ul>
      </header>
 
-     <main>
+    <main>
 
-    <!-- Btn do add estantes -->
-     <button type="button">
-        <span class="material-symbols-outlined">
-            add_2
-        </span>
-     </button>
+        <!-- Add o icon "mais" no botão -->
+        <section class="btn-cadastrarProdCatEst">
+            <button type="button" id="toggleButton">
+                <span class="material-symbols-outlined">
+                    add_2
+                </span>
+            </button>
 
-     <!-- Opcoes do botão -->
-    <div class="opcoes" id="">
-        <a href="">Adicionar Produto</a>
-        <a href="/pagina/cadastro_estante">Adicionar Estante</a>
-        <a href="">Adicionar Categoria</a>
-    </div>
-
-     <section class="card-filtrosCategoria">
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title">Categorias</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Estantes:</h6>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Categorias:</h6>
+        <!--  Opcoes que estão dentro do botão  -->
+            <div class="opcoes" id="opcoesBotao" style="display: none; position: absolute;">
+                <a href="">Adicionar Produto</a>
+                <a href="">Adicionar Categoria</a>
+                <a href="">Adicionar Estante</a>
             </div>
-        </div>
-     </section>
+        </section>
+
+        <!-- Card lateral esquerdo, aqui vai as categorias, estantes e produtos cadastrados -->
+        <section class="card-filtrosCategoria">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Categorias</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Estante:</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Categoria:</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Produto:</h6>
+                </div>
+            </div>
+        </section>
      
      </main>
 
@@ -67,10 +71,36 @@
     </footer>
     
 </div>
-    
-<script>
-</script>
+   
+<!-- JS -->
+  <script>
 
+    // pega o botão, espera um clique e a cada clique ele vai inverter a visibilidade da div(opcoes) efeito de toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleButton = document.getElementById('toggleButton');
+      const opcoesDiv = document.getElementById('opcoesBotao');
+
+      if (toggleButton && opcoesDiv) {
+        toggleButton.addEventListener('click', function(event) {
+          event.stopPropagation();
+          
+          if (opcoesDiv.style.display === 'none') {
+            opcoesDiv.style.display = 'block';
+          } else {
+            opcoesDiv.style.display = 'none';
+          }
+        });
+
+        // escuta o clique e exibe ou esconde o menu de opções.
+        document.addEventListener('click', function(event) {
+          if (!opcoesDiv.contains(event.target)) {
+            opcoesDiv.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
+  
 </body>
 
 </html>
