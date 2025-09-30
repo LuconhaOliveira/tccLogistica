@@ -81,8 +81,9 @@ def post_login():
         return redirect("/pagina/login")
 
 @app.route("/estante/<id>")
-def pagina_logar(id):
+def pagina_estante(id):
     Estante.buscar_estante(id)
-    
+
     return render_template('pagina_login.html')
 
+app.run()
