@@ -43,7 +43,11 @@ class Estante:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = "SELECT estante.enderecamento,estante.estante,categoria.nome FROM estante INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria WHERE cpf= %s and enderecamento=%s"
+            sql = """SELECT produto.nome, produto.sku, produto.imagem, tipo.nome AS 'tipo'
+                        FROM produto INNER JOIN usuario ON usuario.cpf = produto.cpf
+                        INNER JOIN estante ON usuario.cpf = estante.cpf
+                        INNER JOIN tipo ON tipo.cod_tipo=produto.cod_tipo
+                        WHERE usuario.cpf= %s and enderecamento=%s"""
             valores = (session["cpf"],id)
             
             cursor.execute(sql, valores)
@@ -51,9 +55,7 @@ class Estante:
             resultado = cursor.fetchone()
             
             if resultado:
-                print(resultado)
-                estantes = [{"enderecamento":estante[0], "estante": estante[1], "categoria": estante[2]} for estante in resultado]
-                return estantes
+                return resultado
             else:
                 return None
 
