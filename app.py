@@ -82,6 +82,7 @@ def post_login():
 @app.route("/pagina/produto")
 def pagina_produto():
     """Renderiza o formulário para cadastro de novos produtos."""
+
     return render_template('cadastro_produto.html') 
 
 # Rota de POST para cadastro de produto
@@ -120,6 +121,28 @@ def post_produto():
     else:
         # Redireciona de volta com erro
         return redirect("/pagina/produto") 
+    
+
+@app.route("/post/deletar_produto", methods=["POST"])
+def post_deletar_produto():
+    """
+    Processa a exclusão de um produto, recebendo o cod_produto via POST.
+    """
+    try:
+        cod_produto = int(request.form.get("cod_produto"))
+    except (TypeError, ValueError):
+        # Se o código do produto não for um número válido, retorna erro
+        return "Erro: Código do produto inválido.", 400
+
+    # Chama a função de exclusão
+    sucesso = ControleProduto.deletar_produto(cod_produto)
+
+    if sucesso:
+        # Redireciona de volta para a lista de produtos após a exclusão
+        return redirect("/pagina/listagem_produtos")
+    else:
+        # Em caso de falha (erro de BD ou produto não encontrado)
+        return "Erro ao deletar o produto. Verifique dependências.", 500
 
 
 app.run(debug = True)

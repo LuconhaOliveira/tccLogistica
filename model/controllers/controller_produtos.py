@@ -67,3 +67,60 @@ class ControleProduto:
                 cursor.close()
             if conexao:
                 conexao.close()
+
+
+    @staticmethod
+    def deletar_produto(cod_produto):
+        """
+        Exclui um produto do banco de dados com base no código do produto fornecido.
+        
+        Argumentos:
+        - cod_produto (INT): Código do produto que será excluído.
+
+        Retorna:
+        - True se a exclusão for bem-sucedida, False em caso de falha.
+        """
+        conexao = None
+        cursor = None
+
+        try:
+            # 1. CONEXÃO
+            conexao = Conection.create_connection()
+            if not conexao:
+                print("Erro: Não foi possível estabelecer a conexão com o banco de dados.")
+                return False
+
+            cursor = conexao.cursor()
+
+            # 2. COMANDO SQL PARA EXCLUSÃO
+            sql = "DELETE FROM produto WHERE cod_produto = %s"
+            valores = (cod_produto,)
+
+            # 3. EXECUÇÃO DO COMANDO
+            cursor.execute(sql, valores)
+            conexao.commit()
+
+            if cursor.rowcount == 0:
+                # Se nenhum produto foi excluído, pode ser que o código não exista
+                print(f"Erro: Nenhum produto encontrado com o código {cod_produto}.")
+                return False
+            
+            print(f"Produto com código {cod_produto} excluído com sucesso.")
+            return True
+
+        except Error as e:
+            # Captura erros de banco de dados (ex: chave estrangeira, erro na execução do SQL)
+            print(f"Erro ao excluir produto: {e}")
+            return False
+
+        except Exception as e:
+            # Captura outros erros inesperados
+            print(f"Erro inesperado no processo de exclusão: {e}")
+            return False
+
+        finally:
+            # GARANTIA DE LIMPEZA DE RECURSOS
+            if cursor:
+                cursor.close()
+            if conexao:
+                conexao.close()
