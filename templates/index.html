@@ -6,12 +6,23 @@
     <title>Document</title>
 </head>
 <body>
-    {% for estante in estantes %}
-    <div>{{estante.enderecamento}}</div>
-        <ul>
-            <li>{{estante.estante}}</li>
-            <li>{{estante.categoria}}</li>
-        </ul>
-    {% endfor %}
+    <section>
+        <h1>Filtros</h1>
+            <ul>
+                {% for filtro in filtros %}
+                <li>{{filtro}}</li>
+                {% endfor %}
+            </ul>
+    </section>
+    <section>
+        <h1>Estantes</h1>
+        {% for estante in estantes %}
+        <div>{{estante.enderecamento}}</div>
+            <ul>
+                <li>{{estante.estante}}</li>
+                <li>{{estante.categoria}}</li>
+            </ul>
+        {% endfor %}
+    </section>
 </body>
 </html>

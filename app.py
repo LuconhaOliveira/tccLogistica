@@ -14,7 +14,10 @@ app.config['SECRET_KEY'] = 'teste123'
 def pagina_principal():
     estantes = Estante.buscar_estantes()
 
-    return render_template("index.html",estantes=estantes)
+    filtros = [i["categoria"] for i in estantes]
+    filtros = list(set(filtros))
+
+    return render_template("index.html",estantes=estantes,filtros=filtros)
 
 # Rota para a página de cadastro
 @app.route("/pagina/cadastrar")
