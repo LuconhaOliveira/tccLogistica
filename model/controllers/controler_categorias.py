@@ -1,11 +1,10 @@
 from data.conexao import Conection
-from flask import session
 import datetime
 
 class Categoria:
 
     # Conexao com o banco de dados para criar uma categoria
-    def cadastrar_categoria(nome):
+    def cadastrar_categoria(nome, cpf):
 
         data_hora = datetime.datetime.today()
             
@@ -14,11 +13,11 @@ class Categoria:
         cursor = conexao.cursor()
 
         sql = """INSERT INTO categoria (
-                        nome, data_hora)
+                        nome, data_hora, cpf)
                     VALUES (
-                        %s)"""
+                        %s, %s, %s)"""
 
-        valores = (nome)
+        valores = (nome, data_hora, cpf)
 
         cursor.execute(sql, valores)
 
@@ -28,18 +27,20 @@ class Categoria:
         conexao.close()
 
     # Conexao com o banco de dados para criar um tipo com base em uma categoria
-    def cadastrar_tipo_categoria(nome, cod_categoria):
+    def cadastrar_tipo_categoria(nome, cpf, cod_categoria):
+
+        data_hora = datetime.datetime.today()
             
         conexao = Conection.create_connection()
 
         cursor = conexao.cursor()
 
         sql = """INSERT INTO tipo (
-                        nome, cod_categoria)
+                        nome, cpf, cod_categoria)
                     VALUES (
-                        %s, %s)"""
+                        %s, %s, %s)"""
 
-        valores = (nome, cod_categoria)
+        valores = (nome, data_hora, cpf, cod_categoria)
 
         cursor.execute(sql, valores)
 
@@ -49,18 +50,20 @@ class Categoria:
         conexao.close()
 
     # Conexao com o banco de dados para criar uma caracteristica com base no tipo
-    def cadastrar_tipo_categoria(nome, cod_tipo, cpf):
+    def cadastrar_tipo_caracteristica(nome, cod_tipo, cpf):
+
+        data_hora = datetime.datetime.today()
             
         conexao = Conection.create_connection()
 
         cursor = conexao.cursor()
 
         sql = """INSERT INTO caracteristica (
-                        nome, cod_tipo, cpf)
+                        nome, data_hora, cod_tipo, cpf)
                     VALUES (
-                        %s, %s, %s)"""
+                        %s, %s, %s, %s)"""
 
-        valores = (nome, cod_tipo, cpf)
+        valores = (nome, data_hora, cod_tipo, cpf)
 
         cursor.execute(sql, valores)
 
