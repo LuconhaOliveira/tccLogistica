@@ -1,149 +1,195 @@
--- criando e usando o banco de dados chamado 'tcc_logistica'
+-- =========================================================================================================
+-- SCRIPT DE CRIAÇÃO DO BANCO DE DADOS PARA O PROJETO TCC: GESTÃO LOGÍSTICA DE ESTOQUE E PEDIDOS
+-- AUTOR: [Gabriel Belentani Felipe / Lucas Oliveira da Silva / Eduarda Cristina Virgilio]
+-- DATA: [30/09/2025]
+-- =========================================================================================================
+
+-- Cria e utiliza o banco de dados principal do sistema de gestão logística.
 CREATE DATABASE IF NOT EXISTS tcc_logistica;
-use tcc_logistica;
+USE tcc_logistica;
 
-
-
--- Tabela para armazenar as categorias de produtos.
+-- ---------------------------------------------------------------------------------------------------------
+-- 1. TABELA CATEGORIA
+-- Propósito: Armazenar as categorias gerais de produtos (ex: Eletrônicos, Alimentos, Ferramentas).
+-- Define o topo da hierarquia de produtos.
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS categoria (
-
+    -- Chave primária: Identificador único e sequencial da categoria.
     cod_categoria INT PRIMARY KEY AUTO_INCREMENT,
+    -- Nome da categoria. Utiliza VARCHAR(100) para flexibilidade.
     nome VARCHAR(100)
-    
 );
 
-
-
--- Tabela para os tipos de produtos, vinculada à categoria.
+-- ---------------------------------------------------------------------------------------------------------
+-- 2. TABELA TIPO
+-- Propósito: Detalhar os tipos de produtos dentro de uma categoria (ex: Laptops, Smartphones, dentro de Eletrônicos).
+-- Possui uma chave estrangeira para estabelecer a relação de 1:N com 'categoria'.
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS tipo (
-
+    -- Chave primária: Identificador único e sequencial do tipo.
     cod_tipo INT PRIMARY KEY AUTO_INCREMENT,
-    nome CHAR(10),
+    -- Nome do tipo.
+    nome VARCHAR(100), 
+    -- Chave estrangeira: Vincula o tipo à sua categoria.
     cod_categoria INT,
     FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria)
-
 );
 
-
-
--- Tabela de usuários, identificados pelo CPF.
+-- ---------------------------------------------------------------------------------------------------------
+-- 3. TABELA USUARIO
+-- Propósito: Autenticação e autorização de acesso ao sistema. O CPF é utilizado como identificador principal.
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS usuario (
-
+    -- Chave primária: Cadastro de Pessoa Física (CPF), fixado em 11 caracteres.
     cpf VARCHAR(11) PRIMARY KEY NOT NULL,
+    -- Nome completo do usuário.
     nome VARCHAR(100),
+    -- Senha criptografada (hash). Usa VARCHAR(255) para armazenar o hash SHA-256 (ou similar).
     senha VARCHAR(255)
-
 );
 
-
-
--- Tabela para registrar alterações em produtos e estantes, vinculada ao usuário que a realizou.
+-- ---------------------------------------------------------------------------------------------------------
+-- 4. TABELA ALTERACAO_PRODUTO_ESTANTE
+-- Propósito: Manter um registro (log de auditoria) de todas as alterações relevantes de estoque/endereçamento.
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS alteracao_produto_estante (
-
+    -- Chave primária: Identificador único do registro de alteração.
     cod_alteracao INT PRIMARY KEY AUTO_INCREMENT,
+    -- Descrição detalhada da alteração realizada.
     alteracao_realizada VARCHAR(255),
+    -- Chave estrangeira: Vincula a alteração ao usuário responsável.
     cpf VARCHAR(11) NOT NULL,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
-
 );
 
-
-
--- Tabela para armazenar características de produtos, vinculada ao tipo de produto.
+-- ---------------------------------------------------------------------------------------------------------
+-- 5. TABELA CARACTERISTICA
+-- Propósito: Definir atributos configuráveis para os produtos (ex: "Cor", "Material", "Voltagem").
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS caracteristica (
-
+    -- Chave primária: Identificador único da característica.
     cod_caracteristica INT PRIMARY KEY AUTO_INCREMENT,
+    -- Nome da característica (e.g., 'Cor', 'Tamanho').
     nome VARCHAR(100),
+    -- Chave estrangeira: Vincula a característica a um tipo de produto específico.
     cod_tipo INT,
-    cpf VARCHAR(11) NOT NULL,
+    -- Chave estrangeira: Vincula a criação/gestão da característica ao usuário.
+    cpf VARCHAR(11) NOT NULL, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
-
 );
 
-
-
--- Tabela para gerenciar as estantes no estoque, vinculada ao usuário.
+-- ---------------------------------------------------------------------------------------------------------
+-- 6. TABELA ESTANTE
+-- Propósito: Mapear o endereçamento físico do estoque.
+-- INTEGRAÇÃO: Inclui vínculo com a categoria para demarcar o que pode ser armazenado.
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS estante (
-
+    -- Chave primária: Identificador único de endereçamento (ex: código de corredor, prateleira e coluna).
     enderecamento INT PRIMARY KEY NOT NULL,
+    -- Identificador da estante.
     estante VARCHAR(10),
+    -- Identificador da linha.
     linha VARCHAR(10),
+    -- Identificador da coluna.
     coluna VARCHAR(10),
+    -- Chave estrangeira: Usuário responsável pela gestão ou criação da estante.
     cpf VARCHAR(11) NOT NULL,
-    FOREIGN KEY (cpf) REFERENCES usuario (cpf)
-
+    -- Chave estrangeira: Define a categoria de produtos permitida nesta estante.
+    cod_categoria INT, 
+    FOREIGN KEY (cpf) REFERENCES usuario (cpf),
+    FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria)
 );
 
-
-
--- Tabela de pedidos, vinculada ao usuário que o realizou.
+-- ---------------------------------------------------------------------------------------------------------
+-- 7. TABELA PEDIDO
+-- Propósito: Registrar as transações de pedidos realizadas no sistema.
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS pedido (
-
+    -- Chave primária: Identificador único do pedido.
     cod_pedido INT PRIMARY KEY AUTO_INCREMENT,
+    -- Chave estrangeira: Usuário que realizou o pedido.
     cpf VARCHAR(11) NOT NULL,
+    -- Data e hora exata em que o pedido foi registrado.
     data_pedido DATETIME,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
-
 );
 
-
-
--- Tabela para os produtos.
+-- ---------------------------------------------------------------------------------------------------------
+-- 8. TABELA PRODUTO
+-- Propósito: Catálogo de produtos.
+-- INTEGRAÇÃO: Vinculado a 'tipo' para herdar características específicas.
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS produto (
-
+    -- Chave primária: Identificador único do produto.
     cod_produto INT PRIMARY KEY AUTO_INCREMENT,
+    -- Chave estrangeira: Usuário responsável pela criação/cadastro do produto.
     cpf VARCHAR(11) NOT NULL,
-    categoria VARCHAR(100),
+    -- Stock Keeping Unit (código de identificação interna do produto).
     sku VARCHAR(100),
+    -- Imagem do produto, armazenada como BLOB (Binary Large Object).
     imagem BLOB,
+    -- Descrição longa do produto.
     descricao VARCHAR(255),
+    -- Nome comercial do produto.
     nome VARCHAR(100),
+    -- Valor unitário do produto.
     valor FLOAT(10),
-    FOREIGN KEY (cpf) REFERENCES usuario (cpf)
-
+    -- Chave estrangeira: Vincula o produto ao seu tipo específico.
+    cod_tipo INT, 
+    FOREIGN KEY (cpf) REFERENCES usuario (cpf),
+    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
 );
 
-
-
--- Tabela para vincular produtos a suas características.
--- Observe que o campo 'cod_caracteristica' é agora do tipo INT para corresponder à tabela 'caracteristica'.
+-- ---------------------------------------------------------------------------------------------------------
+-- 9. TABELA PRODUTO_CARACTERISTICA
+-- Propósito: Tabela de junção para a relação M:N (Produto x Característica), armazenando o valor da característica.
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS produto_caracteristica (
-
+    -- Chave primária: Identificador único da relação Produto-Característica.
     cod_prod_caracteristica INT PRIMARY KEY AUTO_INCREMENT,
-    valor DECIMAL(10, 2),
+    -- Valor específico da característica para aquele produto (ex: 'Vermelho' para a Característica 'Cor').
+    valor VARCHAR(255),
+    -- Chave estrangeira: Produto envolvido.
     cod_produto INT,
+    -- Chave estrangeira: Característica referenciada.
     cod_caracteristica INT,
     FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto),
     FOREIGN KEY (cod_caracteristica) REFERENCES caracteristica (cod_caracteristica)
-
 );
 
-
-
--- Tabela para gerenciar o armazenamento de produtos nas estantes.
+-- ---------------------------------------------------------------------------------------------------------
+-- 10. TABELA ARMAZENAMENTO
+-- Propósito: Rastrear a quantidade de um produto em uma estante específica (controle de estoque por localização).
+-- É uma tabela de junção com chave primária composta (PK composta).
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS armazenamento (
-
+    -- Colunas da chave primária composta (identificador de armazém/posição).
     cod_armazem INT NOT NULL,
     cod_produto INT NOT NULL,
     enderecamento INT NOT NULL,
+    -- Quantidade do produto no local especificado.
     quantidade INT,
     PRIMARY KEY (cod_armazem, cod_produto, enderecamento),
+    -- Chave estrangeira: Produto em estoque.
     FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto),
+    -- Chave estrangeira: Localização (endereçamento) na estante.
     FOREIGN KEY (enderecamento) REFERENCES estante (enderecamento)
-
 );
 
-
-
--- Tabela para detalhar os itens de um pedido.
+-- ---------------------------------------------------------------------------------------------------------
+-- 11. TABELA ITEM_PEDIDO
+-- Propósito: Detalhar os produtos e quantidades de cada pedido (relação M:N entre Pedido e Produto).
+-- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS item_pedido (
-
+    -- Colunas da chave primária composta (garante unicidade para cada item dentro de um pedido).
     cod_pedido INT NOT NULL,
     cod_produto INT NOT NULL,
+    -- Quantidade do produto neste item do pedido.
     quantidade INT,
     PRIMARY KEY (cod_pedido, cod_produto),
+    -- Chave estrangeira: Pedido ao qual o item pertence.
     FOREIGN KEY (cod_pedido) REFERENCES pedido (cod_pedido),
+    -- Chave estrangeira: Produto que está sendo pedido.
     FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto)
-
 );

@@ -46,8 +46,6 @@ def post_cadastro():
 def pagina_logar():
 
     return render_template('pagina_login.html')
-
-
     
 # Rota que processa os dados do formulário de login (requisição POST).
 # Esta função:
