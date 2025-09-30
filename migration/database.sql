@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS usuario;
 -- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS usuario (
     -- Chave primária: Cadastro de Pessoa Física (CPF), fixado em 11 caracteres.
-    cpf VARCHAR(11) PRIMARY KEY NOT NULL,
+    cpf VARCHAR(14) PRIMARY KEY NOT NULL,
     -- Nome completo do usuário.
     nome VARCHAR(100),
     -- Senha criptografada (hash). Usa VARCHAR(255) para armazenar o hash SHA-256 (ou similar).
