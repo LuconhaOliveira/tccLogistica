@@ -22,11 +22,11 @@
 <body class="container--body">
     
     <!-- header bootstrap -->
-     <header class="container--header">
+    <header class="container--header">
         <!-- imagem logo -->
         <img src="/static/img/InStock_logo_transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;">
 
-     </header>
+    </header>
 
     <!-- container geral / principal -->
     <main class="container--main">
@@ -38,10 +38,10 @@
 
             <!-- campo do CPF -->
             <div class="mb-3">
-                    <label for="exampleInputCPF" class="form-label">CPF:</label>
-                    <!-- name: backend do cadastro -->
-                    <input name="cadastro-cpf" class="form-control" id="exampleInputCPF"
-                        aria-describedby="CPFHelp">
+                <label for="exampleInputCPF" class="form-label">CPF:</label>
+                <!-- name: backend do cadastro -->
+                <input name="cadastro-cpf" class="form-control" id="exampleInputCPF"
+                    aria-describedby="CPFHelp">
             </div>
 
             <!-- campo do Nome -->
@@ -53,22 +53,24 @@
             </div>
 
             <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Senha:</label>
-                    <!-- name: backend do login -->
-                    <input name="cadastro-senha" type="password" class="form-control" id="exampleInputPassword1">
+                <label for="exampleInputPassword1" class="form-label">Senha:</label>
+                <!-- name: backend do login -->
+                <input name="cadastro-senha" type="password" class="form-control" id="exampleInputPassword1">
             </div>
 
             <div class="mb-3 form-check">
 
-                    <a href="/pagina/cadastro">
-                        <button class="btn btn-primary" type="submit">Cadastrar</button>
-                    </a>
+                <a href="/pagina/cadastro">
+                    <button class="btn btn-primary" type="submit">Cadastrar</button>
+                </a>
 
                 <div class="container--label--a-logar">
 
-                    <label class="possuiConta" for="">Já possui uma conta?</label>
+                    <label class="possuiConta">Já possui uma conta?</label>
                     <a href="/">Faça login!</a>
                 
+                </div>    
+
             </div>
             
         </form>
@@ -89,7 +91,7 @@
     <!-- java script para colocar máscara no CPF -->
     <script>
 
-         $('#exampleInputCPF').mask('000.000.000-00', {reverse: true});
+        $('#exampleInputCPF').mask('000.000.000-00', {reverse: true});
 
     </script>
 
