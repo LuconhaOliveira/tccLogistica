@@ -8,8 +8,38 @@
 CREATE DATABASE IF NOT EXISTS tcc_logistica;
 USE tcc_logistica;
 
+-- =========================================================================================================
+-- LIMPEZA (DROP TABLES)
+-- NECESSÁRIO para garantir que não haja tabelas antigas que causem erros de Foreign Key (Erro 1822).
+-- As tabelas são excluídas na ordem inversa de suas dependências.
+-- =========================================================================================================
+DROP TABLE IF EXISTS item_pedido;
+DROP TABLE IF EXISTS armazenamento;
+DROP TABLE IF EXISTS produto_caracteristica;
+DROP TABLE IF EXISTS produto;
+DROP TABLE IF EXISTS pedido;
+DROP TABLE IF EXISTS caracteristica;
+DROP TABLE IF EXISTS alteracao_produto_estante;
+DROP TABLE IF EXISTS estante;
+DROP TABLE IF EXISTS tipo;
+DROP TABLE IF EXISTS categoria;
+DROP TABLE IF EXISTS usuario;
+
 -- ---------------------------------------------------------------------------------------------------------
--- 1. TABELA CATEGORIA
+-- 1. TABELA USUARIO
+-- Propósito: Autenticação e autorização de acesso ao sistema. O CPF é utilizado como identificador principal.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS usuario (
+    -- Chave primária: Cadastro de Pessoa Física (CPF), fixado em 11 caracteres.
+    cpf VARCHAR(11) PRIMARY KEY NOT NULL,
+    -- Nome completo do usuário.
+    nome VARCHAR(100),
+    -- Senha criptografada (hash). Usa VARCHAR(255) para armazenar o hash SHA-256 (ou similar).
+    senha VARCHAR(255)
+);
+
+-- ---------------------------------------------------------------------------------------------------------
+-- 2. TABELA CATEGORIA
 -- Propósito: Armazenar as categorias gerais de produtos (ex: Eletrônicos, Alimentos, Ferramentas).
 -- Define o topo da hierarquia de produtos.
 -- ---------------------------------------------------------------------------------------------------------
@@ -26,7 +56,7 @@ CREATE TABLE IF NOT EXISTS categoria (
 );
 
 -- ---------------------------------------------------------------------------------------------------------
--- 2. TABELA TIPO
+-- 3. TABELA TIPO
 -- Propósito: Detalhar os tipos de produtos dentro de uma categoria (ex: Laptops, Smartphones, dentro de Eletrônicos).
 -- Possui uma chave estrangeira para estabelecer a relação de 1:N com 'categoria'.
 -- ---------------------------------------------------------------------------------------------------------
@@ -42,19 +72,6 @@ CREATE TABLE IF NOT EXISTS tipo (
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     cod_categoria INT,
     FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria)
-);
-
--- ---------------------------------------------------------------------------------------------------------
--- 3. TABELA USUARIO
--- Propósito: Autenticação e autorização de acesso ao sistema. O CPF é utilizado como identificador principal.
--- ---------------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS usuario (
-    -- Chave primária: Cadastro de Pessoa Física (CPF), fixado em 11 caracteres.
-    cpf VARCHAR(11) PRIMARY KEY NOT NULL,
-    -- Nome completo do usuário.
-    nome VARCHAR(100),
-    -- Senha criptografada (hash). Usa VARCHAR(255) para armazenar o hash SHA-256 (ou similar).
-    senha VARCHAR(255)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -186,14 +203,14 @@ CREATE TABLE IF NOT EXISTS armazenamento (
     -- Colunas da chave primária composta (identificador de armazém/posição).
     cod_armazem INT NOT NULL,
     cod_produto INT NOT NULL,
-    enderecamento INT NOT NULL,
+    cod_estante INT NOT NULL,
     -- Quantidade do produto no local especificado.
     quantidade INT,
-    PRIMARY KEY (cod_armazem, cod_produto, enderecamento),
+    PRIMARY KEY (cod_armazem, cod_produto, cod_estante),
     -- Chave estrangeira: Produto em estoque.
     FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto),
     -- Chave estrangeira: Localização (endereçamento) na estante.
-    FOREIGN KEY (enderecamento) REFERENCES estante (enderecamento)
+    FOREIGN KEY (cod_estante) REFERENCES estante (cod_estante)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
