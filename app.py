@@ -1,8 +1,9 @@
 # Importando os arquivos
 from flask import Flask, jsonify, render_template, request, redirect, session
 import datetime
-from model.controllers.controler_usuario import Usuario
-from model.controllers.controller_estante import Estante
+from model.controllers.controller_usuario import Usuario
+from model.controllers.controller_produtos import ControleProduto
+from model.controllers.controler_estante import Estante
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'teste123'
@@ -18,7 +19,7 @@ def pagina_principal():
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
 
-    return render_template("index.html",estantes=estantes,filtros=filtros)
+    return render_template("pagina-principal.html",estantes=estantes,filtros=filtros)
 
 # Rota para a página de cadastro
 @app.route("/pagina/cadastrar")
