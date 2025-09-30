@@ -46,7 +46,7 @@ def ipsum():
 @app.route("/logoff")
 def logoff():
     Usuario.deslogar()
-    return jsonify({"redirect": "/"}), 200
+    return jsonify({"redirect": "/login"}), 200
 
 @app.route("/login")
 def login():
