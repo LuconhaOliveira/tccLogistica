@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, render_template, request, redirect, session
 import datetime
 from model.controllers.controler_usuario import Usuario
+from model.controllers.controller_estante import Estante
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'teste123'
@@ -9,11 +10,11 @@ app.config['SECRET_KEY'] = 'teste123'
 # ------------------------------------------------------------------------------------------------------# 
 
 # Rota para a página principal
-# @app.route("/")
-# def pagina_principal():
+@app.route("/")
+def pagina_principal():
+    estantes = Estante.buscar_estantes()
 
-    # return render_template("index.html")
-    return render_template('pagina_login.html')
+    return render_template("index.html",estantes=estantes)
 
 # Rota para a página de cadastro
 @app.route("/pagina/cadastrar")
@@ -42,7 +43,7 @@ def post_cadastro():
 @app.route("/logoff")
 def logoff():
     Usuario.deslogar()
-    return jsonify({"redirect": "/login"}), 200
+    return jsonify({"redirect": "/"}), 200
 
 
 # Rota que lida com a requisição GET para a página de login.

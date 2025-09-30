@@ -6,6 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Logado</p>
+    {% for estante in estantes %}
+    <div>{{estante.enderecamento}}</div>
+        <ul>
+            <li>{{estante.estante}}</li>
+            <li>{{estante.categoria}}</li>
+        </ul>
+    {% endfor %}
 </body>
 </html>
