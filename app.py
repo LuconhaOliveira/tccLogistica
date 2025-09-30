@@ -16,7 +16,6 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 # Rota para a página principal
 @app.route("/pagina/principal")
 def pagina_principal():
-    session["cpf"] = "11223344556"
     estantes = Estante.buscar_estantes()
 
     filtros = [i["categoria"] for i in estantes]
