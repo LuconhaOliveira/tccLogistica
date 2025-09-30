@@ -1,7 +1,8 @@
 # Importando os arquivos
 from flask import Flask, jsonify, render_template, request, redirect, session
 import datetime
-from model.controllers.controler_usuario import Usuario
+from model.controllers.controller_usuario import Usuario
+from model.controllers.controller_produtos import ControleProduto
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'teste123'
@@ -9,8 +10,8 @@ app.config['SECRET_KEY'] = 'teste123'
 # ------------------------------------------------------------------------------------------------------# 
 
 # Rota para a página principal
-# @app.route("/")
-# def pagina_principal():
+@app.route("/")
+def pagina_principal():
 
     # return render_template("index.html")
     return render_template('pagina_login.html')
@@ -74,6 +75,51 @@ def post_login():
     else:
         # Se falhar, redireciona para a página de login com uma mensagem de erro
         return redirect("/pagina/login")
+
+
+
+# Rota para exibir o formulário de cadastro de produto
+@app.route("/pagina/produto")
+def pagina_produto():
+    """Renderiza o formulário para cadastro de novos produtos."""
+    return render_template('cadastro_produto.html') 
+
+# Rota de POST para cadastro de produto
+@app.route("/post/produto", methods=["POST"])
+def post_produto():
+    """
+    Processa o formulário de cadastro de produto, incluindo o upload da imagem.
+    """
+    # 1. Obter dados do formulário
+    cpf = request.form.get("cadastro-cpf")
+    sku = request.form.get("cadastro-sku")
+    descricao = request.form.get("cadastro-descricao")
+    nome = request.form.get("cadastro-nome")
+    
+    # É crucial converter o valor e o cod_tipo para os tipos numéricos corretos
+    try:
+        valor = float(request.form.get("cadastro-valor"))
+        cod_tipo = int(request.form.get("cadastro-cod_tipo"))
+    except (TypeError, ValueError):
+        print("Erro: Valor ou Cód. Tipo não são números válidos.")
+        # Retornaria uma mensagem de erro ao usuário
+        return redirect("/pagina/produto") 
+    
+    # 2. Obter o arquivo de imagem
+    # Request.files para acessar arquivos carregados
+    imagem_file = request.files.get("cadastro-imagem") 
+
+    # 3. Chamar a função de controle de produto
+    sucesso = ControleProduto.cadastrar_produto(
+        cpf, sku, imagem_file, descricao, nome, valor, cod_tipo
+    )
+
+    if sucesso:
+        # Redireciona para alguma página de confirmação ou lista de produtos
+        return redirect("/pagina/principal") 
+    else:
+        # Redireciona de volta com erro
+        return redirect("/pagina/produto") 
 
 
 app.run(debug = True)
