@@ -79,7 +79,7 @@ def post_login():
         session['nome'] = login_valido
 
         # Se o login for bem-sucedido, redireciona para a página principal
-        return render_template('index.html')
+        return redirect(url_for('pagina_principal'))
     else:
         # Se falhar, redireciona para a página de login com uma mensagem de erro
         return redirect(url_for('pagina_logar'))
@@ -87,9 +87,9 @@ def post_login():
 
 @app.route("/estante/<id>")
 def pagina_estante(id):
-    Estante.buscar_estante(id)
+    print(Estante.buscar_estante(id))
 
-    return render_template('pagina_estantes.html')
+    return redirect(url_for('pagina_logar'))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
