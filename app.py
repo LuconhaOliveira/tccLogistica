@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'teste123'
 # ------------------------------------------------------------------------------------------------------# 
 
 # Rota para a página principal
-@app.route("/")
+@app.route("/pagina/principal")
 def pagina_principal():
     session["cpf"] = "11223344556"
     estantes = Estante.buscar_estantes()
@@ -47,7 +47,7 @@ def post_cadastro():
 @app.route("/logoff")
 def logoff():
     Usuario.deslogar()
-    return jsonify({"redirect": "/"}), 200
+    return jsonify({"redirect": "/pagina/login"}), 200
 
 
 # Rota que lida com a requisição GET para a página de login.

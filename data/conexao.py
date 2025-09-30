@@ -19,7 +19,7 @@ class Conection:
     _ONLINE_PORT = 28179                 
 
     @staticmethod
-    def create_connection(is_online=True):
+    def create_connection(is_online=False):
 
         """
         Cria uma conexão com o banco de dados MySQL.
