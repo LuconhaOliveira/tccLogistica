@@ -6,6 +6,7 @@ from data.conexao import Conection
 from model.controllers.controler_usuario import Usuario
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'teste123'
 
 # ------------------------------------------------------------------------------------------------------# 
 
