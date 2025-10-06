@@ -9,7 +9,6 @@ async function requisicao_filtros(filtro){
         }
 
         const data = await response.json();
-        console.log(data);
         return data;
     } catch (erro) {
         console.error("Erro ao obter dados:", erro);
@@ -48,13 +47,23 @@ function alterar_filtros(filtros){
     let checkbox = '';
 
     filtros.forEach(filtro => {
-        checkbox += `<input type="checkbox" id=${filtro} name="filtro" value=${filtro}>
-                <label for=${filtro}>${filtro}</label><br>`;
+        checkbox += `<input type="radio" id=${filtro} name="filtro" value=${filtro}>
+                <label for=${filtro}>${filtro}</label><br />`;
     });
+
+    checkbox+=`<button type="reset">Limpar filtro</button>`
 
     document.querySelector('#filtros').innerHTML = '';
     document.querySelector('#filtros').innerHTML = checkbox;
     document.querySelector('#filtros').addEventListener('input',(e)=>alteracao_front(e));
+    document.querySelector('#filtros button').addEventListener('click',async(e)=>{
+        if(e.target.tagName === 'BUTTON'){
+            let json = await requisicao_filtros('')
+            let estantes = json.estantes;
+
+            alterar_estantes(estantes);
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded',async ()=>{
@@ -66,4 +75,6 @@ document.addEventListener('DOMContentLoaded',async ()=>{
     alterar_filtros(filtros);
 });
 
-//TODO: alteração de checkbox para radio e botão de limpeza de filtros
+function limpar_filtros(){
+    document.querySelectorAll('#filtros input').forEach(input=>input.checked=false);
+}
