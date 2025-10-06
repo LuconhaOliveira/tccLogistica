@@ -143,6 +143,12 @@ def post_login():
     cpf = request.form.get("login-cpf")
     # Obtém o valor do campo 'login-senha' do formulário
     senha = request.form.get("login-senha")
+
+    if not cpf or not senha:
+        return jsonify({
+            "status": "error",
+            "message": "Todos os campos são obrigatórios."
+        }), 400
     
     # 2. Chama a lógica de validação de login
     # Chama a função estática ou de classe 'validar_login' do modelo 'Usuario'.
