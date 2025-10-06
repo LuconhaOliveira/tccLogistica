@@ -7,7 +7,7 @@
 
 /* body */
 .container--body {
-    background-color: #fff;
+    background-color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,7 +17,7 @@
 /* Header */
 .container--header {
     width: 100%;
-    background-color: var();
+    background-color: var(--grey-dark);
     padding: 10px 20px;
     height: 100px;
     display: flex;
@@ -27,7 +27,7 @@
 
 .container--footer{
     width: 100%;
-    background-color: #cfcfcf;
+    background-color: var(--grey-dark);
     padding: 10px 20px;
     height: 30px;
     display: flex;
@@ -53,7 +53,7 @@
 }
 
 .container--form {
-    background-color: #f2f2f2;
+    background-color: var(--grey-light);
     padding: 30px 40px;
     border-radius: 12px;
     
@@ -64,23 +64,31 @@
 /* Titulo do form */
 .container--form h1 {
     text-align: center;
-    font-size: 22px;
+    font-size: var(--font-size-30);
     margin-bottom: 25px;
-    font-weight: bold;
+    font-family: var(--font-cormorant);
 }
 
 /* label (textos em cima dos inputs) */
 .form-label {
-    font-size: 14px;
+    font-size: var(--font-size-20);
     margin-bottom: 5px;
-    font-weight: 500;
+    font-family: var(--font-outfit);
+    font-weight: bold;
     display: block;
+}
+
+.form-control{
+    font-family: var(--font-outfit);
 }
 
 /* Botão de Login */
 button[type="submit"] {
-    background-color: #cfcfcf;
-    color: #313131;
+
+    color: var(--black);
+    background-color: var(--grey-medium);
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
     font-weight: bold;
     border: none;
     border-radius: 12px;
@@ -92,35 +100,26 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #EF782F;
-    color: #ececec;
+    background-color: var(--orange-color);
+    color: var(--white);
 }
 
 .container--label--a-logar{
-
     text-align: center;
-
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-16);
 }
 
 /* Link do login */
 .container--label--a-logar label{
-    font-size: 12px;
     margin-top: 10px;
 }
 
 /* HREF link */
 .container--label--a-logar a{
-    font-size: 12px;
     text-decoration: underline;
     color: #EF782F;
     font-weight: bold;
-}
-.a--esqueci-senha{
-    font-size: 12px;
-    text-decoration: underline;
-    color: #EF782F;
-    font-weight: bold;
-    
 }
 
 .a--esqueci-senha:hover{
