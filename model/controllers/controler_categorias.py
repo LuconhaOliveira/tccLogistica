@@ -76,15 +76,19 @@ class Categoria:
         conexao.close()
 
     # Recupera as categorias registradas anteriormente
-    def recuperar_categoria():
+    def recuperar_categoria(cpf):
         
         conexao = Conection.create_connection()
 
         cursor = conexao.cursor(dictionary = True) 
         
-        sql = """select cod_categoria, nome, data_hora from categoria;"""
+        sql = """SELECT cod_categoria, nome, data_hora 
+                 FROM categoria
+                 WHERE cpf = %s;"""
+        
+        valor = (cpf,)
 
-        cursor.execute(sql)
+        cursor.execute(sql, valor)
 
         resultado = cursor.fetchall()
 
@@ -94,15 +98,17 @@ class Categoria:
         return resultado
     
     # Recupera os tipos registradas anteriormente
-    def recuperar_tipo():
+    def recuperar_tipo(cpf):
         
         conexao = Conection.create_connection()
 
         cursor = conexao.cursor(dictionary = True) 
         
-        sql = """select cod_tipo, nome, data_hora from tipo;"""
+        sql = """select cod_tipo, nome, data_hora from tipo where cpf = %s;"""
 
-        cursor.execute(sql)
+        valor = (cpf,)
+
+        cursor.execute(sql, valor)
 
         resultado = cursor.fetchall()
 
