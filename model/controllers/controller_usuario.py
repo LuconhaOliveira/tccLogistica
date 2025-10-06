@@ -75,11 +75,11 @@ class Usuario:
             else:
                 # Retorna None se as credenciais forem inválidas
                 print("CPF ou senha incorretos.")
-                return None
+                return None, None
 
         except Error as e:
             print(f"Erro ao validar login: {e}")
-            return None
+            return None, None
 
         finally:
             if 'cursor' in locals() and cursor:
