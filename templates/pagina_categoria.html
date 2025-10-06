@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Classificações</title>
+    <!-- Carrega o Tailwind CSS CDN para estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-xl p-6 sm:p-10">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Gestão de Classificações</h1>
+        <p class="text-sm text-red-600 mb-6 p-3 bg-red-50 rounded-lg border border-red-200">
+            <!-- CORREÇÃO: Usando {% raw %} para evitar TemplateSyntaxError ao mostrar a sintaxe Jinja -->
+            {% raw %}
+            <strong>AVISO:</strong> Este template agora usa **Jinja** (`{{ }}` e `{% %}`) para preencher os dados. As variáveis `categoria` (lista de categorias) e `tipo` (lista de tipos) devem ser passadas pela sua função `render_template` do Flask.
+            {% endraw %}
+        </p>
+
+        <!-- Container Flex para organizar os formulários lado a lado em telas maiores -->
+        <div id="classification-forms-container" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- 1. Formulário de Cadastro de Categoria -->
+            <div class="bg-indigo-50 p-6 rounded-xl shadow-lg border border-indigo-200">
+                <h2 class="text-xl font-semibold text-indigo-800 mb-4">Cadastrar Categoria</h2>
+                <form action="/post/cadastro_categoria/adicionar" method="POST" class="space-y-4">
+                    
+                    <div>
+                        <label for="categoria_nome" class="block text-sm font-medium text-gray-700">Nome da Categoria</label>
+                        <input 
+                            type="text" 
+                            id="categoria_nome" 
+                            name="nome" 
+                            required 
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            placeholder="Ex: Eletrônicos"
+                        >
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150"
+                    >
+                        Cadastrar Categoria
+                    </button>
+                </form>
+            </div>
+
+            <!-- 2. Formulário de Cadastro de Tipo (Requer Categoria) -->
+            <div class="bg-green-50 p-6 rounded-xl shadow-lg border border-green-200">
+                <h2 class="text-xl font-semibold text-green-800 mb-4">Cadastrar Tipo</h2>
+                <form action="/post/cadastro_tipo/adicionar" method="POST" class="space-y-4">
+                    <!-- CORREÇÃO: Usando variável Jinja para garantir que o CPF exista na tabela 'usuario' -->
+                    <input type="hidden" name="cpf" value="{{ current_user_cpf }}"> 
+
+                    <div>
+                        <label for="tipo_nome" class="block text-sm font-medium text-gray-700">Nome do Tipo</label>
+                        <input 
+                            type="text" 
+                            id="tipo_nome" 
+                            name="nome" 
+                            required 
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                            placeholder="Ex: Smartphones"
+                        >
+                    </div>
+                    <div>
+                        <label for="cod_categoria_tipo" class="block text-sm font-medium text-gray-700">Associar à Categoria</label>
+                        <select 
+                            id="cod_categoria_tipo" 
+                            name="cod_categoria" 
+                            required 
+                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                        >
+                            <option value="" disabled selected>Selecione a Categoria</option>
+                            <!-- Opções preenchidas via JINJA -->
+                            {% for cat in categoria %}
+                            <option value="{{ cat.cod_categoria }}">{{ cat.nome }} (ID: {{ cat.cod_categoria }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150"
+                    >
+                        Cadastrar Tipo
+                    </button>
+                </form>
+            </div>
+
+            <!-- 3. Formulário de Cadastro de Característica (Requer Tipo) -->
+            <div class="bg-yellow-50 p-6 rounded-xl shadow-lg border border-yellow-200">
+                <h2 class="text-xl font-semibold text-yellow-800 mb-4">Cadastrar Característica</h2>
+                <form action="/post/cadastro_caracteristica/adicionar" method="POST" class="space-y-4">
+                    <!-- CORREÇÃO: Usando variável Jinja para garantir que o CPF exista na tabela 'usuario' -->
+                    <input type="hidden" name="cpf" value="{{ current_user_cpf }}"> 
+
+                    <div>
+                        <label for="caracteristica_nome" class="block text-sm font-medium text-gray-700">Nome da Característica</label>
+                        <input 
+                            type="text" 
+                            id="caracteristica_nome" 
+                            name="nome" 
+                            required 
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                            placeholder="Ex: Cor, Memória RAM"
+                        >
+                    </div>
+                    <div>
+                        <label for="cod_tipo_caracteristica" class="block text-sm font-medium text-gray-700">Associar ao Tipo</label>
+                        <select 
+                            id="cod_tipo_caracteristica" 
+                            name="cod_tipo" 
+                            required 
+                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                        >
+                            <option value="" disabled selected>Selecione o Tipo</option>
+                            <!-- Opções preenchidas via JINJA -->
+                            {% for t in tipo %}
+                            <option value="{{ t.cod_tipo }}">{{ t.nome }} (ID: {{ t.cod_tipo }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button 
+                        type="submit" 
+                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 transition duration-150"
+                    >
+                        Cadastrar Característica
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Visualização de Dados (Preenchidos via JINJA) -->
+        <div class="mt-10 pt-6 border-t border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Visualização de Dados Existentes</h2>
+            <p class="text-sm text-gray-500 mb-4">Estes dados são preenchidos dinamicamente pelo Flask/Jinja.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Lista de Categorias -->
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-indigo-800 mb-3">Categorias Existentes</h3>
+                    <ul id="lista_categorias" class="space-y-2 text-sm">
+                        {% for cat in categoria %}
+                        <li class="p-2 border-l-4 border-indigo-400 bg-white shadow-sm rounded-md">
+                            <strong>{{ cat.nome }}</strong> (Cód: {{ cat.cod_categoria }})
+                        </li>
+                        {% else %}
+                        <li class="p-2 text-gray-500">Nenhuma categoria cadastrada.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Lista de Tipos -->
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-green-800 mb-3">Tipos Existentes</h3>
+                    <ul id="lista_tipos" class="space-y-2 text-sm">
+                        {% for t in tipo %}
+                        <li class="p-2 border-l-4 border-green-400 bg-white shadow-sm rounded-md">
+                            <strong>{{ t.nome }}</strong> (Cód Tipo: {{ t.cod_tipo }}) - Categoria ID: {{ t.cod_categoria }}
+                        </li>
+                        {% else %}
+                        <li class="p-2 text-gray-500">Nenhum tipo cadastrado.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- O código JavaScript de simulação foi removido, pois agora usamos Jinja. -->
+    <script></script>
+
+</body>
+</html>
