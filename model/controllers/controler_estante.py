@@ -104,7 +104,7 @@ class Estante:
                 conexao.close()
 
     # Conexao com o banco de dados para criar uma nova estante
-    def cadastrar_estante(cod_estante, nome, cpf, cod_categoria):
+    def cadastrar_estante(nome, cpf, cod_categoria):
 
         data_hora = datetime.datetime.today()
             
@@ -113,12 +113,12 @@ class Estante:
         cursor = conexao.cursor()
 
         sql = """INSERT INTO estante (
-                        cod_estante, nome, data_hora, cpf, cod_categoria)
+                        nome, data_hora, cpf, cod_categoria)
                     VALUES (
-                        %s, %s, %s, %s, %s)"""
+                        %s, %s, %s, %s)"""
 
         nome = nome.upper()
-        valores = (cod_estante, nome, data_hora, cpf, cod_categoria)
+        valores = (nome, data_hora, cpf, cod_categoria)
 
         cursor.execute(sql, valores)
 

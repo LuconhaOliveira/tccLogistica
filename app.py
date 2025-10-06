@@ -265,7 +265,7 @@ def post_deletar_produto():
 # exibindo o formulário de cadastro de estante para o usuário.  
 @app.route("/pagina/cadastro_estante")
 def pagina_cadastrar_estante():
-    
+
     categoria = Categoria.recuperar_categoria()
 
     return render_template("pagina_estante.html", categoria = categoria)
@@ -285,7 +285,6 @@ def adicionar_estante():
         return redirect("/pagina/login") 
     
     # Coleta de dados (só pega os dados se o CPF existir)
-    cod_estante = request.form.get("cod_estante")
     nome = request.form.get("nome")
     cod_categoria = request.form.get("cod_categoria")
 
@@ -296,7 +295,6 @@ def adicionar_estante():
     # Inserção dos dados no Banco caso esteja tudo certo
     try:
         sucesso = Estante.cadastrar_estante(
-            int(cod_estante),
             nome,
             cpf, 
             int(cod_categoria)
