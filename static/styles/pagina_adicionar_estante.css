@@ -23,7 +23,7 @@
     height: 100px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 .container--footer{
@@ -38,7 +38,7 @@
 
 /* Logo */
 .img--InStock-logo {
-    width: 120px;
+    width: 230px;
 }
 
 
