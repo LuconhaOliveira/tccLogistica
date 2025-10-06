@@ -32,7 +32,7 @@
     <main class="container--main">
 
         <!-- action/method: backend do cadastro -->
-        <form action="/post/cadastro" method="post" class="container--form">
+        <form id="cadastroForm" action="/post/cadastro" method="post" class="container--form">
 
             <h1>Faça seu Cadastro</h1>
 
@@ -60,9 +60,7 @@
 
             <div class="mb-3 form-check">
 
-                <a href="/pagina/cadastro">
-                    <button class="btn btn-primary" type="submit">Cadastrar</button>
-                </a>
+                <button class="btn btn-primary" type="submit">Cadastrar</button>
 
                 <div class="container--label--a-logar">
 
@@ -88,12 +86,12 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 
-    <!-- java script para colocar máscara no CPF -->
-    <script>
+    <!-- import da biblioteca do sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 
-        $('#exampleInputCPF').mask('000.000.000-00', {reverse: true});
+    <!-- java script para colocar máscara no CPF e se comunicar com a api python -->
+    <script src="../static/script/cadastro.js"></script>
 
-    </script>
 
 </body>
 </html>
