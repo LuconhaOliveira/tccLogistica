@@ -255,10 +255,8 @@ def adicionar_estante():
         return redirect("/pagina/login") 
     
     # Coleta de dados (só pega os dados se o CPF existir)
-    enderecamento = request.form.get("enderecamento")
-    estante = request.form.get("estante")
-    linha = request.form.get("linha")
-    coluna = request.form.get("coluna")
+    cod_estante = request.form.get("cod_estante")
+    nome = request.form.get("nome")
     cod_categoria = request.form.get("cod_categoria")
 
     # Garante que o campo 'cod_categoria' foi preenchido. 
@@ -268,17 +266,15 @@ def adicionar_estante():
     # Inserção dos dados no Banco caso esteja tudo certo
     try:
         sucesso = Estante.cadastrar_estante(
-            enderecamento, 
-            estante, 
-            linha, 
-            coluna, 
+            int(cod_estante),
+            nome,
             cpf, 
             int(cod_categoria)
         )
         
         if sucesso:
             # Caso a inserção de dados seja um sucesso, redireciona para a página principal (futuramente vai aparecer um sweet alert)
-            return redirect(f"/estante/{cod_categoria}") 
+            return redirect("/pagina/principal") 
         else:
             # Falha no banco de dados (erro interno na classe Estante)
             print(f"Erro no cadastro do banco de dados: {e}")
