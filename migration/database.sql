@@ -151,26 +151,40 @@ CREATE TABLE IF NOT EXISTS pedido (
 CREATE TABLE IF NOT EXISTS produto (
     -- Chave primária: Identificador único do produto.
     cod_produto INT PRIMARY KEY AUTO_INCREMENT,
-    -- Chave estrangeira: Usuário responsável pela criação/cadastro do produto.
-    cpf VARCHAR(14) NOT NULL,
+	-- Data e hora que o produto foi cadastrado.
+    data_hora DATETIME NOT NULL,
+    
+    -- Informações do produto:
+	-- Nome comercial do produto.
+    nome VARCHAR(100) NOT NULL,
+	-- Descrição longa do produto.
+    descricao VARCHAR(255),
+    -- Imagem do produto, armazenada como BLOB (Binary Large Object).
+    imagem BLOB NOT NULL,
+    -- Quantidade do produto.
+    quantidade INT NOT NULL,
+    -- Valor unitário do produto.
+    valor FLOAT(10),    
     -- Stock Keeping Unit (código de identificação interna do produto).
     sku VARCHAR(100),
-    -- Imagem do produto, armazenada como BLOB (Binary Large Object).
-    imagem BLOB,
-    -- Descrição longa do produto.
-    descricao VARCHAR(255),
-    -- Nome comercial do produto.
-    nome VARCHAR(100),
-    -- Valor unitário do produto.
-    valor FLOAT(10),
-    -- Data e hora que o produto foi cadastrado.
-    data_hora DATETIME NOT NULL,
+
+	-- Endereçamento do produto:
+    -- Coluna da estante que o produto se encontra.
+    coluna VARCHAR(10),
+    -- Linha da estante que o produto se encontra.
+    linha VARCHAR(10),
+
     -- Chave estrangeira: Vincula o produto ao seu tipo específico.
+    cpf VARCHAR(14) NOT NULL,
 	cod_estante INT, 
+    cod_categoria INT,
     cod_tipo INT, 
+    cod_caracteristica INT,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     FOREIGN KEY (cod_estante) REFERENCES estante (cod_estante),
-    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
+    FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria),
+    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo),
+    FOREIGN KEY (cod_caracteristica) REFERENCES caracteristica (cod_caracteristica)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
