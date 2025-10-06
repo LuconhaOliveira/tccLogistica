@@ -259,8 +259,10 @@ def post_deletar_produto():
 # exibindo o formulário de cadastro de estante para o usuário.  
 @app.route("/pagina/cadastro_estante")
 def pagina_cadastrar_estante():
+    
+    categoria = Categoria.recuperar_categoria()
 
-    return render_template('pagina_estante.html')
+    return render_template("pagina_estante.html", categoria = categoria)
 
 
 # Rota que processa os dados do formulário de cadastrar estante (requisição POST).
