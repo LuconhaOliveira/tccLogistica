@@ -1,0 +1,82 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* body */
+.container--body {
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header */
+.container--header {
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+/* cor dos links e do span dentro do header para branco */
+.nav-link{
+    color: aliceblue !important;
+}
+
+.container--footer{
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Logo */
+.img--InStock-logo {
+    width: 230px;
+}
+
+
+.container--main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+/* estante selecionada */
+.container--estante{
+    width: 1000px;
+    height: 500px;
+    background-color: var(--grey-dark);
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px;
+    gap: 20px;
+    
+    display: grid;
+    /* quatro linhas e quatro colunas na estante */
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+}
+
+.card--produto{
+    display: flex !important;
+}
+
+.card{
+    display: flex !important;
+}
