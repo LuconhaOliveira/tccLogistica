@@ -104,13 +104,13 @@ button[type="submit"]:hover {
 
 /* Link do login */
 .container--label--a-logar label{
-    font-size: 12px;
+    font-size: 16px;
     margin-top: 10px;
 }
 
 /* HREF link */
 .container--label--a-logar a{
-    font-size: 12px;
+    font-size: 16px;
     text-decoration: underline;
     color: #EF782F;
     font-weight: bold;
