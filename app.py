@@ -19,8 +19,8 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 def pagina_principal():
     estantes = Estante.buscar_estantes()
 
-    # if estantes is None:
-    #     estantes = []
+    if estantes is None:
+        estantes = []
 
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
