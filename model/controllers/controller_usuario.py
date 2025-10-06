@@ -7,6 +7,8 @@ class Usuario:
 
     # Conexao com o banco de dados para cadastrar um novo usuario
     def cadastrar_usuario(cpf, nome, senha):
+
+        cpf = cpf.replace('.', '').replace('-', '')
         
         senha = sha256(senha.encode()).hexdigest()
             
@@ -43,7 +45,10 @@ class Usuario:
         
         Retorna o nome do usuário se o login for bem-sucedido,
         caso contrário, retorna None.
+
         """
+
+        cpf = cpf.replace('.', '').replace('-', '')
 
         try:
             
