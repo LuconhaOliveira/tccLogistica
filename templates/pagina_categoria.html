@@ -45,7 +45,7 @@
     <main class="container--main">
         <!-- form cadastrar catergoria -->
         <!-- action/method: backend do add categoria -->
-        <form action="/post/login" method="post" class="container--form">
+        <form action="/post/cadastro_categoria/adicionar" method="post" class="container--form">
             <h1>Adicionar Categoria</h1>
 
             <!-- nome da categoria -->
@@ -56,52 +56,66 @@
             </div>
 
             <div class="mb-3 form-check">
-                <a href="pagina/principal"><button type="submit" class="btn btn-primary">Adicionar</button></a>
+                <a href="/pagina/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
             </div>
         </form>
 
-        <form action="/post/login" method="post" class="container--form">
+        <form action="/post/cadastro_tipo/adicionar" method="post" class="container--form">
             <h1>Adicionar Tipo</h1>
 
             <!-- nome do tipo -->
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nome do tipo:</label>
                 <!-- name: backend do adicionar nome do tipo -->
-                <input name="add-nome-tipo" type="text" class="form-control"></input>
+                <input name="nome" type="text" class="form-control"></input>
             </div>
 
                 <!-- selecionar categoria -->
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Selecione a categoria:</label>
                 <!-- name: backend do adicionar nome da categoria -->
-                <select name="add-nome-categoria" type="text" class="form-control"></select>
+                <select name="cod_categoria" type="text" class="form-control">
+                    <!-- aparece apenas quando não há categoria cadastrada  -->
+                    <option value="" disabled selected>Selecione a categoria</option>
+                    <!-- puxa as categorias que foram cadastradas no banco de dados para adicionar no select -->
+                    {% for categorias in categoria %}
+                    <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
+                    {% endfor %}
+                </select>
+
             </div>
 
 
             <div class="mb-3 form-check">
-                <a href="pagina/principal"><button type="submit" class="btn btn-primary">Adicionar</button></a>
+                <a href="/pagina/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
             </div>
         </form>
 
-        <form action="/post/login" method="post" class="container--form">
+        <form action="/post/cadastro_caracteristica/adicionar" method="post" class="container--form">
             <h1>Adicionar Características</h1>
 
             <!-- nome do tipo -->
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Nome da característica:</label>
+                <label class="form-label">Nome da característica:</label>
                 <!-- name: backend do adicionar nome da característica -->
-                <input name="add-nome-caracteristica" type="text" class="form-control"></input>
+                <input name="nome" type="text" class="form-control"></input>
             </div>
 
             <!-- selecionar o tipo -->
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Selecione o tipo:</label>
                 <!-- name: backend selecionar nome do tipo -->
-                <select name="add-nome-tipo" type="text" class="form-control"></select>
+                <select name="cod_tipo" type="text" class="form-control">
+                    <option value="" disabled selected>Selecione o tipo</option>
+                    {% for tipos in tipo %}
+                    <option value="{{tipos.cod_tipo}}">{tipos.nome}</option>
+                    {% endfor %}
+
+                </select>
             </div>
 
             <div class="mb-3 form-check">
-                <a href="pagina/principal"><button type="submit" class="btn btn-primary">Adicionar</button></a>
+                <a href="/pagina/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
             </div>
 
 
