@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- link css -->
-     <link rel="stylesheet" href="/static/styles/pagina_login.css">
+     <link rel="stylesheet" href="/static/styles/paginas_de_cadastros_padronizadas.css">
      <!-- link css variaveis -->
     <link rel="stylesheet" href="/static/styles/variaveis_globais.css">
 
@@ -30,20 +30,25 @@
         <!-- action/method: backend do login -->
         <form action="/post/login" id="loginForm" method="post" class="container--form">
             <h1>Faça seu Login</h1>
+
             <div class="mb-3">
                 <label for="exampleInputCPF" class="form-label">CPF:</label>
                 <!-- name: backend do login -->
                 <input name="login-cpf" class="form-control" id="exampleInputCPF" aria-describedby="CPFHelp">
                 <div id="CPFHelp" class="form-text"></div>
             </div>
+
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Senha:</label>
                 <!-- name: backend do login -->
                 <input name="login-senha" type="password" class="form-control" id="exampleInputPassword1">
                 <a class="a--esqueci-senha">Esqueci minha senha</a>
             </div>
+
             <div class="mb-3 form-check">
+
             <a href="pagina/principal"><button type="submit" class="btn btn-primary">Login</button></a>
+            
             <div class="container--a--label-possuiConta">
                 <label>Ainda não tem uma conta?</label>
                 <a href="/pagina/cadastrar">Cadastre-se!</a>
