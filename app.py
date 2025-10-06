@@ -4,6 +4,7 @@ import datetime
 from model.controllers.controller_usuario import Usuario
 from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
+from model.controllers.controler_categorias import Categoria
 
 app = Flask(__name__)
 
@@ -221,6 +222,81 @@ def adicionar_estante():
         # Erro genérico de sistema
         print(f"Erro inesperado durante a persistência: {e}")
         return redirect("/pagina/cadastro_estante")
+    
+# CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
+
+# Rota que lida com a requisição GET para a página de cadastro de categoria, tipo e caracteristica.
+# Acessa a URL "/pagina/cadastro_categoria" e renderiza o arquivo HTML 'pagina_categoria.html',
+# exibindo os formulários de cadastro de categoria, tipo e caracteristica para o usuário.
+@app.route("/pagina/cadastrar/categoria")
+def pagina_cadastrar_categoria():
+
+    return render_template("pagina_categoria.html")
+
+# Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
+@app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
+def post_cadastrar_categoria():
+
+    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
+    cpf = session.get("cpf") 
+
+    # Caso o CPF não estiver na sessão
+    if not cpf:
+        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
+        print("Acesso negado: CPF não encontrado na sessão.")
+        return redirect("/pagina/login") 
+    
+    # Coleta de dados (só pega os dados se o CPF existir)
+    nome = request.form.get("nome")
+
+    Categoria.cadastrar_categoria(nome, cpf)
+    
+    return redirect("/pagina/cadastrar/categoria")
+
+# Rota que processa os dados do formulário de cadastrar tipo (requisição POST).
+@app.route("/post/cadastro_tipo/adicionar", methods = ["POST"])
+def post_cadastrar_tipo():
+
+    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
+    cpf = session.get("cpf") 
+
+    # Caso o CPF não estiver na sessão
+    if not cpf:
+        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
+        print("Acesso negado: CPF não encontrado na sessão.")
+        return redirect("/pagina/login") 
+    
+    # Coleta de dados (só pega os dados se o CPF existir)
+    nome = request.form.get("nome")
+    cod_categoria = request.form.get("cod_categoria")
+    
+
+    Categoria.cadastrar_tipo_categoria(nome, cpf, int(cod_categoria))
+    
+    return redirect("/pagina/cadastrar/categoria")
+
+# Rota que processa os dados do formulário de cadastrar caracteristica (requisição POST).
+@app.route("/post/cadastro_caracteristica/adicionar", methods = ["POST"])
+def post_cadastrar_caracteristica():
+
+    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
+    cpf = session.get("cpf") 
+
+    # Caso o CPF não estiver na sessão
+    if not cpf:
+        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
+        print("Acesso negado: CPF não encontrado na sessão.")
+        return redirect("/pagina/login") 
+    
+    # Coleta de dados (só pega os dados se o CPF existir)
+    nome = request.form.get("nome")
+    cod_tipo = request.form.get("cod_tipo")
+    
+
+    Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
+    
+    return redirect("/pagina/cadastrar/categoria")
+
 # ------------------------------------------------------------------------------------------------------# 
 
 app.run(debug = True)
