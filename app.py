@@ -127,23 +127,23 @@ def post_login():
     # Espera-se que esta função:
     # - Retorne o NOME do usuário se o login for válido.
     # - Retorne um valor False/None se o login for inválido.
-    login_valido = Usuario.validar_login(cpf, senha)
+    nome_usuario, cpf_limpo = Usuario.validar_login(cpf, senha)
 
     # 3. Processa o resultado da validação
-    if login_valido:
+    if nome_usuario:
         # Bloco executado se o login for bem-sucedido (login_valido contém o nome)
 
         # 3.1. Gerencia a sessão do usuário
         # Armazena o CPF na sessão do Flask (mantendo o usuário logado)
-        session['cpf'] = cpf
+        session['cpf'] = cpf_limpo
         # Armazena o NOME do usuário na sessão para exibição
-        session['nome'] = login_valido
+        session['nome'] = nome_usuario
 
         # 3.2. Retorna a resposta de sucesso em formato JSON
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Login realizado com sucesso! Bem-vindo(a), {login_valido}."
+            "message": f"Login realizado com sucesso! Bem-vindo(a), {nome_usuario}."
         }), 200
     else:
         # Bloco executado se o login falhar
