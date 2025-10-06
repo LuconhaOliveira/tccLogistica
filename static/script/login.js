@@ -1,5 +1,4 @@
-// Aplica uma máscara de formatação de CPF (000.000.000-00) ao elemento com o ID 'exampleInputCPF'.
-// O parâmetro '{reverse: true}' garante que a máscara funcione corretamente para números digitados da direita para a esquerda (útil em alguns casos, embora menos comum para CPF).
+// Aplica uma máscara de formatação de CPF (000.000.000-00)
 $('#exampleInputCPF').mask('000.000.000-00', {reverse: true});
 
 
@@ -9,69 +8,66 @@ const loginForm = document.getElementById('loginForm');
 // 2. Adiciona um 'ouvinte' para quando o formulário for enviado (evento 'submit')
 loginForm.addEventListener('submit', function(event) {
 
-    // Previne o comportamento padrão do navegador de enviar o formulário e recarregar a página (comportamento síncrono).
-    // Isso é essencial para que o envio seja feito via AJAX (assíncrono).
+    // Previne o comportamento padrão (envio síncrono da página)
     event.preventDefault(); 
     
-    // 3. Coleta todos os dados (campos) do formulário 'loginForm' em um objeto 'FormData'.
+    // 3. Coleta todos os dados do formulário
     const formData = new FormData(loginForm);
 
-    // 4. Envia os dados para a URL de ação do formulário (rota do Flask) usando a API fetch (AJAX)
+    // 4. Envia os dados para a URL de ação do formulário (AJAX/fetch)
     fetch(loginForm.action, {
-        method: 'POST', // Define o método de envio como POST
-        body: formData  // O corpo da requisição são os dados coletados
+        method: 'POST', 
+        body: formData 
     })
     .then(response => {
-        // Primeiro 'then': Recebe a resposta HTTP completa do servidor.
-        // O Flask retorna um JSON, então o lemos aqui (response.json()).
-        // Retorna o status HTTP junto com os dados JSON para o próximo 'then'.
-        return response.json().then(data => ({
-            status: response.status,
-            data: data
-        }));
+        // Passo 1: Como o Flask SEMPRE retorna 200, podemos apenas ler o JSON.
+        // Não precisamos verificar response.ok, pois o tratamento será feito pelo JSON 'status'.
+        return response.json(); 
     })
-    .then(({ status, data }) => {
+    .then(data => {
         
-        // 5. Segundo 'then': Processa a resposta final do servidor (status e dados JSON).
-        if (status === 200) {
-            // Login de SUCESSO (Status 200 OK)
-            // Exibe um alerta de sucesso usando a biblioteca SweetAlert2 (Swal.fire).
+        // 5. Processa a resposta final do servidor (usando o campo 'status' do JSON)
+        
+        if (data.status === "success") {
+            // Bloco de SUCESSO
+            
             Swal.fire({
                 title: 'Sucesso!',
                 text: data.message,
                 icon: 'success',
                 confirmButtonText: 'Continuar'
             }).then((result) => {
-                // Após o usuário clicar em "Continuar" no alerta...
                 if (result.isConfirmed) {
-                    // Redireciona o navegador para a página principal (rota definida no Flask).
+                    // Redireciona o navegador para a página principal
                     window.location.href = "/pagina/principal";
                 }
             });
+            
         } else {
-            // Login de ERRO (Status 401 Unauthorized, conforme definido no Flask)
-            // Exibe um alerta de erro (SweetAlert2).
+            // Bloco de ERRO (data.status é "error")
+            
             Swal.fire({
                 title: 'Erro!',
-                text: data.message,
+                text: data.message, // Usa a mensagem de erro que veio do Flask
                 icon: 'error',
                 confirmButtonText: 'Tentar Novamente'
             }).then((result) => {
-                // Após o usuário clicar em "Tentar Novamente"...
+                // Limpa o campo de senha após o clique
                 if (result.isConfirmed) {
-                    // Limpa o campo de senha (assumindo o ID 'exampleInputPassword1') para nova tentativa.
                     document.getElementById('exampleInputPassword1').value = ''; 
                 }
             });
         }
     })
     .catch(error => {
-        // Bloco 'catch': Trata erros de rede ou falhas na requisição (ex: servidor fora do ar).
+        // Bloco 'catch': Trata APENAS erros de rede ou falhas na leitura do JSON
+        
         console.error('Erro de rede ou processamento:', error);
-        // Exibe um alerta genérico de falha de comunicação.
+        
         Swal.fire({
             title: 'Ops!',
-            text: 'Ocorreu um erro inesperado. Tente novamente.',
+            // Mensagem genérica, pois ocorreu uma falha de comunicação ou parsing (não erro de login)
+            text: 'Ocorreu um erro de comunicação inesperado. Tente novamente.', 
             icon: 'warning',
             confirmButtonText: 'OK'
         });
