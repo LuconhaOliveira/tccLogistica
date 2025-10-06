@@ -8,7 +8,7 @@
 
 /* body */
 .container--body {
-    background-color: #fff;
+    background-color: var(--white);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,17 +18,21 @@
 /* Header */
 .container--header {
     width: 100%;
-    background-color: #cfcfcf;
+    background-color: var(--grey-dark);
     padding: 10px 20px;
     height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+/* cor dos links e do span dentro do header para branco */
+.nav-link{
+    color: aliceblue !important;
+}
 
 .container--footer{
     width: 100%;
-    background-color: #cfcfcf;
+    background-color: var(--grey-dark);
     padding: 10px 20px;
     height: 30px;
     display: flex;
@@ -52,7 +56,7 @@
 }
 
 .container--form {
-    background-color: #f2f2f2;
+    background-color: var(--grey-light);
     padding: 30px 40px;
     border-radius: 12px;
     margin-bottom: 30px;
@@ -78,8 +82,8 @@ form h1 {
 
 /* Botão de Login */
 button[type="submit"] {
-    background-color: #cfcfcf;
-    color: #313131;
+    background-color: var(--grey-medium);
+    color: var(--grey-dark);
     font-weight: bold;
     border: none;
     border-radius: 12px;
@@ -91,8 +95,8 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #EF782F;
-    color: #ececec;
+    background-color: var(--orange-color);
+    color: var(--grey-light);
 }
 
 .container--a--label-possuiConta{
@@ -111,13 +115,13 @@ button[type="submit"]:hover {
 .container--a--label-possuiConta a{
     font-size: 12px;
     text-decoration: underline;
-    color: #EF782F;
+    color: var(--orange-color);
     font-weight: bold;
 }
 .a--esqueci-senha{
     font-size: 12px;
     text-decoration: underline;
-    color: #EF782F;
+    color: var(--orange-color);
     font-weight: bold;
     
 }
