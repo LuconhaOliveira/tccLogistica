@@ -17,6 +17,7 @@ class Categoria:
                     VALUES (
                         %s, %s, %s)"""
 
+        nome = nome.upper()
         valores = (nome, data_hora, cpf)
 
         cursor.execute(sql, valores)
@@ -36,10 +37,11 @@ class Categoria:
         cursor = conexao.cursor()
 
         sql = """INSERT INTO tipo (
-                        nome, cpf, cod_categoria)
+                        nome, data_hora, cpf, cod_categoria)
                     VALUES (
-                        %s, %s, %s)"""
+                        %s, %s, %s, %s)"""
 
+        nome = nome.upper()
         valores = (nome, data_hora, cpf, cod_categoria)
 
         cursor.execute(sql, valores)
@@ -63,6 +65,7 @@ class Categoria:
                     VALUES (
                         %s, %s, %s, %s)"""
 
+        nome = nome.upper()
         valores = (nome, data_hora, cod_tipo, cpf)
 
         cursor.execute(sql, valores)

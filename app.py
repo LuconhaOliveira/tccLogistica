@@ -275,6 +275,28 @@ def post_cadastrar_tipo():
     
     return redirect("/pagina/cadastrar/categoria")
 
+# Rota que processa os dados do formulário de cadastrar caracteristica (requisição POST).
+@app.route("/post/cadastro_caracteristica/adicionar", methods = ["POST"])
+def post_cadastrar_caracteristica():
+
+    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
+    cpf = session.get("cpf") 
+
+    # Caso o CPF não estiver na sessão
+    if not cpf:
+        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
+        print("Acesso negado: CPF não encontrado na sessão.")
+        return redirect("/pagina/login") 
+    
+    # Coleta de dados (só pega os dados se o CPF existir)
+    nome = request.form.get("nome")
+    cod_tipo = request.form.get("cod_tipo")
+    
+
+    Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
+    
+    return redirect("/pagina/cadastrar/categoria")
+
 # ------------------------------------------------------------------------------------------------------# 
 
 app.run(debug = True)
