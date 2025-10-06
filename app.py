@@ -19,8 +19,8 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 def pagina_principal():
     estantes = Estante.buscar_estantes()
 
-    # if estantes is None:
-    #     estantes = []
+    if estantes is None:
+        estantes = []
 
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
@@ -324,7 +324,10 @@ def adicionar_estante():
 @app.route("/pagina/cadastrar/categoria")
 def pagina_cadastrar_categoria():
 
-    return render_template("pagina_categoria.html")
+    categoria = Categoria.recuperar_categoria()
+    tipo = Categoria.recuperar_tipo()
+
+    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
 @app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
@@ -385,10 +388,12 @@ def post_cadastrar_caracteristica():
     nome = request.form.get("nome")
     cod_tipo = request.form.get("cod_tipo")
     
-
     Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
     
     return redirect("/pagina/cadastrar/categoria")
+
+# RECUPERAR CATEGORIA,TIPO E CARACTERISTICA ------------------------------------------------------------------------------------------------------# 
+
 
 # ------------------------------------------------------------------------------------------------------# 
 

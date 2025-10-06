@@ -74,3 +74,39 @@ class Categoria:
 
         cursor.close()
         conexao.close()
+
+    # Recupera as categorias registradas anteriormente
+    def recuperar_categoria():
+        
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor(dictionary = True) 
+        
+        sql = """select cod_categoria, nome, data_hora from categoria;"""
+
+        cursor.execute(sql)
+
+        resultado = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return resultado
+    
+    # Recupera os tipos registradas anteriormente
+    def recuperar_tipo():
+        
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor(dictionary = True) 
+        
+        sql = """select cod_tipo, nome, data_hora from tipo;"""
+
+        cursor.execute(sql)
+
+        resultado = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return resultado
