@@ -15,21 +15,20 @@
     <!-- Link importação do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-
-    <title>Login</title>
+    <title>Redefinir Senha</title>
 </head>
 
 <body class="container--body">
     
     <!-- header bootstrap -->
      <header class="container--header">
-        <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;">
+        <img src="/static/img/InStock_logo_transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;">
      </header>
 
     <main class="container--main">
         <!-- action/method: backend do login -->
-        <form action="/post/login" id="loginForm" method="post" class="container--form">
-            <h1>Faça seu Login</h1>
+        <form method="post" class="container--form">
+            <h1>Redefina sua Senha</h1>
 
             <div class="mb-3">
                 <label for="exampleInputCPF" class="form-label">CPF:</label>
@@ -37,23 +36,15 @@
                 <input name="login-cpf" class="form-control" id="exampleInputCPF" aria-describedby="CPFHelp">
                 <div id="CPFHelp" class="form-text"></div>
             </div>
-
+            
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Senha:</label>
+                <label for="exampleInputPassword1" class="form-label">Nova senha:</label>
                 <!-- name: backend do login -->
                 <input name="login-senha" type="password" class="form-control" id="exampleInputPassword1">
-                <a class="a--esqueci-senha">Esqueci minha senha</a>
             </div>
-
-            <div class="mb-3 form-check">
-
-            <a href="pagina/principal"><button type="submit" class="btn btn-primary">Login</button></a>
-            
-            <div class="container--a--label-possuiConta">
-                <label>Ainda não tem uma conta?</label>
-                <a href="/pagina/cadastrar">Cadastre-se!</a>
-            </div>
-            
+           
+            <a href="/"><button type="submit" class="btn btn-primary">Alterar Senha</button></a>
+         
         </form>
     </main>
 
@@ -64,12 +55,15 @@
     <!-- Link importação do Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
+    <!-- Link para importar as máscaras para CPF -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- java script para colocar máscara no CPF -->
+    <script>
 
-    <!-- java script para colocar máscara no CPF e lógica para inserção de sweet alert-->
-    <script src="../static/script/login.js"></script>
+         $('#exampleInputCPF').mask('000.000.000-00', {reverse: true});
+
+    </script>
 </body>
 </html>

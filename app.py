@@ -19,6 +19,9 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 def pagina_principal():
     estantes = Estante.buscar_estantes()
 
+    if estantes is None:
+        estantes = []
+
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
 
@@ -35,15 +38,55 @@ def pagina_cadastrar():
 @app.route("/post/cadastro", methods = ["POST"])
 def post_cadastro():
 
+    """
+    Rota de API (Endpoint POST) responsável por processar a submissão do formulário de cadastro.
+    Esta rota segue o padrão de arquitetura REST, retornando respostas em formato JSON
+    para serem tratadas de forma assíncrona (AJAX) pelo frontend.
+    
+    1. Coleta os dados (CPF, nome e senha) enviados pelo formulário via requisição POST.
+    """
     cpf = request.form.get("cadastro-cpf")
-
     nome = request.form.get("cadastro-nome")
-
     senha = request.form.get("cadastro-senha")
 
-    Usuario.cadastrar_usuario(cpf, nome, senha)
+    # 2. Validação de dados de entrada (Input Validation).
+    # Verifica se todos os campos obrigatórios foram preenchidos.
+    # Em caso de falha, retorna um status HTTP 400 (Bad Request),
+    # informando o frontend para exibir a mensagem de erro ao usuário.
+    if not cpf or not nome or not senha:
+        return jsonify({
+            "status": "error",
+            "message": "Todos os campos são obrigatórios."
+        }), 400
+
+    try:
+        # 3. Execução da Lógica de Negócio.
+        # Chama o método 'cadastrar_usuario' do modelo 'Usuario'.
+        # Espera-se que este método execute o hash da senha (segurança) e o INSERT no banco de dados.
+        # A responsabilidade de limpeza do CPF (remoção de pontos/traços) é delegada a este método,
+        # mantendo a rota limpa e focada no controle de fluxo.
+        Usuario.cadastrar_usuario(cpf, nome, senha)
+
+        # 4. Resposta de Sucesso.
+        # Em caso de cadastro bem-sucedido, retorna o status HTTP 200 (OK)
+        # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
+        return jsonify({
+            "status": "success",
+            "message": "Cadastro realizado com sucesso! Faça login para continuar."
+        }), 200
     
-    return redirect("/")
+    except Exception as e:
+        # 5. Tratamento de Exceções.
+        # Este bloco captura erros que podem ocorrer na camada de acesso ao banco de dados (DAO),
+        # como a tentativa de inserir um CPF duplicado (violação de chave primária) ou falhas de conexão.
+        print(f"Erro ao cadastrar usuário: {e}") 
+
+        # Retorna o status HTTP 500 (Internal Server Error) para indicar um erro do servidor/sistema,
+        # garantindo que o frontend receba um código de erro apropriado para o tratamento.
+        return jsonify({
+            "status": "error",
+            "message": "Erro ao realizar o cadastro. Tente novamente ou entre em contato."
+        }), 500
 
 # LOGIN ------------------------------------------------------------------------------------------------------# 
 
@@ -52,38 +95,66 @@ def logoff():
     Usuario.deslogar()
     return jsonify({"redirect": "/pagina/login"}), 200
 
-# Rota que lida com a requisição GET para a página de login.
-# Acessa a URL "/pagina_login" e renderiza o arquivo HTML 'pagina_login.html',
-# exibindo o formulário de login para o usuário.
+
+# Função da rota principal ("/") do aplicativo.
+
+#    Esta rota é responsável por:
+#    1. Lidar com a exibição da página de login.
+#    2. Capturar e passar qualquer mensagem de erro para o template HTML.
 @app.route("/")
 def pagina_logar():
 
+    # 1. Renderiza o template HTML da página de login.
+    # 'render_template' carrega o arquivo 'pagina_login.html'.
     return render_template('pagina_login.html')
     
-# Rota que processa os dados do formulário de login (requisição POST).
-# Esta função:
-# 1. Recebe o CPF e a senha enviados pelo formulário.
-# 2. Chama a função 'validar_login' da classe 'Usuario' para verificar as credenciais no banco de dados.
-# 3. Usa uma condicional 'if' para verificar o resultado da validação.
-#    - Se o login for bem-sucedido ('login_valido' é True), ela renderiza a página 'pagina_principal.html'.
-#    - Se o login falhar, redireciona o usuário de volta para a página de login para que ele possa tentar novamente.
+
+
+
+#    Função da rota responsável por processar o formulário de login (método POST).
+#    Ela recebe o CPF e a senha do formulário, tenta validar as credenciais
+#    e retorna uma resposta JSON (sucesso ou erro) para o cliente.
 @app.route("/post/login", methods=["POST"])
 def post_login():
+    # 1. Captura os dados do formulário enviado via POST
+    # Obtém o valor do campo 'login-cpf' do formulário
     cpf = request.form.get("login-cpf")
+    # Obtém o valor do campo 'login-senha' do formulário
     senha = request.form.get("login-senha")
     
-    # Chama a função para validar o login
-    login_valido = Usuario.validar_login(cpf, senha)
+    # 2. Chama a lógica de validação de login
+    # Chama a função estática ou de classe 'validar_login' do modelo 'Usuario'.
+    # Espera-se que esta função:
+    # - Retorne o NOME do usuário se o login for válido.
+    # - Retorne um valor False/None se o login for inválido.
+    nome_usuario, cpf_limpo = Usuario.validar_login(cpf, senha)
 
-    if login_valido:
-        session['cpf'] = cpf
-        session['nome'] = login_valido
+    # 3. Processa o resultado da validação
+    if nome_usuario:
+        # Bloco executado se o login for bem-sucedido (login_valido contém o nome)
 
-        # Se o login for bem-sucedido, redireciona para a página principal
-        return render_template('index.html')
+        # 3.1. Gerencia a sessão do usuário
+        # Armazena o CPF na sessão do Flask (mantendo o usuário logado)
+        session['cpf'] = cpf_limpo
+        # Armazena o NOME do usuário na sessão para exibição
+        session['nome'] = nome_usuario
+
+        # 3.2. Retorna a resposta de sucesso em formato JSON
+        # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
+        return jsonify({
+            "status": "success",
+            "message": f"Login realizado com sucesso! Bem-vindo(a), {nome_usuario}."
+        }), 200
     else:
-        # Se falhar, redireciona para a página de login com uma mensagem de erro
-        return redirect(url_for('pagina_logar'))
+        # Bloco executado se o login falhar
+
+        # 3.3. Retorna a resposta de erro em formato JSON
+        # Retorna uma resposta HTTP com status code 401 (Unauthorized - Não Autorizado)
+        # e uma mensagem de erro.
+        return jsonify({
+            "status": "error",
+            "message": "CPF ou senha inválidos. Tente novamente."
+        }), 401
 
 
 @app.route("/estante/<id>")
@@ -231,7 +302,10 @@ def adicionar_estante():
 @app.route("/pagina/cadastrar/categoria")
 def pagina_cadastrar_categoria():
 
-    return render_template("pagina_categoria.html")
+    categoria = Categoria.recuperar_categoria()
+    tipo = Categoria.recuperar_tipo()
+
+    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
 @app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
@@ -292,10 +366,12 @@ def post_cadastrar_caracteristica():
     nome = request.form.get("nome")
     cod_tipo = request.form.get("cod_tipo")
     
-
     Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
     
     return redirect("/pagina/cadastrar/categoria")
+
+# RECUPERAR CATEGORIA,TIPO E CARACTERISTICA ------------------------------------------------------------------------------------------------------# 
+
 
 # ------------------------------------------------------------------------------------------------------# 
 

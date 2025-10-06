@@ -7,6 +7,8 @@ class Usuario:
 
     # Conexao com o banco de dados para cadastrar um novo usuario
     def cadastrar_usuario(cpf, nome, senha):
+
+        cpf_limpo = cpf.replace('.', '').replace('-', '')
         
         senha = sha256(senha.encode()).hexdigest()
             
@@ -22,7 +24,7 @@ class Usuario:
                     VALUES (
                         %s, %s, %s)"""
 
-        valores = (cpf, nome, senha)
+        valores = (cpf_limpo, nome, senha)
 
         cursor.execute(sql, valores)
 
@@ -43,7 +45,10 @@ class Usuario:
         
         Retorna o nome do usuário se o login for bem-sucedido,
         caso contrário, retorna None.
+
         """
+
+        cpf_limpo = cpf.replace('.', '').replace('-', '')
 
         try:
             
@@ -56,7 +61,7 @@ class Usuario:
             cursor = conexao.cursor()
             
             sql = "SELECT nome FROM usuario WHERE cpf = %s and senha = %s"
-            valores = (cpf, senha_criptografada)
+            valores = (cpf_limpo, senha_criptografada)
             
             cursor.execute(sql, valores)
             
@@ -66,7 +71,7 @@ class Usuario:
             if resultado:
                 # Retorna o nome do usuário se as credenciais forem válidas
                 print("Login bem-sucedido!")
-                return resultado[0] # O nome está na primeira posição da tupla
+                return resultado[0], cpf_limpo # O nome está na primeira posição da tupla
             else:
                 # Retorna None se as credenciais forem inválidas
                 print("CPF ou senha incorretos.")
