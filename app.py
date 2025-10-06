@@ -52,38 +52,72 @@ def logoff():
     Usuario.deslogar()
     return jsonify({"redirect": "/pagina/login"}), 200
 
-# Rota que lida com a requisição GET para a página de login.
-# Acessa a URL "/pagina_login" e renderiza o arquivo HTML 'pagina_login.html',
-# exibindo o formulário de login para o usuário.
+
+# Função da rota principal ("/") do aplicativo.
+
+#    Esta rota é responsável por:
+#    1. Lidar com a exibição da página de login.
+#    2. Capturar e passar qualquer mensagem de erro para o template HTML.
 @app.route("/")
 def pagina_logar():
 
-    return render_template('pagina_login.html')
+    # 1. Tenta obter o valor do parâmetro 'erro' da URL (query string).
+    # Exemplo de URL: http://localhost:5000/?erro=login_falhou
+    # Se 'erro' estiver na URL, seu valor é capturado; caso contrário, será None.
+    erro = request.args.get('erro')
+
+    # 2. Renderiza o template HTML da página de login.
+    # 'render_template' carrega o arquivo 'pagina_login.html'.
+    # O valor da variável 'erro' (que pode ser uma string ou None) é passado para 
+    # o template, permitindo que a página exiba uma mensagem de erro ao usuário, 
+    # se houver.
+    return render_template('pagina_login.html', erro=erro)
     
-# Rota que processa os dados do formulário de login (requisição POST).
-# Esta função:
-# 1. Recebe o CPF e a senha enviados pelo formulário.
-# 2. Chama a função 'validar_login' da classe 'Usuario' para verificar as credenciais no banco de dados.
-# 3. Usa uma condicional 'if' para verificar o resultado da validação.
-#    - Se o login for bem-sucedido ('login_valido' é True), ela renderiza a página 'pagina_principal.html'.
-#    - Se o login falhar, redireciona o usuário de volta para a página de login para que ele possa tentar novamente.
+
+#    Função da rota responsável por processar o formulário de login (método POST).
+#    Ela recebe o CPF e a senha do formulário, tenta validar as credenciais
+#    e retorna uma resposta JSON (sucesso ou erro) para o cliente.
 @app.route("/post/login", methods=["POST"])
 def post_login():
+    # 1. Captura os dados do formulário enviado via POST
+    # Obtém o valor do campo 'login-cpf' do formulário
     cpf = request.form.get("login-cpf")
+    # Obtém o valor do campo 'login-senha' do formulário
     senha = request.form.get("login-senha")
     
-    # Chama a função para validar o login
+    # 2. Chama a lógica de validação de login
+    # Chama a função estática ou de classe 'validar_login' do modelo 'Usuario'.
+    # Espera-se que esta função:
+    # - Retorne o NOME do usuário se o login for válido.
+    # - Retorne um valor False/None se o login for inválido.
     login_valido = Usuario.validar_login(cpf, senha)
 
+    # 3. Processa o resultado da validação
     if login_valido:
+        # Bloco executado se o login for bem-sucedido (login_valido contém o nome)
+
+        # 3.1. Gerencia a sessão do usuário
+        # Armazena o CPF na sessão do Flask (mantendo o usuário logado)
         session['cpf'] = cpf
+        # Armazena o NOME do usuário na sessão para exibição
         session['nome'] = login_valido
 
-        # Se o login for bem-sucedido, redireciona para a página principal
-        return render_template('index.html')
+        # 3.2. Retorna a resposta de sucesso em formato JSON
+        # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
+        return jsonify({
+            "status": "success",
+            "message": f"Login realizado com sucesso! Bem-vindo(a), {login_valido}."
+        }), 200
     else:
-        # Se falhar, redireciona para a página de login com uma mensagem de erro
-        return redirect(url_for('pagina_logar'))
+        # Bloco executado se o login falhar
+
+        # 3.3. Retorna a resposta de erro em formato JSON
+        # Retorna uma resposta HTTP com status code 401 (Unauthorized - Não Autorizado)
+        # e uma mensagem de erro.
+        return jsonify({
+            "status": "error",
+            "message": "CPF ou senha inválidos. Tente novamente."
+        }), 401
 
 
 @app.route("/estante/<id>")
