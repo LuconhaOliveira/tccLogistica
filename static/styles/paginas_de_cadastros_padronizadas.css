@@ -1,0 +1,178 @@
+/* Reset para todas as telas*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* body para todas as telas */
+.container--body {
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header para todas as telas */
+.container--header {
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Footer para todas as telas */
+.container--footer{
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Logo para todas as telas */
+.img--InStock-logo {
+    width: 120px;
+}
+
+
+/* container principal geral para todas as telas */
+.container--main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+/* Forms para todas as telas */
+.container--form {
+    background-color: var(--grey-light);
+    padding: 30px 40px;
+    border-radius: 12px;
+    
+    width: 750px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Titulo do form para todas as telas */
+.container--form h1 {
+    text-align: center;
+    font-size: var(--font-size-30);
+    margin-bottom: 25px;
+    font-family: var(--font-cormorant);
+}
+
+/* label (textos em cima dos inputs) para todas as telas */
+.form-label{
+    font-size: var(--font-size-20);
+    margin-bottom: 5px;
+    font-family: var(--font-outfit);
+    font-weight: bold;
+    display: block;
+}
+
+/* dentro dos inputs, para colocar uma fonte, para todas as telas */
+.form-control{
+    font-family: var(--font-outfit);
+}
+
+/* Botão de todas as telas */
+button[type="submit"] {
+
+    color: var(--black);
+    background-color: var(--grey-medium);
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.5s;
+}
+
+/* hover do botão para todas as telas */
+button[type="submit"]:hover {
+
+    background-color: var(--orange-color) !important;
+    color: var(--white);
+
+}
+
+/* alinhamento do form para tirar a formatação do bootstrap, por isso o !important */
+.form-check{
+    padding: 0 !important;
+}
+
+/* ESPECIFICAÇÕES DA TELA DE CADASTRO */
+/* se a pessoa já tiver uma conta, então vai pro link de logar */
+.container--label--a-logar{
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-16);
+}
+
+/* Link de logar label */
+.container--label--a-logar label{
+    margin-top: 10px;
+}
+
+/* Link de logar a */
+.container--label--a-logar a{
+    text-decoration: underline;
+    color: #EF782F;
+    font-weight: bold;
+}
+
+/* ESPECIFICAÇÕES DE TELA DE LOGIN */
+/* se a pessoa ainda não possurir conta, vai para a pagina de cadastro */
+.container--a--label-possuiConta{
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-16);
+}
+
+/* link de cadastrar a */
+.container--a--label-possuiConta a{
+    text-decoration: underline;
+    color: var(--orange-color);
+    font-weight: bold;
+}
+/* link de cadastrar label */
+.container--a--label-possuiConta label{
+    margin-top: 10px;
+}
+
+.container--a--label-possuiConta a:hover {
+    transform: scale(1.2);
+    text-decoration: wavy;
+}
+
+/* esqueci senha */
+.a--esqueci-senha{
+    text-decoration: underline;
+    color: var(--orange-color);
+    font-weight: bold;
+    font-size: var(--font-size-16);
+    font-family: var(--font-outfit);
+    cursor: pointer;
+}
+
+/* esqueci senha hover */
+.a--esqueci-senha:hover{
+    transform: scale(1.2);
+    text-decoration: wavy;
+}
+
+
