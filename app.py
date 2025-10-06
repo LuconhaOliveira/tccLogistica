@@ -19,13 +19,35 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 def pagina_principal():
     estantes = Estante.buscar_estantes()
 
-    # if estantes is None:
-    #     estantes = []
+    if estantes is None:
+        estantes = []
 
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
 
     return render_template("index.html",estantes=estantes,filtros=filtros)
+
+
+#API FILTRO
+@app.route("/filtro")
+def filtro():
+    estantes = Estante.buscar_estantes()
+
+    filtros = [i["categoria"] for i in estantes]
+    filtros = list(set(filtros))
+
+
+    return jsonify({"estantes": estantes,"filtros": filtros}), 200
+
+#API FILTRO
+@app.route("/filtro/<filtro>")
+def filtro_filtro(filtro):
+    estantes = Estante.buscar_estantes_filtro(filtro)
+
+    filtros = [i["categoria"] for i in estantes]
+    filtros = list(set(filtros))
+
+    return jsonify({"estantes": estantes,"filtros": filtros}), 200
 
 # CADASTRO ------------------------------------------------------------------------------------------------------# 
 
@@ -127,23 +149,23 @@ def post_login():
     # Espera-se que esta função:
     # - Retorne o NOME do usuário se o login for válido.
     # - Retorne um valor False/None se o login for inválido.
-    login_valido = Usuario.validar_login(cpf, senha)
+    nome_usuario, cpf_limpo = Usuario.validar_login(cpf, senha)
 
     # 3. Processa o resultado da validação
-    if login_valido:
+    if nome_usuario:
         # Bloco executado se o login for bem-sucedido (login_valido contém o nome)
 
         # 3.1. Gerencia a sessão do usuário
         # Armazena o CPF na sessão do Flask (mantendo o usuário logado)
-        session['cpf'] = cpf
+        session['cpf'] = cpf_limpo
         # Armazena o NOME do usuário na sessão para exibição
-        session['nome'] = login_valido
+        session['nome'] = nome_usuario
 
         # 3.2. Retorna a resposta de sucesso em formato JSON
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Login realizado com sucesso! Bem-vindo(a), {login_valido}."
+            "message": f"Login realizado com sucesso! Bem-vindo(a), {nome_usuario}."
         }), 200
     else:
         # Bloco executado se o login falhar
@@ -159,9 +181,9 @@ def post_login():
 
 @app.route("/estante/<id>")
 def pagina_estante(id):
-    Estante.buscar_estante(id)
+    print(Estante.buscar_estante(id))
 
-    return render_template('pagina_estantes.html')
+    return redirect(url_for('pagina_logar'))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
@@ -298,7 +320,10 @@ def adicionar_estante():
 @app.route("/pagina/cadastrar/categoria")
 def pagina_cadastrar_categoria():
 
-    return render_template("pagina_categoria.html")
+    categoria = Categoria.recuperar_categoria()
+    tipo = Categoria.recuperar_tipo()
+
+    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
 @app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
@@ -359,10 +384,12 @@ def post_cadastrar_caracteristica():
     nome = request.form.get("nome")
     cod_tipo = request.form.get("cod_tipo")
     
-
     Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
     
     return redirect("/pagina/cadastrar/categoria")
+
+# RECUPERAR CATEGORIA,TIPO E CARACTERISTICA ------------------------------------------------------------------------------------------------------# 
+
 
 # ------------------------------------------------------------------------------------------------------# 
 
