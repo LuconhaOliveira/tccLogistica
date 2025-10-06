@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS categoria (
     -- Data e hora que a categoria foi cadastrada.
     data_hora DATETIME NOT NULL,
 	-- Chave estrangeira: Vincula a alteração ao usuário responsável.
-    cpf VARCHAR(11) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS tipo (
     -- Data e hora que o tipo foi cadastrado.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Vincula o tipo à sua categoria e ao usuário.
-	cpf VARCHAR(11) NOT NULL, 
+	cpf VARCHAR(14) NOT NULL, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     cod_categoria INT,
     FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria)
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS alteracao_produto_estante (
     -- Data e hora que a alteração foi registrada.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Vincula a alteração ao usuário responsável.
-    cpf VARCHAR(11) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
 );
 
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS caracteristica (
     -- Chave estrangeira: Vincula a característica a um tipo de produto específico.
     cod_tipo INT,
     -- Chave estrangeira: Vincula a criação/gestão da característica ao usuário.
-    cpf VARCHAR(11) NOT NULL, 
+    cpf VARCHAR(14) NOT NULL, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
 );
@@ -117,18 +117,12 @@ CREATE TABLE IF NOT EXISTS caracteristica (
 CREATE TABLE IF NOT EXISTS estante (
 	-- Chave primária: Identificador único da estante 
 	cod_estante INT PRIMARY KEY auto_increment,
-    -- Endereçamento completo da estante
-    enderecamento VARCHAR(20) NOT NULL,
     -- Identificador da estante.
-    estante VARCHAR(10),
-    -- Identificador da linha.
-    linha VARCHAR(10),
-    -- Identificador da coluna.
-    coluna VARCHAR(10),
+    nome VARCHAR(10),
      -- Data e hora que a estante foi cadastrada.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Usuário responsável pela gestão ou criação da estante.
-    cpf VARCHAR(11) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     -- Chave estrangeira: Define a categoria de produtos permitida nesta estante.
     cod_categoria INT, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
@@ -143,7 +137,7 @@ CREATE TABLE IF NOT EXISTS pedido (
     -- Chave primária: Identificador único do pedido.
     cod_pedido INT PRIMARY KEY AUTO_INCREMENT,
     -- Chave estrangeira: Usuário que realizou o pedido.
-    cpf VARCHAR(11) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     -- Data e hora exata em que o pedido foi registrado.
     data_pedido DATETIME,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
@@ -158,7 +152,7 @@ CREATE TABLE IF NOT EXISTS produto (
     -- Chave primária: Identificador único do produto.
     cod_produto INT PRIMARY KEY AUTO_INCREMENT,
     -- Chave estrangeira: Usuário responsável pela criação/cadastro do produto.
-    cpf VARCHAR(11) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     -- Stock Keeping Unit (código de identificação interna do produto).
     sku VARCHAR(100),
     -- Imagem do produto, armazenada como BLOB (Binary Large Object).
@@ -172,8 +166,10 @@ CREATE TABLE IF NOT EXISTS produto (
     -- Data e hora que o produto foi cadastrado.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Vincula o produto ao seu tipo específico.
+	cod_estante INT, 
     cod_tipo INT, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
+    FOREIGN KEY (cod_estante) REFERENCES estante (cod_estante),
     FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
 );
 
