@@ -42,16 +42,14 @@
             <div class="mb-3">
                 <label for="exampleInputName" class="form-label">Nome:</label>
                 <!-- name: backend do cadastro -->
-                <input name="cadastro-nome" type="text" maxlength="50" class="form-control" id="exampleInputName"
-                        aria-describedby="NameHelp">
+                <input name="cadastro-nome" type="text" maxlength="100" class="form-control" id="exampleInputName">
             </div>
 
             <!-- campo da descrição -->
             <div class="mb-3">
                 <label for="exampleInputDescription" class="form-label">Descrição:</label>
                 <!-- description: backend do cadastro -->
-                <input name="cadastro-descricao" type="text" maxlength="255" class="form-control" id="exampleInputDescription"
-                        aria-describedby="DescriptionHelp">
+                <input name="cadastro-descricao" type="text" maxlength="255" class="form-control" id="exampleInputDescription">
             </div>
 
             <!-- campo de imagem -->
@@ -68,36 +66,136 @@
                 
                 -->
 
-                <input 
-                    name="cadastro-imagem" type="file" class="form-control" id="exampleInputPhoto"accept="image/*">
+                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*">
             </div>
 
             <!-- campo de quantidade -->
             <div class="mb-3">
                 <label for="exampleInputQuantidade" class="form-label">Quantidade:</label>
                 <!-- quantidade: backend do cadastro -->
-                <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade" min="0" value="1">
+                <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade" min="0" value="0">
             </div>
 
             <!-- campo de valor -->
             <div class="mb-3">
                 <label for="exampleInputValor" class="form-label">Valor:</label> 
                 <!-- valor: backend do cadastro -->
-                <input name="cadastro-valor" type="number" class="form-control" id="exampleInputValor" min="0" placeholder="R$:">
+                <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:">
             </div>
 
+            <!-- campo do SKU -->
+            <div class="mb-3">
+                <label for="exampleInputSKU" class="form-label">SKU:</label>
+                <!-- SKU: backend do cadastro -->
+                <input name="cadastro-sku" maxlength="100" class="form-control" id="exampleInputSKU">
+            </div>
+
+            <h2>Endereçamento:</h2>
+
+            <!-- campo de nome da estante -->
+            <div class="mb-3">
+
+                <label for="exampleInputNomeEstante" class="form-label">Nome da Estante:</label>
+
+                <select name="cadastro-nome-estante" class="form-select" id="nomeEstanteSelect">
+        
+                        <option class="select-estante" disabled selected>Selecione uma Estante:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-estante" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- campo da coluna da estante -->
+            <div class="mb-3">
+
+                <label for="exampleInputColunaEstante" class="form-label">Coluna da Estante:</label>
+
+                <select name="cadastro-coluna-estante" class="form-select" id="colunaEstanteSelect">
+        
+                        <option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-coluna" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- campo de linha da estante -->
+            <div class="mb-3">
+
+                <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante:</label>
+
+                <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
+        
+                        <option class="select-linha" disabled selected>Selecione uma Linha:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-linha" selected></option>
+        
+                </select>
+
+            </div>
+
+            <h2>Classificação:</h2>
+
+            <!-- campo de categoria-->
+            <div class="mb-3">
+
+                <label for="exampleInputCategoria" class="form-label">Categoria:</label>
+
+                <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
+        
+                        <option class="select-categoria" disabled selected>Selecione uma categoria:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-categoria" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- campo de tipos de categoria -->
+            <div class="mb-3">
+
+                <label for="exampleInputTipo" class="form-label">Tipo:</label>
+
+                <select name="cadastro-tipo" class="form-select" id="tipoSelect">
+        
+                        <option class="select-tipo" disabled selected>Selecione um tipo:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-tipo" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- campo de caracteristicas -->
+            <div class="mb-3">
+
+                <label for="exampleInputCaracteristicas" class="form-label">Características:</label>
+
+                <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect">
+        
+                        <option class="select-caracteristicas" disabled selected>Selecione uma caracteristica:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-caracteristicas" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- container do botão de adicionar -->
             <div class="mb-3 form-check">
 
-                <a href="/pagina/cadastro">
-                    <button class="btn btn-primary" type="submit">Cadastrar</button>
+                <a href="">
+                    <button class="btn btn-primary" type="submit">Adicionar</button>
                 </a>
-
-                <div class="container--label--a-logar">
-
-                    <label class="possuiConta">Já possui uma conta?</label>
-                    <a href="/">Faça login!</a>
-                
-                </div>    
 
             </div>
             
@@ -112,14 +210,14 @@
     <!-- Link importação do Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
-    <!-- Link para importar as máscaras para CPF -->
+    <!-- Link para importar as máscaras para VALOR -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 
-    <!-- java script para colocar máscara no CPF -->
+    <!-- java script para colocar máscara no VALOR -->
     <script>
 
-        $('#exampleInputCPF').mask('000.000.000-00', {reverse: true});
+         $('#exampleInputValor').mask('000.000,00', {reverse: true});
 
     </script>
 
