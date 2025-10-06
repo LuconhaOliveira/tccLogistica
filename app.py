@@ -38,15 +38,55 @@ def pagina_cadastrar():
 @app.route("/post/cadastro", methods = ["POST"])
 def post_cadastro():
 
+    """
+    Rota de API (Endpoint POST) responsável por processar a submissão do formulário de cadastro.
+    Esta rota segue o padrão de arquitetura REST, retornando respostas em formato JSON
+    para serem tratadas de forma assíncrona (AJAX) pelo frontend.
+    
+    1. Coleta os dados (CPF, nome e senha) enviados pelo formulário via requisição POST.
+    """
     cpf = request.form.get("cadastro-cpf")
-
     nome = request.form.get("cadastro-nome")
-
     senha = request.form.get("cadastro-senha")
 
-    Usuario.cadastrar_usuario(cpf, nome, senha)
+    # 2. Validação de dados de entrada (Input Validation).
+    # Verifica se todos os campos obrigatórios foram preenchidos.
+    # Em caso de falha, retorna um status HTTP 400 (Bad Request),
+    # informando o frontend para exibir a mensagem de erro ao usuário.
+    if not cpf or not nome or not senha:
+        return jsonify({
+            "status": "error",
+            "message": "Todos os campos são obrigatórios."
+        }), 400
+
+    try:
+        # 3. Execução da Lógica de Negócio.
+        # Chama o método 'cadastrar_usuario' do modelo 'Usuario'.
+        # Espera-se que este método execute o hash da senha (segurança) e o INSERT no banco de dados.
+        # A responsabilidade de limpeza do CPF (remoção de pontos/traços) é delegada a este método,
+        # mantendo a rota limpa e focada no controle de fluxo.
+        Usuario.cadastrar_usuario(cpf, nome, senha)
+
+        # 4. Resposta de Sucesso.
+        # Em caso de cadastro bem-sucedido, retorna o status HTTP 200 (OK)
+        # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
+        return jsonify({
+            "status": "success",
+            "message": "Cadastro realizado com sucesso! Faça login para continuar."
+        }), 200
     
-    return redirect("/")
+    except Exception as e:
+        # 5. Tratamento de Exceções.
+        # Este bloco captura erros que podem ocorrer na camada de acesso ao banco de dados (DAO),
+        # como a tentativa de inserir um CPF duplicado (violação de chave primária) ou falhas de conexão.
+        print(f"Erro ao cadastrar usuário: {e}") 
+
+        # Retorna o status HTTP 500 (Internal Server Error) para indicar um erro do servidor/sistema,
+        # garantindo que o frontend receba um código de erro apropriado para o tratamento.
+        return jsonify({
+            "status": "error",
+            "message": "Erro ao realizar o cadastro. Tente novamente ou entre em contato."
+        }), 500
 
 # LOGIN ------------------------------------------------------------------------------------------------------# 
 
@@ -64,18 +104,12 @@ def logoff():
 @app.route("/")
 def pagina_logar():
 
-    # 1. Tenta obter o valor do parâmetro 'erro' da URL (query string).
-    # Exemplo de URL: http://localhost:5000/?erro=login_falhou
-    # Se 'erro' estiver na URL, seu valor é capturado; caso contrário, será None.
-    erro = request.args.get('erro')
-
-    # 2. Renderiza o template HTML da página de login.
+    # 1. Renderiza o template HTML da página de login.
     # 'render_template' carrega o arquivo 'pagina_login.html'.
-    # O valor da variável 'erro' (que pode ser uma string ou None) é passado para 
-    # o template, permitindo que a página exiba uma mensagem de erro ao usuário, 
-    # se houver.
-    return render_template('pagina_login.html', erro=erro)
+    return render_template('pagina_login.html')
     
+
+
 
 #    Função da rota responsável por processar o formulário de login (método POST).
 #    Ela recebe o CPF e a senha do formulário, tenta validar as credenciais
