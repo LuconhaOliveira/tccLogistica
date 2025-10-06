@@ -31,17 +31,18 @@
         <form action="/post/login" id="loginForm" method="post" class="container--form">
             <h1>Faça seu Login</h1>
 
+            <!-- campo de CPF -->
             <div class="mb-3">
                 <label for="exampleInputCPF" class="form-label">CPF:</label>
                 <!-- name: backend do login -->
-                <input name="login-cpf" class="form-control" id="exampleInputCPF" aria-describedby="CPFHelp">
-                <div id="CPFHelp" class="form-text"></div>
+                <input name="login-cpf" minlength="14" class="form-control" id="exampleInputCPF">
             </div>
 
+            <!-- campo de SENHA -->
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Senha:</label>
                 <!-- name: backend do login -->
-                <input name="login-senha" type="password" class="form-control" id="exampleInputPassword1">
+                <input name="login-senha" minlength="8" maxlength="20" type="password" class="form-control" id="exampleInputPassword1">
                 <a class="a--esqueci-senha">Esqueci minha senha</a>
             </div>
 

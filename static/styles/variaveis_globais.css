@@ -1,5 +1,5 @@
 /* Link de import das fontes do google fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@700&family=Jersey+20&family=Outfit:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Jersey+20&family=Outfit:wght@300&display=swap');
 
 :root{
 
@@ -12,9 +12,9 @@
     --white: #FFFFFF;
 
     /* fontes */
-    --font-cormorant: "Cormorant SC", serif;
     --font-outfit: "Outfit", sans-serif;
     --font-jersey: "Jersey 20", sans-serif;
+    --font-cinzel: "Cinzel", serif;
 
     /* tamanho dos textos */
     --font-size-16: 16px;
