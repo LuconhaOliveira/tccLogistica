@@ -23,6 +23,28 @@ def pagina_principal():
 
     return render_template("index.html",estantes=estantes,filtros=filtros)
 
+
+#API FILTRO
+@app.route("/filtro")
+def filtro():
+    estantes = Estante.buscar_estantes()
+
+    filtros = [i["categoria"] for i in estantes]
+    filtros = list(set(filtros))
+
+
+    return jsonify({"estantes": estantes,"filtros": filtros}), 200
+
+#API FILTRO
+@app.route("/filtro/<filtro>")
+def filtro_filtro(filtro):
+    estantes = Estante.buscar_estantes_filtro(filtro)
+
+    filtros = [i["categoria"] for i in estantes]
+    filtros = list(set(filtros))
+
+    return jsonify({"estantes": estantes,"filtros": filtros}), 200
+
 # CADASTRO ------------------------------------------------------------------------------------------------------# 
 
 # Rota para a página de cadastro
