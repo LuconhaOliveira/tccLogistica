@@ -1,9 +1,10 @@
 # Importando os arquivos
-from flask import Flask, jsonify, render_template, request, redirect, session
+from flask import Flask, jsonify, render_template, request, redirect, session, url_for
 import datetime
 from model.controllers.controller_usuario import Usuario
 from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
+from model.controllers.controler_categorias import Categoria
 
 app = Flask(__name__)
 
@@ -16,8 +17,12 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 # Rota para a página principal
 @app.route("/pagina/principal")
 def pagina_principal():
+    estantes = Estante.buscar_estantes()
 
-    return render_template('pagina_principal.html')
+    filtros = [i["categoria"] for i in estantes]
+    filtros = list(set(filtros))
+
+    return render_template("index.html",estantes=estantes,filtros=filtros)
 
 # CADASTRO ------------------------------------------------------------------------------------------------------# 
 
@@ -25,7 +30,7 @@ def pagina_principal():
 @app.route("/pagina/cadastrar")
 def pagina_cadastrar():
 
-    return render_template("cadastro.html")
+    return render_template("pagina_cadastro.html")
 
 @app.route("/post/cadastro", methods = ["POST"])
 def post_cadastro():
@@ -38,15 +43,14 @@ def post_cadastro():
 
     Usuario.cadastrar_usuario(cpf, nome, senha)
     
-    return redirect("/pagina/login")
+    return redirect("/")
 
 # LOGIN ------------------------------------------------------------------------------------------------------# 
 
 @app.route("/logoff")
 def logoff():
     Usuario.deslogar()
-    return jsonify({"redirect": "/login"}), 200
-
+    return jsonify({"redirect": "/pagina/login"}), 200
 
 # Rota que lida com a requisição GET para a página de login.
 # Acessa a URL "/pagina_login" e renderiza o arquivo HTML 'pagina_login.html',
@@ -73,14 +77,21 @@ def post_login():
 
     if login_valido:
         session['cpf'] = cpf
+        session['nome'] = login_valido
+
         # Se o login for bem-sucedido, redireciona para a página principal
-        return render_template('pagina_principal.html')
+        return render_template('index.html')
     else:
         # Se falhar, redireciona para a página de login com uma mensagem de erro
-        return redirect("/pagina/login")
+        return redirect(url_for('pagina_logar'))
 
 
+@app.route("/estante/<id>")
+def pagina_estante(id):
+    Estante.buscar_estante(id)
 
+    return render_template('pagina_estantes.html')
+  
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
 def pagina_produto():
@@ -211,6 +222,81 @@ def adicionar_estante():
         # Erro genérico de sistema
         print(f"Erro inesperado durante a persistência: {e}")
         return redirect("/pagina/cadastro_estante")
+    
+# CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
+
+# Rota que lida com a requisição GET para a página de cadastro de categoria, tipo e caracteristica.
+# Acessa a URL "/pagina/cadastro_categoria" e renderiza o arquivo HTML 'pagina_categoria.html',
+# exibindo os formulários de cadastro de categoria, tipo e caracteristica para o usuário.
+@app.route("/pagina/cadastrar/categoria")
+def pagina_cadastrar_categoria():
+
+    return render_template("pagina_categoria.html")
+
+# Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
+@app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
+def post_cadastrar_categoria():
+
+    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
+    cpf = session.get("cpf") 
+
+    # Caso o CPF não estiver na sessão
+    if not cpf:
+        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
+        print("Acesso negado: CPF não encontrado na sessão.")
+        return redirect("/pagina/login") 
+    
+    # Coleta de dados (só pega os dados se o CPF existir)
+    nome = request.form.get("nome")
+
+    Categoria.cadastrar_categoria(nome, cpf)
+    
+    return redirect("/pagina/cadastrar/categoria")
+
+# Rota que processa os dados do formulário de cadastrar tipo (requisição POST).
+@app.route("/post/cadastro_tipo/adicionar", methods = ["POST"])
+def post_cadastrar_tipo():
+
+    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
+    cpf = session.get("cpf") 
+
+    # Caso o CPF não estiver na sessão
+    if not cpf:
+        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
+        print("Acesso negado: CPF não encontrado na sessão.")
+        return redirect("/pagina/login") 
+    
+    # Coleta de dados (só pega os dados se o CPF existir)
+    nome = request.form.get("nome")
+    cod_categoria = request.form.get("cod_categoria")
+    
+
+    Categoria.cadastrar_tipo_categoria(nome, cpf, int(cod_categoria))
+    
+    return redirect("/pagina/cadastrar/categoria")
+
+# Rota que processa os dados do formulário de cadastrar caracteristica (requisição POST).
+@app.route("/post/cadastro_caracteristica/adicionar", methods = ["POST"])
+def post_cadastrar_caracteristica():
+
+    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
+    cpf = session.get("cpf") 
+
+    # Caso o CPF não estiver na sessão
+    if not cpf:
+        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
+        print("Acesso negado: CPF não encontrado na sessão.")
+        return redirect("/pagina/login") 
+    
+    # Coleta de dados (só pega os dados se o CPF existir)
+    nome = request.form.get("nome")
+    cod_tipo = request.form.get("cod_tipo")
+    
+
+    Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
+    
+    return redirect("/pagina/cadastrar/categoria")
+
 # ------------------------------------------------------------------------------------------------------# 
 
 app.run(debug = True)

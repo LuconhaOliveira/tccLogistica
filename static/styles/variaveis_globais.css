@@ -1,0 +1,27 @@
+/* Link de import das fontes do google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@700&family=Jersey+20&family=Outfit:wght@300&display=swap');
+
+:root{
+
+    /* cores */
+    --orange-color: #EF782F;
+    --grey-light: #DFDFDF;
+    --grey-medium: #9C9C9C;
+    --grey-dark: #3e3e3e;
+    --black: #000000;
+    --white: #FFFFFF;
+
+    /* fontes */
+    --font-cormorant: "Cormorant SC", serif;
+    --font-outfit: "Outfit", sans-serif;
+    --font-jersey: "Jersey 20", sans-serif;
+
+    /* tamanho dos textos */
+    --font-size-16: 16px;
+    --font-size-20: 20px;
+    --font-size-24: 24px;
+    --font-size-30: 30px;
+    --font-size-40: 40px;
+
+}
+
