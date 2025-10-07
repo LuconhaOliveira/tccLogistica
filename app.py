@@ -407,8 +407,9 @@ def pagina_cadastrar_categoria():
         cpf = session["cpf"]
         categoria = Categoria.recuperar_categoria(cpf)
         tipo = Categoria.recuperar_tipo(cpf)
+        caracteristica = Categoria.recuperar_caracteristica(cpf)
 
-    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo)
+    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo, caracteristica = caracteristica)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
 @app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
@@ -471,6 +472,35 @@ def post_cadastrar_caracteristica():
     
     Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
     
+    return redirect("/pagina/cadastrar/categoria")
+
+# EXCLUSÃO DE CATEGORIA, TIPO E CARACTERISTICA --------------------------------------------------------------------------------------------#
+
+# Rota para excluir uma categoria
+@app.route("/post/categoria/remover/<cod_categoria>")
+def remover_categoria(cod_categoria):
+
+    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
+    Categoria.remover_categoria(cod_categoria)
+
+    return redirect("/pagina/cadastrar/categoria")
+
+# Rota para excluir um tipo
+@app.route("/post/tipo/remover/<cod_tipo>")
+def remover_tipo(cod_tipo):
+
+    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
+    Categoria.remover_tipo(cod_tipo)
+
+    return redirect("/pagina/cadastrar/categoria")
+
+# Rota para excluir uma caracteristica
+@app.route("/post/caracteristica/remover/<cod_caracteristica>")
+def remover_caracteristica(cod_caracteristica):
+
+    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
+    Categoria.remover_caracteristica(cod_caracteristica)
+
     return redirect("/pagina/cadastrar/categoria")
 
 # ------------------------------------------------------------------------------------------------------# 
