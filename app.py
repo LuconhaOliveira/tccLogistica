@@ -182,7 +182,7 @@ def post_login():
         return jsonify({
             "status": "error",
             "message": "CPF ou senha inválidos. Tente novamente."
-        }), 401
+        }), 200
 
 
 @app.route("/estante/<id>")
@@ -399,4 +399,5 @@ def post_cadastrar_caracteristica():
 
 # ------------------------------------------------------------------------------------------------------# 
 
-app.run(debug = True)
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=8080, debug=True)
