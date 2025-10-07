@@ -126,3 +126,19 @@ class Estante:
 
         cursor.close()
         conexao.close()
+
+    # Conexao com o banco de dados para excluir uma estante
+    def remover_item_carrinho(cod_estante):
+
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor()
+
+        sql = "DELETE FROM estante WHERE cod_estante = %s;"
+
+        cursor.execute(sql, (cod_estante,))
+        conexao.commit()
+        
+        cursor.close()
+        conexao.close()
+        return True 
