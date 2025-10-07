@@ -45,7 +45,6 @@
     width: 230px;
 }
 
-
 .container--main {
     flex: 1;
     display: flex;
@@ -53,30 +52,64 @@
     align-items: center;
     width: 100%;
     gap: 20px;
+    flex-direction: column;
 }
 
-/* estante selecionada */
+
+
+/* estante selecionada, onde os produtos irão aparecer */
 .container--estante{
-    width: 1000px;
+    width: 1200px;
     height: 500px;
     background-color: var(--grey-dark);
-    border-radius: 10px;
-    justify-content: center;
-    align-items: center;
 
+    border-radius: 10px;
     padding: 10px;
-    gap: 20px;
+    gap: 10px;
     
     display: grid;
-    /* quatro linhas e quatro colunas na estante */
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    /* três linhas e dez colunas na estante */
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    align-items: center;
+    justify-items: center;
 }
 
-.card--produto{
-    display: flex !important;
-}
-
+/* card criado pelo bootstrap (modelo a ser seguido por cada produto) */
 .card{
-    display: flex !important;
+    width: 100px !important;
+    height: 150px !important;
+    border: none !important;
+
+}
+/* corpo do card de produto criado pelo bootstrap */
+.card-body{
+    padding: 0 !important;
+}
+
+.card-img-top{
+    width: 100% !important;
+    height: 40% !important;
+}
+
+
+/* Botão de Excluir estante */
+button[type="submit"] {
+
+    color: var(--black);
+    background-color: var(--grey-medium);
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.5s ;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--orange-color);
+    color: var(--white);
 }
