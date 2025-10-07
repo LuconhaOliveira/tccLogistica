@@ -242,10 +242,10 @@ def post_recuperar_senha():
         }), 500
 
 
-@app.route("/estante/<id>")
-def pagina_estante(id):
+# @app.route("/estante/<id>")
+# def pagina_estante(id):
 
-    return jsonify(Estante.buscar_estante(id))
+#     return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
@@ -340,16 +340,24 @@ def adicionar_estante():
     # Caso o CPF não estiver na sessão
     if not cpf:
         # nega o acesso e redireciona para o login, mostrando o erro no terminal.
-        print("Acesso negado: CPF não encontrado na sessão.")
-        return redirect("/pagina/login") 
+        return jsonify({
+            "status": "erro",
+            "titulo": "Sessão Expirada",
+            "mensagem": "Por favor, faça login novamente para continuar.",
+            "redirect": "/pagina/login" # Indica ao JS para redirecionar
+        }), 401
     
     # Coleta de dados (só pega os dados se o CPF existir)
     nome = request.form.get("nome")
     cod_categoria = request.form.get("cod_categoria")
 
     # Garante que o campo 'cod_categoria' foi preenchido. 
-    if not cod_categoria: 
-        return redirect("/pagina/cadastro_estante") 
+    if not nome or not cod_categoria:
+        return jsonify({
+            "status": "aviso",
+            "titulo": "Campos Vazios",
+            "mensagem": "Preencha o nome e selecione a categoria da estante."
+        }), 400
         
     # Inserção dos dados no Banco caso esteja tudo certo
     try:
@@ -361,21 +369,36 @@ def adicionar_estante():
         
         if sucesso:
             # Caso a inserção de dados seja um sucesso, redireciona para a página principal (futuramente vai aparecer um sweet alert)
-            return redirect("/pagina/principal") 
+            return jsonify({
+                "status": "sucesso",
+                "titulo": "Estante Criada!",
+                "mensagem": f"A estante '{nome}' foi cadastrada com sucesso!"
+            }), 201
         else:
             # Falha no banco de dados (erro interno na classe Estante)
-            print(f"Erro no cadastro do banco de dados: {e}")
-            return redirect("/pagina/cadastro_estante") 
+            print(f"Erro no cadastro do banco de dados para CPF {cpf}.")
+            return jsonify({
+                "status": "erro",
+                "titulo": "Erro no Banco de Dados",
+                "mensagem": "Não foi possível cadastrar a estante. Tente novamente."
+            }), 500
 
     except ValueError: 
         # Erro de formato (se cod_categoria não for um número)
-        print(f"Erro de valor invalido: {e}")
-        return redirect("/pagina/cadastro_estante")
+        return jsonify({
+            "status": "erro",
+            "titulo": "Erro de Formato",
+            "mensagem": "O código da categoria é inválido."
+        }), 400
         
     except Exception as e:
         # Erro genérico de sistema
         print(f"Erro inesperado durante a persistência: {e}")
-        return redirect("/pagina/cadastro_estante")
+        return jsonify({
+            "status": "erro",
+            "titulo": "Erro Inesperado",
+            "mensagem": "Ocorreu um erro desconhecido no servidor."
+        }), 500
     
 # BUSCAR ESTANTE ------------------------------------------------------------------------------------------------------#
 

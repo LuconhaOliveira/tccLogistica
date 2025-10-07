@@ -39,7 +39,7 @@ loginForm.addEventListener('submit', function(event) {
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Redireciona o navegador para a página principal
-                    window.location.href = "/pagina/principal";
+                    window.location.href = "/pagina/cadastro_estante";
                 }
             });
             
