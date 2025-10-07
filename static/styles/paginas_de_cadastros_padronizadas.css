@@ -193,5 +193,21 @@ button[type="submit"]:hover {
     border-radius: 20px;
 }
 
+/* ESPECIFICAÇÕES DA TELA DE RECUPERAR SENHA */
+.container--label--a-voltar{
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-16);
+}
 
+/* Link de logar label */
+.container--label--a-voltar label{
+    margin-top: 10px;
+}
 
+/* Link de logar a */
+.container--label--a-voltar a{
+    text-decoration: underline;
+    color: #EF782F;
+    font-weight: bold;
+}
