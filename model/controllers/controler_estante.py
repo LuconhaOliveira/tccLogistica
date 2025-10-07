@@ -128,7 +128,7 @@ class Estante:
         conexao.close()
 
     # Conexao com o banco de dados para excluir uma estante
-    def remover_item_carrinho(cod_estante):
+    def remover_estante(cod_estante):
 
         conexao = Conection.create_connection()
 
