@@ -24,7 +24,7 @@ def pagina_principal():
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
 
-    return render_template("index.html",estantes=estantes,filtros=filtros)
+    return render_template("pagina_principal.html",estantes=estantes,filtros=filtros)
 
 #API FILTRO
 @app.route("/filtro")
