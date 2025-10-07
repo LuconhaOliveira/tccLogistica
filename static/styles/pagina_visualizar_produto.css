@@ -5,6 +5,10 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: 600;
 }
 
 /* container principal geral para todas as telas */
@@ -20,9 +24,21 @@
 
 .container--card-fundo{   
 
-    background-color: var(--grey-dark);
+    background-color: var(--grey-dark2);
     border-radius: 20px;
-    display: flex;
+
+    width: 1300px;
+    height: auto;
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    
+}
+
+.card{
+
+    margin: 30px 0px 30px 0px;
+    
 }
 
 .container--div-detalhe{
@@ -31,24 +47,92 @@
     border-radius: 15px;
 
     width: 300px;
-    height: 460px;
+    height: 500px;
+
+    margin: 50px;
+}
+
+.container--div-top{
+
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
+
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 20px;
+}
+
+.card-body .card-text{
+
+    width: 190px !important;
+    margin: 0;
+    
+}
+
+.descricao{
+
+    text-align: center;
+    margin-bottom: 10px;
+   
+}
+
+.container--bottom-card{
+
+    align-items: center;
+    justify-content: center;
+
+    align-content: end;
+   
+    justify-content: space-around;
+    display: flex;
 
 }
 
-.esquerda{
+.material-symbols-outlined{
 
-    margin-right: 50px;
-    margin-left: 50px;
-    margin-bottom: 50px;
-    margin-top: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--black);
+}
+
+/* botao */
+.form-control{
+
+    width: 100px !important;
+    height: 50px !important;
+    font-weight: var(--font-size-20) !important;
+}
+
+/* Botão de Login */
+button[type="submit"] {
+
+    background-color: var(--grey-medium);
+    color: var(--dark);
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    width: 180px;
+    height: 60px;
+    cursor: pointer;
+    padding: 5px;
+    transition: background 0.5s ;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--orange-color);
+    color: var(--white);
+}
+
+.img-fluid{
+
+    max-width: auto !important;
+    height: auto !important;
+    border-radius: 10px;
 
 }
 
-.direita{
 
-    margin-right: 50px;
-    margin-left: 50px;
-    margin-bottom: 50px;
-    margin-top: 50px;
 
-}

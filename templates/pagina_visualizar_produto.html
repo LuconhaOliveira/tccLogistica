@@ -43,56 +43,63 @@
             <div class="container--div-detalhe esquerda"></div>
 
             <!-- card -->
-            <div class="card mb-0" style="max-width: 440px; height: 500px;">
-                <div class="row g-0">
+            <div class="card mb-0" style="width: 500px; min-height:550px; background-color: var(--grey-light);">
+                
+                <div class="row g-0" >
 
-                    <div class="col-md-4">
+                    <section class="container--div-top">
 
-                        <!-- imagem -->
-                        <img src="..." class="img-fluid rounded-start" alt="...">
-                    </div>
+                        <div class="col-md-0">
 
-                    <div class="col-md-8">
-
-                        <div class="card-body">
-
-                            <!-- nome do produto -->
-                            <h5 class="card-title">{nome produto}</h5>
-
-                            <!-- categoria -->
-                            <p class="card-text">{categoria}</p>
-
-                            <!-- SKU -->
-                            <p class="card-text">{SKU}</p>
-
-                            <!-- quantidade de produtos existentes -->
-                            <p class="card-text">{quantidade}</p>
-
-                            <!-- preço do produto -->
-                            <p class="card-text">{preço}</p>
-
-
+                            <!-- imagem -->
+                            <img src="https://pegadanatural.com.br/wp-content/uploads/3-maneiras-de-cuidar-do-seu-filhote-de-cachorro-com-qualidade.jpg" class="img-fluid rounded-start" alt="">
                         </div>
+
+                        <div class="col-md-0">
+
+                            <div class="card-body">
+
+                                <!-- nome do produto -->
+                                <p class="card-text">Cachorro</p>
+
+                                <!-- categoria -->
+                                <p class="card-text">Animal</p>
+
+                                <!-- SKU -->
+                                <p class="card-text">CLP</p>
+
+                                <!-- quantidade de produtos existentes -->
+                                <p class="card-text">2324</p>
+
+                                <!-- preço do produto -->
+                                <p class="card-text">R$ 890,50</p>
+
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <!-- descrição -->
+                    <div class="descricao">
+
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex architecto nihil natus harum quo sit error voluptatem. Corrupti modi soluta vel ratione minus molestias assumenda accusamus consequuntur, fuga cum praesentium.</p>
+
                     </div>
 
                     <div class="container--bottom-card">
 
-                        <!-- descrição -->
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
                         <button class="btn btn-primary" type="submit">Incluir no pedido de compra</button>
 
                         <!-- campo de quantidade -->
-                        <div class="mb-3">
-                            <label for="exampleInputQuantidade" class="form-label">Quantidade:</label>
+                        <div class="mb-0">
                             <!-- quantidade: backend do cadastro -->
                             <input name="cadastro-quantidade" type="number" class="form-control"
                                 id="exampleInputQuantidade" min="0" value="0">
                         </div>
 
-                        <span class="material-symbols-outlined">edit</span>
+                        <a href=""><span class="material-symbols-outlined">edit</span> </a> 
 
-                        <span class="material-symbols-outlined">delete</span>
+                        <a href=""><span class="material-symbols-outlined">delete</span></a> 
 
                     </div>
 
