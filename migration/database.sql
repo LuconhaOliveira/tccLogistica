@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS categoria (
     -- Chave primária: Identificador único e sequencial da categoria.
     cod_categoria INT PRIMARY KEY AUTO_INCREMENT,
     -- Nome da categoria. Utiliza VARCHAR(100) para flexibilidade.
-    nome VARCHAR(100),
+    nome VARCHAR(100) UNIQUE,
     -- Data e hora que a categoria foi cadastrada.
     data_hora DATETIME NOT NULL,
 	-- Chave estrangeira: Vincula a alteração ao usuário responsável.
