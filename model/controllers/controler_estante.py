@@ -126,3 +126,39 @@ class Estante:
 
         cursor.close()
         conexao.close()
+
+    # Conexao com o banco de dados para excluir uma estante
+    def remover_estante(cod_estante):
+
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor()
+
+        sql = "DELETE FROM estante WHERE cod_estante = %s;"
+
+        cursor.execute(sql, (cod_estante,))
+        conexao.commit()
+        
+        cursor.close()
+        conexao.close()
+        return True 
+    
+    # Recupera as estantes registradas anteriormente
+    def recuperar_estante(cpf):
+        
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor(dictionary = True) 
+        
+        sql = """select cod_estante, nome, data_hora from estante where cpf = %s;"""
+
+        valor = (cpf,)
+
+        cursor.execute(sql, valor)
+
+        resultado = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return resultado
