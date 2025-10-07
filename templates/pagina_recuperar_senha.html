@@ -31,7 +31,7 @@
 
     <main class="container--main">
         <!-- action/method: backend do login -->
-        <form action="/post/recuperar_senha" method="post" class="container--form">
+        <form action="/post/recuperar_senha" method="post" class="container--form" id="senhaForm">
 
             <h1>Redefina sua Senha</h1>
 
@@ -69,15 +69,15 @@
     <!-- Link importação do Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
-    <!-- Link para importar as máscaras para CPF -->
+        <!-- Link para importar as máscaras para CPF -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 
-    <!-- java script para colocar máscara no CPF -->
-    <script>
+    <!-- import da biblioteca do sweet alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 
-         $('#exampleInputCPF').mask('000.000.000-00', {reverse: true});
+    <!-- java script para colocar máscara no CPF e se comunicar com a api python -->
+    <script src="../static/script/recuperar_senha.js"></script>
 
-    </script>
 </body>
 </html>
