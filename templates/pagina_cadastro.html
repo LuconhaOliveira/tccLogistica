@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/static/styles/paginas_de_cadastros_padronizadas.css">
     <!-- link css variaveis -->
     <link rel="stylesheet" href="/static/styles/variaveis_globais.css">
+    <!-- link formatações de sweet alert -->
+    <link rel="stylesheet" href="/static/styles/sweet-alerts.css">
 
     <!-- ícones Google Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -23,10 +25,8 @@
     
     <!-- header bootstrap -->
     <header class="container--header">
-        <!-- imagem logo -->
-        <img src="/static/img/InStock_logo_transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;">
-
-    </header>
+        <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;">
+     </header>
 
     <!-- container geral / principal -->
     <main class="container--main">
@@ -40,22 +40,20 @@
             <div class="mb-3">
                 <label for="exampleInputCPF" class="form-label">CPF:</label>
                 <!-- name: backend do cadastro -->
-                <input name="cadastro-cpf" class="form-control" id="exampleInputCPF"
-                    aria-describedby="CPFHelp">
+                <input name="cadastro-cpf" minlength="14" class="form-control" id="exampleInputCPF">
             </div>
 
             <!-- campo do Nome -->
             <div class="mb-3">
                 <label for="exampleInputCPF" class="form-label">Nome:</label>
                 <!-- name: backend do cadastro -->
-                <input name="cadastro-nome" type="text" maxlength="50" class="form-control" id="exampleInputName"
-                        aria-describedby="NameHelp">
+                <input name="cadastro-nome" type="text" maxlength="50" class="form-control" id="exampleInputName">
             </div>
 
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Senha:</label>
                 <!-- name: backend do login -->
-                <input name="cadastro-senha" type="password" class="form-control" id="exampleInputPassword1">
+                <input name="cadastro-senha" minlength="8" maxlength="20" type="password" class="form-control" id="exampleInputPassword1">
             </div>
 
             <div class="mb-3 form-check">

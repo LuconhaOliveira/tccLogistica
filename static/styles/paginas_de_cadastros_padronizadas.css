@@ -41,7 +41,6 @@
     width: 120px;
 }
 
-
 /* container principal geral para todas as telas */
 .container--main {
     flex: 1;
@@ -58,17 +57,16 @@
     background-color: var(--grey-light);
     padding: 30px 40px;
     border-radius: 12px;
-    
     width: 750px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Titulo do form para todas as telas */
-.container--form h1 {
+.container--form h1{
     text-align: center;
     font-size: var(--font-size-30);
-    margin-bottom: 25px;
-    font-family: var(--font-cormorant);
+    margin-top: 15px;
+    font-family: var(--font-cinzel);
 }
 
 /* label (textos em cima dos inputs) para todas as telas */
@@ -85,6 +83,11 @@
     font-family: var(--font-outfit);
 }
 
+/* arredondamento das bordas dos inputs */
+.mb-3 input{
+    border-radius: 20px;
+}
+
 /* Botão de todas as telas */
 button[type="submit"] {
 
@@ -97,7 +100,7 @@ button[type="submit"] {
     border-radius: 12px;
     padding: 10px;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 30px;
     cursor: pointer;
     transition: background 0.5s;
 }
@@ -174,5 +177,21 @@ button[type="submit"]:hover {
     transform: scale(1.2);
     text-decoration: wavy;
 }
+
+/* ESPECIFICAÇÕES DA TELA DE ADICIONAR PRODUTO */
+/* subtitulo do form para todas as telas, onde caracteriza e organiza o cadastro */
+.container--form h2 {
+    font-size: var(--font-size-24);
+    margin-bottom: 10px;
+    margin-top: 35px;
+    font-family: var(--font-outfit);
+    text-shadow: 2px 2px 4px rgba(255, 114, 27, 0.6);
+    font-weight: bold;
+}
+
+.mb-3 .form-select{
+    border-radius: 20px;
+}
+
 
 

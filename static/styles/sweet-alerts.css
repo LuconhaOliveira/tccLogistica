@@ -1,0 +1,28 @@
+/* BOTOES DE CONFIRMAÇÃO */
+.swal2-confirm{
+
+    color: var(--white);
+    background-color: var(--grey-medium);
+    
+}
+
+.swal2-confirm:hover{
+
+    color: var(--white);
+    background-color: var(--orange-color);
+
+}
+
+.swal2-title{
+
+    color: var(--black);
+    font-family: var(--font-outfit);
+    
+}
+
+.swal2-html-container{
+
+    color: var(--black);
+    font-family: var(--font-outfit);
+
+}

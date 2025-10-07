@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- link css -->
+    <link rel="stylesheet" href="/static/styles/paginas_de_cadastros_padronizadas.css">
+    <!-- link css variaveis -->
+    <link rel="stylesheet" href="/static/styles/variaveis_globais.css">
+
+    <!-- ícones Google Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <!-- Link importação do Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <title>Cadastrar Produto</title>
+</head>
+
+<body class="container--body">
+    
+    <!-- header bootstrap -->
+    <header class="container--header">
+        <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;">
+     </header>
+
+    <!-- container geral / principal -->
+    <main class="container--main">
+
+        <!-- action/method: backend do cadastro -->
+        <form action="" method="post" class="container--form">
+
+            <h1>Adicionar Produto</h1>
+
+            <h2>Informações do produto:</h2>
+            
+            <!-- campo do nome -->
+            <div class="mb-3">
+                <label for="exampleInputName" class="form-label">Nome:</label>
+                <!-- name: backend do cadastro -->
+                <input name="cadastro-nome" type="text" maxlength="100" class="form-control" id="exampleInputName">
+            </div>
+
+            <!-- campo da descrição -->
+            <div class="mb-3">
+                <label for="exampleInputDescription" class="form-label">Descrição:</label>
+                <!-- description: backend do cadastro -->
+                <input name="cadastro-descricao" type="text" maxlength="255" class="form-control" id="exampleInputDescription">
+            </div>
+
+            <!-- campo de imagem -->
+            <div class="mb-3">
+                <label for="exampleInputPhoto" class="form-label">Imagem:</label>
+
+                <!-- 
+
+                    name="cadastro-imagem" = chave que o backend vai usar para receber o arquivo
+                    type="file" = transforma o campo em um seletor de arquivo
+                    class="form-control" 
+                    id="exampleInputPhoto"
+                    accept="image/*" = indica ao navegador que apenas arquivos de imagem devem ser aceitos e mostrados nas opções de seleção.
+                
+                -->
+
+                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*">
+            </div>
+
+            <!-- campo de quantidade -->
+            <div class="mb-3">
+                <label for="exampleInputQuantidade" class="form-label">Quantidade:</label>
+                <!-- quantidade: backend do cadastro -->
+                <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade" min="0" value="0">
+            </div>
+
+            <!-- campo de valor -->
+            <div class="mb-3">
+                <label for="exampleInputValor" class="form-label">Valor:</label> 
+                <!-- valor: backend do cadastro -->
+                <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:">
+            </div>
+
+            <!-- campo do SKU -->
+            <div class="mb-3">
+                <label for="exampleInputSKU" class="form-label">SKU:</label>
+                <!-- SKU: backend do cadastro -->
+                <input name="cadastro-sku" maxlength="100" class="form-control" id="exampleInputSKU">
+            </div>
+
+            <h2>Endereçamento:</h2>
+
+            <!-- campo de nome da estante -->
+            <div class="mb-3">
+
+                <label for="exampleInputNomeEstante" class="form-label">Nome da Estante:</label>
+
+                <select name="cadastro-nome-estante" class="form-select" id="nomeEstanteSelect">
+        
+                        <option class="select-estante" disabled selected>Selecione uma Estante:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-estante" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- campo da coluna da estante -->
+            <div class="mb-3">
+
+                <label for="exampleInputColunaEstante" class="form-label">Coluna da Estante:</label>
+
+                <select name="cadastro-coluna-estante" class="form-select" id="colunaEstanteSelect">
+        
+                        <option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-coluna" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- campo de linha da estante -->
+            <div class="mb-3">
+
+                <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante:</label>
+
+                <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
+        
+                        <option class="select-linha" disabled selected>Selecione uma Linha:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-linha" selected></option>
+        
+                </select>
+
+            </div>
+
+            <h2>Classificação:</h2>
+
+            <!-- campo de categoria-->
+            <div class="mb-3">
+
+                <label for="exampleInputCategoria" class="form-label">Categoria:</label>
+
+                <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
+        
+                        <option class="select-categoria" disabled selected>Selecione uma categoria:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-categoria" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- campo de tipos de categoria -->
+            <div class="mb-3">
+
+                <label for="exampleInputTipo" class="form-label">Tipo:</label>
+
+                <select name="cadastro-tipo" class="form-select" id="tipoSelect">
+        
+                        <option class="select-tipo" disabled selected>Selecione um tipo:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-tipo" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- campo de caracteristicas -->
+            <div class="mb-3">
+
+                <label for="exampleInputCaracteristicas" class="form-label">Características:</label>
+
+                <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect">
+        
+                        <option class="select-caracteristicas" disabled selected>Selecione uma caracteristica:</option>
+
+                        <!-- aqui vai o jinja -->
+                        <option class="select-caracteristicas" selected></option>
+        
+                </select>
+
+            </div>
+
+            <!-- container do botão de adicionar -->
+            <div class="mb-3 form-check">
+
+                <a href="">
+                    <button class="btn btn-primary" type="submit">Adicionar</button>
+                </a>
+
+            </div>
+            
+        </form>
+
+    </main>
+
+    <footer class="container--footer">
+        <!-- inserir mais tarde -->
+    </footer>
+
+    <!-- Link importação do Bootstrap Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <!-- Link para importar as máscaras para VALOR -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+
+    <!-- java script para colocar máscara no VALOR -->
+    <script>
+
+         $('#exampleInputValor').mask('000.000,00', {reverse: true});
+
+    </script>
+
+</body>
+</html>

@@ -45,26 +45,32 @@
 
     <main class="container--main">
         <!-- action/method: backend do add categoria -->
-        <form action="/post/login" method="post" class="container--form">
+        <form action="/post/cadastro_estante/adicionar" method="post" class="container--form">
             <h1>Adicionar Estante</h1>
 
             <!-- nome da estante -->
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nome da Estante:</label>
                 <!-- name: backend do adicionar nome estante -->
-                <input name="add-nome-estante" type="text" class="form-control"></input>
+                <input name="nome" type="text" class="form-control"></input>
             </div>
 
             <!-- categoria da estante -->
             <div class="mb-3">
                 <label for="exampleInputCategory" class="form-label">Categoria:</label>
                 <!-- name: backend do adicionar categoria -->
-                <select name="add-category" class="form-control"></select>
-                <div id="categoryHelp" class="form-text"></div>
+                
+                <select name="cod_categoria" class="form-control">
+                    <option value="" disabled selected>Selecione a Categoria</option>
+                    {% for categorias in categoria %}
+                    <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
+                    {% endfor %}
+                </select>
+                
             </div>
 
             <div class="mb-3 form-check">
-            <a href="pagina/principal"><button type="submit" class="btn btn-primary">Adicionar</button></a>
+            <a href="/pagina/principal"><button type="submit" class="btn btn-primary">Adicionar</button></a>
             <div class="container--a--label-possuiConta">
             </div>
 

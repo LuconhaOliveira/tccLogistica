@@ -75,11 +75,42 @@ class Usuario:
             else:
                 # Retorna None se as credenciais forem inválidas
                 print("CPF ou senha incorretos.")
-                return None
+                return None, None
 
         except Error as e:
             print(f"Erro ao validar login: {e}")
-            return None
+            return None, None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
+
+    def alterar_senha(cpf, nova_senha):
+
+        cpf_limpo = cpf.replace('.', '').replace('-', '')
+
+        try:
+            
+            senha_criptografada = sha256(nova_senha.encode()).hexdigest()
+            
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor()
+            sql = "UPDATE usuario SET senha = %s WHERE cpf = %s"
+            valores = (senha_criptografada, cpf_limpo)
+            
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            return "Senha alterada com sucesso."
+
+        except Error as e:
+            print(f"Erro ao alterar senha: {e}")
+            return None, None
 
         finally:
             if 'cursor' in locals() and cursor:
