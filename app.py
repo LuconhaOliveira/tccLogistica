@@ -13,7 +13,6 @@ app = Flask(__name__)
 app.secret_key = "ch@v3s3cr3t4444&&@"
 
 # PÁGINA PRINCIPAL ------------------------------------------------------------------------------------------------------# 
-
 # Rota para a página principal
 @app.route("/pagina/principal")
 def pagina_principal():
@@ -26,7 +25,6 @@ def pagina_principal():
     filtros = list(set(filtros))
 
     return render_template("index.html",estantes=estantes,filtros=filtros)
-
 
 #API FILTRO
 @app.route("/filtro")
@@ -49,8 +47,9 @@ def filtro_filtro(filtro):
 
     return jsonify({"estantes": estantes,"filtros": filtros}), 200
 
-# CADASTRO ------------------------------------------------------------------------------------------------------# 
 
+
+# CADASTRO ------------------------------------------------------------------------------------------------------# 
 # Rota para a página de cadastro
 @app.route("/pagina/cadastrar")
 def pagina_cadastrar():
@@ -110,29 +109,27 @@ def post_cadastro():
             "message": "Erro ao realizar o cadastro. Tente novamente ou entre em contato."
         }), 500
 
-# LOGIN ------------------------------------------------------------------------------------------------------# 
 
+
+# LOGIN ------------------------------------------------------------------------------------------------------# 
 @app.route("/logoff")
 def logoff():
     Usuario.deslogar()
     return jsonify({"redirect": "/pagina/login"}), 200
-
 
 # Função da rota principal ("/") do aplicativo.
 
 #    Esta rota é responsável por:
 #    1. Lidar com a exibição da página de login.
 #    2. Capturar e passar qualquer mensagem de erro para o template HTML.
+
 @app.route("/")
 def pagina_logar():
 
     # 1. Renderiza o template HTML da página de login.
     # 'render_template' carrega o arquivo 'pagina_login.html'.
     return render_template('pagina_login.html')
-    
-
-
-
+     
 #    Função da rota responsável por processar o formulário de login (método POST).
 #    Ela recebe o CPF e a senha do formulário, tenta validar as credenciais
 #    e retorna uma resposta JSON (sucesso ou erro) para o cliente.
@@ -183,6 +180,21 @@ def post_login():
             "status": "error",
             "message": "CPF ou senha inválidos. Tente novamente."
         }), 200
+
+
+
+# RECUPERAR SENHA ------------------------------------------------------------------------------------------------------# 
+# Função da rota de recuperar senha do aplicativo.
+
+# Esta rota é responsável por:
+# 1. Lidar com a exibição da página de recuperar senha.
+@app.route("/pagina/recuperar_senha")
+def pagina_recuperar_senha():
+
+    # 1. Renderiza o template HTML da página de recuperar senha.
+    # 'render_template' carrega o arquivo 'pagina_recuperar_senha.html'.
+    return render_template('pagina_recuperar_senha.html')
+
 
 
 @app.route("/estante/<id>")
