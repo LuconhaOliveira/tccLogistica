@@ -239,3 +239,165 @@ CREATE TABLE IF NOT EXISTS item_pedido (
     -- Chave estrangeira: Produto que está sendo pedido.
     FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto)
 );
+
+-- =========================================================================================================
+-- TRIGGERS DE AUDITORIA: PRODUTO E ESTANTE
+-- Propósito: Automatizar o registro de alterações (inserção, atualização e exclusão) realizadas nas tabelas
+-- "produto" e "estante", armazenando os detalhes na tabela de log "alteracao_produto_estante".
+-- Essas triggers garantem rastreabilidade das operações, permitindo auditoria de ações realizadas pelos usuários.
+-- =========================================================================================================
+DELIMITER $$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_produto_insert
+-- MOMENTO: AFTER INSERT
+-- OBJETIVO:
+--     Registrar automaticamente no log cada novo produto inserido na tabela "produto".
+-- FUNCIONAMENTO:
+--     Após a inserção de um novo produto, é criado um registro descritivo informando nome, coluna, linha e quantidade.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_produto_insert
+AFTER INSERT ON produto
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Inserido produto ', NEW.nome, 
+               ' na coluna ', NEW.coluna,
+               ' na linha ', NEW.linha,
+               ' com quantidade ', NEW.quantidade),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_produto_update
+-- MOMENTO: AFTER UPDATE
+-- OBJETIVO:
+--     Registrar no log todas as alterações feitas em um produto existente, incluindo:
+--     - SKU (identificador interno)
+--     - Nome
+--     - Categoria
+--     - Quantidade
+--     - Valor
+--     - Descrição
+-- FUNCIONAMENTO:
+--     Após a atualização, a trigger compara os valores antigos (OLD) e novos (NEW),
+--     gerando uma mensagem detalhada com as mudanças identificadas.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_produto_update
+AFTER UPDATE ON produto
+FOR EACH ROW
+BEGIN
+	INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Alterado produto "', NEW.sku, '", antes "', OLD.sku,
+'";
+ nome: de "',OLD.nome,'" para "',NEW.nome,
+'";
+ categoria: de "',(SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
+'" para "',(SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria),
+'";
+ quantidade: de "',OLD.quantidade,'" para "',NEW.quantidade,
+'";
+ valor: de "',OLD.valor,'" para "',NEW.valor,
+'";
+ descrição: de "',OLD.descricao,'" para "',NEW.descricao,'"'
+),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_produto_delete
+-- MOMENTO: BEFORE DELETE
+-- OBJETIVO:
+--     Registrar no log sempre que um produto for removido da base de dados.
+-- FUNCIONAMENTO:
+--     Antes da exclusão do registro, a trigger armazena no log o nome do produto,
+--     sua localização (coluna/linha) e a quantidade existente no momento da exclusão.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_produto_delete
+BEFORE DELETE ON produto
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Deletado produto ', OLD.nome, 
+               ' na coluna ', OLD.coluna,
+               ' na linha ', OLD.linha,
+               ' em quantidade ', OLD.quantidade),
+        NOW(),
+        OLD.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_estante_insert
+-- MOMENTO: AFTER INSERT
+-- OBJETIVO:
+--     Registrar automaticamente a criação de uma nova estante.
+-- FUNCIONAMENTO:
+--     Após o INSERT em "estante", cria uma linha de log informando o nome da estante cadastrada.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_estante_insert
+AFTER INSERT ON estante
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Inserida estante ', NEW.nome),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_estante_update
+-- MOMENTO: AFTER UPDATE
+-- OBJETIVO:
+--     Registrar mudanças realizadas no nome da estante (ou outras futuras colunas editáveis).
+-- FUNCIONAMENTO:
+--     Após a atualização, registra no log a alteração de nome, indicando o valor anterior e o novo.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_estante_update
+AFTER UPDATE ON estante
+FOR EACH ROW
+BEGIN
+	INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Alterada estante ', OLD.nome, ' para ', NEW.nome),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_estante_delete
+-- MOMENTO: BEFORE DELETE
+-- OBJETIVO:
+--     Registrar a exclusão de uma estante do sistema.
+-- FUNCIONAMENTO:
+--     Antes da exclusão do registro, grava no log o nome da estante deletada e o CPF do responsável.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_estante_delete
+BEFORE DELETE ON estante
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Deletada estante ', OLD.nome),
+        NOW(),
+        OLD.cpf
+    );
+END$$
+
+DELIMITER ;
