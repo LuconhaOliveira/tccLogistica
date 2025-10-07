@@ -266,7 +266,11 @@ def post_deletar_produto():
 @app.route("/pagina/cadastro_estante")
 def pagina_cadastrar_estante():
 
-    return render_template('pagina_estante.html')
+    if "cpf" in session:
+        cpf = session["cpf"]
+        categoria = Categoria.recuperar_categoria(cpf)
+
+    return render_template("pagina_estante.html", categoria = categoria)
 
 
 # Rota que processa os dados do formulário de cadastrar estante (requisição POST).
@@ -283,10 +287,7 @@ def adicionar_estante():
         return redirect("/pagina/login") 
     
     # Coleta de dados (só pega os dados se o CPF existir)
-    enderecamento = request.form.get("enderecamento")
-    estante = request.form.get("estante")
-    linha = request.form.get("linha")
-    coluna = request.form.get("coluna")
+    nome = request.form.get("nome")
     cod_categoria = request.form.get("cod_categoria")
 
     # Garante que o campo 'cod_categoria' foi preenchido. 
@@ -296,17 +297,14 @@ def adicionar_estante():
     # Inserção dos dados no Banco caso esteja tudo certo
     try:
         sucesso = Estante.cadastrar_estante(
-            enderecamento, 
-            estante, 
-            linha, 
-            coluna, 
+            nome,
             cpf, 
             int(cod_categoria)
         )
         
         if sucesso:
             # Caso a inserção de dados seja um sucesso, redireciona para a página principal (futuramente vai aparecer um sweet alert)
-            return redirect(f"/estante/{cod_categoria}") 
+            return redirect("/pagina/principal") 
         else:
             # Falha no banco de dados (erro interno na classe Estante)
             print(f"Erro no cadastro do banco de dados: {e}")

@@ -1,6 +1,7 @@
 from data.conexao import Conection
 from flask import session
 from mysql.connector import Error
+import datetime
 
 class Estante:
 
@@ -103,23 +104,21 @@ class Estante:
                 conexao.close()
 
     # Conexao com o banco de dados para criar uma nova estante
-    def cadastrar_estante(enderecamento, estante, linha, coluna, cpf, cod_categoria):
+    def cadastrar_estante(nome, cpf, cod_categoria):
+
+        data_hora = datetime.datetime.today()
             
         conexao = Conection.create_connection()
 
         cursor = conexao.cursor()
 
         sql = """INSERT INTO estante (
-                        enderecamento, 
-                        estante,
-                        linha,
-                        coluna,
-                        cpf,
-                        cod_categoria)
+                        nome, data_hora, cpf, cod_categoria)
                     VALUES (
-                        %s, %s, %s, %s, %s, %s)"""
+                        %s, %s, %s, %s)"""
 
-        valores = (enderecamento, estante, linha, coluna, cpf, cod_categoria)
+        nome = nome.upper()
+        valores = (nome, data_hora, cpf, cod_categoria)
 
         cursor.execute(sql, valores)
 
