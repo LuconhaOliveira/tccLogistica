@@ -18,10 +18,6 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 @app.route("/pagina/principal")
 def pagina_principal():
 
-    if "cpf" in session:
-        cpf = session["cpf"]
-        categoria = Categoria.recuperar_categoria(cpf)
-
     estantes = Estante.buscar_estantes()
 
     if estantes is None:
@@ -30,7 +26,7 @@ def pagina_principal():
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
 
-    return render_template("index.html",estantes=estantes,filtros=filtros, categoria = categoria)
+    return render_template("pagina_principal.html",estantes=estantes,filtros=filtros)
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
