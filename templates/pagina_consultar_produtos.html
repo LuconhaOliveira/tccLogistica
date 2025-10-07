@@ -45,19 +45,22 @@
 
         <!-- estante selecionada -->
         <div class="container--estante">
-
+            <div class="grid-row row-1">Linha 1</div>
+            <div class="grid-row row-2">Linha 2</div>
+            <div class="grid-row row-3">Linha 3</div>
+            
+            
             <!-- card modelo de cada produto que irá aparecer -->
-            <div class="card card--produto">
-                <article>
-                    <div class="card-body">
-                        <img src="https://s.zst.com.br/cms-assets/2024/08/raca-de-cachorro_2.webp" class="card-img-top" alt="...">
-                        <label class="card-title">[Nome do produto]</label>
-                        <label class="card-title">[Categoria]</label>
-                        <!-- ordem de endereçamento será mandado por coluna e depois linha, para condizer com a tabela -->
-                        <label for="">[endereçamento]</label>
-                    </div>
-                </article>
-            </div>
+                
+            <!-- <div class="card--produto" style="
+                    /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
+                    grid-row: {{ produto.grid_linha }}; 
+                    grid-column: {{ produto.grid_coluna_start }} / span {{ produto.grid_coluna_span }};
+                ">
+                    <img src="{{ produto.url_foto }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
+                    <h3 class="nome--produto">{{ produto.nome }}</h3>
+                    <p class="endereco--produto">Endereço: **{{ produto.endereco }}**</p>
+            </div> -->
 
         </div>
 

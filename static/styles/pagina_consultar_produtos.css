@@ -56,41 +56,94 @@
 }
 
 
-
 /* estante selecionada, onde os produtos irão aparecer */
 .container--estante{
     width: 1200px;
     height: 500px;
-    background-color: var(--grey-dark);
 
-    border-radius: 10px;
-    padding: 10px;
+    display: grid;
+    /* Define 10 colunas de larguras iguais */
+    grid-template-columns: repeat(10, 1fr);
+    /* Define 3 linhas */
+    grid-template-rows: repeat(3, 1fr);
     gap: 10px;
     
-    display: grid;
-    /* três linhas e dez colunas na estante */
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    background-color: var(--grey-dark);
+    padding: 10px;
+    border-radius: 8px;
+
+    
+}
+
+/* card de produto */
+.card--produto {
+    /* ATENÇÃO: AS PROPRIEDADES grid-row e grid-column FORAM REMOVIDAS DAQUI! 
+    Elas são injetadas dinamicamente via Jinja no HTML. */
+    
+
+    background-color: var(--white); /* Fundo branco */
+    border: 1px solid var(--grey-medium);
+    border-radius: 5px;
+    padding: 5px;
+    
+    /* Para organizar o conteúdo do card */
+    display: flex;
+    flex-direction: column; /* Organiza os itens (foto, nome, endereço) verticalmente */
     align-items: center;
-    justify-items: center;
-}
-
-/* card criado pelo bootstrap (modelo a ser seguido por cada produto) */
-.card{
-    width: 100px !important;
-    height: 150px !important;
-    border: none !important;
+    text-align: center;
 
 }
-/* corpo do card de produto criado pelo bootstrap */
-.card-body{
-    padding: 0 !important;
+.nome--produto{
+    margin: 0 0 5px 0;
+    font-size: 1em;
+}
+.endereco--produto{
+    margin: 0;
+    font-size: 0.8em;
+}
+.imagem--produto{
+    width: 100%; /* Ocupa a largura total do card */
+    max-height: 100px;
+    border-radius: 3px;
+    margin-bottom: 5px;
 }
 
-.card-img-top{
-    width: 100% !important;
-    height: 40% !important;
+
+
+
+
+
+
+.grid-row {
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    border-radius: 5px;
 }
+/* Todos ocupam da 1ª coluna até a última (-1) */
+.row-1 {
+    grid-column: 1 / -1; 
+    grid-row: 1; 
+    background-color: var(--grey-medium);
+}
+.row-2 {
+    grid-column: 1 / -1; 
+    grid-row: 2; 
+    background-color: var(--grey-medium);
+}
+.row-3 {
+    grid-column: 1 / -1; 
+    grid-row: 3; 
+    background-color: var(--grey-medium);
+}
+
+
+
+
+
 
 
 /* Botão de Excluir estante */
