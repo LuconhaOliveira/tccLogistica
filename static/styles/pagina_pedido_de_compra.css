@@ -1,0 +1,21 @@
+/* Header para todas as telas */
+.container--header {
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Footer para todas as telas */
+.container--footer{
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
