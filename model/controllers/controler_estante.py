@@ -142,3 +142,23 @@ class Estante:
         cursor.close()
         conexao.close()
         return True 
+    
+    # Recupera as estantes registradas anteriormente
+    def recuperar_estante(cpf):
+        
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor(dictionary = True) 
+        
+        sql = """select cod_estante, nome, data_hora from estante where cpf = %s;"""
+
+        valor = (cpf,)
+
+        cursor.execute(sql, valor)
+
+        resultado = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return resultado
