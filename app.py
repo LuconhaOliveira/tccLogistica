@@ -266,7 +266,9 @@ def post_deletar_produto():
 @app.route("/pagina/cadastro_estante")
 def pagina_cadastrar_estante():
 
-    categoria = Categoria.recuperar_categoria()
+    if "cpf" in session:
+        cpf = session["cpf"]
+        categoria = Categoria.recuperar_categoria(cpf)
 
     return render_template("pagina_estante.html", categoria = categoria)
 
