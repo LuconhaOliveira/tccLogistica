@@ -1,0 +1,131 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Header para todas as telas */
+.container--header {
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Footer para todas as telas */
+.container--footer{
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+/* 
+.btn-cadastrarProdCatEst .btn.btn-primary {
+    position: fixed;
+    margin-left: 1450px;
+    margin-top: 530px;
+    background-color: #EF782F;
+    border: none;
+    border-radius: 100px;
+
+} */
+
+.btn-cadastrarProdCatEst .btn.btn-primary:hover {
+    background-color: #EF782F;
+    border: none;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.762);
+}
+
+.section--card-filtrosCategoria .card .card-body {
+  height: 608px;
+  width: 169px;
+  background-color: #BCBCBC;
+  box-sizing: border-box;
+  z-index: -1;
+  top: 100px;
+}
+
+/* Logo para todas as telas */
+.img--InStock-logo {
+    width: 120px;
+}
+
+.container--body {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+}
+
+
+
+.btn-cadastrarProdCatEst .material-symbols-outlined{
+    height: 40px;
+    width: 30px;
+}
+
+.btn  .material-symbols-outlined  {
+    align-content: center;
+    font-size: 30px;
+
+}
+
+.btn-cadastrarProdCatEst .section--button-opcoes {
+    text-align: right;
+    border-radius: 15px;
+    width: 200px; 
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 5px; 
+    background-color: #A9A9A9;
+    float: right;
+    display: none;
+}
+
+.section--button-opcoes a{
+    display: block; 
+    padding: 10px;
+    text-align: left;
+    text-decoration: none;
+    color: #000000;
+
+    margin-left: 9px;
+    margin-right: 10px;
+
+    align-items: center;
+    align-content: center;
+        
+}
+
+.section--button-opcoes .h2--title-cadastrar{
+    margin-right: 47px;
+}
+
+
+.section--button-opcoes a:hover {
+    background-color: #EF782F ;
+    color: white;
+}
+
+.section--button-opcoes{
+    position: fixed;
+    top: 390px;
+    left: 1300px;
+    background-color: #999; 
+    padding: 20px;
+    border-radius: 15px;
+}
+
+.h2--title-cadastrar{
+    font-size:25px;
+    margin-right: 55px;
+}
