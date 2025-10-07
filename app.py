@@ -196,7 +196,28 @@ def pagina_recuperar_senha():
     # 'render_template' carrega o arquivo 'pagina_recuperar_senha.html'.
     return render_template('pagina_recuperar_senha.html')
 
-# CADASTRO DE PRODUTO ------------------------------------------------------------------------------------------------------#
+@app.route("/post/recuperar_senha", methods=["POST"])
+def post_recuperar_senha():
+
+    # 1. Captura os dados do formulário enviado via POST
+    # Obtém o valor do campo 'login-cpf' do formulário
+    cpf = request.form.get("login-cpf")
+    # Obtém o valor do campo 'login-senha' do formulário
+    nova_senha = request.form.get("login-senha")
+    print(nova_senha)
+
+    print(Usuario.alterar_senha(cpf,nova_senha))
+
+    # 1. Renderiza o template HTML da página de recuperar senha.
+    # 'render_template' carrega o arquivo 'pagina_recuperar_senha.html'.
+    return redirect("/")
+
+
+@app.route("/estante/<id>")
+def pagina_estante(id):
+    print(Estante.buscar_estante(id))
+
+    return redirect(url_for('pagina_logar'))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
