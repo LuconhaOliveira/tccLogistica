@@ -326,8 +326,10 @@ def adicionar_estante():
 @app.route("/pagina/cadastrar/categoria")
 def pagina_cadastrar_categoria():
 
-    categoria = Categoria.recuperar_categoria()
-    tipo = Categoria.recuperar_tipo()
+    if "cpf" in session:
+        cpf = session["cpf"]
+        categoria = Categoria.recuperar_categoria(cpf)
+        tipo = Categoria.recuperar_tipo(cpf)
 
     return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo)
 
@@ -393,9 +395,6 @@ def post_cadastrar_caracteristica():
     Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
     
     return redirect("/pagina/cadastrar/categoria")
-
-# RECUPERAR CATEGORIA,TIPO E CARACTERISTICA ------------------------------------------------------------------------------------------------------# 
-
 
 # ------------------------------------------------------------------------------------------------------# 
 
