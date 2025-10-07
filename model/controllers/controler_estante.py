@@ -48,12 +48,10 @@ class Estante:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = """SELECT produto.nome, produto.sku, produto.imagem, tipo.nome AS 'tipo'
+            sql = """SELECT produto.nome AS 'nome', produto.imagem AS 'imagem', produto.coluna AS 'coluna', produto.linha AS 'linha', estante.nome AS 'estante'
                         FROM produto INNER JOIN usuario ON usuario.cpf = produto.cpf
-                        INNER JOIN armazenamento ON armazenamento.cod_produto = produto.cod_produto
-                        INNER JOIN estante ON armazenamento.cod_estante = estante.cod_estante
-                        INNER JOIN tipo ON tipo.cod_tipo=produto.cod_tipo
-                        WHERE usuario.cpf= %s and estante.enderecamento= %s"""
+                        INNER JOIN estante ON produto.cod_estante = estante.cod_estante
+                        WHERE usuario.cpf= %s and estante.cod_estante= %s"""
             valores = (session["cpf"],id)
             
             cursor.execute(sql, valores)
