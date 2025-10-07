@@ -12,10 +12,12 @@ app = Flask(__name__)
 # Usada para criptografar os cookies de sessão (como 'cpf'), garantindo que os dados da sessão não possam ser lidos ou adulterados pelo usuário.
 app.secret_key = "ch@v3s3cr3t4444&&@"
 
-# PÁGINA PRINCIPAL ------------------------------------------------------------------------------------------------------# 
+# PÁGINA PRINCIPAL ------------------------------------------------------------------------------------------------------#
+ 
 # Rota para a página principal
 @app.route("/pagina/principal")
 def pagina_principal():
+
     estantes = Estante.buscar_estantes()
 
     if estantes is None:
@@ -24,7 +26,9 @@ def pagina_principal():
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
 
-    return render_template("index.html",estantes=estantes,filtros=filtros)
+    return render_template("pagina_principal.html",estantes=estantes,filtros=filtros)
+
+# FILTROS ------------------------------------------------------------------------------------------------------#
 
 #API FILTRO
 @app.route("/filtro")
@@ -47,9 +51,8 @@ def filtro_filtro(filtro):
 
     return jsonify({"estantes": estantes,"filtros": filtros}), 200
 
-
-
-# CADASTRO ------------------------------------------------------------------------------------------------------# 
+# CADASTRO DE USUÁRIO ------------------------------------------------------------------------------------------------------#
+ 
 # Rota para a página de cadastro
 @app.route("/pagina/cadastrar")
 def pagina_cadastrar():
@@ -109,9 +112,8 @@ def post_cadastro():
             "message": "Erro ao realizar o cadastro. Tente novamente ou entre em contato."
         }), 500
 
-
-
 # LOGIN ------------------------------------------------------------------------------------------------------# 
+
 @app.route("/logoff")
 def logoff():
     Usuario.deslogar()
@@ -181,9 +183,8 @@ def post_login():
             "message": "CPF ou senha inválidos. Tente novamente."
         }), 200
 
-
-
-# RECUPERAR SENHA ------------------------------------------------------------------------------------------------------# 
+# RECUPERAR SENHA ------------------------------------------------------------------------------------------------------#
+ 
 # Função da rota de recuperar senha do aplicativo.
 
 # Esta rota é responsável por:
@@ -195,6 +196,21 @@ def pagina_recuperar_senha():
     # 'render_template' carrega o arquivo 'pagina_recuperar_senha.html'.
     return render_template('pagina_recuperar_senha.html')
 
+@app.route("/post/recuperar_senha", methods=["POST"])
+def post_recuperar_senha():
+
+    # 1. Captura os dados do formulário enviado via POST
+    # Obtém o valor do campo 'login-cpf' do formulário
+    cpf = request.form.get("login-cpf")
+    # Obtém o valor do campo 'login-senha' do formulário
+    nova_senha = request.form.get("login-senha")
+    print(nova_senha)
+
+    print(Usuario.alterar_senha(cpf,nova_senha))
+
+    # 1. Renderiza o template HTML da página de recuperar senha.
+    # 'render_template' carrega o arquivo 'pagina_recuperar_senha.html'.
+    return redirect("/")
 
 
 @app.route("/estante/<id>")
@@ -246,7 +262,8 @@ def post_produto():
     else:
         # Redireciona de volta com erro
         return redirect("/pagina/produto") 
-    
+
+# EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
 @app.route("/post/deletar_produto", methods=["POST"])
 def post_deletar_produto():
@@ -331,6 +348,24 @@ def adicionar_estante():
         # Erro genérico de sistema
         print(f"Erro inesperado durante a persistência: {e}")
         return redirect("/pagina/cadastro_estante")
+    
+# BUSCAR ESTANTE ------------------------------------------------------------------------------------------------------#
+
+@app.route("/estante/<id>")
+def pagina_estante(id):
+    print(Estante.buscar_estante(id))
+
+    return redirect(url_for('pagina_logar'))
+    
+# EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
+
+# Rota para excluir uma estante 
+@app.route("/post/estante/remover/<cod_estante>")
+def remover_estante(cod_estante):
+    # Chama a função do controler, remove a estante e redireciona para a pagina principal
+    Estante.remover_estante(cod_estante)
+    return redirect("/pagina/principal")
+
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
