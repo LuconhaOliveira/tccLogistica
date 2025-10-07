@@ -204,20 +204,48 @@ def post_recuperar_senha():
     cpf = request.form.get("login-cpf")
     # Obtém o valor do campo 'login-senha' do formulário
     nova_senha = request.form.get("login-senha")
-    print(nova_senha)
 
-    print(Usuario.alterar_senha(cpf,nova_senha))
 
-    # 1. Renderiza o template HTML da página de recuperar senha.
-    # 'render_template' carrega o arquivo 'pagina_recuperar_senha.html'.
-    return redirect("/")
+    if not cpf or not nova_senha:
+        return jsonify({
+            "status": "error",
+            "message": "Todos os campos são obrigatórios."
+        }), 400
+
+    try:
+        # 3. Execução da Lógica de Negócio.
+        # Chama o método 'cadastrar_usuario' do modelo 'Usuario'.
+        # Espera-se que este método execute o hash da senha (segurança) e o INSERT no banco de dados.
+        # A responsabilidade de limpeza do CPF (remoção de pontos/traços) é delegada a este método,
+        # mantendo a rota limpa e focada no controle de fluxo.
+        Usuario.alterar_senha(cpf, nova_senha)
+
+        # 4. Resposta de Sucesso.
+        # Em caso de cadastro bem-sucedido, retorna o status HTTP 200 (OK)
+        # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
+        return jsonify({
+            "status": "success",
+            "message": "Alteração realizada com sucesso! Faça login para continuar."
+        }), 200
+    
+    except Exception as e:
+        # 5. Tratamento de Exceções.
+        # Este bloco captura erros que podem ocorrer na camada de acesso ao banco de dados (DAO),
+        # como a tentativa de inserir um CPF duplicado (violação de chave primária) ou falhas de conexão.
+        print(f"Erro ao cadastrar usuário: {e}") 
+
+        # Retorna o status HTTP 500 (Internal Server Error) para indicar um erro do servidor/sistema,
+        # garantindo que o frontend receba um código de erro apropriado para o tratamento.
+        return jsonify({
+            "status": "error",
+            "message": "Erro ao realizar a alteração. Tente novamente ou entre em contato."
+        }), 500
 
 
 @app.route("/estante/<id>")
 def pagina_estante(id):
-    print(Estante.buscar_estante(id))
 
-    return redirect(url_for('pagina_logar'))
+    return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
