@@ -20,11 +20,8 @@ function alterar_estantes(estantes){
 
     estantes.forEach(estante => {
         html += `<div>
-            <a href="/estante/${estante.enderecamento}">${estante.enderecamento}</a>
-                <ul>
-                    <li>${estante.estante}</li>
-                    <li>${estante.categoria}</li>
-                </ul>
+            <a href="/estante/${estante.cod_estante}">${estante.nome}</a>
+                <p>${estante.categoria}</p>
             </div>`
     });
 
@@ -35,9 +32,9 @@ function alterar_estantes(estantes){
 
 
 async function alteracao_front(button) {
-    let button_id=button.target.id;
-    if(!button.target.checked)button_id='';
-    let json = await requisicao_filtros(button_id)
+    let button_value=button.target.value;
+    if(!button.target.checked)button_value='';
+    let json = await requisicao_filtros(button_value)
     let estantes = json.estantes;
 
     alterar_estantes(estantes);
@@ -47,8 +44,8 @@ function alterar_filtros(filtros){
     let checkbox = '';
 
     filtros.forEach(filtro => {
-        checkbox += `<input type="radio" id=${filtro} name="filtro" value=${filtro}>
-                <label for=${filtro}>${filtro}</label><br />`;
+        checkbox += `<input type="radio" id=${filtro.nome} name="estante_filtro" value=${filtro.cod_categoria}>
+                <label for=${filtro.nome}>${filtro.nome}</label><br />`;
     });
 
     checkbox+=`<button type="reset">Limpar filtro</button>`

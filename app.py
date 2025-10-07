@@ -18,15 +18,7 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 @app.route("/pagina/principal")
 def pagina_principal():
 
-    estantes = Estante.buscar_estantes()
-
-    if estantes is None:
-        estantes = []
-
-    filtros = [i["categoria"] for i in estantes]
-    filtros = list(set(filtros))
-
-    return render_template("pagina_principal.html",estantes=estantes,filtros=filtros)
+    return render_template("pagina_principal.html")
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
@@ -35,8 +27,12 @@ def pagina_principal():
 def filtro():
     estantes = Estante.buscar_estantes()
 
-    filtros = [i["categoria"] for i in estantes]
-    filtros = list(set(filtros))
+    filtros = []
+    for i in estantes:
+        item = {'nome': i["categoria"], 'cod_categoria': i["cod_categoria"]}
+        if item not in filtros:
+            filtros.append(item)
+
 
 
     return jsonify({"estantes": estantes,"filtros": filtros}), 200
@@ -46,8 +42,11 @@ def filtro():
 def filtro_filtro(filtro):
     estantes = Estante.buscar_estantes_filtro(filtro)
 
-    filtros = [i["categoria"] for i in estantes]
-    filtros = list(set(filtros))
+    filtros = []
+    for i in estantes:
+        item = {'nome': i["categoria"], 'cod_categoria': i["cod_categoria"]}
+        if item not in filtros:
+            filtros.append(item)
 
     return jsonify({"estantes": estantes,"filtros": filtros}), 200
 
@@ -242,10 +241,6 @@ def post_recuperar_senha():
         }), 500
 
 
-@app.route("/estante/<id>")
-def pagina_estante(id):
-
-    return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")

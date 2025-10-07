@@ -11,18 +11,22 @@ class Estante:
             if not conexao:
                 return None
 
-            cursor = conexao.cursor()
+            cursor = conexao.cursor(dictionary=True)
             
-            sql = "SELECT estante.enderecamento,estante.estante,categoria.nome FROM estante INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria WHERE estante.cpf= %s"
+            sql = "SELECT estante.cod_estante,estante.nome AS 'nome',categoria.nome AS 'categoria',estante.cod_categoria " \
+            "FROM estante INNER JOIN categoria ON " \
+            "categoria.cod_categoria = estante.cod_categoria " \
+            "WHERE estante.cpf= %s"
             valores = (session["cpf"],)
             
             cursor.execute(sql, valores)
             
             resultado = cursor.fetchall()
+            print(resultado)
             
             if resultado:
-                estantes = [{"enderecamento":estante[0], "estante": estante[1], "categoria": estante[2]} for estante in resultado]
-                return estantes
+                #estantes = [{"cod_estante":estante[0], "nome": estante[1], "categoria": estante[2]} for estante in resultado]
+                return resultado
             else:
                 return None
 
@@ -77,9 +81,11 @@ class Estante:
             if not conexao:
                 return None
 
-            cursor = conexao.cursor()
-            
-            sql = """SELECT estante.enderecamento,estante.estante,categoria.nome FROM estante INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria WHERE estante.cpf= %s AND categoria.nome=%s"""
+            cursor = conexao.cursor(dictionary=True)
+            sql = """SELECT estante.cod_estante,estante.nome AS 'nome',categoria.nome AS 'categoria',estante.cod_categoria 
+            FROM estante INNER JOIN categoria 
+            ON categoria.cod_categoria = estante.cod_categoria 
+            WHERE estante.cpf= %s AND categoria.cod_categoria=%s"""
             valores = (session["cpf"],filtro)
             
             cursor.execute(sql, valores)
@@ -88,8 +94,7 @@ class Estante:
             
             if resultado:
                 print(resultado)
-                estantes = [{"enderecamento":estante[0], "estante": estante[1], "categoria": estante[2]} for estante in resultado]
-                return estantes
+                return resultado
             else:
                 return None
 
