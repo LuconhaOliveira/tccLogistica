@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal - Gerenciador de Produtos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+        .menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .menu-item {
+            display: block;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            padding: 15px 25px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s;
+            width: 100%;
+            max-width: 250px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .menu-item:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .logout {
+            margin-top: 40px;
+        }
+        .logout a {
+            color: #dc3545;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 1px solid #dc3545;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .logout a:hover {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Página Principal</h1>
+        <p>Acesse as funcionalidades do sistema abaixo:</p>
+        
+        <div class="menu">
+            <a href="/pagina/principal" class="menu-item">Ver Estantes (Home)</a>
+
+            <a href="/pagina/produto" class="menu-item">Cadastrar Novo Produto</a>
+
+            <a href="/pagina/cadastro_estante" class="menu-item">Cadastrar Nova Estante</a>
+
+            <a href="/pagina/cadastrar/categoria" class="menu-item">Gerenciar Categorias/Tipos</a>
+
+            <a href="/pagina/recuperar_senha" class="menu-item">Alterar Senha</a>
+
+            <a href="/pagina/histotico_alteracoes" class="menu-item">Historico</a>
+        </div>
+        
+        <div class="logout">
+            <a href="/logoff">Sair (Logoff)</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ from model.controllers.controller_usuario import Usuario
 from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
+from model.controllers.controller_historico import Historico
 
 app = Flask(__name__)
 
@@ -242,10 +243,10 @@ def post_recuperar_senha():
         }), 500
 
 
-@app.route("/estante/<id>")
-def pagina_estante(id):
+# @app.route("/estante/<id>")
+# def pagina_estante(id):
 
-    return jsonify(Estante.buscar_estante(id))
+#     return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
@@ -503,7 +504,18 @@ def remover_caracteristica(cod_caracteristica):
 
     return redirect("/pagina/cadastrar/categoria")
 
-# ------------------------------------------------------------------------------------------------------# 
+# RECUPERA O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
+
+@app.route("/pagina/histotico_alteracoes")
+def pagina_historico_alteracao():
+
+    if "cpf" in session:
+        cpf = session["cpf"]
+        alteracoes = Historico.recuperar_historico_alteracoes(cpf)
+
+    return render_template("pagina_historico_alteracoes.html", alteracoes = alteracoes)
+
+# ----------------------------------------------------------------------------------------------------------------------------# 
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)

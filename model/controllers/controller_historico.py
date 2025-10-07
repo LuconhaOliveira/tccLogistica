@@ -1,18 +1,15 @@
 from data.conexao import Conection
-from flask import session
-from mysql.connector import Error
-import datetime
 
 class Historico:
 
-    # Recupera as estantes registradas anteriormente
+    # Recupera as alterações dos produtos e estantes 
     def recuperar_historico_alteracoes(cpf):
         
         conexao = Conection.create_connection()
 
         cursor = conexao.cursor(dictionary = True) 
         
-        sql = """ """
+        sql = """ select cod_alteracao, alteracao_realizada, data_hora from alteracao_produto_estante where cpf = %s;"""
 
         valor = (cpf,)
 
