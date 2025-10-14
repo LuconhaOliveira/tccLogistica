@@ -1,0 +1,164 @@
+/* body para todas as telas */
+.container--body {
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: 600;
+}
+
+/* container principal geral para todas as telas */
+.container--main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.container--card-fundo{   
+
+    background-color: var(--grey-dark2);
+    border-radius: 20px;
+
+    width: 1550px;
+    height: auto;
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    align-items: center; 
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
+    
+}
+
+.card{
+
+    margin: 30px 0px 30px 0px;
+    box-shadow: 0 6px 44px rgba(0, 0, 0, 0.6);
+
+}
+
+/* detalhes da gaveta */
+.container--div-detalhe{
+
+    background-color: var(--grey-medium);
+    border-radius: 15px;
+
+    width: 400px;
+    height: 85%;
+
+    margin: 50px;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
+}
+
+.container--div-top{
+
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
+
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 20px;
+}
+
+.card-body{
+
+    margin-left: 8px;
+}
+
+/* container da descrição */
+.container--div-descricao{
+
+    background-color: var(--white);
+    border-radius: 15px;
+
+    text-align: center;
+    margin: 3% 5% 1% 5% !important;
+
+    width: 90% !important;
+    height: auto;
+     
+}
+
+.row{
+    display: block !important;
+}
+
+/* parte de baixo do container de produto */
+.container--bottom-card{
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+}
+
+/* icones */
+.material-symbols-outlined{
+    cursor: pointer;
+    color: var(--black);
+}
+
+/* tamanho dos icones */
+.container--bottom-card .material-symbols-outlined {
+
+    font-size: larger;
+
+}
+   
+/* botao de quantidade */
+.form-control{
+
+    width: 120px !important;
+    height: 50px !important;
+    font-size: var(--font-size-20) !important;
+    font-weight: bold !important;
+}
+
+/* Botão de Login */
+button[type="submit"] {
+
+    background-color: var(--grey-medium);
+    color: var(--dark);
+    font-size: var(--font-size-20) !important;
+    
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    width: 180px;
+    height: 70px;
+    cursor: pointer;
+    padding: 6px;
+    margin: 10px;
+    transition: background 0.5s ;
+    transition: transform 0.3s ease-out;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--orange-color);
+    color: var(--white);
+    transform: scale(1.02);
+}
+
+/* imagem */
+.img-fluid{
+
+    height: 300px !important;
+    width: 400px !important;
+    border-radius: 10px;
+
+    margin: 5px;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
+
+}
+
+
+
