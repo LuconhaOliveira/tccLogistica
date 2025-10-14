@@ -502,10 +502,13 @@ def remover_caracteristica(cod_caracteristica):
 @app.route("/pagina/historico_alteracoes")
 def pagina_historico_alteracao():
 
+    # Se o CPF estiver na sessão.
     if "cpf" in session:
         cpf = session["cpf"]
+        # Recupera todas as alterações realizadas.
         alteracoes = Historico.recuperar_historico_alteracoes(cpf)
 
+    # Redireciona para a página de histórico de alterações, recuperando elas.
     return render_template("pagina_historico_alteracoes.html", alteracoes = alteracoes)
 
 # EXCLUI O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
@@ -513,13 +516,19 @@ def pagina_historico_alteracao():
 @app.route("/pagina/excluir/historico_alteracoes", methods=['POST'])
 def pagina_excluir_historico_alteracao():
 
+    # Se o CPF estiver na sessão
     if "cpf" in session:
         cpf = session["cpf"]
-        alteracoes = Historico.excluir_historico_alteracoes(cpf)
 
-    
+        # Executa a função de exclusão
+        Historico.excluir_historico_alteracoes(cpf)
+        
+        # Após a exclusão, redireciona o usuário para a mesma página que ele estava.
+        return redirect(url_for("pagina_historico_alteracao"))
 
-    return render_template("pagina_historico_alteracoes.html", alteracoes = alteracoes)
+    # Se não houver CPF na sessão, redireciona para a página de histórico 
+    return redirect(url_for("pagina_historico_alteracao"))
+
 
 # ----------------------------------------------------------------------------------------------------------------------------# 
 

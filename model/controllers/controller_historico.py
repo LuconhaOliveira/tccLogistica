@@ -35,10 +35,11 @@ class Historico:
         valor = (cpf,)
 
         cursor.execute(sql, valor)
-
-        resultado = cursor.fetchall()
-
+        
+        conexao.commit() 
+        
         cursor.close()
         conexao.close()
 
-        return resultado
+        # Retorna True ou None, indicando sucesso, mas o retorno não é mais usado
+        return True 
