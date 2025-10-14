@@ -51,7 +51,6 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    gap: 20px;
     flex-direction: column;
 }
 
@@ -71,6 +70,8 @@
     background-color: var(--grey-dark);
     padding: 10px;
     border-radius: 8px;
+
+    margin: 20px;
 
     
 }
