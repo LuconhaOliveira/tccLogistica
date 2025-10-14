@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Estante</title>
+    <title>Cadastrar categorias</title>
     <!-- link css -->
-    <link rel="stylesheet" href="/static/styles/pagina_cadastrar_categoria.css">
+    <link rel="stylesheet" href="/static/styles/pagina_categoria.css">
     <!-- link css cores -->
      <link rel="stylesheet" href="/static/styles/variaveis_globais.css">
     <!-- ícones Google Icons -->
@@ -44,13 +44,13 @@
 
     <main class="container--main">
 
-        <h1>Cadastro</h1>
+        <h2>Cadastro</h2>
         <div class="container--divisao1">
 
             <!-- form cadastrar catergoria -->
             <!-- action/method: backend do add categoria -->
             <form action="/post/cadastro_categoria/adicionar" method="post" class="container--form">
-                <h1>Adicionar Categoria</h1>
+                <h2>Adicionar Categoria</h2>
 
                 <!-- nome da categoria -->
                 <div class="mb-3">
@@ -65,7 +65,7 @@
             </form>
 
             <form action="/post/cadastro_tipo/adicionar" method="post" class="container--form">
-                <h1>Adicionar Tipo</h1>
+                <h2>Adicionar Tipo</h2>
 
                 <!-- nome do tipo -->
                 <div class="mb-3">
@@ -96,7 +96,7 @@
             </form>
 
             <form action="/post/cadastro_caracteristica/adicionar" method="post" class="container--form">
-                <h1>Adicionar Características</h1>
+                <h2>Adicionar Características</h2>
 
                 <!-- nome do tipo -->
                 <div class="mb-3">
@@ -126,42 +126,40 @@
 
 
         <!-- divisão 2: exclusao de categorias, tipos e características -->
-         <h1>Exclusão</h1>
+         <h2>Exclusão</h2>
          <div class="container--divisao2">
             
             <!-- categorias -->
             <div class="container--exclusao">
-                <h1>Excluir categorias</h1>
+                <h2 class="titulo-exclusao">Excluir categorias</h2>
+                {% for categorias in categoria %}
                 <div class="container--exclusao-itens">
-                    {% for categorias in categoria %}
-                        <label for="">{{categorias.nome}}</label>
-                    {% endfor %}
-                    
-                    <span class="material-symbols-outlined">delete</span>
+                    <label for="">{{categorias.nome}}</label>
+                    <a href="/post/categoria/remover/{{categorias.cod_categoria}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
+                {% endfor %}
             </div>
 
             <!-- tipos -->
             <div class="container--exclusao">
-                <h1>Excluir tipos</h1>
+                <h2 class="titulo-exclusao">Excluir tipos</h2>
+                {% for tipos in tipo %}
                 <div class="container--exclusao-itens">
-                    {% for tipos in tipo %}
-                        <label for="">{{tipos.nome}}</label>
-                    {% endfor %}
-                    
-                    <span class="material-symbols-outlined">delete</span>
+                    <label for="">{{tipos.nome}}</label>
+                    <a href="/post/tipo/remover/{{tipos.cod_tipo}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
+                {% endfor %}
             </div>
 
             <!-- caracteristicas -->
             <div class="container--exclusao">
-                <h1>Excluir caracteristicas</h1>
-                <div class="container--exclusao-itens">
-                    {% for caracteristicas in caracteristica %}
-                        <label for="">{{caracteristicas.nome}}</label>
-                    {% endfor %}
-                    <span class="material-symbols-outlined">delete</span>
+                <h2 class="titulo-exclusao">Excluir caracteristicas</h2>
+                {% for caracteristicas in caracteristica %}
+                <div class="container--exclusao-itens">   
+                    <label for="">{{caracteristicas.nome}}</label>
+                    <a href="/post/caracteristica/remover/{{caracteristicas.cod_caracteristica}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
+                {% endfor %}
                 
             </div>
 
