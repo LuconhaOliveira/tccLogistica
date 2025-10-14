@@ -19,15 +19,7 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 @app.route("/pagina/principal")
 def pagina_principal():
 
-    estantes = Estante.buscar_estantes()
-
-    if estantes is None:
-        estantes = []
-
-    filtros = [i["categoria"] for i in estantes]
-    filtros = list(set(filtros))
-
-    return render_template("pagina_principal.html",estantes=estantes,filtros=filtros)
+    return render_template("pagina_principal.html")
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
@@ -171,7 +163,7 @@ def post_login():
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Login realizado com sucesso! Bem-vindo(a), {nome_usuario}."
+            "message": f"Bem-vindo(a), {nome_usuario}"
         }), 200
     else:
         # Bloco executado se o login falhar
@@ -226,7 +218,7 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Alteração realizada com sucesso! Faça login para continuar."
+            "message": "Senha alterada"
         }), 200
     
     except Exception as e:
@@ -242,18 +234,19 @@ def post_recuperar_senha():
             "message": "Erro ao realizar a alteração. Tente novamente ou entre em contato."
         }), 500
 
-
-# @app.route("/estante/<id>")
-# def pagina_estante(id):
-
-#     return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
 def pagina_produto():
     """Renderiza o formulário para cadastro de novos produtos."""
+    if "cpf" in session:
+        cpf = session["cpf"]
+        categoria = Categoria.recuperar_categoria(cpf)
+        tipo = Categoria.recuperar_tipo(cpf)
+        caracteristica = Categoria.recuperar_caracteristica(cpf)
+        estante = Estante.recuperar_estante(cpf)
 
-    return render_template('cadastro_produto.html') 
+    return render_template("pagina_cadastrar_produto.html", categoria = categoria, tipo = tipo, caracteristica = caracteristica, estante = estante)
 
 # Rota de POST para cadastro de produto
 @app.route("/post/produto", methods=["POST"])
