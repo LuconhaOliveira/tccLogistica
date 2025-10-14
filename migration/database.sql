@@ -363,9 +363,9 @@ END$$
 -- TRIGGER: trg_estante_update
 -- MOMENTO: AFTER UPDATE
 -- OBJETIVO:
---     Registrar mudanças realizadas no nome da estante (ou outras futuras colunas editáveis).
+--     Registrar mudanças realizadas em uma estante.
 -- FUNCIONAMENTO:
---     Após a atualização, registra no log a alteração de nome, indicando o valor anterior e o novo.
+--     Após a atualização, registra no log a alteração de nome e/ou categoria, indicando o valor anterior e o novo.
 -- ---------------------------------------------------------------------------------------------------------
 CREATE TRIGGER trg_estante_update
 AFTER UPDATE ON estante
@@ -373,7 +373,18 @@ FOR EACH ROW
 BEGIN
 	INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
+		IF(OLD.nome=NEW.nome,
+        CONCAT('Alterada categoria da estante ', OLD.nome,
+        ' de ', (SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
+        ' para ', (SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria)
+        ),
+        IF(OLD.cod_categoria=NEW.cod_categoria,
         CONCAT('Alterada estante ', OLD.nome, ' para ', NEW.nome),
+        CONCAT('Alterada estante ', OLD.nome, ' para ', NEW.nome,
+        ' e categoria ', (SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
+        ' para ', (SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria)
+        )
+        )),
         NOW(),
         NEW.cpf
     );
@@ -395,6 +406,48 @@ BEGIN
     INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
         CONCAT('Deletada estante ', OLD.nome),
+        NOW(),
+        OLD.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_categoria_insert
+-- MOMENTO: AFTER INSERT
+-- OBJETIVO:
+--     Registrar automaticamente a criação de uma nova estante.
+-- FUNCIONAMENTO:
+--     Após o INSERT em "categoria", cria uma linha de log informando o nome da categoria cadastrada.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_categoria_insert
+AFTER INSERT ON categoria
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Inserida categoria ', NEW.nome),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_categoria_delete
+-- MOMENTO: BEFORE DELETE
+-- OBJETIVO:
+--     Registrar a exclusão de uma categoria do sistema.
+-- FUNCIONAMENTO:
+--     Antes da exclusão do registro, grava no log o nome da categoria deletada e o CPF do responsável.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_categoria_delete
+BEFORE DELETE ON categoria
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Deletada categoria ', OLD.nome),
         NOW(),
         OLD.cpf
     );
