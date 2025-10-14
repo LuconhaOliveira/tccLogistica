@@ -20,7 +20,7 @@ function alterar_estantes(estantes){
 
     estantes.forEach(estante => {
         html += `<div>
-            <a href="/estante/${estante.enderecamento}">${estante.enderecamento}</a>
+            <a href="/estante/${estante.cod_estante}">${estante.cod_estante}</a>
                 <ul>
                     <li>${estante.estante}</li>
                     <li>${estante.categoria}</li>

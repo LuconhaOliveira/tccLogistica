@@ -67,21 +67,11 @@
                         <h6 class="card-subtitle mb-2 text-body-secondary">Estante:</h6>
 
                         <form id="filtros">
-                            {% for estante in categoria %}
-                                <label>
-                                    <input type="checkbox" name="estante_filtro" value="{{ estante.id }}">
-                                    {{ estante.nome }}
-                                </label><br>
-                            {% endfor %}
+                            
                         </form>
 
                         <div id="estantes">
-                            {% for estante in categoria %}
-                                    <label>
-                                    <input type="checkbox" name="estantes" value="{{ estante.id }}">
-                                    {{ estante.nome }}
-                                </label><br>
-                            {% endfor %}
+                            
                         </div>
 
                     </div>
