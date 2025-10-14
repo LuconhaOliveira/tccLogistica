@@ -1,11 +1,3 @@
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 /* body */
 .container--body {
     background-color: var(--white);
@@ -15,36 +7,10 @@
     min-height: 100vh;
 }
 
-/* Header */
-.container--header {
-    width: 100%;
-    background-color: var(--grey-dark);
-    padding: 10px 20px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 /* cor dos links e do span dentro do header para branco */
 .nav-link{
     color: aliceblue !important;
 }
-
-.container--footer{
-    width: 100%;
-    background-color: var(--grey-dark);
-    padding: 10px 20px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-/* Logo */
-.img--InStock-logo {
-    width: 230px;
-}
-
 
 /* Form */
 .container--main {
@@ -64,7 +30,6 @@
     width: 450px;
     height: 350px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
-    
     
     align-items: center;
     justify-content: center;
