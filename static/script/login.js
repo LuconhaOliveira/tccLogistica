@@ -36,13 +36,16 @@ loginForm.addEventListener('submit', function(event) {
                 text: `${data.message}! Redirecionando...`, 
                 icon: 'success',
                 // --- Configurações para Alerta Automático ---
-                timer: 3000, // Define o tempo do timer (3 segundos)
+                timer: 1000, // Define o tempo do timer (3 segundos)
                 timerProgressBar: true, // Mostra a barra de progresso
                 showConfirmButton: false, // Esconde o botão de confirmação manual
                 // ---------------------------------------------
             }).then(() => { // O then() é executado quando o timer expira ou o alerta é fechado
                 // Redireciona o navegador para a página principal AUTOMATICAMENTE
-                window.location.href = "/pagina/principal";
+                // window.location.href = "/pagina/principal";
+                // window.location.href = "/pagina/cadastrar/categoria";
+                window.location.href = "/pagina/produto";
+                // window.location.href = "/pagina/cadastro_estante";
             });
             
         } else {
