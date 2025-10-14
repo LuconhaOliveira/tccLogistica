@@ -48,7 +48,7 @@ senhaForm.addEventListener('submit', function(event) {
                 text: `${data.message}! Redirecionando para o login.`, 
                 icon: 'success',
                 // --- Configurações para Alerta Automático ---
-                timer: 3000,           // Define o tempo do timer (3 segundos)
+                timer: 1000,           // Define o tempo do timer (3 segundos)
                 timerProgressBar: true, // Mostra a barra de progresso
                 showConfirmButton: false, // Não mostra o botão de confirmação manual
                 // ---------------------------------------------

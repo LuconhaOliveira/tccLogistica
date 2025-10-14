@@ -34,7 +34,7 @@
     <main class="container--main">
 
         <!-- action/method: backend do cadastro -->
-        <form action="" method="post" class="container--form">
+        <form action="{{ url_for('post_produto') }}" method="post" class="container--form" enctype="multipart/form-data">
 
             <h1>Adicionar Produto</h1>
 

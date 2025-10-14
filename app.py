@@ -19,7 +19,12 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 @app.route("/pagina/principal")
 def pagina_principal():
 
-    return render_template("pagina_principal.html")
+    if "cpf" not in session:
+        return redirect(url_for('pagina_logar')) 
+    
+    else:
+        nome = session['nome']
+        return render_template("pagina_principal.html", nome=nome)
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
@@ -239,74 +244,105 @@ def post_recuperar_senha():
 @app.route("/pagina/produto")
 def pagina_produto():
     """Renderiza o formulário para cadastro de novos produtos."""
-    if "cpf" in session:
-        cpf = session["cpf"]
-        categoria = Categoria.recuperar_categoria(cpf)
-        tipo = Categoria.recuperar_tipo(cpf)
-        caracteristica = Categoria.recuperar_caracteristica(cpf)
-        estante = Estante.recuperar_estante(cpf)
+    
+    if "cpf" not in session:
+        return redirect(url_for('pagina_logar')) 
+    
+    # Usuário está logado
+    cpf = session["cpf"]
+    
+    # Tenta recuperar os dados dos selects (tratamento de erro seria ideal)
+    categoria = Categoria.recuperar_categoria(cpf)
+    tipo = Categoria.recuperar_tipo(cpf)
+    caracteristica = Categoria.recuperar_caracteristica(cpf)
+    estante = Estante.recuperar_estante(cpf)
 
-    return render_template("pagina_cadastrar_produto.html", categoria = categoria, tipo = tipo, caracteristica = caracteristica, estante = estante)
+    # Renderiza o template, passando os dados para os selects
+    return render_template(
+        "pagina_cadastrar_produto.html", 
+        categoria=categoria, 
+        tipo=tipo, 
+        caracteristica=caracteristica, 
+        estante=estante
+    )
+
+
 
 # Rota de POST para cadastro de produto
-@app.route("/post/produto", methods=["POST"])
+@app.route("/post/produto", methods=['POST'])
 def post_produto():
     """
-    Processa o formulário de cadastro de produto, incluindo o upload da imagem.
+    Processa o formulário de cadastro de produto, capturando todos os campos do BD.
     """
+    if "cpf" not in session:
+        return redirect(url_for('pagina_logar'))
+
+    user_cpf = session["cpf"] # Pega o CPF da sessão
+    
     # 1. Obter dados do formulário
-    cpf = request.form.get("cadastro-cpf")
+    # Campos de texto
     sku = request.form.get("cadastro-sku")
     descricao = request.form.get("cadastro-descricao")
     nome = request.form.get("cadastro-nome")
     
-    # É crucial converter o valor e o cod_tipo para os tipos numéricos corretos
-    try:
-        valor = float(request.form.get("cadastro-valor"))
-        cod_tipo = int(request.form.get("cadastro-cod_tipo"))
-    except (TypeError, ValueError):
-        print("Erro: Valor ou Cód. Tipo não são números válidos.")
-        # Retornaria uma mensagem de erro ao usuário
-        return redirect("/pagina/produto") 
-    
-    # 2. Obter o arquivo de imagem
-    # Request.files para acessar arquivos carregados
-    imagem_file = request.files.get("cadastro-imagem") 
+    # Endereçamento (Linhas e Colunas do HTML)
+    coluna = request.form.get("cadastro-coluna-estante")
+    linha = request.form.get("cadastro-linha-estante")
 
-    # 3. Chamar a função de controle de produto
-    sucesso = ControleProduto.cadastrar_produto(
-        cpf, sku, imagem_file, descricao, nome, valor, cod_tipo
+    # Campos de Classificação e Endereçamento (IDs dos selects)
+    cod_estante = request.form.get("cadastro-nome-estante")
+    cod_categoria = request.form.get("cadastro-categoria")
+    cod_tipo = request.form.get("cadastro-tipo")
+    cod_caracteristica = request.form.get("cadastro-caracteristicas")
+
+
+    # 2. Conversão e Validação de Tipos Numéricos
+    try:
+        # 2a. Valor e Quantidade
+        # Remove a máscara (ponto de milhar e vírgula decimal)
+        valor_str = request.form.get("cadastro-valor").replace('.', '').replace(',', '.')
+        valor = float(valor_str) if valor_str else 0.0
+
+        quantidade_str = request.form.get("cadastro-quantidade")
+        quantidade = int(quantidade_str) if quantidade_str else 0
+        
+        # 2b. Converte os IDs (Chaves Estrangeiras) para inteiros
+        cod_estante = int(cod_estante) if cod_estante else None
+        cod_categoria = int(cod_categoria) if cod_categoria else None
+        cod_tipo = int(cod_tipo) if cod_tipo else None
+        cod_caracteristica = int(cod_caracteristica) if cod_caracteristica else None
+
+    except (TypeError, ValueError) as e:
+        # Se falhar, retorna para o formulário. O erro pode ser de um select vazio.
+        print(f"Erro de conversão de dados do formulário (Valor/Quantidade/IDs): {e}")
+        return redirect(url_for('pagina_produto'))
+
+    # 3. Obter o arquivo de imagem
+    imagem_file = request.files.get("cadastro-imagem")
+    # A leitura para BLOB é feita aqui, antes de passar para o controller
+    imagem_blob = imagem_file.read() if imagem_file and imagem_file.filename else None
+
+    # 4. Chamar a função de controle de produto
+    sucesso, mensagem_ou_id = ControleProduto.cadastrar_produto(
+        # Informações base do produto
+        nome, descricao, imagem_blob, quantidade, valor, sku,
+        # Endereçamento
+        coluna, linha, cod_estante,
+        # Classificação
+        cod_categoria, cod_tipo, cod_caracteristica,
+        # Usuário (CPF)
+        user_cpf 
     )
 
     if sucesso:
-        # Redireciona para alguma página de confirmação ou lista de produtos
-        return redirect("/pagina/principal") 
+        return redirect(url_for('pagina_principal'))
     else:
         # Redireciona de volta com erro
-        return redirect("/pagina/produto") 
+        return redirect(url_for('pagina_produto')) 
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
-@app.route("/post/deletar_produto", methods=["POST"])
-def post_deletar_produto():
-    """
-    Processa a exclusão de um produto, recebendo o cod_produto via POST.
-    """
-    try:
-        cod_produto = int(request.form.get("cod_produto"))
-    except (TypeError, ValueError):
-        # Se o código do produto não for um número válido, retorna erro
-        return "Erro: Código do produto inválido.", 400
 
-    # Chama a função de exclusão
-    sucesso = ControleProduto.deletar_produto(cod_produto)
-
-    if sucesso:
-        # Redireciona de volta para a lista de produtos após a exclusão
-        return redirect("/pagina/listagem_produtos")
-    else:
-        # Em caso de falha (erro de BD ou produto não encontrado)
-        return "Erro ao deletar o produto. Verifique dependências.", 500
 
     
 # CADASTRO DE ESTANTE ------------------------------------------------------------------------------------------------------# 
@@ -319,9 +355,10 @@ def pagina_cadastrar_estante():
 
     if "cpf" in session:
         cpf = session["cpf"]
+        nome = session['nome']
         categoria = Categoria.recuperar_categoria(cpf)
 
-    return render_template("pagina_estante.html", categoria = categoria)
+    return render_template("pagina_estante.html",nome=nome, categoria = categoria)
 
 
 # Rota que processa os dados do formulário de cadastrar estante (requisição POST).
@@ -399,11 +436,12 @@ def pagina_cadastrar_categoria():
 
     if "cpf" in session:
         cpf = session["cpf"]
+        nome = session['nome']
         categoria = Categoria.recuperar_categoria(cpf)
         tipo = Categoria.recuperar_tipo(cpf)
         caracteristica = Categoria.recuperar_caracteristica(cpf)
 
-    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo, caracteristica = caracteristica)
+    return render_template("pagina_categoria.html",nome=nome, categoria = categoria, tipo = tipo, caracteristica = caracteristica)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
 @app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])

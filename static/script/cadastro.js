@@ -35,7 +35,7 @@ cadastroForm.addEventListener('submit', function(event) {
                 title: 'Sucesso!',
                 text: `${data.message}! Redirecionando para o login.`, // Informa o usuário
                 icon: 'success',
-                timer: 3000, // Define o tempo do timer (3 segundos)
+                timer: 1000, // Define o tempo do timer (3 segundos)
                 timerProgressBar: true, // Mostra a barra de progresso
                 showConfirmButton: false, // Não mostra o botão de confirmação manual
             }).then((result) => {
