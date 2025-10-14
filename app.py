@@ -268,76 +268,102 @@ def pagina_produto():
 
 
 # Rota de POST para cadastro de produto
+# app.py (Rota /post/produto)
+
 @app.route("/post/produto", methods=['POST'])
 def post_produto():
     """
-    Processa o formulário de cadastro de produto, capturando todos os campos do BD.
+    Processa o formulário de cadastro de produto via AJAX e retorna JSON, 
+    incluindo validação de campos OBRIGATÓRIOS.
     """
+    # 1. Verificação de Sessão
     if "cpf" not in session:
-        return redirect(url_for('pagina_logar'))
+        return jsonify({
+            'status': 'error', 
+            'message': 'Sessão expirada. Por favor, faça login novamente.'
+        })
 
-    user_cpf = session["cpf"] # Pega o CPF da sessão
+    user_cpf = session["cpf"]
     
-    # 1. Obter dados do formulário
-    # Campos de texto
+    # 2. Obter dados do formulário (incluindo campos NULÁVEIS)
     sku = request.form.get("cadastro-sku")
     descricao = request.form.get("cadastro-descricao")
-    nome = request.form.get("cadastro-nome")
-    
-    # Endereçamento (Linhas e Colunas do HTML)
     coluna = request.form.get("cadastro-coluna-estante")
     linha = request.form.get("cadastro-linha-estante")
-
-    # Campos de Classificação e Endereçamento (IDs dos selects)
+    
+    # Campos que serão validados como OBRIGATÓRIOS ou numéricos
+    nome = request.form.get("cadastro-nome")
+    quantidade_str = request.form.get("cadastro-quantidade")
+    cod_tipo_str = request.form.get("cadastro-tipo") # cod_tipo é NOT NULL
+    
     cod_estante = request.form.get("cadastro-nome-estante")
     cod_categoria = request.form.get("cadastro-categoria")
-    cod_tipo = request.form.get("cadastro-tipo")
     cod_caracteristica = request.form.get("cadastro-caracteristicas")
-
-
-    # 2. Conversão e Validação de Tipos Numéricos
+    
+    # 3. Validação de Campos NOT NULL (Backend)
     try:
-        # 2a. Valor e Quantidade
-        # Remove a máscara (ponto de milhar e vírgula decimal)
-        valor_str = request.form.get("cadastro-valor").replace('.', '').replace(',', '.')
-        valor = float(valor_str) if valor_str else 0.0
+        # 3.1. NOME (NOT NULL)
+        if not nome or nome.strip() == "":
+            raise ValueError("O campo Nome do produto é obrigatório.")
 
-        quantidade_str = request.form.get("cadastro-quantidade")
-        quantidade = int(quantidade_str) if quantidade_str else 0
+        # 3.2. QUANTIDADE (NOT NULL e INT)
+        if not quantidade_str or quantidade_str.strip() == "":
+            raise ValueError("O campo Quantidade é obrigatório.")
+            
+        quantidade = int(quantidade_str)
+        if quantidade < 0:
+            raise ValueError("A Quantidade não pode ser negativa.")
+
+        # 3.3. TIPO (cod_tipo é NOT NULL)
+        if not cod_tipo_str:
+            raise ValueError("A seleção do Tipo de produto é obrigatória.")
+        cod_tipo = int(cod_tipo_str) # Converte para int após validação NOT NULL
         
-        # 2b. Converte os IDs (Chaves Estrangeiras) para inteiros
+        # 3.4. VALOR (NÃO é NOT NULL, mas a conversão é importante)
+        valor_str = request.form.get("cadastro-valor").replace('.', '').replace(',', '.')
+        valor = float(valor_str) if valor_str else 0.0 
+
+        # 3.5. Conversão dos outros IDs (NULÁVEIS)
         cod_estante = int(cod_estante) if cod_estante else None
         cod_categoria = int(cod_categoria) if cod_categoria else None
-        cod_tipo = int(cod_tipo) if cod_tipo else None
         cod_caracteristica = int(cod_caracteristica) if cod_caracteristica else None
 
-    except (TypeError, ValueError) as e:
-        # Se falhar, retorna para o formulário. O erro pode ser de um select vazio.
-        print(f"Erro de conversão de dados do formulário (Valor/Quantidade/IDs): {e}")
-        return redirect(url_for('pagina_produto'))
 
-    # 3. Obter o arquivo de imagem
+    except (TypeError, ValueError) as e:
+        # Captura erros de validação personalizada (ValueError) e de conversão (TypeError)
+        return jsonify({
+            'status': 'error', 
+            'message': str(e)
+        })
+
+    # 4. Validação da IMAGEM (NOT NULL)
     imagem_file = request.files.get("cadastro-imagem")
-    # A leitura para BLOB é feita aqui, antes de passar para o controller
     imagem_blob = imagem_file.read() if imagem_file and imagem_file.filename else None
 
-    # 4. Chamar a função de controle de produto
+    if not imagem_blob:
+        return jsonify({
+            'status': 'error', 
+            'message': 'A imagem do produto é obrigatória.'
+        })
+
+    # 5. Chamar a função de controle de produto
     sucesso, mensagem_ou_id = ControleProduto.cadastrar_produto(
-        # Informações base do produto
         nome, descricao, imagem_blob, quantidade, valor, sku,
-        # Endereçamento
-        coluna, linha, cod_estante,
-        # Classificação
-        cod_categoria, cod_tipo, cod_caracteristica,
-        # Usuário (CPF)
-        user_cpf 
+        coluna, linha, cod_estante, cod_categoria,
+        cod_tipo, cod_caracteristica, user_cpf 
     )
 
+    # 6. Retorno JSON
     if sucesso:
-        return redirect(url_for('pagina_principal'))
+        return jsonify({
+            'status': 'success',
+            'message': f"Produto cadastrado!" 
+        })
     else:
-        # Redireciona de volta com erro
-        return redirect(url_for('pagina_produto')) 
+        return jsonify({
+            'status': 'error',
+            'message': f"Falha no cadastro (DB). Detalhes: {mensagem_ou_id}" 
+        })
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
