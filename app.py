@@ -18,15 +18,7 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 @app.route("/pagina/principal")
 def pagina_principal():
 
-    estantes = Estante.buscar_estantes()
-
-    if estantes is None:
-        estantes = []
-
-    filtros = [i["categoria"] for i in estantes]
-    filtros = list(set(filtros))
-
-    return render_template("pagina_principal.html",estantes=estantes,filtros=filtros)
+    return render_template("pagina_principal.html")
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
@@ -241,11 +233,6 @@ def post_recuperar_senha():
             "message": "Erro ao realizar a alteração. Tente novamente ou entre em contato."
         }), 500
 
-
-# @app.route("/estante/<id>")
-# def pagina_estante(id):
-
-#     return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
