@@ -506,12 +506,25 @@ def remover_caracteristica(cod_caracteristica):
 
 # RECUPERA O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
 
-@app.route("/pagina/histotico_alteracoes")
+@app.route("/pagina/historico_alteracoes")
 def pagina_historico_alteracao():
 
     if "cpf" in session:
         cpf = session["cpf"]
         alteracoes = Historico.recuperar_historico_alteracoes(cpf)
+
+    return render_template("pagina_historico_alteracoes.html", alteracoes = alteracoes)
+
+# EXCLUI O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
+
+@app.route("/pagina/excluir/historico_alteracoes", methods=['POST'])
+def pagina_excluir_historico_alteracao():
+
+    if "cpf" in session:
+        cpf = session["cpf"]
+        alteracoes = Historico.excluir_historico_alteracoes(cpf)
+
+    
 
     return render_template("pagina_historico_alteracoes.html", alteracoes = alteracoes)
 

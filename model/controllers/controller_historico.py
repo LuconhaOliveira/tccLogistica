@@ -21,3 +21,24 @@ class Historico:
         conexao.close()
 
         return resultado
+    
+    
+    # Excluir todas as alterações dos produtos e estantes 
+    def excluir_historico_alteracoes(cpf):
+        
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor(dictionary = True) 
+        
+        sql = """ DELETE FROM alteracao_produto_estante WHERE cpf = %s; """
+
+        valor = (cpf,)
+
+        cursor.execute(sql, valor)
+
+        resultado = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return resultado
