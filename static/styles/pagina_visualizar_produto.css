@@ -24,10 +24,9 @@
 
 .container--card-fundo{   
 
-    background-color: var(--grey-dark2);
     border-radius: 20px;
 
-    width: 1550px;
+    width: 1400px;
     height: auto;
     
     display: grid;
@@ -48,10 +47,9 @@
 /* detalhes da gaveta */
 .container--div-detalhe{
 
-    background-color: var(--grey-medium);
     border-radius: 15px;
 
-    width: 400px;
+    width: 320px;
     height: 85%;
 
     margin: 50px;
@@ -79,7 +77,7 @@
 /* container da descrição */
 .container--div-descricao{
 
-    background-color: var(--white);
+    background-color: var(--orange-light-color);
     border-radius: 15px;
 
     text-align: center;
@@ -126,7 +124,7 @@
 /* Botão de Login */
 button[type="submit"] {
 
-    background-color: var(--grey-medium);
+    background-color: var(--orange-light-color);
     color: var(--dark);
     font-size: var(--font-size-20) !important;
     
@@ -155,7 +153,7 @@ button[type="submit"]:hover {
     width: 400px !important;
     border-radius: 10px;
 
-    margin: 5px;
+    margin: 8px;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
 
 }
