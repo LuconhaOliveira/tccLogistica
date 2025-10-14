@@ -45,9 +45,22 @@
 
         <!-- estante selecionada -->
         <div class="container--estante">
-            <div class="grid-row row-1">Linha 1</div>
-            <div class="grid-row row-2">Linha 2</div>
-            <div class="grid-row row-3">Linha 3</div>
+            <div class="grid-row row-1">
+
+                <div class="card--produto" style="
+                    /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
+                    grid-column: {{ produto.grid_coluna_start }};
+                ">
+                    <img src="{{ produto.url_foto }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
+                    <h3 class="nome--produto">{{ produto.nome }}</h3>
+                    <p class="endereco--produto">Endereço: **{{ produto.endereco }}**</p>
+            </div>
+
+            </div>
+            <!-- linha 2 -->
+            <div class="grid-row row-2"></div>
+            <!-- linha 3 -->
+            <div class="grid-row row-3"></div>
             
             
             <!-- card modelo de cada produto que irá aparecer -->

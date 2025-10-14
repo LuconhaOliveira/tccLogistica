@@ -62,7 +62,7 @@
 
     display: grid;
     /* Define 10 colunas de larguras iguais */
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: 1fr;
     /* Define 3 linhas */
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
@@ -123,6 +123,11 @@
     font-weight: bold;
     font-size: 1.2em;
     border-radius: 5px;
+    display: grid;
+    /* Define 10 colunas de larguras iguais */
+    grid-template-columns: repeat(10,1fr);
+    /* Define 3 linhas */
+    grid-template-rows: 1fr; 
 }
 /* Todos ocupam da 1ª coluna até a última (-1) */
 .row-1 {
