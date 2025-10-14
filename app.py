@@ -225,7 +225,7 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Alteração realizada com sucesso! Faça login para continuar."
+            "message": "Senha alterada"
         }), 200
     
     except Exception as e:
