@@ -101,3 +101,38 @@ class ControleProduto:
                 cursor.close()
             if conexao:
                 conexao.close()
+
+        # Recupera as categorias registradas anteriormente
+    def recuperar_produtos(cpf):
+        
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor(dictionary = True) 
+        
+        sql = """SELECT
+                cod_produto,
+                data_hora,
+                nome,
+                descricao,
+                quantidade,
+                valor,
+                sku,
+                coluna,
+                linha,
+                cpf,
+                cod_estante,
+                cod_categoria,
+                cod_tipo,
+                cod_caracteristica
+                FROM produto WHERE cpf = %s;"""
+        
+        valor = (cpf,)
+
+        cursor.execute(sql, valor)
+
+        resultado = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return resultado

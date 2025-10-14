@@ -239,6 +239,7 @@ def post_recuperar_senha():
             "message": "Erro ao realizar a alteração. Tente novamente ou entre em contato."
         }), 500
 
+# PRODUTOS ------------------------------------------------------------------------------------------------------#
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
@@ -266,7 +267,7 @@ def pagina_produto():
         estante=estante
     )
 
-
+# CADASTRAR PRODUTOS ------------------------------------------------------------------------------------------------------#
 
 # Rota de POST para cadastro de produto
 # app.py (Rota /post/produto)
@@ -368,8 +369,17 @@ def post_produto():
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
+# VIZUALIZAR PRODUTO ESPECIFICO ------------------------------------------------------------------------------------------------------#
 
+@app.route("/pagina/visualizar_produto")
+def pagina_vizualizar_produto():
 
+    if "cpf" in session:
+        cpf = session["cpf"]
+        nome = session['nome']
+        produto = ControleProduto.recuperar_produtos(cpf)
+
+    return render_template("pagina_visualizar_produto.html",nome = nome, produto = produto)
     
 # CADASTRO DE ESTANTE ------------------------------------------------------------------------------------------------------# 
 
@@ -451,6 +461,17 @@ def remover_estante(cod_estante):
     Estante.remover_estante(cod_estante)
     return redirect("/pagina/principal")
 
+# CONSULTAR PRODUTOS NA ESTANTE ----------------------------------------------------------------------------------------------
+
+@app.route("/pagina/consulta_produtos")
+def pagina_consultar_produtos():
+
+    if "cpf" in session:
+        cpf = session["cpf"]
+        nome = session['nome']
+        produto = ControleProduto.recuperar_produtos(cpf)
+
+    return render_template("pagina_consultar_produtos.html", nome = nome, produto = produto)
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
