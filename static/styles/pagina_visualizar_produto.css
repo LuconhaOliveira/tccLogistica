@@ -27,29 +27,35 @@
     background-color: var(--grey-dark2);
     border-radius: 20px;
 
-    width: 1300px;
+    width: 1550px;
     height: auto;
     
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+
+    align-items: center; 
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
     
 }
 
 .card{
 
     margin: 30px 0px 30px 0px;
-    
+    box-shadow: 0 6px 44px rgba(0, 0, 0, 0.6);
+
 }
 
+/* detalhes da gaveta */
 .container--div-detalhe{
 
     background-color: var(--grey-medium);
     border-radius: 15px;
 
-    width: 300px;
-    height: 500px;
+    width: 400px;
+    height: 85%;
 
     margin: 50px;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
 }
 
 .container--div-top{
@@ -65,45 +71,56 @@
     border-radius: 20px;
 }
 
-.card-body .card-text{
+.card-body{
 
-    width: 190px !important;
-    margin: 0;
-    
+    margin-left: 8px;
 }
 
-.descricao{
+/* container da descrição */
+.container--div-descricao{
+
+    background-color: var(--white);
+    border-radius: 15px;
 
     text-align: center;
-    margin-bottom: 10px;
-   
+    margin: 3% 5% 1% 5% !important;
+
+    width: 90% !important;
+    height: auto;
+     
 }
 
+.row{
+    display: block !important;
+}
+
+/* parte de baixo do container de produto */
 .container--bottom-card{
-
     align-items: center;
-    justify-content: center;
-
-    align-content: end;
-   
     justify-content: space-around;
     display: flex;
-
 }
 
+/* icones */
 .material-symbols-outlined{
-
     cursor: pointer;
-    text-decoration: none;
     color: var(--black);
 }
 
-/* botao */
+/* tamanho dos icones */
+.container--bottom-card .material-symbols-outlined {
+
+    font-size: larger;
+
+}
+   
+/* botao de quantidade */
 .form-control{
 
-    width: 100px !important;
+    width: 120px !important;
     height: 50px !important;
-    font-weight: var(--font-size-20) !important;
+    font-size: var(--font-size-20) !important;
+    font-weight: bold !important;
 }
 
 /* Botão de Login */
@@ -111,26 +128,35 @@ button[type="submit"] {
 
     background-color: var(--grey-medium);
     color: var(--dark);
+    font-size: var(--font-size-20) !important;
+    
     font-weight: bold;
     border: none;
     border-radius: 12px;
     width: 180px;
-    height: 60px;
+    height: 70px;
     cursor: pointer;
-    padding: 5px;
+    padding: 6px;
+    margin: 10px;
     transition: background 0.5s ;
+    transition: transform 0.3s ease-out;
 }
 
 button[type="submit"]:hover {
     background-color: var(--orange-color);
     color: var(--white);
+    transform: scale(1.02);
 }
 
+/* imagem */
 .img-fluid{
 
-    max-width: auto !important;
-    height: auto !important;
+    height: 300px !important;
+    width: 400px !important;
     border-radius: 10px;
+
+    margin: 5px;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
 
 }
 
