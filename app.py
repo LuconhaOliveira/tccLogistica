@@ -18,10 +18,6 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 @app.route("/pagina/principal")
 def pagina_principal():
 
-    if "cpf" in session:
-        cpf = session["cpf"]
-        categoria = Categoria.recuperar_categoria(cpf)
-
     estantes = Estante.buscar_estantes()
 
     if estantes is None:
@@ -30,7 +26,11 @@ def pagina_principal():
     filtros = [i["categoria"] for i in estantes]
     filtros = list(set(filtros))
 
+<<<<<<< HEAD
     return render_template("pagina_principal.html",estantes=estantes,filtros=filtros, categoria = categoria)
+=======
+    return render_template("pagina_principal.html",estantes=estantes,filtros=filtros)
+>>>>>>> daa93492149d94f980af2c758ff4ee11c9928b85
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
@@ -100,7 +100,7 @@ def post_cadastro():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Cadastro realizado com sucesso! Faça login para continuar."
+            "message": "Cadastro Feito!"
         }), 200
     
     except Exception as e:
@@ -200,7 +200,56 @@ def pagina_recuperar_senha():
     # 'render_template' carrega o arquivo 'pagina_recuperar_senha.html'.
     return render_template('pagina_recuperar_senha.html')
 
-# CADASTRO DE PRODUTO ------------------------------------------------------------------------------------------------------#
+@app.route("/post/recuperar_senha", methods=["POST"])
+def post_recuperar_senha():
+
+    # 1. Captura os dados do formulário enviado via POST
+    # Obtém o valor do campo 'login-cpf' do formulário
+    cpf = request.form.get("login-cpf")
+    # Obtém o valor do campo 'login-senha' do formulário
+    nova_senha = request.form.get("login-senha")
+
+
+    if not cpf or not nova_senha:
+        return jsonify({
+            "status": "error",
+            "message": "Todos os campos são obrigatórios."
+        }), 400
+
+    try:
+        # 3. Execução da Lógica de Negócio.
+        # Chama o método 'cadastrar_usuario' do modelo 'Usuario'.
+        # Espera-se que este método execute o hash da senha (segurança) e o INSERT no banco de dados.
+        # A responsabilidade de limpeza do CPF (remoção de pontos/traços) é delegada a este método,
+        # mantendo a rota limpa e focada no controle de fluxo.
+        Usuario.alterar_senha(cpf, nova_senha)
+
+        # 4. Resposta de Sucesso.
+        # Em caso de cadastro bem-sucedido, retorna o status HTTP 200 (OK)
+        # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
+        return jsonify({
+            "status": "success",
+            "message": "Alteração realizada com sucesso! Faça login para continuar."
+        }), 200
+    
+    except Exception as e:
+        # 5. Tratamento de Exceções.
+        # Este bloco captura erros que podem ocorrer na camada de acesso ao banco de dados (DAO),
+        # como a tentativa de inserir um CPF duplicado (violação de chave primária) ou falhas de conexão.
+        print(f"Erro ao cadastrar usuário: {e}") 
+
+        # Retorna o status HTTP 500 (Internal Server Error) para indicar um erro do servidor/sistema,
+        # garantindo que o frontend receba um código de erro apropriado para o tratamento.
+        return jsonify({
+            "status": "error",
+            "message": "Erro ao realizar a alteração. Tente novamente ou entre em contato."
+        }), 500
+
+
+# @app.route("/estante/<id>")
+# def pagina_estante(id):
+
+#     return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
@@ -362,8 +411,9 @@ def pagina_cadastrar_categoria():
         cpf = session["cpf"]
         categoria = Categoria.recuperar_categoria(cpf)
         tipo = Categoria.recuperar_tipo(cpf)
+        caracteristica = Categoria.recuperar_caracteristica(cpf)
 
-    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo)
+    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo, caracteristica = caracteristica)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
 @app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
@@ -426,6 +476,35 @@ def post_cadastrar_caracteristica():
     
     Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
     
+    return redirect("/pagina/cadastrar/categoria")
+
+# EXCLUSÃO DE CATEGORIA, TIPO E CARACTERISTICA --------------------------------------------------------------------------------------------#
+
+# Rota para excluir uma categoria
+@app.route("/post/categoria/remover/<cod_categoria>")
+def remover_categoria(cod_categoria):
+
+    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
+    Categoria.remover_categoria(cod_categoria)
+
+    return redirect("/pagina/cadastrar/categoria")
+
+# Rota para excluir um tipo
+@app.route("/post/tipo/remover/<cod_tipo>")
+def remover_tipo(cod_tipo):
+
+    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
+    Categoria.remover_tipo(cod_tipo)
+
+    return redirect("/pagina/cadastrar/categoria")
+
+# Rota para excluir uma caracteristica
+@app.route("/post/caracteristica/remover/<cod_caracteristica>")
+def remover_caracteristica(cod_caracteristica):
+
+    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
+    Categoria.remover_caracteristica(cod_caracteristica)
+
     return redirect("/pagina/cadastrar/categoria")
 
 # ------------------------------------------------------------------------------------------------------# 
