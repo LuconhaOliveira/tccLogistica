@@ -103,8 +103,9 @@
         
                         <option class="select-estante" disabled selected>Selecione uma Estante:</option>
 
-                        <!-- aqui vai o jinja -->
-                        <option class="select-estante" selected></option>
+                    {% for estantes in estante %}
+                    <option value="{{estantes.cod_estante}}">{{estantes.nome}}</option>
+                    {% endfor %}
         
                 </select>
 
@@ -162,8 +163,9 @@
         
                         <option class="select-categoria" disabled selected>Selecione uma categoria:</option>
 
-                        <!-- aqui vai o jinja -->
-                        <option class="select-categoria" selected></option>
+                    {% for categorias in categoria %}
+                    <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
+                    {% endfor %}
         
                 </select>
 
@@ -178,8 +180,9 @@
         
                         <option class="select-tipo" disabled selected>Selecione um tipo:</option>
 
-                        <!-- aqui vai o jinja -->
-                        <option class="select-tipo" selected></option>
+                    {% for tipos in tipo %}
+                    <option value="{{tipos.cod_tipo}}">{{tipos.nome}}</option>
+                    {% endfor %}
         
                 </select>
 
@@ -194,8 +197,9 @@
         
                         <option class="select-caracteristicas" disabled selected>Selecione uma caracteristica:</option>
 
-                        <!-- aqui vai o jinja -->
-                        <option class="select-caracteristicas" selected></option>
+                    {% for caracteristicas in caracteristica %}
+                    <option value="{{caracteristicas.cod_caracteristica}}">{{caracteristicas.nome}}</option>
+                    {% endfor %}
         
                 </select>
 

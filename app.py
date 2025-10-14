@@ -245,7 +245,7 @@ def pagina_produto():
         caracteristica = Categoria.recuperar_caracteristica(cpf)
         estante = Estante.recuperar_estante(cpf)
 
-    return render_template("cadastro_produto.html", categoria = categoria, tipo = tipo, caracteristica = caracteristica, estante = estante)
+    return render_template("pagina_cadastrar_produto.html", categoria = categoria, tipo = tipo, caracteristica = caracteristica, estante = estante)
 
 # Rota de POST para cadastro de produto
 @app.route("/post/produto", methods=["POST"])
