@@ -96,7 +96,7 @@ def post_cadastro():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Cadastro realizado com sucesso! Faça login para continuar."
+            "message": "Cadastro Feito!"
         }), 200
     
     except Exception as e:
@@ -242,10 +242,10 @@ def post_recuperar_senha():
         }), 500
 
 
-@app.route("/estante/<id>")
-def pagina_estante(id):
+# @app.route("/estante/<id>")
+# def pagina_estante(id):
 
-    return jsonify(Estante.buscar_estante(id))
+#     return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
