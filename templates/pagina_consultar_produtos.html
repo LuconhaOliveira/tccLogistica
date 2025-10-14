@@ -47,9 +47,9 @@
         <div class="container--estante">
             <div class="grid-row row-1">
 
-                <div class="card--produto" style="
+            <div class="card--produto" style="
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-column: {{ produto.grid_coluna_start }};
+                    grid-column: 1;
                 ">
                     <img src="{{ produto.url_foto }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produto.nome }}</h3>
@@ -58,9 +58,31 @@
 
             </div>
             <!-- linha 2 -->
-            <div class="grid-row row-2"></div>
+            <div class="grid-row row-2">
+
+                <div class="card--produto" style="
+                    /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
+                    grid-column: 1;
+                ">
+                    <img src="{{ produto.url_foto }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
+                    <h3 class="nome--produto">{{ produto.nome }}</h3>
+                    <p class="endereco--produto">Endereço: **{{ produto.endereco }}**</p>
+            </div>
+
+            </div>
             <!-- linha 3 -->
-            <div class="grid-row row-3"></div>
+            <div class="grid-row row-3">
+
+                <div class="card--produto" style="
+                    /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
+                    grid-column: 1;
+                ">
+                    <img src="{{ produto.url_foto }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
+                    <h3 class="nome--produto">{{ produto.nome }}</h3>
+                    <p class="endereco--produto">Endereço: **{{ produto.endereco }}**</p>
+            </div>
+
+            </div>
             
             
             <!-- card modelo de cada produto que irá aparecer -->
@@ -77,9 +99,12 @@
 
         </div>
 
-        <form action="">
+        <form action="" class="container--botoes">
             <div class="mb-3 form-check">
                 <a href="pagina/principal"><button type="submit" class="btn btn-primary">Excluir estante</button></a>
+            </div>
+            <div class="mb-3 form-check">
+                <a href="pagina/principal"><button type="submit" class="btn btn-primary">Editar estante</button></a>
             </div>
         </form>
 

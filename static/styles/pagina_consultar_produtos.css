@@ -92,15 +92,15 @@
     flex-direction: column; /* Organiza os itens (foto, nome, endereço) verticalmente */
     align-items: center;
     text-align: center;
+    color: var(--black);
 
 }
 .nome--produto{
-    margin: 0 0 5px 0;
-    font-size: 1em;
+    font-size: 10px  !important;
 }
 .endereco--produto{
-    margin: 0;
-    font-size: 0.8em;
+    margin: 0 !important;
+    font-size: 10px;
 }
 .imagem--produto{
     width: 100%; /* Ocupa a largura total do card */
@@ -110,23 +110,16 @@
 }
 
 
-
-
-
-
-
 .grid-row {
     color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-weight: bold;
     font-size: 1.2em;
     border-radius: 5px;
+    height: 150px;
     display: grid;
     /* Define 10 colunas de larguras iguais */
     grid-template-columns: repeat(10,1fr);
-    /* Define 3 linhas */
+    /* Define 1 linha */
     grid-template-rows: 1fr; 
 }
 /* Todos ocupam da 1ª coluna até a última (-1) */
@@ -147,9 +140,10 @@
 }
 
 
-
-
-
+.container--botoes{
+    display: flex;
+    flex-direction: row;
+}
 
 
 /* Botão de Excluir estante */
