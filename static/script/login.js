@@ -44,8 +44,8 @@ loginForm.addEventListener('submit', function(event) {
                 // Redireciona o navegador para a página principal AUTOMATICAMENTE
                 // window.location.href = "/pagina/principal";
                 // window.location.href = "/pagina/cadastrar/categoria";
-                window.location.href = "/pagina/produto";
-                // window.location.href = "/pagina/cadastro_estante";
+                // window.location.href = "/pagina/produto";
+                window.location.href = "/pagina/cadastro_estante";
             });
             
         } else {

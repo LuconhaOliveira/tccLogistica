@@ -1,4 +1,3 @@
-# controllers/controle_produto.py ou models/produto.py
 from data.conexao import Conection
 from mysql.connector import Error 
 from datetime import datetime # Necessário para a coluna data_hora
@@ -98,46 +97,6 @@ class ControleProduto:
 
         finally:
             # GARANTIA DE LIMPEZA DE RECURSOS
-            if cursor:
-                cursor.close()
-            if conexao:
-                conexao.close()
-
-
-    @staticmethod
-    def deletar_produto(cod_produto):
-        """O método deletar_produto está correto e não requer alterações."""
-        # ... (seu código existente para deletar_produto está OK) ...
-        conexao = None
-        cursor = None
-
-        try:
-            conexao = Conection.create_connection()
-            if not conexao:
-                return False
-
-            cursor = conexao.cursor()
-            sql = "DELETE FROM produto WHERE cod_produto = %s"
-            valores = (cod_produto,)
-            cursor.execute(sql, valores)
-            conexao.commit()
-
-            if cursor.rowcount == 0:
-                print(f"Erro: Nenhum produto encontrado com o código {cod_produto}.")
-                return False
-            
-            print(f"Produto com código {cod_produto} excluído com sucesso.")
-            return True
-
-        except Error as e:
-            print(f"Erro ao excluir produto: {e}")
-            return False
-
-        except Exception as e:
-            print(f"Erro inesperado no processo de exclusão: {e}")
-            return False
-
-        finally:
             if cursor:
                 cursor.close()
             if conexao:

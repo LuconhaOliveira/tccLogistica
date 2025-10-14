@@ -18,7 +18,12 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 @app.route("/pagina/principal")
 def pagina_principal():
 
-    return render_template("pagina_principal.html")
+    if "cpf" not in session:
+        return redirect(url_for('pagina_logar')) 
+    
+    else:
+        nome = session['nome']
+        return render_template("pagina_principal.html", nome=nome)
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
@@ -261,13 +266,6 @@ def pagina_produto():
     )
 
 
-# ROTA DE SUCESSO PÓS-CADASTRO (NOVA ROTA NECESSÁRIA)
-@app.route('/sucesso')
-def pagina_sucesso_ou_listagem():
-    """Rota de sucesso pós-cadastro (Padrão PRG)."""
-    cod_produto = request.args.get('cod')
-    
-    return render_template('pagina_principal.html')
 
 # Rota de POST para cadastro de produto
 @app.route("/post/produto", methods=['POST'])
@@ -336,7 +334,7 @@ def post_produto():
     )
 
     if sucesso:
-        return redirect(url_for('pagina_sucesso_ou_listagem', cod=mensagem_ou_id))
+        return redirect(url_for('pagina_principal'))
     else:
         # Redireciona de volta com erro
         return redirect(url_for('pagina_produto')) 
@@ -356,9 +354,10 @@ def pagina_cadastrar_estante():
 
     if "cpf" in session:
         cpf = session["cpf"]
+        nome = session['nome']
         categoria = Categoria.recuperar_categoria(cpf)
 
-    return render_template("pagina_estante.html", categoria = categoria)
+    return render_template("pagina_estante.html",nome=nome, categoria = categoria)
 
 
 # Rota que processa os dados do formulário de cadastrar estante (requisição POST).
@@ -436,11 +435,12 @@ def pagina_cadastrar_categoria():
 
     if "cpf" in session:
         cpf = session["cpf"]
+        nome = session['nome']
         categoria = Categoria.recuperar_categoria(cpf)
         tipo = Categoria.recuperar_tipo(cpf)
         caracteristica = Categoria.recuperar_caracteristica(cpf)
 
-    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo, caracteristica = caracteristica)
+    return render_template("pagina_categoria.html",nome=nome, categoria = categoria, tipo = tipo, caracteristica = caracteristica)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
 @app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
