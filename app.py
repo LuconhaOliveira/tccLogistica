@@ -444,13 +444,14 @@ def adicionar_estante():
         print(f"Erro inesperado durante a persistência: {e}")
         return redirect("/pagina/cadastro_estante")
     
-# BUSCAR ESTANTE ------------------------------------------------------------------------------------------------------#
+# BUSCAR ESTANTE -------------------------------------------------------------------------------------------------------------------------------#
 
 @app.route("/estante/<id>")
 def pagina_estante(id):
     print(Estante.buscar_estante(id))
 
-    return redirect(url_for('/'))
+    # Vai renderizar pra pagina estantes
+    return render_template(url_for('/pagina/consulta_produtos'))
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
