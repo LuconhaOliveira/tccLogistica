@@ -1,0 +1,90 @@
+/* Header para todas as telas */
+.container--header {
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Logo para todas as telas */
+.img--InStock-logo {
+    width: 120px;
+}
+
+/* Footer para todas as telas */
+.container--footer{
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* .card-filtrosCategoria{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}  */
+
+
+.btn-cadastrarProdCatEst {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#botaoToggle {
+    border: none;
+    background-color: #ff8c42;
+    color: white;
+    cursor: pointer;
+    
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    
+    /* Centraliza o ícon de + */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 10px; 
+}
+
+/* opcoes dentro do btn */
+.btn-opcoesDentroDoBtn {
+    position: fixed;
+    background-color: #000000;
+    padding: 17px;
+    border-radius: 5px;
+    
+    /* Para controle interno do layout */
+    flex-direction: column;
+}
+
+/* .btn-opcoesDentroDoBtn a {
+    display: block;
+    text-decoration: none; */
+    
+    /* Aparência do "botão" interno */
+    /* background-color: #ff8c42; 
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
+    min-width: 150px;
+} */

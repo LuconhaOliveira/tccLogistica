@@ -170,7 +170,7 @@ def post_login():
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Bem-vindo(a), {nome_usuario}"
+            "message": f"Login realizado com sucesso! Bem-vindo(a), {nome_usuario}."
         }), 200
     else:
         # Bloco executado se o login falhar
@@ -225,7 +225,7 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Senha alterada"
+            "message": "Alteração realizada com sucesso! Faça login para continuar."
         }), 200
     
     except Exception as e:
