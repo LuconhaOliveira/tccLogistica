@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS estante (
 	-- Chave primária: Identificador único da estante 
 	cod_estante INT PRIMARY KEY auto_increment,
     -- Identificador da estante.
-    nome VARCHAR(10),
+    nome VARCHAR(100),
      -- Data e hora que a estante foi cadastrada.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Usuário responsável pela gestão ou criação da estante.
