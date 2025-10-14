@@ -20,6 +20,10 @@
     <!-- Link importação do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
+    <script src="../static/script/cadastro_produto.js" defer></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+
     <title>Cadastrar Produto</title>
 </head>
 
@@ -34,7 +38,7 @@
     <main class="container--main">
 
         <!-- action/method: backend do cadastro -->
-        <form action="" method="post" class="container--form">
+        <form id="cadastroProdutoForm" action="{{ url_for('post_produto') }}" method="post" class="container--form" enctype="multipart/form-data">
 
             <h1>Adicionar Produto</h1>
 
@@ -44,7 +48,7 @@
             <div class="mb-3">
                 <label for="exampleInputName" class="form-label">Nome:</label>
                 <!-- name: backend do cadastro -->
-                <input name="cadastro-nome" type="text" maxlength="100" class="form-control" id="exampleInputName">
+                <input name="cadastro-nome" type="text" maxlength="100" class="form-control" id="exampleInputName" required>
             </div>
 
             <!-- campo da descrição -->
@@ -68,14 +72,14 @@
                 
                 -->
 
-                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*">
+                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*" required>
             </div>
 
             <!-- campo de quantidade -->
             <div class="mb-3">
                 <label for="exampleInputQuantidade" class="form-label">Quantidade:</label>
                 <!-- quantidade: backend do cadastro -->
-                <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade" min="0" value="0">
+                <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade" min="0" placeholder="0" required min="1">
             </div>
 
             <!-- campo de valor -->
@@ -176,7 +180,7 @@
 
                 <label for="exampleInputTipo" class="form-label">Tipo:</label>
 
-                <select name="cadastro-tipo" class="form-select" id="tipoSelect">
+                <select name="cadastro-tipo" class="form-select" id="tipoSelect" required>
         
                         <option class="select-tipo" disabled selected>Selecione um tipo:</option>
 
@@ -208,7 +212,7 @@
             <!-- container do botão de adicionar -->
             <div class="mb-3 form-check">
 
-                <a href="">
+                <a href="/post/produto">
                     <button class="btn btn-primary" type="submit">Adicionar</button>
                 </a>
 
@@ -228,13 +232,6 @@
     <!-- Link para importar as máscaras para VALOR -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
-
-    <!-- java script para colocar máscara no VALOR -->
-    <script>
-
-         $('#exampleInputValor').mask('000.000,00', {reverse: true});
-
-    </script>
 
 </body>
 </html>
