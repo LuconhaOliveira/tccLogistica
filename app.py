@@ -376,7 +376,7 @@ def adicionar_estante():
 def pagina_estante(id):
     print(Estante.buscar_estante(id))
 
-    return redirect(url_for('pagina_logar'))
+    return redirect(url_for('/'))
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
