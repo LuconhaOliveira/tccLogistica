@@ -170,7 +170,7 @@ def post_login():
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Login realizado com sucesso! Bem-vindo(a), {nome_usuario}."
+            "message": f"Bem-vindo(a), {nome_usuario}"
         }), 200
     else:
         # Bloco executado se o login falhar
