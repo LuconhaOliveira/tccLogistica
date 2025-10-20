@@ -56,25 +56,27 @@
                         </div>
 
                         <div class="col-md-0">
-
+                           
                             <div class="card-body">
-
-                                <!-- nome do produto -->
-                                <p class="card-text">Banana</p>
-
-                                <!-- categoria -->
-                                <p class="card-text">Nanica</p>
-
-                                <!-- SKU -->
-                                <p class="card-text">BAN</p>
-
-                                <!-- quantidade de produtos existentes -->
-                                <p class="card-text">56</p>
-
-                                <!-- preço do produto -->
-                                <p class="card-text">R$ 8,50</p>
-
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ produto.nome_produto }}</h5> 
+                                
+                                    <p class="card-text">Categoria: {{ produto.nome_categoria }}</p> 
+                                
+                                    <p class="card-text">SKU: {{ produto.sku }}</p>
+                                
+                                    <p class="card-text">Estoque: {{ produto.quantidade }}</p>
+                                
+                                    <p class="card-text">R$ {{ "%.2f"|format(produto.valor) if produto.valor else '0,00' }}</p> 
+                                </div>
+                                
+                                <div class="container--div-descricao">
+                                    <p class="card-text"></p>
+                                </div>
+                                
+                                <title>{{ produto.nome }}</title>
                             </div>
+                            
                         </div>
 
                     </section>
@@ -82,7 +84,7 @@
                     <!-- descrição -->
                     <div class="container--div-descricao">
 
-                        <p class="card-text">Banana nanica muito gostosa e suculenta, compre agora para vc tbm virar uma banana nanica gostosa e suculenta !!!</p>
+                        <p class="card-text">{{ produto.descricao }}</p>
 
                     </div>
 

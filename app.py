@@ -371,15 +371,14 @@ def post_produto():
 
 # VIZUALIZAR PRODUTO ESPECIFICO ------------------------------------------------------------------------------------------------------#
 
-@app.route("/visualizar/produto")
-def pagina_vizualizar_produto():
+@app.route("/visualizar/produto/<cod_produto>")
+def visualizar_produto(cod_produto):
+            
+            cod_produto = int(cod_produto)
 
-    if "cpf" in session:
-        cpf = session["cpf"]
-        nome = session['nome']
-        produto = ControleProduto.recuperar_produtos(cpf)
+            produto = ControleProduto.selecionar_produto(cod_produto)
 
-    return render_template("pagina_visualizar_produto.html",nome = nome, produto = produto)
+            return render_template("pagina_visualizar_produto.html", produto = produto)
     
 # CADASTRO DE ESTANTE ------------------------------------------------------------------------------------------------------# 
 
@@ -471,20 +470,7 @@ def pagina_consultar_produtos():
         nome = session['nome']
         produto = ControleProduto.selecionar_produto(cpf)
 
-    return redirect("pagina_consultar_produtos.html", nome = nome, produto = produto)
-
-# selecionar o produto
-@app.route("/consultar/produto/<cod_produto>")
-def consultar_produto(cod_produto):
-            
-            cod_produto = int(cod_produto)
-
-            if "cpf" in session:
-                cpf = session["cpf"]
-                nome = session['nome']
-                produtos = ControleProduto.selecionar_produto(cpf, cod_produto)
-
-            return render_template("pagina_consultar_produtos.html", nome = nome, produtos = produtos)
+    return render_template("pagina_consultar_produtos.html", nome = nome, produto = produto)
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
