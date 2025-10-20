@@ -438,9 +438,12 @@ def adicionar_estante():
 
 @app.route("/estante/<id>")
 def pagina_estante(id):
-    print(Estante.buscar_estante(id))
+    produtos = Estante.buscar_estante(id)
+    print(produtos)
+    for produto in produtos:
+        print(produto['linha'])
 
-    return redirect(url_for('pagina_logar'))
+    return render_template("pagina_consultar_produtos.html", produtos=produtos)
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
