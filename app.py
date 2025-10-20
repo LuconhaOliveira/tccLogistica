@@ -242,7 +242,7 @@ def post_recuperar_senha():
 # PRODUTOS ------------------------------------------------------------------------------------------------------#
   
 # Rota para exibir o formulário de cadastro de produto
-@app.route("/pagina/produto")
+@app.route("/adicionar/produto")
 def pagina_produto():
     """Renderiza o formulário para cadastro de novos produtos."""
     
@@ -371,7 +371,7 @@ def post_produto():
 
 # VIZUALIZAR PRODUTO ESPECIFICO ------------------------------------------------------------------------------------------------------#
 
-@app.route("/pagina/visualizar_produto")
+@app.route("/visualizar/produto")
 def pagina_vizualizar_produto():
 
     if "cpf" in session:
