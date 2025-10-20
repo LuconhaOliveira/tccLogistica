@@ -60,37 +60,37 @@
                             <div class="card-body">
 
                                 <!-- nome do produto -->
-                                <p class="card-text">Nome: Banana;</p>
+                                <p class="card-text">Nome: {{ produto.nome_produto }};</p>
 
                                 <!-- SKU -->
-                                <p class="card-text">SKU: BAN;</p>
+                                <p class="card-text">SKU: {{ produto.sku }};</p>
 
                                 <!-- quantidade de produtos existentes -->
-                                <p class="card-text">Qntd: 56;</p>
+                                <p class="card-text">Qntd: {{ produto.quantidade }};</p>
 
                                 <!-- preço do produto -->
-                                <p class="card-text">R$ 8,50;</p>
+                                <p class="card-text">R$ {{ produto.valor }};</p>
 
                                 <!-- ENDEREÇAMENTO -->
 
                                 <!-- campo de nome da estante -->
-                                <p class="card-text">Estante: Banana;</p>
+                                <p class="card-text">Estante: {{ produto.nome_estante }};</p>
                                 
                                 <!-- campo de selecionar coluna da estante  -->
-                                <p class="card-text">Coluna: 8;</p>
+                                <p class="card-text">{{ produto.coluna }};</p>
 
                                 <!-- campo de selecionar linha da estante -->
-                                <p class="card-text">Linha: 3;</p>
+                                <p class="card-text">{{ produto.linha }};</p>
 
                                 <!-- CATEGORIAS -->
 
-                                <p class="card-text">Categoria: Nanica;</p>
+                                <p class="card-text">Categoria: {{ produto.nome_categoria }};</p>
 
                                 <!-- campo de tipos de categoria -->
-                                <p class="card-text">Tipo: Amarela;</p>
+                                <p class="card-text">Tipo: {{ produto.nome_tipo }};</p>
 
                                 <!-- campo de caracteristicas -->
-                                <p class="card-text">Característica: Com bolas pretas.</p>
+                                <p class="card-text">Característica: {{ produto.nome_caracteristica }}.</p>
 
                             </div>
                             

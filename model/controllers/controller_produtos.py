@@ -111,41 +111,46 @@ class ControleProduto:
         
         sql = """
                 SELECT
-                produto.cod_produto,
-                produto.data_hora,
-                produto.nome AS nome_produto, 
-                produto.descricao,
-                produto.quantidade,
-                produto.valor,
-                produto.sku,
-                produto.coluna,
-                produto.linha,
-                produto.cpf,
-                produto.cod_estante,
-                
-                categoria.cod_categoria,
-                categoria.nome AS nome_categoria, 
+                    produto.cod_produto,
+                    produto.data_hora,
+                    produto.nome AS nome_produto, 
+                    produto.descricao,
+                    produto.quantidade,
+                    produto.valor,
+                    produto.sku,
+                    produto.coluna,
+                    produto.linha,
+                    produto.cpf,
 
-                tipo.cod_tipo,
-                tipo.nome AS nome_tipo,
+                    categoria.cod_categoria,
+                    categoria.nome AS nome_categoria, 
 
-                caracteristica.cod_caracteristica,
-                caracteristica.nome AS nome_caracteristica
+                    tipo.cod_tipo,
+                    tipo.nome AS nome_tipo,
 
-            FROM
-                produto
-                
-            INNER JOIN categoria 
-                ON produto.cod_categoria = categoria.cod_categoria
-                
-            INNER JOIN tipo 
-                ON produto.cod_tipo = tipo.cod_tipo
-                
-            INNER JOIN caracteristica 
-                ON produto.cod_caracteristica = caracteristica.cod_caracteristica
+                    caracteristica.cod_caracteristica,
+                    caracteristica.nome AS nome_caracteristica,
 
-            WHERE
-                produto.cpf = %s"""
+                    estante.cod_estante,
+                    estante.nome AS nome_estante 
+                    
+                FROM
+                    produto
+                    
+                INNER JOIN categoria 
+                    ON produto.cod_categoria = categoria.cod_categoria
+                    
+                INNER JOIN tipo 
+                    ON produto.cod_tipo = tipo.cod_tipo
+                    
+                INNER JOIN caracteristica 
+                    ON produto.cod_caracteristica = caracteristica.cod_caracteristica
+                    
+                INNER JOIN estante 
+                    ON produto.cod_estante = estante.cod_estante 
+
+                WHERE
+                    produto.cpf = %s;"""
         
         valor = (cpf,)
 
@@ -166,42 +171,47 @@ class ControleProduto:
 
         sql = """
                 SELECT
-                produto.cod_produto,
-                produto.data_hora,
-                produto.nome AS nome_produto,
-                produto.descricao,
-                produto.quantidade,
-                produto.valor,
-                produto.sku,
-                produto.coluna,
-                produto.linha,
-                produto.cpf,
-                produto.cod_estante,
-                
-                categoria.cod_categoria,
-                categoria.nome AS nome_categoria, 
+                    produto.cod_produto,
+                    produto.data_hora,
+                    produto.nome AS nome_produto, 
+                    produto.descricao,
+                    produto.quantidade,
+                    produto.valor,
+                    produto.sku,
+                    produto.coluna,
+                    produto.linha,
+                    produto.cpf,
 
-                tipo.cod_tipo,
-                tipo.nome AS nome_tipo,
+                    categoria.cod_categoria,
+                    categoria.nome AS nome_categoria, 
 
-                caracteristica.cod_caracteristica,
-                caracteristica.nome AS nome_caracteristica
+                    tipo.cod_tipo,
+                    tipo.nome AS nome_tipo,
 
-            FROM
-                produto
-                
-            INNER JOIN categoria 
-                ON produto.cod_categoria = categoria.cod_categoria
-                
-            INNER JOIN tipo 
-                ON produto.cod_tipo = tipo.cod_tipo
-                
-            INNER JOIN caracteristica 
-                ON produto.cod_caracteristica = caracteristica.cod_caracteristica
+                    caracteristica.cod_caracteristica,
+                    caracteristica.nome AS nome_caracteristica,
 
-            WHERE
-                produto.cod_produto = %s;
-        """
+                    estante.cod_estante,
+                    estante.nome AS nome_estante 
+                    
+                FROM
+                    produto
+                    
+                INNER JOIN categoria 
+                    ON produto.cod_categoria = categoria.cod_categoria
+                    
+                INNER JOIN tipo 
+                    ON produto.cod_tipo = tipo.cod_tipo
+                    
+                INNER JOIN caracteristica 
+                    ON produto.cod_caracteristica = caracteristica.cod_caracteristica
+                    
+                INNER JOIN estante 
+                    ON produto.cod_estante = estante.cod_estante 
+
+                WHERE
+                    produto.cod_produto = %s;
+                        """
 
         valor = (cod_produto,)
         #executando o comando sql
