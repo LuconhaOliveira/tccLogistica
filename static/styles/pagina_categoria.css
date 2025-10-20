@@ -61,7 +61,9 @@ form h2{
     width: 230px;
 }
 
-
+.container--add-categoria{
+    height: 441px;
+}
 
 .container--main {
     flex: 1;
@@ -89,7 +91,7 @@ form h2{
 .container--divisao2{
     display: flex;
     justify-content: center;
-    align-items: center;
+ 
     width: 100%;
     gap: 20px;
 }
@@ -99,11 +101,12 @@ form h2{
     border-radius: 12px;
     margin-bottom: 30px;
     width: 450px;
-    height: 350px;
+    height: auto !important;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+    gap: 10px;
     
     align-items: center;
-    justify-content: center;
+    
 
     display: flex;
     flex-direction: column;
@@ -159,7 +162,7 @@ form h1 {
     display: block;
 }
 
-/* Botão de Login */
+
 button[type="submit"] {
     background-color: var(--grey-medium);
     color: var(--grey-dark);
