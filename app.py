@@ -537,22 +537,38 @@ def post_cadastrar_tipo():
 @app.route("/post/cadastro_caracteristica/adicionar", methods = ["POST"])
 def post_cadastrar_caracteristica():
 
-    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
     cpf = session.get("cpf") 
 
-    # Caso o CPF não estiver na sessão
     if not cpf:
-        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
         print("Acesso negado: CPF não encontrado na sessão.")
-        return redirect("/pagina/login") 
-    
-    # Coleta de dados (só pega os dados se o CPF existir)
+        # Retorna 401 Unauthorized
+        return jsonify({"status": "error", "message": "Sessão expirada. Por favor, faça login novamente."}), 401 
+
+    # Coleta de dados
     nome = request.form.get("nome")
-    cod_tipo = request.form.get("cod_tipo")
+    cod_tipo_str = request.form.get("cod_tipo") 
     
-    Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
-    
-    return redirect("/pagina/cadastrar/categoria")
+    if not nome or not cod_tipo_str:
+        return jsonify({"status": "error", "message": "Nome da característica e Tipo são obrigatórios."}), 400 
+
+    try:
+        cod_tipo = int(cod_tipo_str)
+        
+        # Chamada à função de cadastro (Assumindo que Categoria é o módulo correto)
+        Categoria.cadastrar_tipo_caracteristica(nome, cod_tipo, cpf)
+        
+        # SUCESSO: Retorna um JSON com status 'success'
+        return jsonify({
+        "status": "success", 
+        "message": f"Característica '{nome}' cadastrada com sucesso!"
+    }), 200
+
+    except ValueError:
+        return jsonify({"status": "error", "message": "O Código de Tipo deve ser um número válido."}), 400
+    except Exception as e:
+        # Captura outros erros (ex: do banco de dados)
+        print(f"Erro ao cadastrar característica: {e}")
+        return jsonify({"status": "error", "message": "Ocorreu um erro interno ao salvar os dados."}), 500
 
 # EXCLUSÃO DE CATEGORIA, TIPO E CARACTERISTICA --------------------------------------------------------------------------------------------#
 
