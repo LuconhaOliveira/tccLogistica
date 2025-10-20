@@ -44,7 +44,7 @@
 
         </div>
 
-        <section class="container--card-fundo"
+        <form method="POST" action="/post/editar/produto/{{produto.cod_produto}}" enctype="multipart/form-data" class="container--card-fundo"
             style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
 
             <!-- detalhe da prateleira -->
@@ -62,17 +62,18 @@
                         <div class="col-md-0 container--div-left">
 
                             <figure>
-                            <!-- imagem -->
-                            <img src="{{produto.imagem}}"
+                                <!-- imagem -->
+                                 <!-- TODO: arrumar a preview da imagem -->
+                                <img id="preview" src="{{produto.imagem}}"
                                 class="img-fluid rounded-start" alt="Editar a foto. Clique em cima!">
 
-                                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*">
                                 <!-- <figcaption class="figcaption-descricao">Para editar a foto, clique em cima da imagem!</figcaption> -->
                             </figure>
+                                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*" required>
 
                         </div>
 
-                        <form class="col-md-0 container--div-right" action="/post/editar/produto/{{produto.cod_produto}}">
+                        <div class="col-md-0 container--div-right">
 
                             <div class="card-body">
 
@@ -232,20 +233,20 @@
                                 </div>
 
                             </div>
-                        </form>
+                        </div>
 
                     </section>
 
                     <!-- descrição -->
                     <div class="mb-3 descricao">
 
-                        <input name="cadastro-nome" type="text" maxlength="100" class="form-control"
+                        <input name="cadastro-descricao" type="text" maxlength="100" class="form-control"
                             id="exampleInputName" placeholder="Descrição:" value="{{produto.descricao}}">
                     </div>
 
                     <div class="container--bottom-card">
 
-                        <button class="btn btn-primary" type="submit"><a href="/post/editar/produto/{{produto.cod_produto}}">Editar</a></button>
+                        <button class="btn btn-primary" type="submit">Editar</button>
 
                         <!-- campo de quantidade -->
                         <div class="mb-0">
@@ -263,7 +264,7 @@
             <div class="container--div-detalhe direita"
                 style="background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);"></div>
 
-        </section>
+        </form>
 
     </main>
 

@@ -381,7 +381,7 @@ def editar_produto(id):
     print(produto)
     return render_template('pagina_editar_produto.html', produto=produto, caracteristicas=caracteristicas,tipos=tipos,categorias=categorias, estantes=estantes)
 
-@app.route("/post/editar/produto/<id>")
+@app.route("/post/editar/produto/<id>", methods=["POST"])
 def post_editar_produto(id):
     produto = ControleProduto.buscar_produto(id)[0]
     # 1. Verificação de Sessão
@@ -439,14 +439,14 @@ def post_editar_produto(id):
         })
 
     # 4. Validação da IMAGEM (NOT NULL)
-    imagem_file = request.files.get("cadastro-imagem")
+    imagem_file = request.files.get("cadastro-imagem")  
     imagem_blob = imagem_file.read() if imagem_file and imagem_file.filename else None
 
-    if not imagem_blob:
-        return jsonify({
-            'status': 'error', 
-            'message': 'A imagem do produto é obrigatória.'
-        })
+    # if not imagem_blob:
+    #     return jsonify({
+    #         'status': 'error', 
+    #         'message': 'A imagem do produto é obrigatória.'
+    #     })
 
     # 5. Chamar a função de controle de produto
     sucesso, mensagem_ou_id = ControleProduto.editar_produto(
