@@ -469,9 +469,22 @@ def pagina_consultar_produtos():
     if "cpf" in session:
         cpf = session["cpf"]
         nome = session['nome']
-        produto = ControleProduto.recuperar_produtos(cpf)
+        produto = ControleProduto.selecionar_produto(cpf)
 
-    return render_template("pagina_consultar_produtos.html", nome = nome, produto = produto)
+    return redirect("pagina_consultar_produtos.html", nome = nome, produto = produto)
+
+# selecionar o produto
+@app.route("/consultar/produto/<cod_produto>")
+def consultar_produto(cod_produto):
+            
+            cod_produto = int(cod_produto)
+
+            if "cpf" in session:
+                cpf = session["cpf"]
+                nome = session['nome']
+                produtos = ControleProduto.selecionar_produto(cpf, cod_produto)
+
+            return render_template("pagina_consultar_produtos.html", nome = nome, produtos = produtos)
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
