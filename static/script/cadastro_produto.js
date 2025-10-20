@@ -34,7 +34,7 @@ if (cadastroProdutoForm) {
                 // SUCESSO
                 Swal.fire({
                     title: 'Sucesso!',
-                    text: `${data.message}! Redirecionando...`, 
+                    text: `${data.message} Redirecionando...`, 
                     icon: 'success',
                     timer: 1000, 
                     timerProgressBar: true, 

@@ -51,10 +51,8 @@
 }
 
 .container--figure-img .img-fluid{
-
     height: 100%;
     width: 100%;
-
 }
 
 /* detalhes da gaveta */
@@ -73,21 +71,14 @@
 }
 
 .container--div-top{
-
     width: 100%;
-
     display: grid;
     grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
-
-    
-    
     border-radius: 20px;
 }
 
 .card-body{
-
     margin-left: 8px;
-   
 }
 
 /* container da descrição */
@@ -119,16 +110,12 @@
 .material-symbols-outlined{
     cursor: pointer;
     color: var(--black);
-
     line-height: 2!important;
-  
 }
 
 /* tamanho dos icones */
 .container--bottom-card .material-symbols-outlined {
-
     font-size: larger;
-
 }
    
 /* botao de quantidade */
@@ -146,7 +133,6 @@ button[type="submit"] {
     background-color: var(--grey-light);
     color: var(--dark);
     font-size: var(--font-size-20) !important;
-    
     font-weight: bold;
     border: none;
     border-radius: 12px;
@@ -160,7 +146,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: var(--orange-color);
+    background-color: var(--orange-color) !important;
     color: var(--white);
     transform: scale(1.02);
 }
