@@ -7,6 +7,8 @@ class Usuario:
 
     # Conexao com o banco de dados para cadastrar um novo usuario
     def cadastrar_usuario(cpf, nome, senha):
+
+        cpf_limpo = cpf.replace('.', '').replace('-', '')
         
         senha = sha256(senha.encode()).hexdigest()
             
@@ -22,7 +24,7 @@ class Usuario:
                     VALUES (
                         %s, %s, %s)"""
 
-        valores = (cpf, nome, senha)
+        valores = (cpf_limpo, nome, senha)
 
         cursor.execute(sql, valores)
 
@@ -43,7 +45,10 @@ class Usuario:
         
         Retorna o nome do usuário se o login for bem-sucedido,
         caso contrário, retorna None.
+
         """
+
+        cpf_limpo = cpf.replace('.', '').replace('-', '')
 
         try:
             
@@ -56,7 +61,7 @@ class Usuario:
             cursor = conexao.cursor()
             
             sql = "SELECT nome FROM usuario WHERE cpf = %s and senha = %s"
-            valores = (cpf, senha_criptografada)
+            valores = (cpf_limpo, senha_criptografada)
             
             cursor.execute(sql, valores)
             
@@ -66,15 +71,46 @@ class Usuario:
             if resultado:
                 # Retorna o nome do usuário se as credenciais forem válidas
                 print("Login bem-sucedido!")
-                return resultado[0] # O nome está na primeira posição da tupla
+                return resultado[0], cpf_limpo # O nome está na primeira posição da tupla
             else:
                 # Retorna None se as credenciais forem inválidas
                 print("CPF ou senha incorretos.")
-                return None
+                return None, None
 
         except Error as e:
             print(f"Erro ao validar login: {e}")
-            return None
+            return None, None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
+
+    def alterar_senha(cpf, nova_senha):
+
+        cpf_limpo = cpf.replace('.', '').replace('-', '')
+
+        try:
+            
+            senha_criptografada = sha256(nova_senha.encode()).hexdigest()
+            
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor()
+            sql = "UPDATE usuario SET senha = %s WHERE cpf = %s"
+            valores = (senha_criptografada, cpf_limpo)
+            
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            return "Senha alterada com sucesso."
+
+        except Error as e:
+            print(f"Erro ao alterar senha: {e}")
+            return None, None
 
         finally:
             if 'cursor' in locals() and cursor:
