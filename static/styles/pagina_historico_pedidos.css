@@ -1,0 +1,84 @@
+/* container do body */
+.container--body {
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: 400;
+}
+
+/* container principal geral para todas as telas */
+.container--main {
+    flex: 1;
+    display: flex;
+    width: 100%;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* container do titulo */
+.h1-titulo{
+    font-family: var(--font-cinzel);
+    font-size: var(--font-size-30);
+}
+
+/* container do card todo */
+.container--card{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* container do header do card */
+.card-header{
+
+    display: flex;
+    justify-content: space-between;
+}
+
+/* todos os p do header */
+.card-header p{
+    margin: 0px !important;
+}
+
+/* apenas o que está ao lado direito do header */
+.card--header-direito{
+    display: flex;
+    align-items: center;
+}
+
+/* icone do header */
+.material-symbols-outlined{
+
+    font-weight: bold !important;
+    cursor: pointer;
+}
+
+/* fundo do header, que consequentemente leva a mesma formatação para o "footer" */
+.card-header{
+
+    background-color: var(--grey-light) !important;
+}
+
+/* Botão de limpar */
+button[type="submit"] {
+    background-color: var(--grey-light);
+    color: var(--grey-dark);
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.5s ;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--orange-color) !important;
+    color: var(--white);
+}
