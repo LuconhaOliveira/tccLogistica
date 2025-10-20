@@ -239,9 +239,10 @@ def post_recuperar_senha():
             "message": "Erro ao realizar a alteração. Tente novamente ou entre em contato."
         }), 500
 
+# PRODUTOS ------------------------------------------------------------------------------------------------------#
   
 # Rota para exibir o formulário de cadastro de produto
-@app.route("/pagina/produto")
+@app.route("/adicionar/produto")
 def pagina_produto():
     """Renderiza o formulário para cadastro de novos produtos."""
     
@@ -266,7 +267,7 @@ def pagina_produto():
         estante=estante
     )
 
-
+# CADASTRAR PRODUTOS ------------------------------------------------------------------------------------------------------#
 
 # Rota de POST para cadastro de produto
 # app.py (Rota /post/produto)
@@ -368,8 +369,16 @@ def post_produto():
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
+# VIZUALIZAR PRODUTO ESPECIFICO ------------------------------------------------------------------------------------------------------#
 
+@app.route("/visualizar/produto/<cod_produto>")
+def visualizar_produto(cod_produto):
+            
+            cod_produto = int(cod_produto)
 
+            produto = ControleProduto.selecionar_produto(cod_produto)
+
+            return render_template("pagina_visualizar_produto.html", produto = produto)
     
 # CADASTRO DE ESTANTE ------------------------------------------------------------------------------------------------------# 
 
@@ -451,6 +460,17 @@ def remover_estante(cod_estante):
     Estante.remover_estante(cod_estante)
     return redirect("/pagina/principal")
 
+# CONSULTAR PRODUTOS NA ESTANTE ----------------------------------------------------------------------------------------------
+
+@app.route("/pagina/consulta_produtos")
+def pagina_consultar_produtos():
+
+    if "cpf" in session:
+        cpf = session["cpf"]
+        nome = session['nome']
+        produto = ControleProduto.selecionar_produto(cpf)
+
+    return render_template("pagina_consultar_produtos.html", nome = nome, produto = produto)
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
