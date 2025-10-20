@@ -226,3 +226,33 @@ class ControleProduto:
         conexao.close()
 
         return resultado
+    
+
+    # Busca todas as características de um produto usando a tabela de junção produto_caracteristica
+    def buscar_caracteristicas_do_produto(cod_produto):
+
+        conexao = Conection.create_connection()
+        cursor = conexao.cursor(dictionary = True)
+
+        sql = """
+            SELECT
+                caracteristica.nome AS nome_caracteristica,
+                produto_caracteristica.valor AS valor_caracteristica
+            FROM
+                produto_caracteristica
+            INNER JOIN 
+                caracteristica ON produto_caracteristica.cod_caracteristica = caracteristica.cod_caracteristica
+            WHERE
+                produto_caracteristica.cod_produto = %s;
+        """
+        
+        valor = (cod_produto,)
+        cursor.execute(sql, valor)
+
+        # Note que usamos fetchall() porque um produto pode ter MUITAS características
+        resultados = cursor.fetchall()
+        
+        cursor.close()
+        conexao.close()
+
+        return resultados
