@@ -468,18 +468,6 @@ def remover_estante(cod_estante):
     # Chama a função do controler, remove a estante e redireciona para a pagina principal
     Estante.remover_estante(cod_estante)
     return redirect("/pagina/principal")
-
-# CONSULTAR PRODUTOS NA ESTANTE ----------------------------------------------------------------------------------------------
-
-@app.route("/pagina/consulta_produtos")
-def pagina_consultar_produtos():
-
-    if "cpf" in session:
-        cpf = session["cpf"]
-        nome = session['nome']
-        produto = ControleProduto.selecionar_produto(cpf)
-
-    return render_template("pagina_consultar_produtos.html", nome = nome, produto = produto)
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
