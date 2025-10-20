@@ -256,7 +256,7 @@ class ControleProduto:
         return dependencia # Retorna True se houver dependência
     
     # Conexao com o banco de dados para excluir um produto
-    def remover_categoria(cod_produto):
+    def remover_produto(cod_produto):
 
         # Verifica se o produto possui uma dependencia 
         if ControleProduto.verificar_dependencia_produto(cod_produto):

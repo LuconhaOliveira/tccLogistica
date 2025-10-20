@@ -371,6 +371,15 @@ def post_produto():
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
+# Rota para excluir um produto
+@app.route("/post/produto/remover/<cod_produto>")
+def remover_produto(cod_produto):
+    cod_produto = int(cod_produto)
+    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
+    ControleProduto.remover_produto(cod_produto)
+
+    return redirect("/pagina/principal")
+
 # VIZUALIZAR PRODUTO ESPECIFICO ------------------------------------------------------------------------------------------------------#
 
 @app.route("/visualizar/produto/<cod_produto>")
