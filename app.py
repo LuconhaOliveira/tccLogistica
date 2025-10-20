@@ -6,6 +6,7 @@ from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
+import base64
 
 app = Flask(__name__)
 
@@ -374,12 +375,19 @@ def post_produto():
 @app.route("/pagina/editar/produto/<id>")
 def editar_produto(id):
     produto = ControleProduto.buscar_produto(id)[0]
+    imagem_base64 = ""
+    if produto["imagem"]:
+        imagem_blob = produto["imagem"]  # Aqui o produto.imagem é o BLOB do banco de dados
+
+        # Convertendo o BLOB para base64
+        imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+
     caracteristicas = Categoria.recuperar_caracteristica(session["cpf"])
     tipos = Categoria.recuperar_tipo(session["cpf"])
     categorias = Categoria.recuperar_categoria(session["cpf"])
     estantes = Estante.buscar_estantes()
     print(produto)
-    return render_template('pagina_editar_produto.html', produto=produto, caracteristicas=caracteristicas,tipos=tipos,categorias=categorias, estantes=estantes)
+    return render_template('pagina_editar_produto.html', produto=produto, caracteristicas=caracteristicas,tipos=tipos,categorias=categorias, estantes=estantes, imagem_base64=imagem_base64)
 
 @app.route("/post/editar/produto/<id>", methods=["POST"])
 def post_editar_produto(id):
@@ -422,7 +430,7 @@ def post_editar_produto(id):
         cod_tipo = int(cod_tipo_str) # Converte para int após validação NOT NULL
         
         # 3.4. VALOR (NÃO é NOT NULL, mas a conversão é importante)
-        valor_str = request.form.get("cadastro-valor").replace('.', '').replace(',', '.')
+        valor_str = request.form.get("cadastro-valor")
         valor = float(valor_str) if valor_str else 0.0 
 
         # 3.5. Conversão dos outros IDs (NULÁVEIS)

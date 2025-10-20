@@ -63,13 +63,12 @@
 
                             <figure>
                                 <!-- imagem -->
-                                 <!-- TODO: arrumar a preview da imagem -->
-                                <img id="preview" src="{{produto.imagem}}"
+                                <img id="preview" src="data:image/jpeg;base64,{{ imagem_base64 }}"
                                 class="img-fluid rounded-start" alt="Editar a foto. Clique em cima!">
 
                                 <!-- <figcaption class="figcaption-descricao">Para editar a foto, clique em cima da imagem!</figcaption> -->
                             </figure>
-                                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*" required>
+                                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*">
 
                         </div>
 
@@ -248,12 +247,6 @@
 
                         <button class="btn btn-primary" type="submit">Editar</button>
 
-                        <!-- campo de quantidade -->
-                        <div class="mb-0">
-                            <!-- quantidade: backend do cadastro -->
-                            <input name="cadastro-quantidade" type="number" class="form-control"
-                                id="exampleInputQuantidade" min="0" value="0">
-                        </div>
 
                     </div>
 
@@ -274,6 +267,21 @@
 
     <!-- import da biblioteca do sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('exampleInputPhoto').addEventListener('change', function(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const preview = document.getElementById('preview');
+              preview.src = ''
+              preview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      </script>
 
 </body>
 
