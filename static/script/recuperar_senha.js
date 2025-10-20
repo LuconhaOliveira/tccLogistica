@@ -41,18 +41,21 @@ senhaForm.addEventListener('submit', function(event) {
         // A lógica de interface (UI) é definida com base no código de status retornado.
         if (status === 200) {
             // Cadastro de SUCESSO (Status 200 OK)
-            // Exibe um alerta visual amigável (SweetAlert2) com a mensagem de sucesso do servidor.
+            // Exibe um alerta AUTOMÁTICO com a mensagem de sucesso e redirecionamento.
             Swal.fire({
                 title: 'Sucesso!',
-                text: data.message,
+                // Informa o usuário sobre o redirecionamento automático
+                text: `${data.message}! Redirecionando para o login.`, 
                 icon: 'success',
-                confirmButtonText: 'Fazer Login'
-            }).then((result) => {
-                // Após a confirmação do usuário no alerta, o navegador é redirecionado
-                // para a rota principal ('/') para iniciar o processo de login.
-                if (result.isConfirmed) {
-                    window.location.href = "/"; // Sua rota de login
-                }
+                // --- Configurações para Alerta Automático ---
+                timer: 1000,           // Define o tempo do timer (3 segundos)
+                timerProgressBar: true, // Mostra a barra de progresso
+                showConfirmButton: false, // Não mostra o botão de confirmação manual
+                // ---------------------------------------------
+            }).then(() => {
+                // O bloco 'then' é executado quando o alerta é fechado (pelo timer ou manual).
+                // Redireciona AUTOMATICAMENTE para a tela de login
+                window.location.href = "/"; // Sua rota de login
             });
         } else {
             // ERRO (Status 400, 401, 500, etc.)
@@ -63,8 +66,7 @@ senhaForm.addEventListener('submit', function(event) {
                 icon: 'error',
                 confirmButtonText: 'Tentar Novamente'
             });
-            // O campo de senha é limpo para forçar o usuário a reinserir a credencial,
-            // aumentando a segurança após uma tentativa falha.
+            // O campo de senha é limpo
             document.getElementById('exampleInputPassword1').value = ''; 
         }
     })
