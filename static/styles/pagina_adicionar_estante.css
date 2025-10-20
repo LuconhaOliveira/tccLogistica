@@ -33,14 +33,14 @@
 /* Titulo do form */
 form h1 {
     text-align: center;
-    font-size: 22px;
+    font-size: var(--font-size-30);
     margin-bottom: 25px;
     font-weight: bold;
 }
 
 /* label (textos em cima dos inputs) */
 .form-label {
-    font-size: 14px;
+    font-size: var(--font-size-20);
     margin-bottom: 5px;
     font-weight: 500;
     display: block;
@@ -49,6 +49,8 @@ form h1 {
 /* Botão de Login */
 button[type="submit"] {
     background-color: var(--grey-medium);
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
     color: var(--grey-dark);
     font-weight: bold;
     border: none;
@@ -65,43 +67,14 @@ button[type="submit"]:hover {
     color: var(--grey-light);
 }
 
-.container--a--label-possuiConta{
-
-    text-align: center;
-
-}
-
-/* Link do login */
-.container--a--label-possuiConta label{
-    font-size: 12px;
-    margin-top: 10px;
-}
-
-/* HREF link */
-.container--a--label-possuiConta a{
-    font-size: 12px;
-    text-decoration: underline;
-    color: var(--orange-color);
-    font-weight: bold;
-}
-.a--esqueci-senha{
-    font-size: 12px;
-    text-decoration: underline;
-    color: var(--orange-color);
-    font-weight: bold;
-    
-}
-
-.a--esqueci-senha:hover{
-    transform: scale(1.2);
-    text-decoration: wavy;
-}
-
-.container--a--label-possuiConta a:hover {
-    transform: scale(1.2);
-    text-decoration: wavy;
-}
-
 .form-check{
+
     padding: 0 !important;
+
+}
+
+.form-control{
+
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
 }
