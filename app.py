@@ -412,56 +412,52 @@ def adicionar_estante():
     # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
     cpf = session.get("cpf") 
 
-    # Caso o CPF não estiver na sessão
     if not cpf:
-        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
         return jsonify({
-            "status": "erro",
+            "status": "error",
             "titulo": "Sessão Expirada",
             "mensagem": "Por favor, faça login novamente para continuar.",
-            "redirect": "/pagina/login" # Indica ao JS para redirecionar
+            "redirect": "/pagina/login"
         }), 401
     
-    # Coleta de dados (só pega os dados se o CPF existir)
     nome = request.form.get("nome")
     cod_categoria = request.form.get("cod_categoria")
 
-    # Garante que o campo 'cod_categoria' foi preenchido. 
     if not nome or not cod_categoria:
         return jsonify({
-            "status": "aviso",
+            "status": "error", # Padronizado para 'error'
             "titulo": "Campos Vazios",
             "mensagem": "Preencha o nome e selecione a categoria da estante."
         }), 400
         
-    # Inserção dos dados no Banco caso esteja tudo certo
     try:
+        cod_categoria_int = int(cod_categoria)
         sucesso = Estante.cadastrar_estante(
             nome,
             cpf, 
-            int(cod_categoria)
+            cod_categoria_int
         )
         
         if sucesso:
-            # Caso a inserção de dados seja um sucesso, redireciona para a página principal (futuramente vai aparecer um sweet alert)
+            # SUCESSO PADRONIZADO (Status 201, status JSON "success")
             return jsonify({
-                "status": "sucesso",
+                "status": "success",
                 "titulo": "Estante Criada!",
                 "mensagem": f"A estante '{nome}' foi cadastrada com sucesso!"
             }), 201
         else:
-            # Falha no banco de dados (erro interno na classe Estante)
-            print(f"Erro no cadastro do banco de dados para CPF {cpf}.")
+            # Falha interna da classe Estante.cadastrar_estante (DB problem)
+            print(f"Erro no cadastro do banco de dados (retorno False) para CPF {cpf}.")
             return jsonify({
-                "status": "erro",
+                "status": "error", # Padronizado para 'error'
                 "titulo": "Erro no Banco de Dados",
                 "mensagem": "Não foi possível cadastrar a estante. Tente novamente."
             }), 500
 
     except ValueError: 
-        # Erro de formato (se cod_categoria não for um número)
+        # Erro de formato (cod_categoria não é número)
         return jsonify({
-            "status": "erro",
+            "status": "error", # Padronizado para 'error'
             "titulo": "Erro de Formato",
             "mensagem": "O código da categoria é inválido."
         }), 400
@@ -470,7 +466,7 @@ def adicionar_estante():
         # Erro genérico de sistema
         print(f"Erro inesperado durante a persistência: {e}")
         return jsonify({
-            "status": "erro",
+            "status": "error", # Padronizado para 'error'
             "titulo": "Erro Inesperado",
             "mensagem": "Ocorreu um erro desconhecido no servidor."
         }), 500
