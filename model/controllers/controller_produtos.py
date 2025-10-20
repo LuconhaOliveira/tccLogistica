@@ -116,8 +116,8 @@ class ControleProduto:
                     INNER JOIN categoria ON categoria.cod_categoria = produto.cod_categoria
                     INNER JOIN tipo ON tipo.cod_tipo = produto.cod_tipo
                     INNER JOIN caracteristica ON caracteristica.cod_caracteristica = produto.cod_caracteristica
-                    WHERE produto.cpf = %s AND produto.cod_produto = %s;"""
-            valores = (session["cpf"],id)
+                    WHERE produto.cod_produto = %s;"""
+            valores = (id,)
             
             cursor.execute(sql, valores)
             
@@ -136,4 +136,92 @@ class ControleProduto:
             if 'cursor' in locals() and cursor:
                 cursor.close()
             if 'conexao' in locals() and conexao:
+                conexao.close()
+    
+    def editar_produto(descricao, arquivo_imagem, quantidade, valor, sku, 
+                          coluna, linha, cod_estante, cod_categoria, 
+                          cod_tipo, cod_caracteristica, cod_produto):
+        """
+        Cadastra um novo produto no banco de dados.
+
+        Argumentos (13 ao total, mais a data/hora gerada internamente):
+        - nome (VARCHAR)
+        - descricao (VARCHAR)
+        - arquivo_imagem (bytes BLOB): Conteúdo binário da imagem.
+        - quantidade (INT)
+        - valor (FLOAT)
+        - sku (VARCHAR)
+        - coluna (VARCHAR)
+        - linha (VARCHAR)
+        - cod_estante (INT)
+        - cod_categoria (INT)
+        - cod_tipo (INT)
+        - cod_caracteristica (INT)
+        - user_cpf (VARCHAR)
+
+        Retorna:
+        - (True, cod_produto_inserido) se o cadastro for bem-sucedido.
+        - (False, mensagem_de_erro) em caso de falha.
+        """
+        conexao = None
+        cursor = None
+        
+
+        try:
+            # 2. CONEXÃO
+            conexao = Conection.create_connection()
+            if not conexao:
+                return False, "Falha na conexão com o banco de dados."
+
+            cursor = conexao.cursor()
+
+            # 3. COMANDO SQL: Inclui TODAS as 14 colunas da tabela 'produto'
+            sql = """
+            UPDATE produto SET descricao=%s, imagem=%s, quantidade=%s, valor=%s, sku=%s, 
+                coluna=%s, linha=%s, cod_estante=%s, cod_categoria=%s, cod_tipo=%s, cod_caracteristica=%s
+                WHERE cod_produto=%s
+            """
+            
+            # 4. VALORES: Ordem deve ser EXATA à do SQL
+            valores = (
+                descricao, 
+                arquivo_imagem, 
+                quantidade, 
+                valor, 
+                sku, 
+                coluna, 
+                linha,   # CPF do usuário (Chave estrangeira)
+                cod_estante,
+                cod_categoria, 
+                cod_tipo, 
+                cod_caracteristica,
+                cod_produto
+            )
+
+            # 5. EXECUÇÃO
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            produto_id = cursor.lastrowid
+            print(f"Produto alterado com sucesso. ID: {produto_id}")
+            
+            # MUDANÇA: Retorna True e o ID do novo produto
+            return True, produto_id
+
+        except Error as e:
+            # Captura erros de banco de dados
+            if conexao: conexao.rollback()
+            print(f"Erro ao cadastrar produto (SQL/DB): {e}")
+            return False, f"Erro no banco de dados: {e}"
+
+        except Exception as e:
+            # Captura outros erros
+            print(f"Erro inesperado no processo de cadastro: {e}")
+            return False, f"Erro inesperado: {e}"
+
+        finally:
+            # GARANTIA DE LIMPEZA DE RECURSOS
+            if cursor:
+                cursor.close()
+            if conexao:
                 conexao.close()

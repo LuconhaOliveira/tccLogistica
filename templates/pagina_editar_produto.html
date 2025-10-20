@@ -66,12 +66,13 @@
                             <img src="{{produto.imagem}}"
                                 class="img-fluid rounded-start" alt="Editar a foto. Clique em cima!">
 
-                                <figcaption class="figcaption-descricao">Para editar a foto, clique em cima da imagem!</figcaption>
+                                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*">
+                                <!-- <figcaption class="figcaption-descricao">Para editar a foto, clique em cima da imagem!</figcaption> -->
                             </figure>
 
                         </div>
 
-                        <div class="col-md-0 container--div-right">
+                        <form class="col-md-0 container--div-right" action="/post/editar/produto/{{produto.cod_produto}}">
 
                             <div class="card-body">
 
@@ -81,7 +82,7 @@
                                 <div class="mb-3">
 
                                     <!-- exemplo -->
-                                    <p class="card-text">Nome: {{ produto.produto }}</p>
+                                    <p class="card-text" name="cadastro-nome">Nome: {{ produto.produto }}</p>
 
                                 </div>
 
@@ -231,7 +232,7 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </form>
 
                     </section>
 
@@ -244,7 +245,7 @@
 
                     <div class="container--bottom-card">
 
-                        <button class="btn btn-primary" type="submit">Editar</button>
+                        <button class="btn btn-primary" type="submit"><a href="/post/editar/produto/{{produto.cod_produto}}">Editar</a></button>
 
                         <!-- campo de quantidade -->
                         <div class="mb-0">
