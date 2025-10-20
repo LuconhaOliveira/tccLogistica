@@ -11,9 +11,11 @@ class Estante:
             if not conexao:
                 return None
 
-            cursor = conexao.cursor()
+            cursor = conexao.cursor(dictionary=True)
             
-            sql = "SELECT estante.enderecamento,estante.estante,categoria.nome FROM estante INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria WHERE estante.cpf= %s"
+            sql = "SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria FROM estante " \
+            "INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria " \
+            "WHERE estante.cpf= %s"
             valores = (session["cpf"],)
             
             cursor.execute(sql, valores)
@@ -21,8 +23,7 @@ class Estante:
             resultado = cursor.fetchall()
             
             if resultado:
-                estantes = [{"enderecamento":estante[0], "estante": estante[1], "categoria": estante[2]} for estante in resultado]
-                return estantes
+                return resultado
             else:
                 return None
 
@@ -44,12 +45,11 @@ class Estante:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = """SELECT produto.nome, produto.sku, produto.imagem, tipo.nome AS 'tipo'
+            sql = """SELECT produto.cod_produto, produto.nome, produto.imagem, produto.coluna, produto.linha
                         FROM produto INNER JOIN usuario ON usuario.cpf = produto.cpf
                         INNER JOIN armazenamento ON armazenamento.cod_produto = produto.cod_produto
                         INNER JOIN estante ON armazenamento.cod_estante = estante.cod_estante
-                        INNER JOIN tipo ON tipo.cod_tipo=produto.cod_tipo
-                        WHERE usuario.cpf= %s and estante.enderecamento= %s"""
+                        WHERE usuario.cpf= %s and estante.cod_estante= %s"""
             valores = (session["cpf"],id)
             
             cursor.execute(sql, valores)
@@ -77,9 +77,11 @@ class Estante:
             if not conexao:
                 return None
 
-            cursor = conexao.cursor()
+            cursor = conexao.cursor(dictionary=True)
             
-            sql = """SELECT estante.enderecamento,estante.estante,categoria.nome FROM estante INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria WHERE estante.cpf= %s AND categoria.nome=%s"""
+            sql = """SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria FROM estante
+            INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria
+            WHERE estante.cpf= %s AND categoria.nome=%s"""
             valores = (session["cpf"],filtro)
             
             cursor.execute(sql, valores)
@@ -87,9 +89,7 @@ class Estante:
             resultado = cursor.fetchall()
             
             if resultado:
-                print(resultado)
-                estantes = [{"enderecamento":estante[0], "estante": estante[1], "categoria": estante[2]} for estante in resultado]
-                return estantes
+                return resultado
             else:
                 return None
 

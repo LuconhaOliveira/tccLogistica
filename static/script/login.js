@@ -21,7 +21,6 @@ loginForm.addEventListener('submit', function(event) {
     })
     .then(response => {
         // Passo 1: Como o Flask SEMPRE retorna 200, podemos apenas ler o JSON.
-        // Não precisamos verificar response.ok, pois o tratamento será feito pelo JSON 'status'.
         return response.json(); 
     })
     .then(data => {
@@ -29,22 +28,29 @@ loginForm.addEventListener('submit', function(event) {
         // 5. Processa a resposta final do servidor (usando o campo 'status' do JSON)
         
         if (data.status === "success") {
-            // Bloco de SUCESSO
+            // Bloco de SUCESSO - AGORA COM ALERTA AUTOMÁTICO
             
             Swal.fire({
                 title: 'Sucesso!',
-                text: data.message,
+                // Mensagem aprimorada para informar sobre o redirecionamento automático
+                text: `${data.message}! Redirecionando...`, 
                 icon: 'success',
-                confirmButtonText: 'Continuar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redireciona o navegador para a página principal
-                    window.location.href = "/pagina/principal";
-                }
+                // --- Configurações para Alerta Automático ---
+                timer: 1000, // Define o tempo do timer (3 segundos)
+                timerProgressBar: true, // Mostra a barra de progresso
+                showConfirmButton: false, // Esconde o botão de confirmação manual
+                // ---------------------------------------------
+            }).then(() => { // O then() é executado quando o timer expira ou o alerta é fechado
+                // Redireciona o navegador para a página principal AUTOMATICAMENTE
+                
+                window.location.href = "/pagina/principal";
+                // window.location.href = "/pagina/cadastrar/categoria";
+                // window.location.href = "/pagina/produto";
+                // window.location.href = "/pagina/cadastro_estante";
             });
             
         } else {
-            // Bloco de ERRO (data.status é "error")
+            // Bloco de ERRO (data.status é "error") - Sem alteração
             
             Swal.fire({
                 title: 'Erro!',

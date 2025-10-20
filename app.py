@@ -5,6 +5,7 @@ from model.controllers.controller_usuario import Usuario
 from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
+from model.controllers.controller_historico import Historico
 
 app = Flask(__name__)
 
@@ -18,15 +19,12 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 @app.route("/pagina/principal")
 def pagina_principal():
 
-    estantes = Estante.buscar_estantes()
-
-    if estantes is None:
-        estantes = []
-
-    filtros = [i["categoria"] for i in estantes]
-    filtros = list(set(filtros))
-
-    return render_template("pagina_principal.html",estantes=estantes,filtros=filtros)
+    if "cpf" not in session:
+        return redirect(url_for('pagina_logar')) 
+    
+    else:
+        nome = session['nome']
+        return render_template("pagina_principal.html", nome=nome)
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
@@ -96,7 +94,7 @@ def post_cadastro():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Cadastro realizado com sucesso! Faça login para continuar."
+            "message": "Cadastro Feito!"
         }), 200
     
     except Exception as e:
@@ -170,7 +168,7 @@ def post_login():
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Login realizado com sucesso! Bem-vindo(a), {nome_usuario}."
+            "message": f"Bem-vindo(a), {nome_usuario}"
         }), 200
     else:
         # Bloco executado se o login falhar
@@ -225,7 +223,7 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Alteração realizada com sucesso! Faça login para continuar."
+            "message": "Senha alterada"
         }), 200
     
     except Exception as e:
@@ -251,68 +249,131 @@ def post_recuperar_senha():
 @app.route("/pagina/produto")
 def pagina_produto():
     """Renderiza o formulário para cadastro de novos produtos."""
-
-    return render_template('cadastro_produto.html') 
-
-# Rota de POST para cadastro de produto
-@app.route("/post/produto", methods=["POST"])
-def post_produto():
-    """
-    Processa o formulário de cadastro de produto, incluindo o upload da imagem.
-    """
-    # 1. Obter dados do formulário
-    cpf = request.form.get("cadastro-cpf")
-    sku = request.form.get("cadastro-sku")
-    descricao = request.form.get("cadastro-descricao")
-    nome = request.form.get("cadastro-nome")
     
-    # É crucial converter o valor e o cod_tipo para os tipos numéricos corretos
-    try:
-        valor = float(request.form.get("cadastro-valor"))
-        cod_tipo = int(request.form.get("cadastro-cod_tipo"))
-    except (TypeError, ValueError):
-        print("Erro: Valor ou Cód. Tipo não são números válidos.")
-        # Retornaria uma mensagem de erro ao usuário
-        return redirect("/pagina/produto") 
+    if "cpf" not in session:
+        return redirect(url_for('pagina_logar')) 
     
-    # 2. Obter o arquivo de imagem
-    # Request.files para acessar arquivos carregados
-    imagem_file = request.files.get("cadastro-imagem") 
+    # Usuário está logado
+    cpf = session["cpf"]
+    
+    # Tenta recuperar os dados dos selects (tratamento de erro seria ideal)
+    categoria = Categoria.recuperar_categoria(cpf)
+    tipo = Categoria.recuperar_tipo(cpf)
+    caracteristica = Categoria.recuperar_caracteristica(cpf)
+    estante = Estante.recuperar_estante(cpf)
 
-    # 3. Chamar a função de controle de produto
-    sucesso = ControleProduto.cadastrar_produto(
-        cpf, sku, imagem_file, descricao, nome, valor, cod_tipo
+    # Renderiza o template, passando os dados para os selects
+    return render_template(
+        "pagina_cadastrar_produto.html", 
+        categoria=categoria, 
+        tipo=tipo, 
+        caracteristica=caracteristica, 
+        estante=estante
     )
 
+
+
+# Rota de POST para cadastro de produto
+# app.py (Rota /post/produto)
+
+@app.route("/post/produto", methods=['POST'])
+def post_produto():
+    """
+    Processa o formulário de cadastro de produto via AJAX e retorna JSON, 
+    incluindo validação de campos OBRIGATÓRIOS.
+    """
+    # 1. Verificação de Sessão
+    if "cpf" not in session:
+        return jsonify({
+            'status': 'error', 
+            'message': 'Sessão expirada. Por favor, faça login novamente.'
+        })
+
+    user_cpf = session["cpf"]
+    
+    # 2. Obter dados do formulário (incluindo campos NULÁVEIS)
+    sku = request.form.get("cadastro-sku")
+    descricao = request.form.get("cadastro-descricao")
+    coluna = request.form.get("cadastro-coluna-estante")
+    linha = request.form.get("cadastro-linha-estante")
+    
+    # Campos que serão validados como OBRIGATÓRIOS ou numéricos
+    nome = request.form.get("cadastro-nome")
+    quantidade_str = request.form.get("cadastro-quantidade")
+    cod_tipo_str = request.form.get("cadastro-tipo") # cod_tipo é NOT NULL
+    
+    cod_estante = request.form.get("cadastro-nome-estante")
+    cod_categoria = request.form.get("cadastro-categoria")
+    cod_caracteristica = request.form.get("cadastro-caracteristicas")
+    
+    # 3. Validação de Campos NOT NULL (Backend)
+    try:
+        # 3.1. NOME (NOT NULL)
+        if not nome or nome.strip() == "":
+            raise ValueError("O campo Nome do produto é obrigatório.")
+
+        # 3.2. QUANTIDADE (NOT NULL e INT)
+        if not quantidade_str or quantidade_str.strip() == "":
+            raise ValueError("O campo Quantidade é obrigatório.")
+            
+        quantidade = int(quantidade_str)
+        if quantidade < 0:
+            raise ValueError("A Quantidade não pode ser negativa.")
+
+        # 3.3. TIPO (cod_tipo é NOT NULL)
+        if not cod_tipo_str:
+            raise ValueError("A seleção do Tipo de produto é obrigatória.")
+        cod_tipo = int(cod_tipo_str) # Converte para int após validação NOT NULL
+        
+        # 3.4. VALOR (NÃO é NOT NULL, mas a conversão é importante)
+        valor_str = request.form.get("cadastro-valor").replace('.', '').replace(',', '.')
+        valor = float(valor_str) if valor_str else 0.0 
+
+        # 3.5. Conversão dos outros IDs (NULÁVEIS)
+        cod_estante = int(cod_estante) if cod_estante else None
+        cod_categoria = int(cod_categoria) if cod_categoria else None
+        cod_caracteristica = int(cod_caracteristica) if cod_caracteristica else None
+
+
+    except (TypeError, ValueError) as e:
+        # Captura erros de validação personalizada (ValueError) e de conversão (TypeError)
+        return jsonify({
+            'status': 'error', 
+            'message': str(e)
+        })
+
+    # 4. Validação da IMAGEM (NOT NULL)
+    imagem_file = request.files.get("cadastro-imagem")
+    imagem_blob = imagem_file.read() if imagem_file and imagem_file.filename else None
+
+    if not imagem_blob:
+        return jsonify({
+            'status': 'error', 
+            'message': 'A imagem do produto é obrigatória.'
+        })
+
+    # 5. Chamar a função de controle de produto
+    sucesso, mensagem_ou_id = ControleProduto.cadastrar_produto(
+        nome, descricao, imagem_blob, quantidade, valor, sku,
+        coluna, linha, cod_estante, cod_categoria,
+        cod_tipo, cod_caracteristica, user_cpf 
+    )
+
+    # 6. Retorno JSON
     if sucesso:
-        # Redireciona para alguma página de confirmação ou lista de produtos
-        return redirect("/pagina/principal") 
+        return jsonify({
+            'status': 'success',
+            'message': f"Produto cadastrado!" 
+        })
     else:
-        # Redireciona de volta com erro
-        return redirect("/pagina/produto") 
+        return jsonify({
+            'status': 'error',
+            'message': f"Falha no cadastro (DB). Detalhes: {mensagem_ou_id}" 
+        })
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
-@app.route("/post/deletar_produto", methods=["POST"])
-def post_deletar_produto():
-    """
-    Processa a exclusão de um produto, recebendo o cod_produto via POST.
-    """
-    try:
-        cod_produto = int(request.form.get("cod_produto"))
-    except (TypeError, ValueError):
-        # Se o código do produto não for um número válido, retorna erro
-        return "Erro: Código do produto inválido.", 400
 
-    # Chama a função de exclusão
-    sucesso = ControleProduto.deletar_produto(cod_produto)
-
-    if sucesso:
-        # Redireciona de volta para a lista de produtos após a exclusão
-        return redirect("/pagina/listagem_produtos")
-    else:
-        # Em caso de falha (erro de BD ou produto não encontrado)
-        return "Erro ao deletar o produto. Verifique dependências.", 500
 
     
 # CADASTRO DE ESTANTE ------------------------------------------------------------------------------------------------------# 
@@ -325,9 +386,10 @@ def pagina_cadastrar_estante():
 
     if "cpf" in session:
         cpf = session["cpf"]
+        nome = session['nome']
         categoria = Categoria.recuperar_categoria(cpf)
 
-    return render_template("pagina_estante.html", categoria = categoria)
+    return render_template("pagina_estante.html",nome=nome, categoria = categoria)
 
 
 # Rota que processa os dados do formulário de cadastrar estante (requisição POST).
@@ -405,11 +467,12 @@ def pagina_cadastrar_categoria():
 
     if "cpf" in session:
         cpf = session["cpf"]
+        nome = session['nome']
         categoria = Categoria.recuperar_categoria(cpf)
         tipo = Categoria.recuperar_tipo(cpf)
         caracteristica = Categoria.recuperar_caracteristica(cpf)
 
-    return render_template("pagina_categoria.html", categoria = categoria, tipo = tipo, caracteristica = caracteristica)
+    return render_template("pagina_categoria.html",nome=nome, categoria = categoria, tipo = tipo, caracteristica = caracteristica)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
 @app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
@@ -503,7 +566,40 @@ def remover_caracteristica(cod_caracteristica):
 
     return redirect("/pagina/cadastrar/categoria")
 
-# ------------------------------------------------------------------------------------------------------# 
+# RECUPERA O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
+
+@app.route("/pagina/historico_alteracoes")
+def pagina_historico_alteracao():
+
+    # Se o CPF estiver na sessão.
+    if "cpf" in session:
+        cpf = session["cpf"]
+        # Recupera todas as alterações realizadas.
+        alteracoes = Historico.recuperar_historico_alteracoes(cpf)
+
+    # Redireciona para a página de histórico de alterações, recuperando elas.
+    return render_template("pagina_historico_alteracoes.html", alteracoes = alteracoes)
+
+# EXCLUI O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
+
+@app.route("/pagina/excluir/historico_alteracoes", methods=['POST'])
+def pagina_excluir_historico_alteracao():
+
+    # Se o CPF estiver na sessão
+    if "cpf" in session:
+        cpf = session["cpf"]
+
+        # Executa a função de exclusão
+        Historico.excluir_historico_alteracoes(cpf)
+        
+        # Após a exclusão, redireciona o usuário para a mesma página que ele estava.
+        return redirect(url_for("pagina_historico_alteracao"))
+
+    # Se não houver CPF na sessão, redireciona para a página de histórico 
+    return redirect(url_for("pagina_historico_alteracao"))
+
+
+# ----------------------------------------------------------------------------------------------------------------------------# 
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)
