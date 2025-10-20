@@ -440,8 +440,6 @@ def adicionar_estante():
 def pagina_estante(id):
     produtos = Estante.buscar_estante(id)
     print(produtos)
-    for produto in produtos:
-        print(produto['linha'])
 
     return render_template("pagina_consultar_produtos.html", produtos=produtos)
     
