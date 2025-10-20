@@ -45,6 +45,7 @@
         <!-- estante selecionada -->
         <div class="container--estante">
             <div class="grid-row row-1">
+                {% if produtos %}
                 {% for produto in produtos %}
                 {% if produto.linha=="1" %}
             <div class="card--produto" style="
@@ -57,10 +58,12 @@
             </div>
                 {% endif %}
                 {% endfor %}
+                {% endif %}
             </div>
             <!-- linha 2 -->
             <div class="grid-row row-2">
 
+                {% if produtos %}
                 {% for produto in produtos %}
                 {% if produto.linha=="2" %}
             <div class="card--produto" style="
@@ -73,11 +76,13 @@
             </div>
                 {% endif %}
                 {% endfor %}
+                {% endif %}
 
             </div>
             <!-- linha 3 -->
             <div class="grid-row row-3">
 
+                {% if produtos %}
                 {% for produto in produtos %}
                 {% if produto.linha=="3" %}
             <div class="card--produto" style="
@@ -90,6 +95,7 @@
             </div>
                 {% endif %}
                 {% endfor %}
+                {% endif %}
 
             </div>
 
