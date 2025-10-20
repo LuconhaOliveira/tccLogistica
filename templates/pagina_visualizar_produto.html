@@ -54,18 +54,14 @@
 
                         <div class="col-md-0">
 
-                            <div class="container--figure-img">
-                                <!-- imagem -->
-                                <figure>
-
-                                    <img src=""
-                                        class="img-fluid rounded-start" alt="">
-
-                                </figure>
-
-                            </div>
-
-                        </div>
+                            <!-- imagem -->
+                            {% if produto.imagem %}
+                                <img src="{{ produto.imagem }}" class="img-fluid rounded-start" alt="{{ produto.nome_produto }}">
+                            {% else %}
+                                <img src="https://portal.crea-sc.org.br/wp-content/uploads/2017/11/imagem-indisponivel-para-produtos-sem-imagem_15_5.jpg" class="img-fluid rounded-start" alt="Imagem indisponível">
+                            {% endif %}
+                        </div>   
+                        
 
                         <div class="col-md-0">
                            
