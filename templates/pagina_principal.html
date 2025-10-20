@@ -46,6 +46,24 @@
 
     <main>
 
+        <!-- Add o icon "historico" no botão -->
+        <section class="section-btn--historico">
+            <button type="button" id="botaoToggleHistorico">
+                <span class="material-symbols-outlined">
+                    history
+                </span>
+            </button>
+        </section>
+
+        <!--  Opcoes que estão dentro do botão  -->
+        <section>
+            <div class="section-btn--opcoesDentroDoBtn" id="botaoToggleHistoricoOpcoes">
+                <h1 class="section-div--tituloOpcoesBtn">Histórico</h1>
+                <a class="section-div--opcoesDentroDoBtn" href="/pagina/historico_alteracoes">Alterações</a>
+                <a class="section-div--opcoesDentroDoBtn" href="/pagina/cadastrar/categoria">Pedido de compra</a>
+            </div>
+        </section>
+
         <!-- Add o icon "mais" no botão -->
         <section class="section-btn--cadastrarProdCatEst">
             <button type="button" id="botaoToggle">
@@ -58,9 +76,10 @@
         <!--  Opcoes que estão dentro do botão  -->
         <section>
             <div class="section-btn--opcoesDentroDoBtn" id="opcoesBotao">
-                <a href="/pagina/produto">Adicionar Produto</a>
-                <a href="/pagina/cadastrar/categoria">Adicionar Categoria</a>
-                <a href="/pagina/cadastro_estante">Adicionar Estante</a>
+                <h1 class="section-div--tituloOpcoesBtn">Adicionar:</h1>
+                <a class="section-div--opcoesDentroDoBtn" href="/pagina/produto">Produto</a>
+                <a class="section-div--opcoesDentroDoBtn" href="/pagina/cadastrar/categoria">Categoria</a>
+                <a class="section-div--opcoesDentroDoBtn" href="/pagina/cadastro_estante">Estante</a>
             </div>
         </section>
 
@@ -98,36 +117,65 @@
 </body>
 
 <!-- JS -->
+
 <script>
-    // pega o botão, espera um clique e a cada clique ele vai inverter a visibilidade da div(opcoes) efeito de toggle
     document.addEventListener('DOMContentLoaded', function() {
-      const botaoToggle = document.getElementById('botaoToggle');
-      const opcoesDiv = document.getElementById('opcoesBotao');
+        
+    // Botão e Div do primeiro toggle
+    const botaoToggle = document.getElementById('botaoToggle');
+    const opcoesDiv = document.getElementById('opcoesBotao');
 
-      if (botaoToggle && opcoesDiv) {
+    // botão e Div do segundo toggle
+    const botaoToggleHistorico = document.getElementById('botaoToggleHistorico');
+    const opcoesDivHistorico = document.getElementById('botaoToggleHistoricoOpcoes');
+
+    // carrega a pagina e os toggles estão fechados
+    opcoesDiv.style.display = 'none';
+    opcoesDivHistorico.style.display = 'none';
+
+    // visibilidade da div
+    function toggleVisibility(div) {
+        if (div.style.display === 'none' || div.style.display === '') {
+            div.style.display = 'block';
+        } else {
+            div.style.display = 'none';
+        }
+    }
+
+    if (botaoToggle && opcoesDiv) {
         botaoToggle.addEventListener('click', function(event) {
-          event.stopPropagation();
-          
-          if (opcoesDiv.style.display === 'none') {
-            opcoesDiv.style.display = 'block';
-          } else {
-            opcoesDiv.style.display = 'none';
-          }
+            event.stopPropagation();
+            toggleVisibility(opcoesDiv);
+
+            // fecha o outro menu se tive aberto
+            if (opcoesDivHistorico.style.display === 'block') {
+                opcoesDivHistorico.style.display = 'none';
+            }
         });
+    }
 
-                if (opcoesDiv.style.display === 'none') {
-                    opcoesDiv.style.display = 'block';
-                } else {
-                    opcoesDiv.style.display = 'none';
-                }
-            }});
+    if (botaoToggleHistorico && opcoesDivHistorico) {
+        botaoToggleHistorico.addEventListener('click', function(event) {
+            event.stopPropagation();
+            toggleVisibility(opcoesDivHistorico);
+            
+            if (opcoesDiv.style.display === 'block') {
+                opcoesDiv.style.display = 'none';
+            }
+        });
+    }
 
-            // escuta o clique e exibe ou esconde o menu de opções.
-            document.addEventListener('click', function(event) {
-                if (!opcoesDiv.contains(event.target)) {
-                    opcoesDiv.style.display = 'none';
-                }
-            });
+    document.addEventListener('click', function(event) {
+        if (!opcoesDiv.contains(event.target) && opcoesDiv.style.display === 'block') {
+            opcoesDiv.style.display = 'none';
+        }
+        if (!opcoesDivHistorico.contains(event.target) && opcoesDivHistorico.style.display === 'block') {
+            opcoesDivHistorico.style.display = 'none';
+        }
+    });
+});
+
+
 
 </script>
 
