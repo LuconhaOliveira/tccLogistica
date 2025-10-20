@@ -63,3 +63,22 @@
 
     background-color: var(--grey-light) !important;
 }
+
+/* Botão de limpar */
+button[type="submit"] {
+    background-color: var(--grey-medium);
+    color: var(--grey-dark);
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.5s ;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--orange-color) !important;
+    color: var(--white);
+}
