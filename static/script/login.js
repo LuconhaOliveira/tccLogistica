@@ -33,7 +33,7 @@ loginForm.addEventListener('submit', function(event) {
             Swal.fire({
                 title: 'Sucesso!',
                 // Mensagem aprimorada para informar sobre o redirecionamento automático
-                text: `${data.message}! Redirecionando...`, 
+                text: `${data.message} Redirecionando...`, 
                 icon: 'success',
                 // --- Configurações para Alerta Automático ---
                 timer: 1000, // Define o tempo do timer (3 segundos)

@@ -37,23 +37,31 @@
     <!-- container geral / principal -->
     <main class="container--main">
 
-        <section class="container--card-fundo" style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
+        <section class="container--card-fundo"
+            style="background-image: url(/static/img/close-up-abstrato-de-metal.jpg)">
 
             <!-- detalhe da prateleira -->
-            <div class="container--div-detalhe esquerda" style="background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);"></div>
+            <div class="container--div-detalhe esquerda"
+                style="background-image: url(/static/img/design-de-plano-de-fundo-texturizado-liso-cinza.jpg);"></div>
 
             <!-- card -->
-            <div class="card mb-4" style="width: 550px; min-height:550px; background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);">
-                
-                <div class="row g-0" >
+            <div class="card mb-4"
+                style="width: 550px; min-height:550px; background-image: url(/static/img/close-up-abstrato-de-metal.jpg);">
+
+                <div class="row g-0">
 
                     <section class="container--div-top">
 
                         <div class="col-md-0">
 
                             <!-- imagem -->
-                            <img src="https://img.nsctotal.com.br/wp-content/uploads/2025/10/Conheca-4-beneficios-da-banana-para-a-saude-fisica-e-mental.jpg" class="img-fluid rounded-start" alt="">
-                        </div>
+                            {% if produto.imagem %}
+                                <img src="{{ produto.imagem }}" class="img-fluid rounded-start" alt="{{ produto.nome_produto }}">
+                            {% else %}
+                                <img src="https://portal.crea-sc.org.br/wp-content/uploads/2017/11/imagem-indisponivel-para-produtos-sem-imagem_15_5.jpg" class="img-fluid rounded-start" alt="Imagem indisponível">
+                            {% endif %}
+                        </div>   
+                        
 
                         <div class="col-md-0">
                            
@@ -116,9 +124,9 @@
                                 id="exampleInputQuantidade" min="0" value="0">
                         </div>
 
-                        <a href=""><span class="material-symbols-outlined">edit</span> </a> 
+                        <a href=""><span class="material-symbols-outlined">edit</span> </a>
 
-                        <a href=""><span class="material-symbols-outlined">delete</span></a> 
+                        <a href=""><span class="material-symbols-outlined">delete</span></a>
 
                     </div>
 
@@ -126,7 +134,9 @@
             </div>
 
             <!-- detalhe da prateleira -->
-            <div class="container--div-detalhe direita" style="background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);"></div>
+            <div class="container--div-detalhe direita"
+                style=" background-image: url(/static/img/design-de-plano-de-fundo-texturizado-liso-cinza.jpg);">
+            </div>
 
         </section>
 
