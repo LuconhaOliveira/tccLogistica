@@ -1,11 +1,13 @@
 # Importando os arquivos
 from flask import Flask, jsonify, render_template, request, redirect, session, url_for
 import datetime
+import base64
 from model.controllers.controller_usuario import Usuario
 from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
+
 
 app = Flask(__name__)
 
@@ -242,7 +244,7 @@ def post_recuperar_senha():
 # PRODUTOS ------------------------------------------------------------------------------------------------------#
   
 # Rota para exibir o formulário de cadastro de produto
-@app.route("/adicionar/produto")
+@app.route("/pagina/produto")
 def pagina_produto():
     """Renderiza o formulário para cadastro de novos produtos."""
     
@@ -374,11 +376,18 @@ def post_produto():
 @app.route("/visualizar/produto/<cod_produto>")
 def visualizar_produto(cod_produto):
             
-            cod_produto = int(cod_produto)
+    cod_produto = int(cod_produto)
 
-            produto = ControleProduto.selecionar_produto(cod_produto)
+    produto = ControleProduto.selecionar_produto(cod_produto)
 
-            return render_template("pagina_visualizar_produto.html", produto = produto)
+    if produto and produto.get('imagem'):
+        imagem_blob = produto['imagem']
+        imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+        produto['imagem'] = f"data:image/jpeg;base64,{imagem_base64}"
+    else:
+        produto['imagem'] = None
+
+    return render_template("pagina_visualizar_produto.html", produto = produto)
     
 # CADASTRO DE ESTANTE ------------------------------------------------------------------------------------------------------# 
 
@@ -459,18 +468,6 @@ def remover_estante(cod_estante):
     # Chama a função do controler, remove a estante e redireciona para a pagina principal
     Estante.remover_estante(cod_estante)
     return redirect("/pagina/principal")
-
-# CONSULTAR PRODUTOS NA ESTANTE ----------------------------------------------------------------------------------------------
-
-@app.route("/pagina/consulta_produtos")
-def pagina_consultar_produtos():
-
-    if "cpf" in session:
-        cpf = session["cpf"]
-        nome = session['nome']
-        produto = ControleProduto.selecionar_produto(cpf)
-
-    return render_template("pagina_consultar_produtos.html", nome = nome, produto = produto)
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 

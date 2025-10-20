@@ -171,6 +171,7 @@ class ControleProduto:
 
         sql = """
                 SELECT
+                    produto.imagem,
                     produto.cod_produto,
                     produto.data_hora,
                     produto.nome AS nome_produto, 
