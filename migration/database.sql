@@ -47,11 +47,11 @@ CREATE TABLE IF NOT EXISTS categoria (
     -- Chave primária: Identificador único e sequencial da categoria.
     cod_categoria INT PRIMARY KEY AUTO_INCREMENT,
     -- Nome da categoria. Utiliza VARCHAR(100) para flexibilidade.
-    nome VARCHAR(100),
+    nome VARCHAR(100) UNIQUE,
     -- Data e hora que a categoria foi cadastrada.
     data_hora DATETIME NOT NULL,
 	-- Chave estrangeira: Vincula a alteração ao usuário responsável.
-    cpf VARCHAR(11) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS tipo (
     -- Data e hora que o tipo foi cadastrado.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Vincula o tipo à sua categoria e ao usuário.
-	cpf VARCHAR(11) NOT NULL, 
+	cpf VARCHAR(14) NOT NULL, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     cod_categoria INT,
     FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria)
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS alteracao_produto_estante (
     -- Data e hora que a alteração foi registrada.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Vincula a alteração ao usuário responsável.
-    cpf VARCHAR(11) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
 );
 
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS caracteristica (
     -- Chave estrangeira: Vincula a característica a um tipo de produto específico.
     cod_tipo INT,
     -- Chave estrangeira: Vincula a criação/gestão da característica ao usuário.
-    cpf VARCHAR(11) NOT NULL, 
+    cpf VARCHAR(14) NOT NULL, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
 );
@@ -117,18 +117,12 @@ CREATE TABLE IF NOT EXISTS caracteristica (
 CREATE TABLE IF NOT EXISTS estante (
 	-- Chave primária: Identificador único da estante 
 	cod_estante INT PRIMARY KEY auto_increment,
-    -- Endereçamento completo da estante
-    enderecamento VARCHAR(20) NOT NULL,
     -- Identificador da estante.
-    estante VARCHAR(10),
-    -- Identificador da linha.
-    linha VARCHAR(10),
-    -- Identificador da coluna.
-    coluna VARCHAR(10),
+    nome VARCHAR(100),
      -- Data e hora que a estante foi cadastrada.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Usuário responsável pela gestão ou criação da estante.
-    cpf VARCHAR(11) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     -- Chave estrangeira: Define a categoria de produtos permitida nesta estante.
     cod_categoria INT, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
@@ -143,7 +137,7 @@ CREATE TABLE IF NOT EXISTS pedido (
     -- Chave primária: Identificador único do pedido.
     cod_pedido INT PRIMARY KEY AUTO_INCREMENT,
     -- Chave estrangeira: Usuário que realizou o pedido.
-    cpf VARCHAR(11) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
     -- Data e hora exata em que o pedido foi registrado.
     data_pedido DATETIME,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
@@ -157,24 +151,40 @@ CREATE TABLE IF NOT EXISTS pedido (
 CREATE TABLE IF NOT EXISTS produto (
     -- Chave primária: Identificador único do produto.
     cod_produto INT PRIMARY KEY AUTO_INCREMENT,
-    -- Chave estrangeira: Usuário responsável pela criação/cadastro do produto.
-    cpf VARCHAR(11) NOT NULL,
+	-- Data e hora que o produto foi cadastrado.
+    data_hora DATETIME NOT NULL,
+    
+    -- Informações do produto:
+	-- Nome comercial do produto.
+    nome VARCHAR(100) NOT NULL,
+	-- Descrição longa do produto.
+    descricao VARCHAR(255),
+    -- Imagem do produto, armazenada como BLOB (Binary Large Object).
+    imagem BLOB NOT NULL,
+    -- Quantidade do produto.
+    quantidade INT NOT NULL,
+    -- Valor unitário do produto.
+    valor FLOAT(10),    
     -- Stock Keeping Unit (código de identificação interna do produto).
     sku VARCHAR(100),
-    -- Imagem do produto, armazenada como BLOB (Binary Large Object).
-    imagem BLOB,
-    -- Descrição longa do produto.
-    descricao VARCHAR(255),
-    -- Nome comercial do produto.
-    nome VARCHAR(100),
-    -- Valor unitário do produto.
-    valor FLOAT(10),
-    -- Data e hora que o produto foi cadastrado.
-    data_hora DATETIME NOT NULL,
+
+	-- Endereçamento do produto:
+    -- Coluna da estante que o produto se encontra.
+    coluna VARCHAR(10),
+    -- Linha da estante que o produto se encontra.
+    linha VARCHAR(10),
+
     -- Chave estrangeira: Vincula o produto ao seu tipo específico.
+    cpf VARCHAR(14) NOT NULL,
+	cod_estante INT, 
+    cod_categoria INT,
     cod_tipo INT, 
+    cod_caracteristica INT,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
-    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
+    FOREIGN KEY (cod_estante) REFERENCES estante (cod_estante),
+    FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria),
+    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo),
+    FOREIGN KEY (cod_caracteristica) REFERENCES caracteristica (cod_caracteristica)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -229,3 +239,298 @@ CREATE TABLE IF NOT EXISTS item_pedido (
     -- Chave estrangeira: Produto que está sendo pedido.
     FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto)
 );
+
+-- =========================================================================================================
+-- TRIGGERS DE AUDITORIA: PRODUTO E ESTANTE
+-- Propósito: Automatizar o registro de alterações (inserção, atualização e exclusão) realizadas nas tabelas
+-- "produto" e "estante", armazenando os detalhes na tabela de log "alteracao_produto_estante".
+-- Essas triggers garantem rastreabilidade das operações, permitindo auditoria de ações realizadas pelos usuários.
+-- =========================================================================================================
+DELIMITER $$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_produto_insert
+-- MOMENTO: AFTER INSERT
+-- OBJETIVO:
+--     Registrar automaticamente no log cada novo produto inserido na tabela "produto".
+-- FUNCIONAMENTO:
+--     Após a inserção de um novo produto, é criado um registro descritivo informando nome, coluna, linha e quantidade.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_produto_insert
+AFTER INSERT ON produto
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Inserido produto ', NEW.nome, 
+               ' na coluna ', NEW.coluna,
+               ' na linha ', NEW.linha,
+               ' com quantidade ', NEW.quantidade),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_produto_update
+-- MOMENTO: AFTER UPDATE
+-- OBJETIVO:
+--     Registrar no log todas as alterações feitas em um produto existente, incluindo:
+--     - SKU (identificador interno)
+--     - Nome
+--     - Categoria
+--     - Quantidade
+--     - Valor
+--     - Descrição
+-- FUNCIONAMENTO:
+--     Após a atualização, a trigger compara os valores antigos (OLD) e novos (NEW),
+--     gerando uma mensagem detalhada com as mudanças identificadas.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_produto_update
+AFTER UPDATE ON produto
+FOR EACH ROW
+BEGIN
+	INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Alterado produto "', NEW.sku, '", antes "', OLD.sku,
+'";
+ nome: de "',OLD.nome,'" para "',NEW.nome,
+'";
+ categoria: de "',(SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
+'" para "',(SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria),
+'";
+ quantidade: de "',OLD.quantidade,'" para "',NEW.quantidade,
+'";
+ valor: de "',OLD.valor,'" para "',NEW.valor,
+'";
+ descrição: de "',OLD.descricao,'" para "',NEW.descricao,'"'
+),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_produto_delete
+-- MOMENTO: BEFORE DELETE
+-- OBJETIVO:
+--     Registrar no log sempre que um produto for removido da base de dados.
+-- FUNCIONAMENTO:
+--     Antes da exclusão do registro, a trigger armazena no log o nome do produto,
+--     sua localização (coluna/linha) e a quantidade existente no momento da exclusão.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_produto_delete
+BEFORE DELETE ON produto
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Deletado produto ', OLD.nome, 
+               ' na coluna ', OLD.coluna,
+               ' na linha ', OLD.linha,
+               ' em quantidade ', OLD.quantidade),
+        NOW(),
+        OLD.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_estante_insert
+-- MOMENTO: AFTER INSERT
+-- OBJETIVO:
+--     Registrar automaticamente a criação de uma nova estante.
+-- FUNCIONAMENTO:
+--     Após o INSERT em "estante", cria uma linha de log informando o nome da estante cadastrada.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_estante_insert
+AFTER INSERT ON estante
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Inserida estante ', NEW.nome),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_estante_update
+-- MOMENTO: AFTER UPDATE
+-- OBJETIVO:
+--     Registrar mudanças realizadas em uma estante.
+-- FUNCIONAMENTO:
+--     Após a atualização, registra no log a alteração de nome e/ou categoria, indicando o valor anterior e o novo.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_estante_update
+AFTER UPDATE ON estante
+FOR EACH ROW
+BEGIN
+	INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+		IF(OLD.nome=NEW.nome,
+        CONCAT('Alterada categoria da estante ', OLD.nome,
+        ' de ', (SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
+        ' para ', (SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria)
+        ),
+        IF(OLD.cod_categoria=NEW.cod_categoria,
+        CONCAT('Alterada estante ', OLD.nome, ' para ', NEW.nome),
+        CONCAT('Alterada estante ', OLD.nome, ' para ', NEW.nome,
+        ' e categoria ', (SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
+        ' para ', (SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria)
+        )
+        )),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_estante_delete
+-- MOMENTO: BEFORE DELETE
+-- OBJETIVO:
+--     Registrar a exclusão de uma estante do sistema.
+-- FUNCIONAMENTO:
+--     Antes da exclusão do registro, grava no log o nome da estante deletada e o CPF do responsável.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_estante_delete
+BEFORE DELETE ON estante
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Deletada estante ', OLD.nome),
+        NOW(),
+        OLD.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_categoria_insert
+-- MOMENTO: AFTER INSERT
+-- OBJETIVO:
+--     Registrar automaticamente a criação de uma nova categoria.
+-- FUNCIONAMENTO:
+--     Após o INSERT em "categoria", cria uma linha de log informando o nome da categoria cadastrada.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_categoria_insert
+AFTER INSERT ON categoria
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Inserida categoria ', NEW.nome),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_categoria_delete
+-- MOMENTO: BEFORE DELETE
+-- OBJETIVO:
+--     Registrar a exclusão de uma categoria do sistema.
+-- FUNCIONAMENTO:
+--     Antes da exclusão do registro, grava no log o nome da categoria deletada e o CPF do responsável.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_categoria_delete
+BEFORE DELETE ON categoria
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Deletada categoria ', OLD.nome),
+        NOW(),
+        OLD.cpf
+    );
+END$$
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_tipo_insert
+-- MOMENTO: AFTER INSERT
+-- OBJETIVO:
+--     Registrar automaticamente a criação de um novo tipo dentro de uma caracteristica.
+-- FUNCIONAMENTO:
+--     Após o INSERT em "tipo", cria uma linha de log informando o nome do tipo cadastrado.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_tipo_insert
+AFTER INSERT ON tipo
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Inserido tipo ', NEW.nome),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_categoria_delete
+-- MOMENTO: BEFORE DELETE
+-- OBJETIVO:
+--     Registrar a exclusão de uma categoria do sistema.
+-- FUNCIONAMENTO:
+--     Antes da exclusão do registro, grava no log o nome da categoria deletada e o CPF do responsável.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_tipo_delete
+BEFORE DELETE ON tipo
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Deletado tipo ', OLD.nome),
+        NOW(),
+        OLD.cpf
+    );
+END$$
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_caracteristica_insert
+-- MOMENTO: AFTER INSERT
+-- OBJETIVO:
+--     Registrar automaticamente a criação de um novo tipo dentro de uma caracteristica.
+-- FUNCIONAMENTO:
+--     Após o INSERT em "caracteristica", cria uma linha de log informando o nome da caracteristica cadastrado.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_caracteristica_insert
+AFTER INSERT ON caracteristica
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Inserida caracteristica ', NEW.nome),
+        NOW(),
+        NEW.cpf
+    );
+END$$
+
+-- ---------------------------------------------------------------------------------------------------------
+-- TRIGGER: trg_caracteristica_delete
+-- MOMENTO: BEFORE DELETE
+-- OBJETIVO:
+--     Registrar a exclusão de uma caracteristica do sistema.
+-- FUNCIONAMENTO:
+--     Antes da exclusão do registro, grava no log o nome da caracteristica deletada e o CPF do responsável.
+-- ---------------------------------------------------------------------------------------------------------
+CREATE TRIGGER trg_caracteristica_delete
+BEFORE DELETE ON caracteristica
+FOR EACH ROW
+BEGIN
+    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
+    VALUES (
+        CONCAT('Deletada caracteristica ', OLD.nome),
+        NOW(),
+        OLD.cpf
+    );
+END$$
+
+DELIMITER ;
