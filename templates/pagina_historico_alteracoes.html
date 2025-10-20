@@ -44,7 +44,8 @@
         </div>
 
         <div class="mb-3 form-check">
-            <a href=""><button type="submit" class="btn btn-primary">Limpar Histórico</button></a>
+
+            <a href="/pagina/excluir/historico_alteracoes"><button type="submit" class="btn btn-primary">Limpar Histórico</button></a>
         </div>
 
         <section class="container--card">
@@ -52,53 +53,27 @@
             <div class="card" style="width: 50rem;">
 
                 <div class="card-header">
-
-                    <div class="card--header-esquerdo">
-
-                        <p><strong>Pedido n°0001</strong></p>
-
-                    </div>
-
-                    <div class="card--header-direito">
-
-                        <span class="material-symbols-outlined">download</span>
-                        <p><strong>Baixar nota fiscal</strong></p>
-
-                    </div>
+                    {{% for historico in alteracoes %}}
+                    <p><strong>Alteração {{ historico.cod_alteracao }}</strong></p>
                 </div>
-
+                
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">3x Camisa branca M</li>
-                    <li class="list-group-item">10x Sapato preto 36</li>
-                    <li class="list-group-item">1x Calça Jeans 42</li>
-                    <li class="list-group-item"><strong>Total:</strong> R$ 120,80</li>
-                    <li class="list-group-item card-header"><p><strong>19/09/2025 às 15h06</strong></p></li>
+                    <li class="list-group-item">{{ historico.alteracao_feita }}</li>
+                    <li class="list-group-item card-header"><p><strong>{{ historico.data_hora }}</strong></p></li>
+                    {{% endfor %}}
                 </ul>
+                
             </div>
 
             <div class="card" style="width: 50rem;">
 
                 <div class="card-header">
-
-                    <div class="card--header-esquerdo">
-
-                        <p><strong>Pedido n°0002</strong></p>
-
-                    </div>
-
-                    <div class="card--header-direito">
-
-                        <span class="material-symbols-outlined">download</span>
-                        <p><strong>Baixar nota fiscal</strong></p>
-
-                    </div>
+                        <p><strong>Alteração n°0002</strong></p>
                 </div>
 
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">3x Camisa branca M</li>
-                    <li class="list-group-item">10x Sapato preto 36</li>
-                    <li class="list-group-item">1x Calça Jeans 42</li>
-                    <li class="list-group-item"><strong>Total:</strong> R$ 120,80</li>
+                    <li class="list-group-item">Camisa branca M:</li>
+                    <li class="list-group-item">O endereçamento do(a) {nome do produto} foi alterado(a) de {endereçamento antigo} para {endereçamento novo}</li>
                     <li class="list-group-item card-header"><p><strong>19/09/2025 às 15h06</strong></p></li>
                 </ul>
             </div>
