@@ -43,9 +43,10 @@ loginForm.addEventListener('submit', function(event) {
             }).then(() => { // O then() é executado quando o timer expira ou o alerta é fechado
                 // Redireciona o navegador para a página principal AUTOMATICAMENTE
                 
-                // window.location.href = "/pagina/principal";
+                window.location.href = "/pagina/principal";
                 // window.location.href = "/pagina/cadastrar/categoria";
-                window.location.href = "/pagina/produto";
+                // window.location.href = "/pagina/produto";
+                // window.location.href = "/visualizar/produto/3";
                 // window.location.href = "/pagina/cadastro_estante";
             });
             

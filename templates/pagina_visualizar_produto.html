@@ -52,47 +52,35 @@
                         <div class="col-md-0">
 
                             <!-- imagem -->
-                            <img src="https://img.nsctotal.com.br/wp-content/uploads/2025/10/Conheca-4-beneficios-da-banana-para-a-saude-fisica-e-mental.jpg" class="img-fluid rounded-start" alt="">
+                            {% if produto.imagem %}
+                                <img src="{{ produto.imagem }}" class="img-fluid rounded-start" alt="{{ produto.nome_produto }}">
+                            {% else %}
+                                <img src="https://portal.crea-sc.org.br/wp-content/uploads/2017/11/imagem-indisponivel-para-produtos-sem-imagem_15_5.jpg" class="img-fluid rounded-start" alt="Imagem indisponível">
+                            {% endif %}
                         </div>
 
                         <div class="col-md-0">
-
+                           
                             <div class="card-body">
-
-                                <!-- nome do produto -->
-                                <p class="card-text">Nome: Banana;</p>
-
-                                <!-- SKU -->
-                                <p class="card-text">SKU: BAN;</p>
-
-                                <!-- quantidade de produtos existentes -->
-                                <p class="card-text">Qntd: 56;</p>
-
-                                <!-- preço do produto -->
-                                <p class="card-text">R$ 8,50;</p>
-
-                                <!-- ENDEREÇAMENTO -->
-
-                                <!-- campo de nome da estante -->
-                                <p class="card-text">Estante: Banana;</p>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ produto.nome_produto }}</h5> 
                                 
-                                <!-- campo de selecionar coluna da estante  -->
-                                <p class="card-text">Coluna: 8;</p>
-
-                                <!-- campo de selecionar linha da estante -->
-                                <p class="card-text">Linha: 3;</p>
-
-                                <!-- CATEGORIAS -->
-
-                                <p class="card-text">Categoria: Nanica;</p>
-
-                                <!-- campo de tipos de categoria -->
-                                <p class="card-text">Tipo: Amarela;</p>
-
-                                <!-- campo de caracteristicas -->
-                                <p class="card-text">Característica: Com bolas pretas.</p>
-
+                                    <p class="card-text">Categoria: {{ produto.nome_categoria }}</p> 
+                                
+                                    <p class="card-text">SKU: {{ produto.sku }}</p>
+                                
+                                    <p class="card-text">Estoque: {{ produto.quantidade }}</p>
+                                
+                                    <p class="card-text">R$ {{ "%.2f"|format(produto.valor) if produto.valor else '0,00' }}</p> 
+                                </div>
+                                
+                                <div class="container--div-descricao">
+                                    <p class="card-text"></p>
+                                </div>
+                                
+                                <title>{{ produto.nome }}</title>
                             </div>
+                            
                         </div>
 
                     </section>
@@ -100,7 +88,7 @@
                     <!-- descrição -->
                     <div class="container--div-descricao">
 
-                        <p class="card-text">Banana nanica muito gostosa e suculenta, compre agora para vc tbm virar uma banana nanica gostosa e suculenta !!!</p>
+                        <p class="card-text">{{ produto.descricao }}</p>
 
                     </div>
 
