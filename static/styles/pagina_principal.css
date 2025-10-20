@@ -28,6 +28,7 @@
 
 /* --------------------------------------------------------- */
 
+/* Card geral */
 .card-filtrosCategoria{
     display: flex;
     flex-direction: column;
@@ -38,27 +39,52 @@
     text-align:left ;
 } 
 
+/* Titulo "Filtro" */
 .card-filtrosCategoria .card-title{
 text-align: center;
 padding-top: 15px;
 font-family: var(--font-cinzel);
 } 
 
+/* Titulo "categoria" */
 .card-filtrosCategoria .card-subtitle.mb-2.text-body-secondary{
-    padding-left: 5px;
+    padding-left: 8px;
     padding-top: 20px;
     font-size: 16px;
     font-family: var(--font-outfit);
 }
 
-.card-form--filtroEstante .card-form--filtroEstante{
+input[type="radio" i]{
     font-family: var(--font-outfit);
     padding-left: 5px;
-    font-size: small;
+    margin-left: 7px;
 }
 
+/* Btn do js */
+.card-section--btnLimparFiltro{
+    display: flex;
+    flex-direction: column;
+    
 
-.btn-cadastrarProdCatEst {
+    width: 180px;
+    padding: 10px 20px;
+    font-family: var(--font-outfit);
+    margin-top: 20px;
+
+
+    border: none;
+    text-align: center;
+    background-color: var(--orange-color);
+}
+
+.card-estantesCriadas{
+    margin-left: 300px;
+    margin-bottom: 200px;
+}
+
+/* ------------------------------------------------ */
+
+.section-btn--cadastrarProdCatEst {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -85,32 +111,29 @@ font-family: var(--font-cinzel);
     align-items: center;
     font-size: 30px;
     
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     margin-top: 10px; 
 }
 
 /* opcoes dentro do btn */
-.btn-opcoesDentroDoBtn {
+.section-btn--opcoesDentroDoBtn {
     position: fixed;
-    background-color: #000000;
     padding: 17px;
     border-radius: 5px;
-    
-    /* Para controle interno do layout */
     flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
-/* .btn-opcoesDentroDoBtn a {
+
+.section-btn--opcoesDentroDoBtn a {
     display: block;
-    text-decoration: none; */
+    text-decoration: none;
     
-    /* Aparência do "botão" interno */
-    /* background-color: #ff8c42; 
+    background-color: #ff8c42; 
     color: white;
     padding: 8px 15px;
-    border-radius: 4px;
+
     margin-top: 5px;
     text-align: center;
     font-weight: bold;
     min-width: 150px;
-} */
+}
