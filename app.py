@@ -369,6 +369,17 @@ def post_produto():
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
 
+# EDIÇÃO DE PRODUTO --------------------------------------------------------------------------------------------------------#  
+
+@app.route("/editar/produto/<id>")
+def editar_produto(id):
+    produto = ControleProduto.buscar_produto(id)[0]
+    caracteristicas = Categoria.recuperar_caracteristica(session["cpf"])
+    tipos = Categoria.recuperar_tipo(session["cpf"])
+    categorias = Categoria.recuperar_categoria(session["cpf"])
+    estantes = Estante.buscar_estantes()
+    print(produto)
+    return render_template('pagina_editar_produto.html', produto=produto, caracteristicas=caracteristicas,tipos=tipos,categorias=categorias, estantes=estantes)
 
     
 # CADASTRO DE ESTANTE ------------------------------------------------------------------------------------------------------# 

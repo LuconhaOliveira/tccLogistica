@@ -1,6 +1,7 @@
 from data.conexao import Conection
 from mysql.connector import Error 
 from datetime import datetime # Necessário para a coluna data_hora
+from flask import session
 
 class ControleProduto:
 
@@ -100,4 +101,39 @@ class ControleProduto:
             if cursor:
                 cursor.close()
             if conexao:
+                conexao.close()
+
+    def buscar_produto(id):
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor(dictionary=True)
+            
+            sql = """SELECT produto.cod_produto,produto.imagem,produto.descricao,produto.nome AS produto,produto.sku,produto.quantidade,produto.valor,estante.nome AS estante,produto.coluna,produto.linha,categoria.nome AS categoria,tipo.nome AS tipo,caracteristica.nome AS caracteristica
+                    FROM produto INNER JOIN estante ON estante.cod_estante = produto.cod_estante
+                    INNER JOIN categoria ON categoria.cod_categoria = produto.cod_categoria
+                    INNER JOIN tipo ON tipo.cod_tipo = produto.cod_tipo
+                    INNER JOIN caracteristica ON caracteristica.cod_caracteristica = produto.cod_caracteristica
+                    WHERE produto.cpf = %s AND produto.cod_produto = %s;"""
+            valores = (session["cpf"],id)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchall()
+            
+            if resultado:
+                return resultado
+            else:
+                return None
+
+        except Error as e:
+            print(f"Erro ao validar login: {e}")
+            return None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
                 conexao.close()
