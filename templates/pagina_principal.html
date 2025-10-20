@@ -47,34 +47,34 @@
     <main>
 
         <!-- Add o icon "mais" no botão -->
-        <section class="btn-cadastrarProdCatEst">
+        <section class="section-btn--cadastrarProdCatEst">
             <button type="button" id="botaoToggle">
-                    <span class="material-symbols-outlined">
-                        add_2
-                    </span>
-                </button>
-            </section>
+                <span class="material-symbols-outlined">
+                    add_2
+                </span>
+            </button>
+        </section>
 
-            <section>
-            <!--  Opcoes que estão dentro do botão  -->
-                <div class="btn-opcoesDentroDoBtn" id="opcoesBotao">
-                    <a href="/pagina/produto">Adicionar Produto</a>
-                    <a href="/pagina/cadastrar/categoria">Adicionar Categoria</a>
-                    <a href="/pagina/cadastro_estante">Adicionar Estante</a>
-                </div>
-            </section>
+        <!--  Opcoes que estão dentro do botão  -->
+        <section>
+            <div class="section-btn--opcoesDentroDoBtn" id="opcoesBotao">
+                <a href="/pagina/produto">Adicionar Produto</a>
+                <a href="/pagina/cadastrar/categoria">Adicionar Categoria</a>
+                <a href="/pagina/cadastro_estante">Adicionar Estante</a>
+            </div>
+        </section>
 
             <!-- Card lateral esquerdo, aqui vai as categorias, estantes e produtos cadastrados -->
             <section class="card-filtrosCategoria">
                 <div class="card-categoriasFiltros">
 
                     <div class="card-body">
-                        <h5 class="card-title">Categorias:</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">Estante:</h6>
+                        <h5 class="card-title">Filtro:</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Categoria:</h6>
 
                     <section class="card-section--filtroEstante">
                         <form id="filtros" class="card-form--filtroEstante">
-                            <input type="checkbox">
+                            <input type="radio" class="card-section-form--checkbox">
                         </form>
                         
                     </section>
