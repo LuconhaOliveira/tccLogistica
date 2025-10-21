@@ -39,6 +39,10 @@
     background-size: cover;      /* cobre todo o container e se estica */
 }
 
+.section-div-img--fundoEstanteBronze{
+    size: 50px;
+}
+
 .card{
 
     margin: 30px 0px 30px 0px;
