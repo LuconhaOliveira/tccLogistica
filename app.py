@@ -114,10 +114,10 @@ def post_cadastro():
 
 # LOGIN ------------------------------------------------------------------------------------------------------# 
 
-@app.route("/logoff")
+@app.route("/logoff", methods=['GET', 'POST'])
 def logoff():
     Usuario.deslogar()
-    return jsonify({"redirect": "/pagina/login"}), 200
+    return jsonify({"redirect": "/"}), 200
 
 # Função da rota principal ("/") do aplicativo.
 
