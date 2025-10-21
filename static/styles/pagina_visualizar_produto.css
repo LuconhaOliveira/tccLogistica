@@ -113,7 +113,7 @@
 /* icones */
 .material-symbols-outlined{
     cursor: pointer;
-    color: var(--black);
+    color: var(--grey-light);
     line-height: 2!important;
 }
 
