@@ -1,0 +1,168 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* body */
+.container--body {
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header */
+.container--header {
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+/* cor dos links e do span dentro do header para branco */
+.nav-link{
+    color: aliceblue !important;
+}
+
+.container--footer{
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Logo */
+.img--InStock-logo {
+    width: 230px;
+}
+
+.container--main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+}
+
+
+/* estante selecionada, onde os produtos irão aparecer */
+.container--estante{
+    width: 1200px;
+    height: 500px;
+
+    display: grid;
+    /* Define 10 colunas de larguras iguais */
+    grid-template-columns: 1fr;
+    /* Define 3 linhas */
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    
+    background-color: var(--grey-dark);
+    padding: 10px;
+    border-radius: 8px;
+
+    margin: 20px;
+
+    
+}
+
+/* card de produto */
+.card--produto {
+    /* ATENÇÃO: AS PROPRIEDADES grid-row e grid-column FORAM REMOVIDAS DAQUI! 
+    Elas são injetadas dinamicamente via Jinja no HTML. */
+    
+
+    background-color: var(--white); /* Fundo branco */
+    border: 1px solid var(--grey-medium);
+    border-radius: 5px;
+    padding: 5px;
+    
+    /* Para organizar o conteúdo do card */
+    display: flex;
+    flex-direction: column; /* Organiza os itens (foto, nome, endereço) verticalmente */
+    align-items: center;
+    text-align: center;
+    color: var(--black);
+
+}
+.nome--produto{
+    font-size: 10px  !important;
+}
+.endereco--produto{
+    margin: 0 !important;
+    font-size: 10px;
+}
+.imagem--produto{
+    width: 100%; /* Ocupa a largura total do card */
+    max-height: 100px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+
+.grid-row {
+    color: var(--white);
+    font-weight: bold;
+    font-size: 1.2em;
+    border-radius: 5px;
+    height: 150px;
+    display: grid;
+    /* Define 10 colunas de larguras iguais */
+    grid-template-columns: repeat(10,1fr);
+    /* Define 1 linha */
+    grid-template-rows: 1fr; 
+}
+/* Todos ocupam da 1ª coluna até a última (-1) */
+.row-1 {
+    grid-column: 1 / -1; 
+    grid-row: 1; 
+    background-color: var(--grey-medium);
+}
+.row-2 {
+    grid-column: 1 / -1; 
+    grid-row: 2; 
+    background-color: var(--grey-medium);
+}
+.row-3 {
+    grid-column: 1 / -1; 
+    grid-row: 3; 
+    background-color: var(--grey-medium);
+}
+
+
+.container--botoes{
+    display: flex;
+    flex-direction: row;
+}
+
+
+/* Botão de Excluir estante */
+button[type="submit"] {
+
+    color: var(--black);
+    background-color: var(--grey-medium);
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.5s ;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--orange-color);
+    color: var(--white);
+}
