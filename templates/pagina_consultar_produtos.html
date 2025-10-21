@@ -20,7 +20,7 @@
 
     <!-- header bootstrap -->
     <header class="container--header">
-        <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo">
+        <a href="{{ url_for('pagina_principal') }}"><img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo"></a>
 
         <nav class="navbar navbar-expand-lg bg-body-transparent">
             <div class="container-fluid">
@@ -103,10 +103,10 @@
 
         <form action="" class="container--botoes">
             <div class="mb-3 form-check">
-                <a href="pagina/principal"><button type="submit" class="btn btn-primary">Excluir estante</button></a>
+                <a href="/principal"><button type="submit" class="btn btn-primary">Excluir estante</button></a>
             </div>
             <div class="mb-3 form-check">
-                <a href="pagina/principal"><button type="submit" class="btn btn-primary">Editar estante</button></a>
+                <a href="/principal"><button type="submit" class="btn btn-primary">Editar estante</button></a>
             </div>
         </form>
 

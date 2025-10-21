@@ -41,7 +41,7 @@ if (cadastroProdutoForm) {
                     showConfirmButton: false, 
                 }).then(() => { 
                     // Redireciona para recarregar o formulário (limpo)
-                    window.location.href = "/pagina/principal"; 
+                    window.location.href = "/cadastrar/produto"; 
                 });
                 
             } else {
