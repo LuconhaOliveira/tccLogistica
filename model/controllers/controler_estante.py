@@ -47,8 +47,7 @@ class Estante:
             
             sql = """SELECT produto.cod_produto, produto.nome, produto.imagem, produto.coluna, produto.linha
                         FROM produto INNER JOIN usuario ON usuario.cpf = produto.cpf
-                        INNER JOIN armazenamento ON armazenamento.cod_produto = produto.cod_produto
-                        INNER JOIN estante ON armazenamento.cod_estante = estante.cod_estante
+                        INNER JOIN estante ON produto.cod_estante = estante.cod_estante
                         WHERE usuario.cpf= %s and estante.cod_estante= %s"""
             valores = (session["cpf"],id)
             
@@ -105,27 +104,40 @@ class Estante:
 
     # Conexao com o banco de dados para criar uma nova estante
     def cadastrar_estante(nome, cpf, cod_categoria):
+        try:
 
-        data_hora = datetime.datetime.today()
-            
-        conexao = Conection.create_connection()
+            data_hora = datetime.datetime.today()
+                
+            conexao = Conection.create_connection()
 
-        cursor = conexao.cursor()
+            cursor = conexao.cursor()
 
-        sql = """INSERT INTO estante (
-                        nome, data_hora, cpf, cod_categoria)
-                    VALUES (
-                        %s, %s, %s, %s)"""
+            sql = """INSERT INTO estante (
+                            nome, data_hora, cpf, cod_categoria)
+                        VALUES (
+                            %s, %s, %s, %s)"""
 
-        nome = nome.upper()
-        valores = (nome, data_hora, cpf, cod_categoria)
+            nome = nome.upper()
+            valores = (nome, data_hora, cpf, cod_categoria)
 
-        cursor.execute(sql, valores)
+            cursor.execute(sql, valores)
 
-        conexao.commit()
+            conexao.commit()
 
-        cursor.close()
-        conexao.close()
+            cursor.close()
+            conexao.close()
+            return True
+        except Exception as e:
+            # Loga o erro e retorna False para o Flask detectar falha
+            print(f"Erro ao cadastrar estante no banco de dados: {e}")
+
+            try:
+                conexao.rollback()
+            except:
+                pass
+
+        return False
+        
 
     # Conexao com o banco de dados para excluir uma estante
     def remover_estante(cod_estante):

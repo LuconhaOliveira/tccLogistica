@@ -170,7 +170,7 @@ def post_login():
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Login realizado com sucesso! Bem-vindo(a), {nome_usuario}."
+            "message": f"Bem-vindo(a), {nome_usuario}."
         }), 200
     else:
         # Bloco executado se o login falhar
@@ -423,54 +423,63 @@ def pagina_cadastrar_estante():
 @app.route("/post/cadastrar/estante", methods=["POST"])
 def adicionar_estante():
     
-    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
-    cpf = session.get("cpf") 
-
-    # Caso o CPF não estiver na sessão
+    cpf = session.get("cpf")
     if not cpf:
-        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
-        print("Acesso negado: CPF não encontrado na sessão.")
-        return redirect("/pagina/login") 
-    
-    # Coleta de dados (só pega os dados se o CPF existir)
+        return jsonify({
+            "status": "error",
+            "titulo": "Sessão Expirada",
+            "mensagem": "Por favor, faça login novamente para continuar.",
+            "redirect": "/pagina/login"
+        }), 401
+
     nome = request.form.get("nome")
     cod_categoria = request.form.get("cod_categoria")
 
-    # Garante que o campo 'cod_categoria' foi preenchido. 
-    if not cod_categoria: 
-        return redirect("/cadastrar/estante") 
-        
-    # Inserção dos dados no Banco caso esteja tudo certo
-    try:
-        sucesso = Estante.cadastrar_estante(
-            nome,
-            cpf, 
-            int(cod_categoria)
-        )
-        
-        if sucesso:
-            # Caso a inserção de dados seja um sucesso, redireciona para a página principal (futuramente vai aparecer um sweet alert)
-            return redirect("/principal") 
-        else:
-            # Falha no banco de dados (erro interno na classe Estante)
-            print(f"Erro no cadastro do banco de dados: {e}")
-            return redirect("/cadastrar/estante") 
+    if not nome or not cod_categoria:
+        return jsonify({
+            "status": "error",
+            "titulo": "Campos Vazios",
+            "mensagem": "Preencha o nome e selecione a categoria da estante."
+        }), 400
 
-    except ValueError: 
-        # Erro de formato (se cod_categoria não for um número)
-        print(f"Erro de valor invalido: {e}")
-        return redirect("/cadastrar/estante")
-        
+    try:
+        cod_categoria_int = int(cod_categoria)
+        sucesso = Estante.cadastrar_estante(nome, cpf, cod_categoria_int)
+
+        if sucesso:
+            return jsonify({
+                "status": "success",
+                "titulo": "Estante Criada!",
+                "mensagem": f"A estante '{nome}' foi cadastrada com sucesso!"
+            }), 201
+        else:
+            return jsonify({
+                "status": "error",
+                "titulo": "Erro no Banco de Dados",
+                "mensagem": "Não foi possível cadastrar a estante. Tente novamente."
+            }), 500
+
+    except ValueError:
+        return jsonify({
+            "status": "error",
+            "titulo": "Erro de Formato",
+            "mensagem": "O código da categoria é inválido."
+        }), 400
+
     except Exception as e:
-        # Erro genérico de sistema
-        print(f"Erro inesperado durante a persistência: {e}")
-        return redirect("/cadastrar/estante")
+        print(f"Erro inesperado: {e}")
+        return jsonify({
+            "status": "error",
+            "titulo": "Erro Inesperado",
+            "mensagem": "Ocorreu um erro desconhecido no servidor."
+        }), 500
     
 # BUSCAR ESTANTE -------------------------------------------------------------------------------------------------------------------------------#
 
 @app.route("/estante/<id>")
 def pagina_estante(id):
-    print(Estante.buscar_estante(id))
+    produtos = Estante.buscar_estante(id)
+    print(produtos)
 
     # Vai renderizar pra pagina estantes
     return render_template(url_for('/pagina/consulta_produtos'))
@@ -570,7 +579,7 @@ def post_cadastrar_caracteristica():
         # SUCESSO: Retorna um JSON com status 'success'
         return jsonify({
         "status": "success", 
-        "message": f"Característica '{nome}' cadastrada com sucesso!"
+        "message": f"cadastrado feito"
     }), 200
 
     except ValueError:
@@ -636,10 +645,10 @@ def pagina_excluir_historico_alteracao():
         Historico.excluir_historico_alteracoes(cpf)
         
         # Após a exclusão, redireciona o usuário para a mesma página que ele estava.
-        return redirect(url_for("pagina_historico_alteracao"))
+        return redirect("/pagina/historico_alteracoes")
 
     # Se não houver CPF na sessão, redireciona para a página de histórico 
-    return redirect(url_for("pagina_historico_alteracao"))
+    return redirect("/pagina/historico_alteracoes")
 
 
 # ----------------------------------------------------------------------------------------------------------------------------# 
