@@ -72,7 +72,7 @@ if (formEstante) {
                     timerProgressBar: true,
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "/pagina/principal";
+                    window.location.href = "/principal";
                 });
 
             } else {
