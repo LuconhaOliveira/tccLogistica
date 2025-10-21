@@ -7,7 +7,7 @@ from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
-
+import base64
 
 app = Flask(__name__)
 
@@ -401,7 +401,107 @@ def visualizar_produto(cod_produto):
     else:
         produto['imagem'] = None
 
-    return render_template("pagina_visualizar_produto.html", produto = produto)
+    return render_template("pagina_visualizar_produto.html", produto = produto)# EDIÇÃO DE PRODUTO --------------------------------------------------------------------------------------------------------#  
+
+@app.route("/pagina/editar/produto/<id>")
+def editar_produto(id):
+    produto = ControleProduto.buscar_produto(id)
+    imagem_base64 = ""
+    if produto["imagem"]:
+        imagem_blob = produto["imagem"]  # Aqui o produto.imagem é o BLOB do banco de dados
+
+        # Convertendo o BLOB para base64
+        imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+
+    caracteristicas = Categoria.recuperar_caracteristica(session["cpf"])
+    tipos = Categoria.recuperar_tipo(session["cpf"])
+    categorias = Categoria.recuperar_categoria(session["cpf"])
+    estantes = Estante.buscar_estantes()
+    print(produto)
+    return render_template('pagina_editar_produto.html', produto=produto, caracteristicas=caracteristicas,tipos=tipos,categorias=categorias, estantes=estantes, imagem_base64=imagem_base64)
+
+@app.route("/post/editar/produto/<id>", methods=["POST"])
+def post_editar_produto(id):
+    produto = ControleProduto.buscar_produto(id)
+    # 1. Verificação de Sessão
+    if "cpf" not in session:
+        return jsonify({
+            'status': 'error', 
+            'message': 'Sessão expirada. Por favor, faça login novamente.'
+        })
+    
+    # 2. Obter dados do formulário (incluindo campos NULÁVEIS)
+    sku = request.form.get("cadastro-sku")
+    descricao = request.form.get("cadastro-descricao")
+    coluna = request.form.get("cadastro-coluna-estante")
+    linha = request.form.get("cadastro-linha-estante")
+    
+    # Campos que serão validados como OBRIGATÓRIOS ou numéricosa
+    quantidade_str = request.form.get("cadastro-quantidade",str(produto["quantidade"]))
+    cod_tipo_str = request.form.get("cadastro-tipo") # cod_tipo é NOT NULL
+    
+    cod_estante = request.form.get("cadastro-nome-estante")
+    cod_categoria = request.form.get("cadastro-categoria")
+    cod_caracteristica = request.form.get("cadastro-caracteristicas")
+    
+    # 3. Validação de Campos NOT NULL (Backend)
+    try:
+
+        # 3.2. QUANTIDADE (NOT NULL e INT)
+        if not quantidade_str or quantidade_str.strip() == "":
+            raise ValueError("O campo Quantidade é obrigatório.")
+            
+        quantidade = int(quantidade_str)
+        if quantidade < 0:
+            raise ValueError("A Quantidade não pode ser negativa.")
+
+        # 3.3. TIPO (cod_tipo é NOT NULL)
+        if not cod_tipo_str:
+            raise ValueError("A seleção do Tipo de produto é obrigatória.")
+        cod_tipo = int(cod_tipo_str) # Converte para int após validação NOT NULL
+        
+        # 3.4. VALOR (NÃO é NOT NULL, mas a conversão é importante)
+        valor_str = request.form.get("cadastro-valor")
+        valor = float(valor_str) if valor_str else 0.0 
+
+        # 3.5. Conversão dos outros IDs (NULÁVEIS)
+        cod_estante = int(cod_estante) if cod_estante else None
+        cod_categoria = int(cod_categoria) if cod_categoria else None
+        cod_caracteristica = int(cod_caracteristica) if cod_caracteristica else None
+
+
+    except (TypeError, ValueError) as e:
+        # Captura erros de validação personalizada (ValueError) e de conversão (TypeError)
+        return jsonify({
+            'status': 'error', 
+            'message': str(e)
+        })
+
+    # 4. Validação da IMAGEM (NOT NULL)
+    imagem_file = request.files.get("cadastro-imagem")  
+    imagem_blob = imagem_file.read() if imagem_file and imagem_file.filename else None
+
+    # if not imagem_blob:
+    #     return jsonify({
+    #         'status': 'error', 
+    #         'message': 'A imagem do produto é obrigatória.'
+    #     })
+
+    # 5. Chamar a função de controle de produto
+    sucesso, mensagem_ou_id = ControleProduto.editar_produto(
+        descricao, imagem_blob, quantidade, valor, sku,
+        coluna, linha, cod_estante, cod_categoria,
+        cod_tipo, cod_caracteristica,id
+    )
+
+    # 6. Retorno JSON
+    if sucesso:
+        return redirect(f"/pagina/editar/produto/{id}")
+    else:
+        return jsonify({
+            'status': 'error',
+            'message': f"Falha no cadastro (DB). Detalhes: {mensagem_ou_id}" 
+        })
     
 # CADASTRO DE ESTANTE ------------------------------------------------------------------------------------------------------# 
 
