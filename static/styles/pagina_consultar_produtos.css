@@ -94,6 +94,8 @@
     text-align: center;
     color: var(--black);
 
+    grid-row: 1;
+
 }
 .nome--produto{
     font-size: 10px  !important;
