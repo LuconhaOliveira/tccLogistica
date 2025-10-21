@@ -47,8 +47,7 @@ class Estante:
             
             sql = """SELECT produto.cod_produto, produto.nome, produto.imagem, produto.coluna, produto.linha
                         FROM produto INNER JOIN usuario ON usuario.cpf = produto.cpf
-                        INNER JOIN armazenamento ON armazenamento.cod_produto = produto.cod_produto
-                        INNER JOIN estante ON armazenamento.cod_estante = estante.cod_estante
+                        INNER JOIN estante ON produto.cod_estante = estante.cod_estante
                         WHERE usuario.cpf= %s and estante.cod_estante= %s"""
             valores = (session["cpf"],id)
             
