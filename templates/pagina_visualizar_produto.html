@@ -116,14 +116,18 @@
 
                     <div class="container--bottom-card">
 
-                        <button class="btn btn-primary" type="submit">Incluir no pedido de compra</button>
+                        <form action="/post/pedido/{{produto.cod_produto}}" method="post">
+                        
+                            <button class="btn btn-primary" type="submit">Incluir no pedido de compra</button>
 
-                        <!-- campo de quantidade -->
-                        <div class="mb-0">
-                            <!-- quantidade: backend do cadastro -->
-                            <input name="cadastro-quantidade" type="number" class="form-control"
-                                id="exampleInputQuantidade" min="0" value="0">
-                        </div>
+                            <!-- campo de quantidade -->
+                            <div class="mb-0">
+                                <!-- quantidade: backend do cadastro -->
+                                <input name="cadastro-quantidade" type="number" class="form-control"
+                                    id="exampleInputQuantidade" min="0" value="0">
+                            </div>
+
+                        </form>
 
                         <a href=""><span class="material-symbols-outlined">edit</span> </a>
 

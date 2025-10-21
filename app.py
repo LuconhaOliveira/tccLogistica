@@ -7,6 +7,7 @@ from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
+from model.controllers.controller_pedido import Pedido
 
 
 app = Flask(__name__)
@@ -640,6 +641,25 @@ def pagina_excluir_historico_alteracao():
 
     # Se não houver CPF na sessão, redireciona para a página de histórico 
     return redirect(url_for("pagina_historico_alteracao"))
+
+
+# CRIAÇÃO E ADIÇÃO AO PEDIDO DE COMPRA ------------------------------------------------------------------------------------#
+
+@app.route("/post/pedido/<cod_produto>", methods=['POST'])
+def pagina_excluir_historico_alteracao(cod_produto):
+
+    # Se o CPF estiver na sessão
+    if "cpf" in session:
+        quantidade=request.form.get('cadastro-quantidade')
+        (ativo,cod_pedido)=Pedido.verificar_pedido_ativo()
+        if not ativo:
+            cod_pedido=Pedido.criar_pedido()
+        Pedido.adicionar_ao_pedido(cod_pedido,cod_produto,quantidade)
+        return redirect(url_for("pagina_principal"))
+
+
+    # Se não houver CPF na sessão, redireciona para a página de histórico 
+    return redirect(url_for("pagina_logar"))
 
 
 # ----------------------------------------------------------------------------------------------------------------------------# 
