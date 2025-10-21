@@ -34,7 +34,7 @@ if (cadastroProdutoForm) {
                 // SUCESSO
                 Swal.fire({
                     title: 'Sucesso!',
-                    text: `${data.message}! Redirecionando...`, 
+                    text: `${data.message} Redirecionando...`, 
                     icon: 'success',
                     timer: 1000, 
                     timerProgressBar: true, 
@@ -67,3 +67,42 @@ if (cadastroProdutoForm) {
         });
     });
 }
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    // 1. CÓDIGO DA MÁSCARA (usando jQuery)
+    // O jQuery só é carregado após o DOM, então colocamos o código de máscara aqui
+    
+    // A função 'ready' do jQuery garante que o código só é executado após o carregamento completo da página
+    $(document).ready(function(){
+        // Aplica a máscara de dinheiro (R$) no campo com id="exampleInputValor"
+        // '000.000.000,00' é o formato base (pode ser ajustado)
+        // {reverse: true} faz com que a digitação comece da direita para a esquerda, ideal para moeda.
+        $('#exampleInputValor').mask('000.000.000,00', {
+            reverse: true, 
+            placeholder: "0,00" // Define o que será exibido no campo vazio
+        });
+    });
+
+
+    // 2. CÓDIGO DO SWEETALERT (JÁ REVISADO)
+    const fileInput = document.getElementById('exampleInputPhoto');
+    const MAX_SIZE_BYTES = 15 * 1024 * 1024; // 16MB
+    const MAX_SIZE_MB = MAX_SIZE_BYTES / (1024 * 1024); 
+
+    if (fileInput) {
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0]; 
+
+            if (file && file.size > MAX_SIZE_BYTES) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ops! 😥 Arquivo Muito Grande',
+                    text: `O tamanho máximo permitido para a imagem é de ${MAX_SIZE_MB} MB. Por favor, selecione um arquivo menor.`,
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+                event.target.value = ''; 
+            }
+        });
+    }
+});

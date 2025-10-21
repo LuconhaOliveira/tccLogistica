@@ -101,3 +101,180 @@ class ControleProduto:
                 cursor.close()
             if conexao:
                 conexao.close()
+
+        # Recupera as categorias registradas anteriormente
+    def recuperar_produtos(cpf):
+        
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor(dictionary = True) 
+        
+        sql = """
+                SELECT
+                    produto.cod_produto,
+                    produto.data_hora,
+                    produto.nome AS nome_produto, 
+                    produto.descricao,
+                    produto.quantidade,
+                    produto.valor,
+                    produto.sku,
+                    produto.coluna,
+                    produto.linha,
+                    produto.cpf,
+
+                    categoria.cod_categoria,
+                    categoria.nome AS nome_categoria, 
+
+                    tipo.cod_tipo,
+                    tipo.nome AS nome_tipo,
+
+                    caracteristica.cod_caracteristica,
+                    caracteristica.nome AS nome_caracteristica,
+
+                    estante.cod_estante,
+                    estante.nome AS nome_estante 
+                    
+                FROM
+                    produto
+                    
+                INNER JOIN categoria 
+                    ON produto.cod_categoria = categoria.cod_categoria
+                    
+                INNER JOIN tipo 
+                    ON produto.cod_tipo = tipo.cod_tipo
+                    
+                INNER JOIN caracteristica 
+                    ON produto.cod_caracteristica = caracteristica.cod_caracteristica
+                    
+                INNER JOIN estante 
+                    ON produto.cod_estante = estante.cod_estante 
+
+                WHERE
+                    produto.cpf = %s;"""
+        
+        valor = (cpf,)
+
+        cursor.execute(sql, valor)
+
+        resultado = cursor.fetchall()
+
+        cursor.close()
+        conexao.close()
+
+        return resultado
+    
+    # selecionando um produto
+    def selecionar_produto(cod_produto):
+        #criando a conexao
+        conexao = Conection.create_connection()
+        cursor = conexao.cursor(dictionary = True) 
+
+        sql = """
+                SELECT
+                    produto.imagem,
+                    produto.cod_produto,
+                    produto.data_hora,
+                    produto.nome AS nome_produto, 
+                    produto.descricao,
+                    produto.quantidade,
+                    produto.valor,
+                    produto.sku,
+                    produto.coluna,
+                    produto.linha,
+                    produto.cpf,
+
+                    categoria.cod_categoria,
+                    categoria.nome AS nome_categoria, 
+
+                    tipo.cod_tipo,
+                    tipo.nome AS nome_tipo,
+
+                    caracteristica.cod_caracteristica,
+                    caracteristica.nome AS nome_caracteristica,
+
+                    estante.cod_estante,
+                    estante.nome AS nome_estante 
+                    
+                FROM
+                    produto
+                    
+                INNER JOIN categoria 
+                    ON produto.cod_categoria = categoria.cod_categoria
+                    
+                INNER JOIN tipo 
+                    ON produto.cod_tipo = tipo.cod_tipo
+                    
+                INNER JOIN caracteristica 
+                    ON produto.cod_caracteristica = caracteristica.cod_caracteristica
+                    
+                INNER JOIN estante 
+                    ON produto.cod_estante = estante.cod_estante 
+
+                WHERE
+                    produto.cod_produto = %s;
+                        """
+
+        valor = (cod_produto,)
+        #executando o comando sql
+        cursor.execute(sql, valor)
+
+        #recuperando os dados e armazenando em uma variavel
+        resultado = cursor.fetchone() 
+  
+        #fecho a conexao com o banco
+        
+        conexao.close()
+
+        return resultado
+    
+    # Verifica se o produto está ligado a algum pedido de compra
+    def verificar_dependencia_produto(cod_produto):
+
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor()
+
+        # Verifica se a categoria está em alguma estante ou em algum produto
+        sql = """
+            SELECT EXISTS (
+                SELECT 1 FROM item_pedido WHERE cod_produto = %s
+                UNION ALL
+                SELECT 1 FROM produto_caracteristica WHERE cod_produto = %s
+            ) AS dependencia;
+        """
+
+        valores = (cod_produto, cod_produto)
+        
+        # Executa a consulta
+        cursor.execute(sql, valores)
+        
+        # O resultado será (1,) se houver dependência, ou (0,) se não houver
+        dependencia = cursor.fetchone()[0] == 1
+
+        cursor.close()
+        conexao.close()
+        return dependencia # Retorna True se houver dependência
+    
+    # Conexao com o banco de dados para excluir um produto
+    def remover_produto(cod_produto):
+
+        # Verifica se o produto possui uma dependencia 
+        if ControleProduto.verificar_dependencia_produto(cod_produto):
+            # Retorna se a remoção falhou por conta da dependência
+            return False # Não pode excluir
+
+        # Se não possuir uma dependencia, executa a exclusão da categoria
+        conexao = Conection.create_connection()
+        cursor = conexao.cursor()
+
+        sql = "DELETE FROM produto WHERE cod_produto = %s;"
+
+        valor = (cod_produto,)
+
+        cursor.execute(sql, valor)
+
+        conexao.commit()
+        
+        cursor.close()
+        conexao.close()
+        return True

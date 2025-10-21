@@ -1,11 +1,13 @@
 # Importando os arquivos
 from flask import Flask, jsonify, render_template, request, redirect, session, url_for
 import datetime
+import base64
 from model.controllers.controller_usuario import Usuario
 from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
+
 
 app = Flask(__name__)
 
@@ -168,7 +170,7 @@ def post_login():
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Bem-vindo(a), {nome_usuario}"
+            "message": f"Login realizado com sucesso! Bem-vindo(a), {nome_usuario}."
         }), 200
     else:
         # Bloco executado se o login falhar
@@ -223,7 +225,7 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Senha alterada"
+            "message": "Alteração realizada com sucesso! Faça login para continuar."
         }), 200
     
     except Exception as e:
@@ -239,6 +241,12 @@ def post_recuperar_senha():
             "message": "Erro ao realizar a alteração. Tente novamente ou entre em contato."
         }), 500
 
+# PRODUTOS ------------------------------------------------------------------------------------------------------#
+
+# @app.route("/estante/<id>")
+# def pagina_estante(id):
+
+#     return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
@@ -266,7 +274,7 @@ def pagina_produto():
         estante=estante
     )
 
-
+# CADASTRAR PRODUTOS ------------------------------------------------------------------------------------------------------#
 
 # Rota de POST para cadastro de produto
 # app.py (Rota /post/produto)
@@ -368,8 +376,32 @@ def post_produto():
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
+# Rota para excluir um produto
+@app.route("/post/produto/remover/<cod_produto>")
+def remover_produto(cod_produto):
+    cod_produto = int(cod_produto)
+    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
+    ControleProduto.remover_produto(cod_produto)
 
+    return redirect("/pagina/principal")
 
+# VIZUALIZAR PRODUTO ESPECIFICO ------------------------------------------------------------------------------------------------------#
+
+@app.route("/visualizar/produto/<cod_produto>")
+def visualizar_produto(cod_produto):
+            
+    cod_produto = int(cod_produto)
+
+    produto = ControleProduto.selecionar_produto(cod_produto)
+
+    if produto and produto.get('imagem'):
+        imagem_blob = produto['imagem']
+        imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+        produto['imagem'] = f"data:image/jpeg;base64,{imagem_base64}"
+    else:
+        produto['imagem'] = None
+
+    return render_template("pagina_visualizar_produto.html", produto = produto)
     
 # CADASTRO DE ESTANTE ------------------------------------------------------------------------------------------------------# 
 
@@ -434,14 +466,15 @@ def adicionar_estante():
         print(f"Erro inesperado durante a persistência: {e}")
         return redirect("/pagina/cadastro_estante")
     
-# BUSCAR ESTANTE ------------------------------------------------------------------------------------------------------#
+# BUSCAR ESTANTE -------------------------------------------------------------------------------------------------------------------------------#
 
 @app.route("/estante/<id>")
 def pagina_estante(id):
     produtos = Estante.buscar_estante(id)
     print(produtos)
 
-    return render_template("pagina_consultar_produtos.html", produtos=produtos)
+    # Vai renderizar pra pagina estantes
+    return render_template(url_for('/pagina/consulta_produtos'))
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
@@ -451,7 +484,6 @@ def remover_estante(cod_estante):
     # Chama a função do controler, remove a estante e redireciona para a pagina principal
     Estante.remover_estante(cod_estante)
     return redirect("/pagina/principal")
-
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
@@ -516,22 +548,38 @@ def post_cadastrar_tipo():
 @app.route("/post/cadastro_caracteristica/adicionar", methods = ["POST"])
 def post_cadastrar_caracteristica():
 
-    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
     cpf = session.get("cpf") 
 
-    # Caso o CPF não estiver na sessão
     if not cpf:
-        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
         print("Acesso negado: CPF não encontrado na sessão.")
-        return redirect("/pagina/login") 
-    
-    # Coleta de dados (só pega os dados se o CPF existir)
+        # Retorna 401 Unauthorized
+        return jsonify({"status": "error", "message": "Sessão expirada. Por favor, faça login novamente."}), 401 
+
+    # Coleta de dados
     nome = request.form.get("nome")
-    cod_tipo = request.form.get("cod_tipo")
+    cod_tipo_str = request.form.get("cod_tipo") 
     
-    Categoria.cadastrar_tipo_caracteristica(nome, int(cod_tipo), cpf)
-    
-    return redirect("/pagina/cadastrar/categoria")
+    if not nome or not cod_tipo_str:
+        return jsonify({"status": "error", "message": "Nome da característica e Tipo são obrigatórios."}), 400 
+
+    try:
+        cod_tipo = int(cod_tipo_str)
+        
+        # Chamada à função de cadastro (Assumindo que Categoria é o módulo correto)
+        Categoria.cadastrar_tipo_caracteristica(nome, cod_tipo, cpf)
+        
+        # SUCESSO: Retorna um JSON com status 'success'
+        return jsonify({
+        "status": "success", 
+        "message": f"Característica '{nome}' cadastrada com sucesso!"
+    }), 200
+
+    except ValueError:
+        return jsonify({"status": "error", "message": "O Código de Tipo deve ser um número válido."}), 400
+    except Exception as e:
+        # Captura outros erros (ex: do banco de dados)
+        print(f"Erro ao cadastrar característica: {e}")
+        return jsonify({"status": "error", "message": "Ocorreu um erro interno ao salvar os dados."}), 500
 
 # EXCLUSÃO DE CATEGORIA, TIPO E CARACTERISTICA --------------------------------------------------------------------------------------------#
 

@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS produto (
 	-- Descrição longa do produto.
     descricao VARCHAR(255),
     -- Imagem do produto, armazenada como BLOB (Binary Large Object).
-    imagem BLOB NOT NULL,
+    imagem LONGBLOB NOT NULL,
     -- Quantidade do produto.
     quantidade INT NOT NULL,
     -- Valor unitário do produto.
