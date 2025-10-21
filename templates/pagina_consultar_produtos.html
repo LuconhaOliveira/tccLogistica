@@ -42,60 +42,62 @@
     </header>
 
     <main class="container--main">
-
         <!-- estante selecionada -->
         <div class="container--estante">
             <div class="grid-row row-1">
-
+                {% if produtos %}
+                {% for produto in produtos %}
+                {% if produto.linha=="1" %}
             <div class="card--produto" style="
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-column: 1;
+                    grid-column: {{ produto.coluna }};
                 ">
-                    <img src="{{ produto.url_foto }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
+                    <img src="{{ produto.imagem }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produto.nome }}</h3>
-                    <p class="endereco--produto">Endereço: **{{ produto.endereco }}**</p>
+                    <p class="endereco--produto">Endereço: **{{ produto.linha }},{{produto.coluna}}**</p>
             </div>
-
+                {% endif %}
+                {% endfor %}
+                {% endif %}
             </div>
             <!-- linha 2 -->
             <div class="grid-row row-2">
 
-                <div class="card--produto" style="
+                {% if produtos %}
+                {% for produto in produtos %}
+                {% if produto.linha=="2" %}
+            <div class="card--produto" style="
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-column: 1;
+                    grid-column: {{ produto.coluna }};
                 ">
-                    <img src="{{ produto.url_foto }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
+                    <img src="{{ produto.imagem }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produto.nome }}</h3>
-                    <p class="endereco--produto">Endereço: **{{ produto.endereco }}**</p>
+                    <p class="endereco--produto">Endereço: **{{ produto.linha }},{{produto.coluna}}**</p>
             </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
 
             </div>
             <!-- linha 3 -->
             <div class="grid-row row-3">
 
-                <div class="card--produto" style="
+                {% if produtos %}
+                {% for produto in produtos %}
+                {% if produto.linha=="3" %}
+            <div class="card--produto" style="
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-column: 1;
+                    grid-column: {{ produto.coluna }};
                 ">
-                    <img src="{{ produto.url_foto }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
+                    <img src="{{ produto.imagem }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produto.nome }}</h3>
-                    <p class="endereco--produto">Endereço: **{{ produto.endereco }}**</p>
+                    <p class="endereco--produto">Endereço: **{{ produto.linha }},{{produto.coluna}}**</p>
             </div>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
 
             </div>
-            
-            
-            <!-- card modelo de cada produto que irá aparecer -->
-                
-            <!-- <div class="card--produto" style="
-                    /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-row: {{ produto.grid_linha }}; 
-                    grid-column: {{ produto.grid_coluna_start }} / span {{ produto.grid_coluna_span }};
-                ">
-                    <img src="{{ produto.url_foto }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
-                    <h3 class="nome--produto">{{ produto.nome }}</h3>
-                    <p class="endereco--produto">Endereço: **{{ produto.endereco }}**</p>
-            </div> -->
 
         </div>
 

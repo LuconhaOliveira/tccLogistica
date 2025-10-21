@@ -243,6 +243,11 @@ def post_recuperar_senha():
         }), 500
 
 # PRODUTOS ------------------------------------------------------------------------------------------------------#
+
+# @app.route("/estante/<id>")
+# def pagina_estante(id):
+
+#     return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/pagina/produto")
@@ -554,18 +559,16 @@ def post_cadastrar_tipo():
 @app.route("/post/cadastro_caracteristica/adicionar", methods = ["POST"])
 def post_cadastrar_caracteristica():
 
-    # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
     cpf = session.get("cpf") 
 
-    # Caso o CPF não estiver na sessão
     if not cpf:
-        # nega o acesso e redireciona para o login, mostrando o erro no terminal.
         print("Acesso negado: CPF não encontrado na sessão.")
-        return redirect("/pagina/login") 
-    
-    # Coleta de dados (só pega os dados se o CPF existir)
+        # Retorna 401 Unauthorized
+        return jsonify({"status": "error", "message": "Sessão expirada. Por favor, faça login novamente."}), 401 
+
+    # Coleta de dados
     nome = request.form.get("nome")
-    cod_tipo = request.form.get("cod_tipo")
+    cod_tipo_str = request.form.get("cod_tipo") 
     
     if not nome or not cod_tipo_str:
         return jsonify({"status": "error", "message": "Nome da característica e Tipo são obrigatórios."}), 400 

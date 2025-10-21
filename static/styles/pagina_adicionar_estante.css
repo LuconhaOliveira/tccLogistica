@@ -63,7 +63,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: var(--orange-color);
+    background-color: var(--orange-color) !important;
     color: var(--grey-light);
 }
 
