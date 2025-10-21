@@ -6,6 +6,7 @@ from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
+import base64
 
 app = Flask(__name__)
 
@@ -440,8 +441,16 @@ def adicionar_estante():
 def pagina_estante(id):
     produtos = Estante.buscar_estante(id)
     print(produtos)
+    imagens_base64 = []
+    if produtos:
+        for produto in produtos:
+            if produto["imagem"]:
+                imagem_blob = produto["imagem"]  # Aqui o produto.imagem é o BLOB do banco de dados
 
-    return render_template("pagina_consultar_produtos.html", produtos=produtos)
+                # Convertendo o BLOB para base64
+                imagens_base64.append(base64.b64encode(imagem_blob).decode('utf-8'))
+
+    return render_template("pagina_consultar_produtos.html", produtos=produtos, imagens_base64=imagens_base64)
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
