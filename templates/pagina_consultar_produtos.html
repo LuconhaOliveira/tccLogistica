@@ -64,15 +64,15 @@
             <div class="grid-row row-2">
 
                 {% if produtos %}
-                {% for produto in produtos %}
-                {% if produto.linha[-1]=="2" %}
+                {% for i in range(0,produtos|length) %}
+                {% if produtos[i].linha[-1]=="2" %}
             <div class="card--produto" style="
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-column: {{ produto.coluna[-1] }};
+                    grid-column: {{ produtos[i].coluna[-1] }};
                 ">
-                    <img src="{{ produto.imagem }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
-                    <h3 class="nome--produto">{{ produto.nome }}</h3>
-                    <p class="endereco--produto">Endereço: **{{ produto.linha }},{{produto.coluna}}**</p>
+                    <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
+                    <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
+                    <p class="endereco--produto">Endereço: **{{ produtos[i].linha }},{{produtos[i].coluna}}**</p>
             </div>
                 {% endif %}
                 {% endfor %}
@@ -83,15 +83,15 @@
             <div class="grid-row row-3">
 
                 {% if produtos %}
-                {% for produto in produtos %}
-                {% if produto.linha[-1]=="3" %}
+                {% for i in range(0,produtos|length) %}
+                {% if produtos[i].linha[-1]=="3" %}
             <div class="card--produto" style="
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-column: {{ produto.coluna[-1] }};
+                    grid-column: {{ produtos[i].coluna[-1] }};
                 ">
-                    <img src="{{ produto.imagem }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
-                    <h3 class="nome--produto">{{ produto.nome }}</h3>
-                    <p class="endereco--produto">Endereço: **{{ produto.linha }},{{produto.coluna}}**</p>
+                    <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
+                    <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
+                    <p class="endereco--produto">Endereço: **{{ produtos[i].linha }},{{produtos[i].coluna}}**</p>
             </div>
                 {% endif %}
                 {% endfor %}
