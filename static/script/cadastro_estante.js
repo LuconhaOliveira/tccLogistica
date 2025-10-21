@@ -24,7 +24,7 @@ if (formEstante) {
         }
 
         // --- Requisição AJAX (Fetch) --- //
-        fetch(formEstante.action || '/post/cadastro_estante/adicionar', {
+        fetch(formEstante.action || '/post/cadastrar/estante', {
             method: 'POST',
             body: formData
         })
@@ -72,7 +72,7 @@ if (formEstante) {
                     timerProgressBar: true,
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "/pagina/principal";
+                    window.location.href = "/principal";
                 });
 
             } else {
