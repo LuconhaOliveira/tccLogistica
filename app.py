@@ -559,6 +559,7 @@ def adicionar_estante():
                 "mensagem": "Não foi possível cadastrar a estante. Tente novamente."
             }), 500
 
+
     except ValueError:
         return jsonify({
             "status": "error",
