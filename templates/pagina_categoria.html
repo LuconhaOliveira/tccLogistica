@@ -54,7 +54,7 @@
 
             <!-- form cadastrar catergoria -->
             <!-- action/method: backend do add categoria -->
-            <form action="/post/cadastro_categoria/adicionar" method="post" class="container--form container--add-categoria">
+            <form action="/post/cadastrar/categoria" method="post" class="container--form container--add-categoria">
                 <h2>Adicionar Categoria</h2>
 
                 <!-- nome da categoria -->
@@ -65,11 +65,11 @@
                 </div>
 
                 <div class="mb-3 form-check">
-                    <a href="/pagina/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
+                    <a href="/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
                 </div>
             </form>
 
-            <form action="/post/cadastro_tipo/adicionar" method="post" class="container--form">
+            <form action="/post/cadastrar/tipo" method="post" class="container--form">
                 <h2>Adicionar Tipo</h2>
 
                 <!-- nome do tipo -->
@@ -95,11 +95,11 @@
                 </div>
 
                 <div class="mb-3 form-check">
-                    <a href="/pagina/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
+                    <a href="/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
                 </div>
             </form>
 
-            <form action="/post/cadastro_caracteristica/adicionar" method="post" class="container--form" id="caracteristicaForm">
+            <form action="/post/cadastrar/caracteristica" method="post" class="container--form" id="caracteristicaForm">
                 <h2>Adicionar Características</h2>
 
                 <!-- nome do tipo -->
@@ -139,7 +139,7 @@
                 {% for categorias in categoria %}
                 <div class="container--exclusao-itens">
                     <label for="">{{categorias.nome}}</label>
-                    <a href="/post/categoria/remover/{{categorias.cod_categoria}}"><span class="material-symbols-outlined">delete</span></a>
+                    <a href="/post/remover/categoria/{{categorias.cod_categoria}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
                 {% endfor %}
             </div>
@@ -150,7 +150,7 @@
                 {% for tipos in tipo %}
                 <div class="container--exclusao-itens">
                     <label for="">{{tipos.nome}}</label>
-                    <a href="/post/tipo/remover/{{tipos.cod_tipo}}"><span class="material-symbols-outlined">delete</span></a>
+                    <a href="/post/remover/tipo/{{tipos.cod_tipo}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
                 {% endfor %}
             </div>
@@ -161,7 +161,7 @@
                 {% for caracteristicas in caracteristica %}
                 <div class="container--exclusao-itens">   
                     <label for="">{{caracteristicas.nome}}</label>
-                    <a href="/post/caracteristica/remover/{{caracteristicas.cod_caracteristica}}"><span class="material-symbols-outlined">delete</span></a>
+                    <a href="/post/remover/caracteristica/{{caracteristicas.cod_caracteristica}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
                 {% endfor %}
                 
