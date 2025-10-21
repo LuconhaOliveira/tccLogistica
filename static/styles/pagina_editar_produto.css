@@ -142,7 +142,7 @@
 /* Botão de Login */
 button[type="submit"] {
 
-    background-color: var(--orange-light-color);
+    background-color: var(--grey-light);
     color: var(--dark);
     font-size: var(--font-size-20) !important;
     
@@ -159,7 +159,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: var(--orange-color);
+    background-color: var(--orange-color) !important;
     color: var(--white);
     transform: scale(1.02);
 }
@@ -207,9 +207,7 @@ figure{
 .descricao .form-control{
 
     border-radius: 15px;
-
     margin: 3% 5% 1% 5% !important;
-
     width: 90% !important;
     height: auto;
     font-size: var(--font-size-20) !important;
@@ -224,7 +222,6 @@ figure{
     align-items: center; 
 
     margin: 1.5%;
-    
 }
 
 .container--div-left{

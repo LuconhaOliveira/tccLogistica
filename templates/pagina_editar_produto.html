@@ -44,7 +44,7 @@
 
         </div>
 
-        <section class="container--card-fundo"
+        <form method="POST" action="/post/editar/produto/{{produto.cod_produto}}" enctype="multipart/form-data" class="container--card-fundo"
             style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
 
             <!-- detalhe da prateleira -->
@@ -62,12 +62,13 @@
                         <div class="col-md-0 container--div-left">
 
                             <figure>
-                            <!-- imagem -->
-                            <img src="https://img.nsctotal.com.br/wp-content/uploads/2025/10/Conheca-4-beneficios-da-banana-para-a-saude-fisica-e-mental.jpg"
+                                <!-- imagem -->
+                                <img id="preview" src="data:image/jpeg;base64,{{ imagem_base64 }}"
                                 class="img-fluid rounded-start" alt="Editar a foto. Clique em cima!">
 
-                                <figcaption class="figcaption-descricao">Para editar a foto, clique em cima da imagem!</figcaption>
+                                <!-- <figcaption class="figcaption-descricao">Para editar a foto, clique em cima da imagem!</figcaption> -->
                             </figure>
+                                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*">
 
                         </div>
 
@@ -81,7 +82,7 @@
                                 <div class="mb-3">
 
                                     <!-- exemplo -->
-                                    <p class="card-text">Nome: Banana</p>
+                                    <p class="card-text" name="cadastro-nome">Nome: {{ produto.produto }}</p>
 
                                 </div>
 
@@ -89,7 +90,7 @@
                                 <div class="mb-3">
 
                                     <input name="cadastro-sku" maxlength="100" class="form-control" id="exampleInputSKU"
-                                        placeholder="SKU:">
+                                        placeholder="SKU:" value="{{produto.sku}}">
 
                                 </div>
 
@@ -97,14 +98,14 @@
                                 <div class="mb-3">
 
                                     <input name="cadastro-quantidade" type="number" class="form-control"
-                                        id="exampleInputQuantidade" min="0" placeholder="Quantidade:">
+                                        id="exampleInputQuantidade" min="0" placeholder="Quantidade:" value="{{produto.quantidade}}">
                                 </div>
 
                                 <!-- campo de valor -->
                                 <div class="mb-3">
 
                                     <input name="cadastro-valor" class="form-control" id="exampleInputValor"
-                                        placeholder="R$:">
+                                        placeholder="R$:" value="{{produto.valor}}">
                                 </div>
 
 
@@ -117,8 +118,12 @@
 
                                         <option class="select-estante" disabled selected>Selecione uma Estante:</option>
 
-                                        {% for estantes in estante %}
-                                        <option value="{{estantes.cod_estante}}">{{estantes.nome}}</option>
+                                        {% for estante in estantes %}
+                                        {% if estante.estante==produto.estante %}
+                                        <option value="{{estante.cod_estante}}" selected>{{estante.estante}}</option>
+                                        {% else %}
+                                        <option value="{{estante.cod_estante}}">{{estante.estante}}</option>
+                                        {% endif %}
                                         {% endfor %}
 
                                     </select>
@@ -132,16 +137,13 @@
 
                                         <option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
 
-                                        <option class="select-coluna">Coluna 1</option>
-                                        <option class="select-coluna">Coluna 2</option>
-                                        <option class="select-coluna">Coluna 3</option>
-                                        <option class="select-coluna">Coluna 4</option>
-                                        <option class="select-coluna">Coluna 5</option>
-                                        <option class="select-coluna">Coluna 6</option>
-                                        <option class="select-coluna">Coluna 7</option>
-                                        <option class="select-coluna">Coluna 8</option>
-                                        <option class="select-coluna">Coluna 9</option>
-                                        <option class="select-coluna">Coluna 10</option>
+                                        {% for i in range(1,11) %}
+                                        {% if i|string ==produto.coluna[-1] %}
+                                        <option class="select-coluna" selected>Coluna {{i|string}}</option>
+                                        {% else %}
+                                        <option class="select-coluna">Coluna {{i|string}}</option>
+                                        {% endif %}
+                                        {% endfor %}
 
                                     </select>
 
@@ -154,9 +156,13 @@
 
                                         <option class="select-linha" disabled selected>Selecione uma Linha:</option>
 
-                                        <option class="select-coluna">Linha 1</option>
-                                        <option class="select-coluna">Linha 2</option>
-                                        <option class="select-coluna">Linha 3</option>
+                                        {% for i in range(1,4) %}
+                                        {% if i|string==produto.linha[-1] %}
+                                        <option class="select-linha" selected>Linha {{i|string}}</option>
+                                        {% else %}
+                                        <option class="select-linha">Linha {{i|string}}</option>
+                                        {% endif %}
+                                        {% endfor %}
 
                                     </select>
 
@@ -173,8 +179,12 @@
                                         <option class="select-categoria" disabled selected>Selecione uma categoria:
                                         </option>
 
-                                        {% for categorias in categoria %}
-                                        <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
+                                        {% for categoria in categorias %}
+                                        {% if categoria.nome==produto.categoria %}
+                                        <option value="{{categoria.cod_categoria}}" selected>{{categoria.nome}}</option>
+                                        {% else %}
+                                        <option value="{{categoria.cod_categoria}}">{{categoria.nome}}</option>
+                                        {% endif %}
                                         {% endfor %}
 
                                     </select>
@@ -188,8 +198,12 @@
 
                                         <option class="select-tipo" disabled selected>Selecione um tipo:</option>
 
-                                        {% for tipos in tipo %}
-                                        <option value="{{tipos.cod_tipo}}">{{tipos.nome}}</option>
+                                        {% for tipo in tipos %}
+                                        {% if tipo.nome==produto.tipo %}
+                                        <option value="{{tipo.cod_tipo}}" selected>{{tipo.nome}}</option>
+                                        {% else %}
+                                        <option value="{{tipo.cod_tipo}}">{{tipo.nome}}</option>
+                                        {% endif %}
                                         {% endfor %}
 
                                     </select>
@@ -205,10 +219,13 @@
                                         <option class="select-caracteristicas" disabled selected>Selecione uma
                                             caracteristica:</option>
 
-                                        {% for caracteristicas in caracteristica %}
-                                        <option value="{{caracteristicas.cod_caracteristica}}">{{caracteristicas.nome}}
-                                        </option>
-                                        {% endfor %}
+                                            {% for caracteristica in caracteristicas %}
+                                            {% if caracteristica.nome==produto.caracteristica %}
+                                            <option value="{{caracteristica.cod_caracteristica}}" selected>{{caracteristica.nome}}</option>
+                                            {% else %}
+                                            <option value="{{caracteristica.cod_caracteristica}}">{{caracteristica.nome}}</option>
+                                            {% endif %}
+                                            {% endfor %}
 
                                     </select>
 
@@ -222,20 +239,14 @@
                     <!-- descrição -->
                     <div class="mb-3 descricao">
 
-                        <input name="cadastro-nome" type="text" maxlength="100" class="form-control"
-                            id="exampleInputName" placeholder="Descrição:">
+                        <input name="cadastro-descricao" type="text" maxlength="100" class="form-control"
+                            id="exampleInputName" placeholder="Descrição:" value="{{produto.descricao}}">
                     </div>
 
                     <div class="container--bottom-card">
 
                         <button class="btn btn-primary" type="submit">Editar</button>
 
-                        <!-- campo de quantidade -->
-                        <div class="mb-0">
-                            <!-- quantidade: backend do cadastro -->
-                            <input name="cadastro-quantidade" type="number" class="form-control"
-                                id="exampleInputQuantidade" min="0" value="0">
-                        </div>
 
                     </div>
 
@@ -246,7 +257,7 @@
             <div class="container--div-detalhe direita"
                 style="background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);"></div>
 
-        </section>
+        </form>
 
     </main>
 
@@ -256,6 +267,21 @@
 
     <!-- import da biblioteca do sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('exampleInputPhoto').addEventListener('change', function(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const preview = document.getElementById('preview');
+              preview.src = ''
+              preview.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      </script>
 
 </body>
 

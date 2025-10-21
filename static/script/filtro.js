@@ -20,11 +20,7 @@ function alterar_estantes(estantes){
 
     estantes.forEach(estante => {
         html += `<div>
-            <a href="/estante/${estante.cod_estante}">${estante.cod_estante}</a>
-                <ul>
-                    <li>${estante.estante}</li>
-                    <li>${estante.categoria}</li>
-                </ul>
+            <a href="/estante/${estante.cod_estante}">${estante.estante}</a>
             </div>`
     });
 
@@ -51,7 +47,7 @@ function alterar_filtros(filtros){
                 <label for=${filtro}>${filtro}</label><br />`;
     });
 
-    checkbox+=`<button type="reset">Limpar filtro</button>`
+    checkbox+=`<button class="card-section--btnLimparFiltro" type="reset">Limpar filtro</button>`
 
     document.querySelector('#filtros').innerHTML = '';
     document.querySelector('#filtros').innerHTML = checkbox;

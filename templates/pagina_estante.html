@@ -22,6 +22,9 @@
 
     <title>Adicionar Estante</title>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+    <script src="../static/script/cadastro_estante.js" defer></script>
 </head>
 
 <body class="container--body">
@@ -53,14 +56,14 @@
 
     <main class="container--main">
         <!-- action/method: backend do add categoria -->
-        <form action="/post/cadastro_estante/adicionar" method="post" class="container--form">
+        <form action="/post/cadastrar/estante" id="form-cadastro-estante" method="post" class="container--form">
             <h1>Adicionar Estante</h1>
 
             <!-- nome da estante -->
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nome da Estante:</label>
                 <!-- name: backend do adicionar nome estante -->
-                <input name="nome" type="text" class="form-control"></input>
+                <input name="nome" id="estante-nome" type="text" class="form-control"></input>
             </div>
 
             <!-- categoria da estante -->
@@ -68,7 +71,7 @@
                 <label for="exampleInputCategory" class="form-label">Categoria:</label>
                 <!-- name: backend do adicionar categoria -->
                 
-                <select name="cod_categoria" class="form-control">
+                <select name="cod_categoria" id="estante-cod-categoria" class="form-control">
                     <option value="" disabled selected>Selecione a Categoria</option>
                     {% for categorias in categoria %}
                     <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
@@ -78,7 +81,7 @@
             </div>
 
             <div class="mb-3 form-check">
-            <a href="/pagina/principal"><button type="submit" class="btn btn-primary">Adicionar</button></a>
+            <button type="submit" class="btn btn-primary">Adicionar</button>
             <div class="container--a--label-possuiConta">
             </div>
 
