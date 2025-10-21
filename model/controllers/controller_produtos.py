@@ -121,7 +121,7 @@ class ControleProduto:
             
             cursor.execute(sql, valores)
             
-            resultado = cursor.fetchall()
+            resultado = cursor.fetchone()
             
             if resultado:
                 return resultado

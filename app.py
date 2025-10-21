@@ -374,7 +374,7 @@ def post_produto():
 
 @app.route("/pagina/editar/produto/<id>")
 def editar_produto(id):
-    produto = ControleProduto.buscar_produto(id)[0]
+    produto = ControleProduto.buscar_produto(id)
     imagem_base64 = ""
     if produto["imagem"]:
         imagem_blob = produto["imagem"]  # Aqui o produto.imagem é o BLOB do banco de dados
@@ -391,7 +391,7 @@ def editar_produto(id):
 
 @app.route("/post/editar/produto/<id>", methods=["POST"])
 def post_editar_produto(id):
-    produto = ControleProduto.buscar_produto(id)[0]
+    produto = ControleProduto.buscar_produto(id)
     # 1. Verificação de Sessão
     if "cpf" not in session:
         return jsonify({
