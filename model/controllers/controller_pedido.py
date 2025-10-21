@@ -1,7 +1,7 @@
 from data.conexao import Conection
 from flask import session
 from mysql.connector import Error
-import datetime
+from datetime import datetime
 
 class Pedido:
 
@@ -21,7 +21,7 @@ class Pedido:
             
             cursor.execute(sql, valores)
             
-            cursor.commit()
+            conexao.commit()
             return cursor.lastrowid
 
         except Error as e:
@@ -41,16 +41,34 @@ class Pedido:
                 return None
 
             cursor = conexao.cursor()
-            
-            sql = """INSERT INTO item_pedido (
-                        cod_pedido, cod_produto, quantidade)
-                    VALUES (
-                        %s, %s,%s)"""
-            valores = (cod_pedido,cod_produto,quantidade)
+
+            sql = """SELECT SUM(quantidade) FROM item_pedido WHERE cod_produto=%s"""
+            valores = (cod_produto,)
             
             cursor.execute(sql, valores)
+            resultado = cursor.fetchone()[0]
+            if not resultado: resultado=0
+
+            sql = """SELECT quantidade FROM produto WHERE cod_produto=%s"""
+            valores = (cod_produto,)
             
-            cursor.commit()
+            cursor.execute(sql, valores)
+            resultado2 = cursor.fetchone()[0]
+            print(resultado)
+            print(quantidade)
+
+            if resultado2>=int(quantidade)+int(resultado):
+                sql = """INSERT INTO item_pedido (
+                            cod_pedido, cod_produto, quantidade)
+                        VALUES (
+                            %s, %s,%s)"""
+                valores = (cod_pedido,cod_produto,quantidade)
+                
+                cursor.execute(sql, valores)
+                
+                conexao.commit()
+            else:
+                raise ValueError("Quantidade adicionada maior que o estoque")
 
             cursor.close()
             conexao.close()
@@ -81,12 +99,9 @@ class Pedido:
             resultado = cursor.fetchone()
 
             if resultado:
-                return True,resultado
+                return True,resultado[0]
             else:
                 return False,None
-
-            cursor.close()
-            conexao.close()
 
         except Error as e:
             print(f"Erro ao validar login: {e}")

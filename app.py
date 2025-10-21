@@ -646,7 +646,7 @@ def pagina_excluir_historico_alteracao():
 # CRIAÇÃO E ADIÇÃO AO PEDIDO DE COMPRA ------------------------------------------------------------------------------------#
 
 @app.route("/post/pedido/<cod_produto>", methods=['POST'])
-def pagina_excluir_historico_alteracao(cod_produto):
+def adicionar_produto_pedido(cod_produto):
 
     # Se o CPF estiver na sessão
     if "cpf" in session:
@@ -654,6 +654,7 @@ def pagina_excluir_historico_alteracao(cod_produto):
         (ativo,cod_pedido)=Pedido.verificar_pedido_ativo()
         if not ativo:
             cod_pedido=Pedido.criar_pedido()
+        print(ativo,cod_pedido,cod_produto,quantidade)
         Pedido.adicionar_ao_pedido(cod_pedido,cod_produto,quantidade)
         return redirect(url_for("pagina_principal"))
 
