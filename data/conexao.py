@@ -5,21 +5,22 @@ class Conection:
 
     # Definimos as credenciais para o banco de dados local.
     # Essas variáveis de classe são usadas para manter a configuração de forma organizada.
-    _LOCAL_HOST = 'localhost'
-    _LOCAL_DATABASE = 'tcc_logistica'
-    _LOCAL_USER = 'root'
-    _LOCAL_PASSWORD = 'root'
-    _LOCAL_PORT = 3306
+    _HOST = 'localhost'
+    _DATABASE = 'tcc_logistica'
+    _USER = 'root'
+    _PASSWORD = 'root'
+    _PORT = 3306
     
-    # Definimos as credenciais para o banco de dados online.
-    _ONLINE_HOST = 'lucas-mysql-service-ds-aluno-d374.i.aivencloud.com' 
-    _ONLINE_DATABASE = 'tcc_logistica'   
-    _ONLINE_USER = 'avnadmin'            
-    _ONLINE_PASSWORD = 'AVNS_YoiuI6G-rpT4G7mGW3A'   
-    _ONLINE_PORT = 28179                 
+    # "Descomente" o código a baix e comente o código a cima para trocar entre banco de dados online e local
+    
+    # _HOST = 'lucas-mysql-service-ds-aluno-d374.i.aivencloud.com' 
+    # _DATABASE = 'tcc_logistica'   
+    # _USER = 'avnadmin'            
+    # _PASSWORD = 'AVNS_YoiuI6G-rpT4G7mGW3A'   
+    # _PORT = 28179                 
 
     @staticmethod
-    def create_connection(is_online=False):
+    def create_connection():
 
         """
         Cria uma conexão com o banco de dados MySQL.
@@ -34,32 +35,14 @@ class Conection:
 
         try:
 
-            if is_online:
-
-                # Usa as credenciais online
-                host = Conection._ONLINE_HOST
-                database = Conection._ONLINE_DATABASE
-                user = Conection._ONLINE_USER
-                password = Conection._ONLINE_PASSWORD
-                port = Conection._ONLINE_PORT
-
-            else:
-
-                # Usa as credenciais locais por padrão
-                host = Conection._LOCAL_HOST
-                database = Conection._LOCAL_DATABASE
-                user = Conection._LOCAL_USER
-                password = Conection._LOCAL_PASSWORD
-                port = Conection._LOCAL_PORT
-
             # Tenta estabelecer a conexão com o servidor MySQL
             conn = mysql.connector.connect(
 
-                host=host,
-                database=database,
-                user=user,
-                password=password,
-                port=port 
+                host=Conection._HOST,
+                database=Conection._DATABASE,
+                user=Conection._USER,
+                password=Conection._PASSWORD,
+                port=Conection._PORT
                 
             )
             

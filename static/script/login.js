@@ -46,6 +46,7 @@ loginForm.addEventListener('submit', function(event) {
                 window.location.href = "/pagina/principal";
                 // window.location.href = "/pagina/cadastrar/categoria";
                 // window.location.href = "/pagina/produto";
+                // window.location.href = "/visualizar/produto/3";
                 // window.location.href = "/pagina/cadastro_estante";
             });
             

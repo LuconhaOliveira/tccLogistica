@@ -37,44 +37,75 @@
     <!-- container geral / principal -->
     <main class="container--main">
 
-        <section class="container--card-fundo" style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
+        <section class="container--card-fundo"
+            style="background-image: url(/static/img/close-up-abstrato-de-metal.jpg)">
 
             <!-- detalhe da prateleira -->
-            <div class="container--div-detalhe esquerda" style="background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);"></div>
+            <div class="container--div-detalhe esquerda"
+                style="background-image: url(/static/img/design-de-plano-de-fundo-texturizado-liso-cinza.jpg);"></div>
 
             <!-- card -->
-            <div class="card mb-4" style="width: 550px; min-height:550px; background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);">
-                
-                <div class="row g-0" >
+            <div class="card mb-4"
+                style="width: 550px; min-height:550px; background-image: url(/static/img/close-up-abstrato-de-metal.jpg);">
+
+                <div class="row g-0">
 
                     <section class="container--div-top">
 
                         <div class="col-md-0">
 
-                            <!-- imagem -->
-                            <img src="https://img.nsctotal.com.br/wp-content/uploads/2025/10/Conheca-4-beneficios-da-banana-para-a-saude-fisica-e-mental.jpg" class="img-fluid rounded-start" alt="">
+                            <div class="container--figure-img">
+                                <!-- imagem -->
+                                <figure>
+
+                                    <img src=""
+                                        class="img-fluid rounded-start" alt="">
+
+                                </figure>
+
+                            </div>
+
                         </div>
 
                         <div class="col-md-0">
-
+                           
                             <div class="card-body">
 
                                 <!-- nome do produto -->
-                                <p class="card-text">Banana</p>
-
-                                <!-- categoria -->
-                                <p class="card-text">Nanica</p>
+                                <p class="card-text">Nome: {{ produto.nome_produto }};</p>
 
                                 <!-- SKU -->
-                                <p class="card-text">BAN</p>
+                                <p class="card-text">SKU: {{ produto.sku }};</p>
 
                                 <!-- quantidade de produtos existentes -->
-                                <p class="card-text">56</p>
+                                <p class="card-text">Qntd: {{ produto.quantidade }};</p>
 
                                 <!-- preço do produto -->
-                                <p class="card-text">R$ 8,50</p>
+                                <p class="card-text">R$ {{ produto.valor }};</p>
+
+                                <!-- ENDEREÇAMENTO -->
+
+                                <!-- campo de nome da estante -->
+                                <p class="card-text">Estante: {{ produto.nome_estante }};</p>
+                                
+                                <!-- campo de selecionar coluna da estante  -->
+                                <p class="card-text">{{ produto.coluna }};</p>
+
+                                <!-- campo de selecionar linha da estante -->
+                                <p class="card-text">{{ produto.linha }};</p>
+
+                                <!-- CATEGORIAS -->
+
+                                <p class="card-text">Categoria: {{ produto.nome_categoria }};</p>
+
+                                <!-- campo de tipos de categoria -->
+                                <p class="card-text">Tipo: {{ produto.nome_tipo }};</p>
+
+                                <!-- campo de caracteristicas -->
+                                <p class="card-text">Característica: {{ produto.nome_caracteristica }}.</p>
 
                             </div>
+                            
                         </div>
 
                     </section>
@@ -82,7 +113,7 @@
                     <!-- descrição -->
                     <div class="container--div-descricao">
 
-                        <p class="card-text">Banana nanica muito gostosa e suculenta, compre agora para vc tbm virar uma banana nanica gostosa e suculenta !!!</p>
+                        <p class="card-text">{{ produto.descricao }}</p>
 
                     </div>
 
@@ -97,9 +128,9 @@
                                 id="exampleInputQuantidade" min="0" value="0">
                         </div>
 
-                        <a href=""><span class="material-symbols-outlined">edit</span> </a> 
+                        <a href=""><span class="material-symbols-outlined">edit</span> </a>
 
-                        <a href=""><span class="material-symbols-outlined">delete</span></a> 
+                        <a href=""><span class="material-symbols-outlined">delete</span></a>
 
                     </div>
 
@@ -107,7 +138,9 @@
             </div>
 
             <!-- detalhe da prateleira -->
-            <div class="container--div-detalhe direita" style="background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);"></div>
+            <div class="container--div-detalhe direita"
+                style=" background-image: url(/static/img/design-de-plano-de-fundo-texturizado-liso-cinza.jpg);">
+            </div>
 
         </section>
 

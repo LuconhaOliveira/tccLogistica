@@ -109,22 +109,48 @@ class ControleProduto:
 
         cursor = conexao.cursor(dictionary = True) 
         
-        sql = """SELECT
-                cod_produto,
-                data_hora,
-                nome,
-                descricao,
-                quantidade,
-                valor,
-                sku,
-                coluna,
-                linha,
-                cpf,
-                cod_estante,
-                cod_categoria,
-                cod_tipo,
-                cod_caracteristica
-                FROM produto WHERE cpf = %s;"""
+        sql = """
+                SELECT
+                    produto.cod_produto,
+                    produto.data_hora,
+                    produto.nome AS nome_produto, 
+                    produto.descricao,
+                    produto.quantidade,
+                    produto.valor,
+                    produto.sku,
+                    produto.coluna,
+                    produto.linha,
+                    produto.cpf,
+
+                    categoria.cod_categoria,
+                    categoria.nome AS nome_categoria, 
+
+                    tipo.cod_tipo,
+                    tipo.nome AS nome_tipo,
+
+                    caracteristica.cod_caracteristica,
+                    caracteristica.nome AS nome_caracteristica,
+
+                    estante.cod_estante,
+                    estante.nome AS nome_estante 
+                    
+                FROM
+                    produto
+                    
+                INNER JOIN categoria 
+                    ON produto.cod_categoria = categoria.cod_categoria
+                    
+                INNER JOIN tipo 
+                    ON produto.cod_tipo = tipo.cod_tipo
+                    
+                INNER JOIN caracteristica 
+                    ON produto.cod_caracteristica = caracteristica.cod_caracteristica
+                    
+                INNER JOIN estante 
+                    ON produto.cod_estante = estante.cod_estante 
+
+                WHERE
+                    produto.cpf = %s;"""
         
         valor = (cpf,)
 
@@ -133,6 +159,70 @@ class ControleProduto:
         resultado = cursor.fetchall()
 
         cursor.close()
+        conexao.close()
+
+        return resultado
+    
+    # selecionando um produto
+    def selecionar_produto(cod_produto):
+        #criando a conexao
+        conexao = Conection.create_connection()
+        cursor = conexao.cursor(dictionary = True) 
+
+        sql = """
+                SELECT
+                    produto.imagem,
+                    produto.cod_produto,
+                    produto.data_hora,
+                    produto.nome AS nome_produto, 
+                    produto.descricao,
+                    produto.quantidade,
+                    produto.valor,
+                    produto.sku,
+                    produto.coluna,
+                    produto.linha,
+                    produto.cpf,
+
+                    categoria.cod_categoria,
+                    categoria.nome AS nome_categoria, 
+
+                    tipo.cod_tipo,
+                    tipo.nome AS nome_tipo,
+
+                    caracteristica.cod_caracteristica,
+                    caracteristica.nome AS nome_caracteristica,
+
+                    estante.cod_estante,
+                    estante.nome AS nome_estante 
+                    
+                FROM
+                    produto
+                    
+                INNER JOIN categoria 
+                    ON produto.cod_categoria = categoria.cod_categoria
+                    
+                INNER JOIN tipo 
+                    ON produto.cod_tipo = tipo.cod_tipo
+                    
+                INNER JOIN caracteristica 
+                    ON produto.cod_caracteristica = caracteristica.cod_caracteristica
+                    
+                INNER JOIN estante 
+                    ON produto.cod_estante = estante.cod_estante 
+
+                WHERE
+                    produto.cod_produto = %s;
+                        """
+
+        valor = (cod_produto,)
+        #executando o comando sql
+        cursor.execute(sql, valor)
+
+        #recuperando os dados e armazenando em uma variavel
+        resultado = cursor.fetchone() 
+  
+        #fecho a conexao com o banco
+        
         conexao.close()
 
         return resultado
