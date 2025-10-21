@@ -7,7 +7,7 @@
     <title>Pedido de Compra</title>
 
     <!-- link css -->
-    <link rel="stylesheet" href="/static/styles/pagina_historico_alteracoes.css">
+    <link rel="stylesheet" href="/static/styles/pagina_pedido_compra.css">
     <!-- link css variaveis -->
     <link rel="stylesheet" href="/static/styles/variaveis_globais.css">
     <!-- link formatações de sweet alert -->
@@ -41,36 +41,52 @@
 
         <div class="container--div-titulo">
 
-            <h1 class="h1-titulo">Histórico - Alterações de produtos e estantes</h1>
+            <h1 class="h1-titulo">Pedido de Compra</h1>
 
-        </div>
-
-        <div class="mb-3 form-check">
-            <form method="POST" action="/pagina/excluir/historico_alteracoes">
-            <button type="submit" class="btn btn-primary">Limpar Histórico</button>
-            </form>
         </div>
 
         <section class="container--card">
 
-            {% for historico in alteracoes %}
-            <div class="card" style="width: 50rem;">
+            <div class="card mb-3" style="width: 640px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="https://www.infoescola.com/wp-content/uploads/2009/09/morangos1.jpg" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
 
-                <div class="card-header">
-                    
-                    <p><strong>Alteração {{ historico.cod_alteracao }}</strong></p>
+                            <div class="card-body-left">
+
+                                <h3 class="card-title">Morango</h3>
+                                <p class="card-text">Valor Unitário:</p>
+                                <p class="card-text">Subtotal:</p>
+                                <p class="card-text">Quantidade:</p>
+                            </div>
+
+                            <div class="card-body-right">
+                                <span class="material-symbols-outlined">delete</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{ historico.alteracao_realizada }}</li>
-                    <li class="list-group-item card-header"><p><strong>{{ historico.data_hora }}</strong></p></li>
-                    
-                </ul>
-                
             </div>
-            {% endfor %}
+
+            
 
         </section>
+
+        <div class="container--main-bottom">
+
+            <div class="mb-3 form-check">
+                <a href=""><button type="submit" class="btn btn-primary">Finalizar Pedido</button></a>
+            </div>
+
+            <div class="div-info">
+                <p>Quantidade:</p>
+                <p>Subtotal:</p>
+            </div>
+
+        </div>
 
     </main>
 

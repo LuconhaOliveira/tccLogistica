@@ -1,0 +1,191 @@
+/* Header para todas as telas */
+.container--header {
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-family: var(--font-outfit);
+}
+
+/* Logo para todas as telas */
+.img--InStock-logo {
+    width: 120px;
+}
+
+/* Footer para todas as telas */
+.container--footer{
+    width: 100%;
+    background-color: var(--grey-dark);
+    padding: 10px 20px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* --------------------------------------------------------- */
+
+/* Card geral */
+.card-filtrosCategoria{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 789px;
+    width: 180px;
+    background-color: var(--grey-light);
+    text-align:left ;
+} 
+
+/* Titulo "Filtro" */
+.card-filtrosCategoria .card-title{
+text-align: center;
+padding-top: 15px;
+font-family: var(--font-cinzel);
+} 
+
+/* Titulo "categoria" */
+.card-filtrosCategoria .card-subtitle.mb-2.text-body-secondary{
+    padding-left: 8px;
+    padding-top: 20px;
+    font-size: 16px;
+    font-family: var(--font-outfit);
+}
+
+/* Formata o input type radio (html) */
+input[type="radio" i]{
+    font-family: var(--font-outfit);
+    padding-left: 5px;
+    margin-left: 7px;
+}
+
+/* Btn do js */
+.card-section--btnLimparFiltro{
+    display: flex;
+    flex-direction: column;
+    
+
+    width: 180px;
+    padding: 10px 20px;
+    font-family: var(--font-outfit);
+    margin-top: 20px;
+
+
+    border: none;
+    text-align: center;
+    background-color: var(--orange-color);
+}
+
+/* ------------------------------------------------ */
+
+/* Btn Toggle ADD */
+
+.section-btn--cadastrarProdCatEst {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.section-div--tituloOpcoesBtn{
+    color: var(--white);
+    font-size: 25px;
+    align-items: center;
+    font-family: var(--font-outfit);
+    text-align: center;
+}
+
+.section-div--opcoesDentroDoBtn{
+    font-family: var(--font-outfit);
+    text-align:left;
+}
+
+#botaoToggle {
+    border: none;
+    background-color: var(--orange-color);
+    color: var(--white);
+    cursor: pointer;
+    
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    
+    /* Centraliza o ícon de + */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-family: var(--font-outfit);
+    
+    margin-top: 10px; 
+}
+
+/* opcoes dentro do btn */
+.section-btn--opcoesDentroDoBtn {
+    position: fixed; 
+    bottom: 40px;
+    right: 85px;
+    
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-end;
+    align-items: flex-end;
+    
+    padding: 17px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000; 
+}
+    
+.section-btn--opcoesDentroDoBtn a {
+    display: block;
+    text-decoration: none;
+    
+    background-color: #ff8c42; 
+    color: white;
+    padding: 8px 15px;
+
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
+    min-width: 150px;
+}
+
+/* Btn toggle do historico */
+
+.section-btn--historico {
+    position: fixed;
+    bottom: 110px;
+    right: 20px;
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#botaoToggleHistorico {
+    border: none;
+    background-color: var(--orange-color);
+    color: var(--white);
+    cursor: pointer;
+    
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    
+    /* Centraliza o ícon de + */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-family: var(--font-outfit);
+    
+    margin-top: 10px; 
+}

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
+    <title>Cadastrar categorias</title>
     <!-- link css -->
-    <link rel="stylesheet" href="/static/styles/pagina_cadastrar_categoria.css">
+    <link rel="stylesheet" href="/static/styles/pagina_categoria.css">
     <!-- link css cores -->
     <link rel="stylesheet" href="/static/styles/variaveis_globais.css">
     <!-- link css global para reset -->
@@ -19,15 +19,13 @@
     <!-- Link importação do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-
-    <title>Adicionar Estante</title>
 </head>
 
 <body class="container--body">
 
     <!-- header bootstrap -->
     <header class="container--header">
-        <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo">
+        <a href="{{ url_for('pagina_principal') }}"><img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo"></a>
 
         <nav class="navbar navbar-expand-lg bg-body-transparent">
             <div class="container-fluid">
@@ -40,7 +38,7 @@
                             <a class="nav-link" href="#"><span class="material-symbols-outlined">shopping_cart</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="material-symbols-outlined">logout</span></a>
+                            <a class="nav-link" href="#" id="logoff"><span class="material-symbols-outlined">logout</span></a>
                         </li>
                     </ul>
                 </div>
@@ -50,83 +48,126 @@
     </header>
 
     <main class="container--main">
-        <!-- form cadastrar catergoria -->
-        <!-- action/method: backend do add categoria -->
-        <form action="/post/cadastro_categoria/adicionar" method="post" class="container--form">
-            <h1>Adicionar Categoria</h1>
 
-            <!-- nome da categoria -->
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Nome da categoria:</label>
-                <!-- name: backend do adicionar nome da categoria -->
-                <input name="nome" type="text" class="form-control"></input>
+        <h2>Cadastro</h2>
+        <div class="container--divisao1">
+
+            <!-- form cadastrar catergoria -->
+            <!-- action/method: backend do add categoria -->
+            <form action="/post/cadastrar/categoria" method="post" class="container--form container--add-categoria">
+                <h2>Adicionar Categoria</h2>
+
+                <!-- nome da categoria -->
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Nome da categoria:</label>
+                    <!-- name: backend do adicionar nome da categoria -->
+                    <input name="nome" type="text" class="form-control"></input>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <a href="/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
+                </div>
+            </form>
+
+            <form action="/post/cadastrar/tipo" method="post" class="container--form">
+                <h2>Adicionar Tipo</h2>
+
+                <!-- nome do tipo -->
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Nome do tipo:</label>
+                    <!-- name: backend do adicionar nome do tipo -->
+                    <input name="nome" type="text" class="form-control"></input>
+                </div>
+
+                    <!-- selecionar categoria -->
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Selecione a categoria:</label>
+                    <!-- name: backend do adicionar nome da categoria -->
+                    <select name="cod_categoria" type="text" class="form-control">
+                        <!-- aparece apenas quando não há categoria cadastrada  -->
+                        <option value="" disabled selected>Selecione a categoria</option>
+                        <!-- puxa as categorias que foram cadastradas no banco de dados para adicionar no select -->
+                        {% for categorias in categoria %}
+                        <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
+                        {% endfor %}
+                    </select>
+
+                </div>
+
+                <div class="mb-3 form-check">
+                    <a href="/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
+                </div>
+            </form>
+
+            <form action="/post/cadastrar/caracteristica" method="post" class="container--form" id="caracteristicaForm">
+                <h2>Adicionar Características</h2>
+
+                <!-- nome do tipo -->
+                <div class="mb-3">
+                    <label class="form-label">Nome da característica:</label>
+                    <!-- name: backend do adicionar nome da característica -->
+                    <input name="nome" type="text" class="form-control"></input>
+                </div>
+
+                <!-- selecionar o tipo -->
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Selecione o tipo:</label>
+                    <!-- name: backend selecionar nome do tipo -->
+                    <select name="cod_tipo" type="text" class="form-control">
+                        <option value="" disabled selected>Selecione o tipo</option>
+                        {% for tipos in tipo %}
+                        <option value="{{tipos.cod_tipo}}">{{tipos.nome}}</option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- divisão 2: exclusao de categorias, tipos e características -->
+         <h2>Exclusão</h2>
+         <div class="container--divisao2">
+            
+            <!-- categorias -->
+            <div class="container--exclusao">
+                <h2 class="titulo-exclusao">Excluir categorias</h2>
+                {% for categorias in categoria %}
+                <div class="container--exclusao-itens">
+                    <label for="">{{categorias.nome}}</label>
+                    <a href="/post/remover/categoria/{{categorias.cod_categoria}}"><span class="material-symbols-outlined">delete</span></a>
+                </div>
+                {% endfor %}
             </div>
 
-            <div class="mb-3 form-check">
-                <a href="/pagina/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
-            </div>
-        </form>
-
-        <form action="/post/cadastro_tipo/adicionar" method="post" class="container--form">
-            <h1>Adicionar Tipo</h1>
-
-            <!-- nome do tipo -->
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Nome do tipo:</label>
-                <!-- name: backend do adicionar nome do tipo -->
-                <input name="nome" type="text" class="form-control"></input>
+            <!-- tipos -->
+            <div class="container--exclusao">
+                <h2 class="titulo-exclusao">Excluir tipos</h2>
+                {% for tipos in tipo %}
+                <div class="container--exclusao-itens">
+                    <label for="">{{tipos.nome}}</label>
+                    <a href="/post/remover/tipo/{{tipos.cod_tipo}}"><span class="material-symbols-outlined">delete</span></a>
+                </div>
+                {% endfor %}
             </div>
 
-                <!-- selecionar categoria -->
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Selecione a categoria:</label>
-                <!-- name: backend do adicionar nome da categoria -->
-                <select name="cod_categoria" type="text" class="form-control">
-                    <!-- aparece apenas quando não há categoria cadastrada  -->
-                    <option value="" disabled selected>Selecione a categoria</option>
-                    <!-- puxa as categorias que foram cadastradas no banco de dados para adicionar no select -->
-                    {% for categorias in categoria %}
-                    <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
-                    {% endfor %}
-                </select>
-
+            <!-- caracteristicas -->
+            <div class="container--exclusao">
+                <h2 class="titulo-exclusao">Excluir caracteristicas</h2>
+                {% for caracteristicas in caracteristica %}
+                <div class="container--exclusao-itens">   
+                    <label for="">{{caracteristicas.nome}}</label>
+                    <a href="/post/remover/caracteristica/{{caracteristicas.cod_caracteristica}}"><span class="material-symbols-outlined">delete</span></a>
+                </div>
+                {% endfor %}
+                
             </div>
 
-
-            <div class="mb-3 form-check">
-                <a href="/pagina/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
-            </div>
-        </form>
-
-        <form action="/post/cadastro_caracteristica/adicionar" method="post" class="container--form">
-            <h1>Adicionar Características</h1>
-
-            <!-- nome do tipo -->
-            <div class="mb-3">
-                <label class="form-label">Nome da característica:</label>
-                <!-- name: backend do adicionar nome da característica -->
-                <input name="nome" type="text" class="form-control"></input>
-            </div>
-
-            <!-- selecionar o tipo -->
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Selecione o tipo:</label>
-                <!-- name: backend selecionar nome do tipo -->
-                <select name="cod_tipo" type="text" class="form-control">
-                    <option value="" disabled selected>Selecione o tipo</option>
-                    {% for tipos in tipo %}
-                    <option value="{{tipos.cod_tipo}}">{{tipos.nome}}</option>
-                    {% endfor %}
-
-                </select>
-            </div>
-
-            <div class="mb-3 form-check">
-                <a href="/pagina/cadastrar/categoria"><button type="submit" class="btn btn-primary">Adicionar</button></a>
-            </div>
-
-
-        </form>
+         </div>
 
     </main>
 
@@ -137,7 +178,14 @@
     <!-- Link importação do Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="/static/script/sweet_alert_caracteristica.js"></script>
+
+    <script src="/static/script/logoff.js"></script>
 
 </body>
 

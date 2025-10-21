@@ -7,7 +7,7 @@
     <title>Pedido de Compra</title>
 
     <!-- link css -->
-    <link rel="stylesheet" href="/static/styles/pagina_historico_alteracoes.css">
+    <link rel="stylesheet" href="/static/styles/pagina_historico_pedidos.css">
     <!-- link css variaveis -->
     <link rel="stylesheet" href="/static/styles/variaveis_globais.css">
     <!-- link formatações de sweet alert -->
@@ -41,34 +41,69 @@
 
         <div class="container--div-titulo">
 
-            <h1 class="h1-titulo">Histórico - Alterações de produtos e estantes</h1>
+            <h1 class="h1-titulo">Histórico - Pedido de Compra</h1>
 
         </div>
 
         <div class="mb-3 form-check">
-            <form method="POST" action="/pagina/excluir/historico_alteracoes">
-            <button type="submit" class="btn btn-primary">Limpar Histórico</button>
-            </form>
+            <a href=""><button type="submit" class="btn btn-primary">Limpar Histórico</button></a>
         </div>
 
         <section class="container--card">
 
-            {% for historico in alteracoes %}
             <div class="card" style="width: 50rem;">
 
                 <div class="card-header">
-                    
-                    <p><strong>Alteração {{ historico.cod_alteracao }}</strong></p>
+
+                    <div class="card--header-esquerdo">
+
+                        <p><strong>Pedido n°0001</strong></p>
+
+                    </div>
+
+                    <div class="card--header-direito">
+
+                        <span class="material-symbols-outlined">download</span>
+                        <p><strong>Baixar nota fiscal</strong></p>
+
+                    </div>
                 </div>
-                
+
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{ historico.alteracao_realizada }}</li>
-                    <li class="list-group-item card-header"><p><strong>{{ historico.data_hora }}</strong></p></li>
-                    
+                    <li class="list-group-item">3x Camisa branca M</li>
+                    <li class="list-group-item">10x Sapato preto 36</li>
+                    <li class="list-group-item">1x Calça Jeans 42</li>
+                    <li class="list-group-item"><strong>Total:</strong> R$ 120,80</li>
+                    <li class="list-group-item card-header"><p><strong>19/09/2025 às 15h06</strong></p></li>
                 </ul>
-                
             </div>
-            {% endfor %}
+
+            <div class="card" style="width: 50rem;">
+
+                <div class="card-header">
+
+                    <div class="card--header-esquerdo">
+
+                        <p><strong>Pedido n°0002</strong></p>
+
+                    </div>
+
+                    <div class="card--header-direito">
+
+                        <span class="material-symbols-outlined">download</span>
+                        <p><strong>Baixar nota fiscal</strong></p>
+
+                    </div>
+                </div>
+
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">3x Camisa branca M</li>
+                    <li class="list-group-item">10x Sapato preto 36</li>
+                    <li class="list-group-item">1x Calça Jeans 42</li>
+                    <li class="list-group-item"><strong>Total:</strong> R$ 120,80</li>
+                    <li class="list-group-item card-header"><p><strong>19/09/2025 às 15h06</strong></p></li>
+                </ul>
+            </div>
 
         </section>
 
