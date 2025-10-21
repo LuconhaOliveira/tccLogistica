@@ -226,3 +226,55 @@ class ControleProduto:
         conexao.close()
 
         return resultado
+    
+    # Verifica se o produto está ligado a algum pedido de compra
+    def verificar_dependencia_produto(cod_produto):
+
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor()
+
+        # Verifica se a categoria está em alguma estante ou em algum produto
+        sql = """
+            SELECT EXISTS (
+                SELECT 1 FROM item_pedido WHERE cod_produto = %s
+                UNION ALL
+                SELECT 1 FROM produto_caracteristica WHERE cod_produto = %s
+            ) AS dependencia;
+        """
+
+        valores = (cod_produto, cod_produto)
+        
+        # Executa a consulta
+        cursor.execute(sql, valores)
+        
+        # O resultado será (1,) se houver dependência, ou (0,) se não houver
+        dependencia = cursor.fetchone()[0] == 1
+
+        cursor.close()
+        conexao.close()
+        return dependencia # Retorna True se houver dependência
+    
+    # Conexao com o banco de dados para excluir um produto
+    def remover_produto(cod_produto):
+
+        # Verifica se o produto possui uma dependencia 
+        if ControleProduto.verificar_dependencia_produto(cod_produto):
+            # Retorna se a remoção falhou por conta da dependência
+            return False # Não pode excluir
+
+        # Se não possuir uma dependencia, executa a exclusão da categoria
+        conexao = Conection.create_connection()
+        cursor = conexao.cursor()
+
+        sql = "DELETE FROM produto WHERE cod_produto = %s;"
+
+        valor = (cod_produto,)
+
+        cursor.execute(sql, valor)
+
+        conexao.commit()
+        
+        cursor.close()
+        conexao.close()
+        return True
