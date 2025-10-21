@@ -18,7 +18,7 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 # PÁGINA PRINCIPAL ------------------------------------------------------------------------------------------------------#
  
 # Rota para a página principal
-@app.route("/pagina/principal")
+@app.route("/principal")
 def pagina_principal():
 
     if "cpf" not in session:
@@ -54,7 +54,7 @@ def filtro_filtro(filtro):
 # CADASTRO DE USUÁRIO ------------------------------------------------------------------------------------------------------#
  
 # Rota para a página de cadastro
-@app.route("/pagina/cadastrar")
+@app.route("/cadastrar/usuario")
 def pagina_cadastrar():
 
     return render_template("pagina_cadastro.html")
@@ -189,14 +189,14 @@ def post_login():
 
 # Esta rota é responsável por:
 # 1. Lidar com a exibição da página de recuperar senha.
-@app.route("/pagina/recuperar_senha")
+@app.route("/recuperar/senha")
 def pagina_recuperar_senha():
 
     # 1. Renderiza o template HTML da página de recuperar senha.
     # 'render_template' carrega o arquivo 'pagina_recuperar_senha.html'.
     return render_template('pagina_recuperar_senha.html')
 
-@app.route("/post/recuperar_senha", methods=["POST"])
+@app.route("/post/recuperar/senha", methods=["POST"])
 def post_recuperar_senha():
 
     # 1. Captura os dados do formulário enviado via POST
@@ -249,7 +249,7 @@ def post_recuperar_senha():
 #     return jsonify(Estante.buscar_estante(id))
   
 # Rota para exibir o formulário de cadastro de produto
-@app.route("/pagina/produto")
+@app.route("/cadastrar/produto")
 def pagina_produto():
     """Renderiza o formulário para cadastro de novos produtos."""
     
@@ -277,9 +277,9 @@ def pagina_produto():
 # CADASTRAR PRODUTOS ------------------------------------------------------------------------------------------------------#
 
 # Rota de POST para cadastro de produto
-# app.py (Rota /post/produto)
+# app.py (Rota /post/cadastrar/produto)
 
-@app.route("/post/produto", methods=['POST'])
+@app.route("/post/cadastrar/produto", methods=['POST'])
 def post_produto():
     """
     Processa o formulário de cadastro de produto via AJAX e retorna JSON, 
@@ -383,7 +383,7 @@ def remover_produto(cod_produto):
     # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
     ControleProduto.remover_produto(cod_produto)
 
-    return redirect("/pagina/principal")
+    return redirect("/principal")
 
 # VIZUALIZAR PRODUTO ESPECIFICO ------------------------------------------------------------------------------------------------------#
 
@@ -408,7 +408,7 @@ def visualizar_produto(cod_produto):
 # Rota que lida com a requisição GET para a página de cadastro de estantes.
 # Acessa a URL "/pagina/cadastro_estante" e renderiza o arquivo HTML 'pagina_estante.html',
 # exibindo o formulário de cadastro de estante para o usuário.  
-@app.route("/pagina/cadastro_estante")
+@app.route("/cadastrar/estante")
 def pagina_cadastrar_estante():
 
     if "cpf" in session:
@@ -420,7 +420,7 @@ def pagina_cadastrar_estante():
 
 
 # Rota que processa os dados do formulário de cadastrar estante (requisição POST).
-@app.route("/post/cadastro_estante/adicionar", methods=["POST"])
+@app.route("/post/cadastrar/estante", methods=["POST"])
 def adicionar_estante():
     
     # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
@@ -438,7 +438,7 @@ def adicionar_estante():
 
     # Garante que o campo 'cod_categoria' foi preenchido. 
     if not cod_categoria: 
-        return redirect("/pagina/cadastro_estante") 
+        return redirect("/cadastrar/estante") 
         
     # Inserção dos dados no Banco caso esteja tudo certo
     try:
@@ -450,21 +450,21 @@ def adicionar_estante():
         
         if sucesso:
             # Caso a inserção de dados seja um sucesso, redireciona para a página principal (futuramente vai aparecer um sweet alert)
-            return redirect("/pagina/principal") 
+            return redirect("/principal") 
         else:
             # Falha no banco de dados (erro interno na classe Estante)
             print(f"Erro no cadastro do banco de dados: {e}")
-            return redirect("/pagina/cadastro_estante") 
+            return redirect("/cadastrar/estante") 
 
     except ValueError: 
         # Erro de formato (se cod_categoria não for um número)
         print(f"Erro de valor invalido: {e}")
-        return redirect("/pagina/cadastro_estante")
+        return redirect("/cadastrar/estante")
         
     except Exception as e:
         # Erro genérico de sistema
         print(f"Erro inesperado durante a persistência: {e}")
-        return redirect("/pagina/cadastro_estante")
+        return redirect("/cadastrar/estante")
     
 # BUSCAR ESTANTE -------------------------------------------------------------------------------------------------------------------------------#
 
@@ -478,18 +478,18 @@ def pagina_estante(id):
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
 # Rota para excluir uma estante 
-@app.route("/post/estante/remover/<cod_estante>")
+@app.route("/post/remover/estante/<cod_estante>")
 def remover_estante(cod_estante):
     # Chama a função do controler, remove a estante e redireciona para a pagina principal
     Estante.remover_estante(cod_estante)
-    return redirect("/pagina/principal")
+    return redirect("/principal")
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
 # Rota que lida com a requisição GET para a página de cadastro de categoria, tipo e caracteristica.
 # Acessa a URL "/pagina/cadastro_categoria" e renderiza o arquivo HTML 'pagina_categoria.html',
 # exibindo os formulários de cadastro de categoria, tipo e caracteristica para o usuário.
-@app.route("/pagina/cadastrar/categoria")
+@app.route("/cadastrar/categoria")
 def pagina_cadastrar_categoria():
 
     if "cpf" in session:
@@ -502,7 +502,7 @@ def pagina_cadastrar_categoria():
     return render_template("pagina_categoria.html",nome=nome, categoria = categoria, tipo = tipo, caracteristica = caracteristica)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
-@app.route("/post/cadastro_categoria/adicionar", methods = ["POST"])
+@app.route("/post/cadastrar/categoria", methods = ["POST"])
 def post_cadastrar_categoria():
 
     # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
@@ -519,10 +519,10 @@ def post_cadastrar_categoria():
 
     Categoria.cadastrar_categoria(nome, cpf)
     
-    return redirect("/pagina/cadastrar/categoria")
+    return redirect("/cadastrar/categoria")
 
 # Rota que processa os dados do formulário de cadastrar tipo (requisição POST).
-@app.route("/post/cadastro_tipo/adicionar", methods = ["POST"])
+@app.route("/post/cadastrar/tipo", methods = ["POST"])
 def post_cadastrar_tipo():
 
     # Usa .get() para evitar KeyError. Se o 'cpf' não existir, ele será None.
@@ -541,10 +541,10 @@ def post_cadastrar_tipo():
 
     Categoria.cadastrar_tipo_categoria(nome, cpf, int(cod_categoria))
     
-    return redirect("/pagina/cadastrar/categoria")
+    return redirect("/cadastrar/categoria")
 
 # Rota que processa os dados do formulário de cadastrar caracteristica (requisição POST).
-@app.route("/post/cadastro_caracteristica/adicionar", methods = ["POST"])
+@app.route("/post/cadastrar/caracteristica", methods = ["POST"])
 def post_cadastrar_caracteristica():
 
     cpf = session.get("cpf") 
@@ -583,35 +583,35 @@ def post_cadastrar_caracteristica():
 # EXCLUSÃO DE CATEGORIA, TIPO E CARACTERISTICA --------------------------------------------------------------------------------------------#
 
 # Rota para excluir uma categoria
-@app.route("/post/categoria/remover/<cod_categoria>")
+@app.route("/post/remover/categoria/<cod_categoria>")
 def remover_categoria(cod_categoria):
 
     # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
     Categoria.remover_categoria(cod_categoria)
 
-    return redirect("/pagina/cadastrar/categoria")
+    return redirect("/cadastrar/categoria")
 
 # Rota para excluir um tipo
-@app.route("/post/tipo/remover/<cod_tipo>")
+@app.route("/post/remover/tipo/<cod_tipo>")
 def remover_tipo(cod_tipo):
 
     # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
     Categoria.remover_tipo(cod_tipo)
 
-    return redirect("/pagina/cadastrar/categoria")
+    return redirect("/cadastrar/categoria")
 
 # Rota para excluir uma caracteristica
-@app.route("/post/caracteristica/remover/<cod_caracteristica>")
+@app.route("/post/remover/caracteristica/<cod_caracteristica>")
 def remover_caracteristica(cod_caracteristica):
 
     # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
     Categoria.remover_caracteristica(cod_caracteristica)
 
-    return redirect("/pagina/cadastrar/categoria")
+    return redirect("/cadastrar/categoria")
 
 # RECUPERA O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
 
-@app.route("/pagina/historico_alteracoes")
+@app.route("/historico/alteracoes")
 def pagina_historico_alteracao():
 
     # Se o CPF estiver na sessão.
@@ -625,7 +625,7 @@ def pagina_historico_alteracao():
 
 # EXCLUI O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
 
-@app.route("/pagina/excluir/historico_alteracoes", methods=['POST'])
+@app.route("/pagina/remover/historico/alteracoes", methods=['POST'])
 def pagina_excluir_historico_alteracao():
 
     # Se o CPF estiver na sessão
