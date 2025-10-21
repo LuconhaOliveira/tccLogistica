@@ -376,6 +376,15 @@ def post_produto():
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
+# Rota para excluir um produto
+@app.route("/post/produto/remover/<cod_produto>")
+def remover_produto(cod_produto):
+    cod_produto = int(cod_produto)
+    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
+    ControleProduto.remover_produto(cod_produto)
+
+    return redirect("/pagina/principal")
+
 # VIZUALIZAR PRODUTO ESPECIFICO ------------------------------------------------------------------------------------------------------#
 
 @app.route("/visualizar/produto/<cod_produto>")
@@ -469,7 +478,8 @@ def adicionar_estante():
 
 @app.route("/estante/<id>")
 def pagina_estante(id):
-    print(Estante.buscar_estante(id))
+    produtos = Estante.buscar_estante(id)
+    print(produtos)
 
     # Vai renderizar pra pagina estantes
     return render_template(url_for('/pagina/consulta_produtos'))
@@ -635,10 +645,10 @@ def pagina_excluir_historico_alteracao():
         Historico.excluir_historico_alteracoes(cpf)
         
         # Após a exclusão, redireciona o usuário para a mesma página que ele estava.
-        return redirect(url_for("pagina_historico_alteracao"))
+        return redirect("/pagina/historico_alteracoes")
 
     # Se não houver CPF na sessão, redireciona para a página de histórico 
-    return redirect(url_for("pagina_historico_alteracao"))
+    return redirect("/pagina/historico_alteracoes")
 
 
 # ----------------------------------------------------------------------------------------------------------------------------# 
