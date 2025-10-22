@@ -8,6 +8,7 @@ from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
 import base64
+import base64
 
 app = Flask(__name__)
 
@@ -225,8 +226,9 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": ""
-        }), 200
+            "message": "Alteração realizada com sucesso! Faça login para continuar.",
+            "message": "Alteração realizada com sucesso! Faça login para continuar."
+            }), 200
     
     except Exception as e:
         # 5. Tratamento de Exceções.
@@ -581,9 +583,17 @@ def adicionar_estante():
 def pagina_estante(id):
     produtos = Estante.buscar_estante(id)
     print(produtos)
-
+    imagens_base64 = []
     # Vai renderizar pra pagina estantes
-    return render_template(url_for('/pagina/consulta_produtos'))
+    if produtos:
+        for produto in produtos:
+            if produto["imagem"]:
+                imagem_blob = produto["imagem"]  # Aqui o produto.imagem é o BLOB do banco de dados
+
+                # Convertendo o BLOB para base64
+                imagens_base64.append(base64.b64encode(imagem_blob).decode('utf-8'))
+
+    return render_template(url_for('/pagina/consulta_produtos'), imagens_base64=imagens_base64)
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
