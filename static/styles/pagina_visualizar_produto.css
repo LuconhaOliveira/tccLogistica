@@ -5,10 +5,8 @@
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-
     font-family: var(--font-outfit);
     font-size: var(--font-size-24);
-    font-weight: 600;
 }
 
 /* container principal geral para todas as telas */
@@ -29,11 +27,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center; 
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.322);
-
-    background-color: var(--grey-dark);
-    background-repeat: no-repeat; /* A imagem não repete quando acaba o tamanho */
-    background-size: cover;      /* cobre todo o container e se estica */
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
+    background-color: var(--grey-dark2); 
 }
 
 .section-div-img--fundoEstanteBronze{
@@ -41,14 +36,8 @@
 }
 
 .card{
-
     margin: 30px 0px 30px 0px;
     box-shadow: 0 6px 44px rgba(0, 0, 0, 0.6);
-  
-    background-repeat: no-repeat; /* A imagem não repete quando acaba o tamanho */
-    background-size: cover;      /* cobre todo o container e se estica */
-    border: none !important;
-
 }
 
 .container--figure-img .img-fluid{
@@ -58,17 +47,12 @@
 
 /* detalhes da gaveta */
 .container--div-detalhe{
-
     border-radius: 15px;
-
     width: 320px;
     height: 85%;
-
     margin: 50px;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
-
-    background-repeat: repeat; /* A imagem não repete quando acaba o tamanho */
-    background-size: cover;      /* cobre todo o container e se estica */
+    background-color: var(--grey-dark);
 }
 
 .container--div-top{
@@ -125,7 +109,6 @@
    
 /* botao de quantidade */
 .form-control{
-
     width: 120px !important;
     height: 50px !important;
     font-size: var(--font-size-20) !important;
@@ -134,7 +117,6 @@
 
 /* Botão de Login */
 button[type="submit"] {
-
     background-color: var(--grey-light);
     color: var(--dark);
     font-size: var(--font-size-20) !important;
@@ -158,12 +140,27 @@ button[type="submit"]:hover {
 
 /* imagem */
 .img-fluid{
-
     height: 300px !important;
     width: 400px !important;
     border-radius: 10px;
-
     margin: 20px 8px 0px 8px;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
-
 }
+
+.card-text{
+
+    color: var(--white) !important;
+}
+
+.descricao{
+    background-color: var(--orange-light-color);
+    border-radius: 20px;
+    color: var(--black) !important;
+    font-weight: bold;
+}
+
+.card-text{
+
+    font-weight: bold;
+}
+
