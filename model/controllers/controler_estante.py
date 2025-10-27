@@ -137,7 +137,32 @@ class Estante:
                 pass
 
         return False
+
+    # Verifica se a Estante está ligada a algum produto
+    def verificar_dependencia_estante(cod_estante):
+
+        conexao = Conection.create_connection()
+
+        cursor = conexao.cursor()
+
+        # Verifica se a estante está em algum produto
+        sql = """
+            SELECT EXISTS (
+                    SELECT 1 FROM produto WHERE cod_estante = %s  
+                ) AS dependencia;
+        """
+
+        valores = (cod_estante,)
         
+        # Executa a consulta
+        cursor.execute(sql, valores)
+        
+        # O resultado será (1,) se houver dependência, ou (0,) se não houver
+        dependencia = cursor.fetchone()[0] == 1
+
+        cursor.close()
+        conexao.close()
+        return dependencia # Retorna True se houver dependência    
 
     # Conexao com o banco de dados para excluir uma estante
     def remover_estante(cod_estante):
