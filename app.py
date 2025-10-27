@@ -20,7 +20,7 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
  
 # Rota para a página principal
 @app.route("/principal")
-def principal():
+def pagina_principal():
 
     if "cpf" not in session:
         return redirect(url_for('pagina_logar')) 
@@ -473,7 +473,7 @@ def post_editar_produto(id):
         cod_tipo = int(cod_tipo_str) # Converte para int após validação NOT NULL
         
         # 3.4. VALOR (NÃO é NOT NULL, mas a conversão é importante)
-        valor_str = request.form.get("cadastro-valor")
+        valor_str = request.form.get("cadastro-valor").replace('.', '').replace(',', '.')
         valor = float(valor_str) if valor_str else 0.0 
 
         # 3.5. Conversão dos outros IDs (NULÁVEIS)
@@ -490,8 +490,8 @@ def post_editar_produto(id):
         })
 
     # 4. Validação da IMAGEM (NOT NULL)
-    imagem_file = request.files.get("cadastro-imagem")  
-    imagem_blob = imagem_file.read() if imagem_file and imagem_file.filename else None
+    imagem_file = request.files.get("cadastro-imagem")
+    imagem_blob = imagem_file.read() if imagem_file and imagem_file.filename else produto["imagem"]
 
     # if not imagem_blob:
     #     return jsonify({
@@ -604,7 +604,7 @@ def estante_especifica(id):
                 imagens_base64.append(base64.b64encode(imagem_blob).decode('utf-8'))
 
     # A correção está aqui:
-    return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64)
+    return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64, cod_estante=id)
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
