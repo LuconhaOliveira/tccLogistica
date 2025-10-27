@@ -382,7 +382,7 @@ def post_produto():
     if sucesso:
         return jsonify({
             'status': 'success',
-            'message': f"Produto cadastrado com sucesso! ID: {mensagem_ou_id}" 
+            'message': f"Produto cadastrado!" 
         })
     else:
         return jsonify({
