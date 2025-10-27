@@ -593,7 +593,7 @@ def pagina_estante(id):
                 imagens_base64.append(base64.b64encode(imagem_blob).decode('utf-8'))
 
     # A correção está aqui:
-    return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64)
+    return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64, cod_estante=id)
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
