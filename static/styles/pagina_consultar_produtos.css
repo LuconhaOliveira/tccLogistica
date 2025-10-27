@@ -99,6 +99,15 @@
 }
 .nome--produto{
     font-size: 10px  !important;
+    /* 'ch' mede a largura do caractere '0' para 7 caracteres */
+    max-width: 7ch !important;
+    /* garante que o texto fique em uma unica linha */
+    white-space: nowrap !important;
+    /* esconde qualquer texto que ultrapasse do maximo permitido */
+    overflow: hidden;
+    /* adiciona "..." */
+    text-overflow: ellipsis;
+
 }
 .endereco--produto{
     margin: 0 !important;
@@ -106,7 +115,7 @@
 }
 .imagem--produto{
     width: 100%; /* Ocupa a largura total do card */
-    max-height: 100px;
+    height: 90px;
     border-radius: 3px;
     margin-bottom: 5px;
 }
@@ -149,22 +158,22 @@
 
 
 /* Botão de Excluir estante */
-button[type="submit"] {
+.btn{
 
-    color: var(--black);
-    background-color: var(--grey-medium);
-    font-family: var(--font-outfit);
-    font-size: var(--font-size-20);
-    font-weight: bold;
-    border: none;
-    border-radius: 12px;
-    padding: 10px;
-    width: 100%;
-    cursor: pointer;
-    transition: background 0.5s ;
+    color: var(--black) !important;
+    background-color: var(--grey-medium) !important;
+    font-family: var(--font-outfit) !important;
+    font-size: var(--font-size-20) !important;
+    font-weight: bold !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 10px !important;
+    width: 100% !important;
+    cursor: pointer !important;
+    transition: background 0.5s !important;
 }
 
-button[type="submit"]:hover {
-    background-color: var(--orange-color);
-    color: var(--white);
+.btn:hover {
+    background-color: var(--orange-color) !important;
+    color: var(--white) !important;
 }

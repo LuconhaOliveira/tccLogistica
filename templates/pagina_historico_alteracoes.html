@@ -30,7 +30,7 @@
 
     <!-- header bootstrap -->
     <header class="container--header">
-        <a href="{{ url_for('pagina_principal') }}">
+        <a href="{{ url_for('principal') }}">
             <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo"
                 style="width: 300px;">
         </a>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="mb-3 form-check">
-            <form method="POST" action="/pagina/excluir/historico_alteracoes">
+            <form method="POST" action="/pagina/remover/historico/alteracoes">
             <button type="submit" class="btn btn-primary">Limpar Histórico</button>
             </form>
         </div>

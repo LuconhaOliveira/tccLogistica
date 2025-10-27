@@ -15,10 +15,12 @@
     <link rel="stylesheet" href="/static/styles/header_footer.css">
 
     <!-- ícones Google Icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <!-- Link importação do Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
     <script src="../static/script/cadastro_produto.js" defer></script>
 
@@ -28,41 +30,45 @@
 </head>
 
 <body class="container--body">
-    
+
     <!-- header bootstrap -->
     <header class="container--header">
-        <a href="{{ url_for('pagina_principal') }}"><img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;"></a>
+        <a href="{{ url_for('principal') }}"><img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;"></a>
      </header>
 
     <!-- container geral / principal -->
     <main class="container--main">
 
         <!-- action/method: backend do cadastro -->
-        <form id="cadastroProdutoForm" action="{{ url_for('post_produto') }}" method="post" class="container--form" enctype="multipart/form-data">
+        <form id="cadastroProdutoForm" action="{{ url_for('post_produto') }}" method="post" class="container--form"
+            enctype="multipart/form-data">
 
             <h1>Adicionar Produto</h1>
 
-            <h2>Informações do produto:</h2>
-            
-            <!-- campo do nome -->
-            <div class="mb-3">
-                <label for="exampleInputName" class="form-label">Nome:</label>
-                <!-- name: backend do cadastro -->
-                <input name="cadastro-nome" type="text" maxlength="100" class="form-control" id="exampleInputName" required>
-            </div>
+            <fieldset>
+                <legend>Informações do Produto:</legend>
 
-            <!-- campo da descrição -->
-            <div class="mb-3">
-                <label for="exampleInputDescription" class="form-label">Descrição:</label>
-                <!-- description: backend do cadastro -->
-                <input name="cadastro-descricao" type="text" maxlength="255" class="form-control" id="exampleInputDescription">
-            </div>
+                <!-- campo do nome -->
+                <div class="mb-3">
+                    <label for="exampleInputName" class="form-label">Nome:</label>
+                    <!-- name: backend do cadastro -->
+                    <input name="cadastro-nome" type="text" maxlength="100" class="form-control" id="exampleInputName"
+                        required>
+                </div>
 
-            <!-- campo de imagem -->
-            <div class="mb-3">
-                <label for="exampleInputPhoto" class="form-label">Imagem:</label>
+                <!-- campo da descrição -->
+                <div class="mb-3">
+                    <label for="exampleInputDescription" class="form-label">Descrição:</label>
+                    <!-- description: backend do cadastro -->
+                    <input name="cadastro-descricao" type="text" maxlength="255" class="form-control"
+                        id="exampleInputDescription">
+                </div>
 
-                <!-- 
+                <!-- campo de imagem -->
+                <div class="mb-3">
+                    <label for="exampleInputPhoto" class="form-label">Imagem:</label>
+
+                    <!-- 
 
                     name="cadastro-imagem" = chave que o backend vai usar para receber o arquivo
                     type="file" = transforma o campo em um seletor de arquivo
@@ -72,56 +78,60 @@
                 
                 -->
 
-                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*" required>
-            </div>
+                    <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto"
+                        accept="image/*" required>
+                </div>
 
-            <!-- campo de quantidade -->
-            <div class="mb-3">
-                <label for="exampleInputQuantidade" class="form-label">Quantidade:</label>
-                <!-- quantidade: backend do cadastro -->
-                <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade" min="0" placeholder="0" required min="1">
-            </div>
+                <!-- campo de quantidade -->
+                <div class="mb-3">
+                    <label for="exampleInputQuantidade" class="form-label">Quantidade:</label>
+                    <!-- quantidade: backend do cadastro -->
+                    <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade"
+                        min="0" placeholder="0" required min="1">
+                </div>
 
-            <!-- campo de valor -->
-            <div class="mb-3">
-                <label for="exampleInputValor" class="form-label">Valor:</label> 
-                <!-- valor: backend do cadastro -->
-                <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:">
-            </div>
+                <!-- campo de valor -->
+                <div class="mb-3">
+                    <label for="exampleInputValor" class="form-label">Valor:</label>
+                    <!-- valor: backend do cadastro -->
+                    <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:">
+                </div>
 
-            <!-- campo do SKU -->
-            <div class="mb-3">
-                <label for="exampleInputSKU" class="form-label">SKU:</label>
-                <!-- SKU: backend do cadastro -->
-                <input name="cadastro-sku" maxlength="100" class="form-control" id="exampleInputSKU">
-            </div>
+                <!-- campo do SKU -->
+                <div class="mb-3">
+                    <label for="exampleInputSKU" class="form-label">SKU:</label>
+                    <!-- SKU: backend do cadastro -->
+                    <input name="cadastro-sku" maxlength="100" class="form-control" id="exampleInputSKU">
+                </div>
+            </fieldset>
 
-            <h2>Endereçamento:</h2>
+            <fieldset>
+                <legend>Endereçamento:</legend>
 
-            <!-- campo de nome da estante -->
-            <div class="mb-3">
+                <!-- campo de nome da estante -->
+                <div class="mb-3">
 
-                <label for="exampleInputNomeEstante" class="form-label">Nome da Estante:</label>
+                    <label for="exampleInputNomeEstante" class="form-label">Nome da Estante:</label>
 
-                <select name="cadastro-nome-estante" class="form-select" id="nomeEstanteSelect">
-        
+                    <select name="cadastro-nome-estante" class="form-select" id="nomeEstanteSelect">
+
                         <option class="select-estante" disabled selected>Selecione uma Estante:</option>
 
-                    {% for estantes in estante %}
-                    <option value="{{estantes.cod_estante}}">{{estantes.nome}}</option>
-                    {% endfor %}
-        
-                </select>
+                        {% for estantes in estante %}
+                        <option value="{{estantes.cod_estante}}">{{estantes.nome}}</option>
+                        {% endfor %}
 
-            </div>
+                    </select>
 
-            <!-- campo da coluna da estante -->
-            <div class="mb-3">
+                </div>
 
-                <label for="exampleInputColunaEstante" class="form-label">Coluna da Estante:</label>
+                <!-- campo da coluna da estante -->
+                <div class="mb-3">
 
-                <select name="cadastro-coluna-estante" class="form-select" id="colunaEstanteSelect">
-        
+                    <label for="exampleInputColunaEstante" class="form-label">Coluna da Estante:</label>
+
+                    <select name="cadastro-coluna-estante" class="form-select" id="colunaEstanteSelect">
+
                         <option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
 
                         <option class="select-coluna">1</option>
@@ -134,80 +144,87 @@
                         <option class="select-coluna">8</option>
                         <option class="select-coluna">9</option>
                         <option class="select-coluna">10</option>
-        
-                </select>
 
-            </div>
+                    </select>
 
-            <!-- campo de linha da estante -->
-            <div class="mb-3">
+                </div>
 
-                <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante:</label>
+                <!-- campo de linha da estante -->
+                <div class="mb-3">
 
-                <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
-        
+                    <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante:</label>
+
+                    <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
+
                         <option class="select-linha" disabled selected>Selecione uma Linha:</option>
 
                         <option class="select-coluna">1</option>
                         <option class="select-coluna">2</option>
                         <option class="select-coluna">3</option>
-        
-                </select>
 
-            </div>
+                    </select>
 
-            <h2>Classificação:</h2>
+                </div>
 
-            <!-- campo de categoria-->
-            <div class="mb-3">
+            </fieldset>
 
-                <label for="exampleInputCategoria" class="form-label">Categoria:</label>
+            <fieldset>
 
-                <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
-        
+                <legend>Classificação:</legend>
+
+
+
+                <!-- campo de categoria-->
+                <div class="mb-3">
+
+                    <label for="exampleInputCategoria" class="form-label">Categoria:</label>
+
+                    <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
+
                         <option class="select-categoria" disabled selected>Selecione uma categoria:</option>
 
-                    {% for categorias in categoria %}
-                    <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
-                    {% endfor %}
-        
-                </select>
+                        {% for categorias in categoria %}
+                        <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
+                        {% endfor %}
 
-            </div>
+                    </select>
 
-            <!-- campo de tipos de categoria -->
-            <div class="mb-3">
+                </div>
 
-                <label for="exampleInputTipo" class="form-label">Tipo:</label>
+                <!-- campo de tipos de categoria -->
+                <div class="mb-3">
 
-                <select name="cadastro-tipo" class="form-select" id="tipoSelect" required>
-        
+                    <label for="exampleInputTipo" class="form-label">Tipo:</label>
+
+                    <select name="cadastro-tipo" class="form-select" id="tipoSelect" required>
+
                         <option class="select-tipo" disabled selected>Selecione um tipo:</option>
 
-                    {% for tipos in tipo %}
-                    <option value="{{tipos.cod_tipo}}">{{tipos.nome}}</option>
-                    {% endfor %}
-        
-                </select>
+                        {% for tipos in tipo %}
+                        <option value="{{tipos.cod_tipo}}">{{tipos.nome}}</option>
+                        {% endfor %}
 
-            </div>
+                    </select>
 
-            <!-- campo de caracteristicas -->
-            <div class="mb-3">
+                </div>
 
-                <label for="exampleInputCaracteristicas" class="form-label">Características:</label>
+                <!-- campo de caracteristicas -->
+                <div class="mb-3">
 
-                <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect">
-        
-                        <option class="select-caracteristicas" disabled selected>Selecione uma caracteristica:</option>
+                    <label for="exampleInputCaracteristicas" class="form-label">Características:</label>
 
-                    {% for caracteristicas in caracteristica %}
-                    <option value="{{caracteristicas.cod_caracteristica}}">{{caracteristicas.nome}}</option>
-                    {% endfor %}
-        
-                </select>
+                    <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect" multiple
+                        size="6">
 
-            </div>
+                        {% for caracteristicas in caracteristica %}
+                        <option value="{{caracteristicas.cod_caracteristica}}">{{caracteristicas.nome}}</option>
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </fieldset>
 
             <!-- container do botão de adicionar -->
             <div class="mb-3 form-check">
@@ -217,17 +234,20 @@
                 </a>
 
             </div>
-            
+
         </form>
 
     </main>
 
     <!-- Link importação do Bootstrap Script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 
     <!-- Link para importar as máscaras para VALOR -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 
 </body>
+
 </html>
