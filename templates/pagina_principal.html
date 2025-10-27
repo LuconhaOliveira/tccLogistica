@@ -26,8 +26,8 @@
 </head>
 
 <body>
-    <header class="container--header">
 
+    <header class="container--header">
         <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo">
 
         <nav class="navbar navbar-expand-lg bg-body-transparent">
@@ -49,8 +49,8 @@
         </nav>
     </header>
 
-    <main>
-
+    <main class="container--main">
+        
         <!-- Add o icon "historico" no botão -->
         <section class="section-btn--historico">
             <button type="button" id="botaoToggleHistorico">
@@ -106,14 +106,17 @@
                 </div>
             </section>
 
-            <section class="card-estantesCriadas">
-                <div id="estantes" class="section-card-div--estantesCriadas">
-                    <a class="section-a-estantesCriadas" href="/estante/{{cod_estante}}"></a>
+                <div class="container--estantesCriadas" id="estantes">
                 </div>
-            </section>
-        </main>
+
+
+            
+
+
+
+    </main>
         
-    </div>
+
 </body>
 
 <!-- JS -->
