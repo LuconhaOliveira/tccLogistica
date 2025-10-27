@@ -195,13 +195,13 @@ input[type="radio" i]{
     margin-right: auto ;
 
     gap: 30px;
-
     height: 100%;
-
 }
 
 .container--estantesCriadas a{
-    color:  var(--black);align-items: flex-start;
+    color:  var(--white);
+    align-items: flex-start;
+    text-decoration: none;
 }
 
 
@@ -211,16 +211,17 @@ input[type="radio" i]{
     height: 300px;
 
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
 
-    background-image: url(/static/img/fundo-estante-bronze.jpg);
+    background-color: var(--orange-color);
+    border-radius: 15px;
+    
 }
 
 .container--main{
     display: flex;
     align-items: stretch;
     flex-direction: row;
-    height: auto;
+    height: 100vh;
     width: auto;
-
 }
