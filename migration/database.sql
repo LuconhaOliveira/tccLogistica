@@ -149,42 +149,45 @@ CREATE TABLE IF NOT EXISTS pedido (
 -- INTEGRAÇÃO: Vinculado a 'tipo' para herdar características específicas.
 -- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS produto (
-    -- Chave primária: Identificador único do produto.
+    -- Chave primária: Identificador único e sequencial do produto.
     cod_produto INT PRIMARY KEY AUTO_INCREMENT,
-	-- Data e hora que o produto foi cadastrado.
+
+    -- Data e hora que o produto foi cadastrado.
     data_hora DATETIME NOT NULL,
-    
+
     -- Informações do produto:
-	-- Nome comercial do produto.
+    -- Nome comercial do produto.
     nome VARCHAR(100) NOT NULL,
-	-- Descrição longa do produto.
+    -- Descrição detalhada do produto.
     descricao VARCHAR(255),
     -- Imagem do produto, armazenada como BLOB (Binary Large Object).
     imagem LONGBLOB NOT NULL,
     -- Quantidade do produto.
     quantidade INT NOT NULL,
     -- Valor unitário do produto.
-    valor FLOAT(10),    
+    valor FLOAT(10),
     -- Stock Keeping Unit (código de identificação interna do produto).
     sku VARCHAR(100),
 
-	-- Endereçamento do produto:
+    -- Endereçamento do produto:
     -- Coluna da estante que o produto se encontra.
     coluna VARCHAR(10),
     -- Linha da estante que o produto se encontra.
     linha VARCHAR(10),
 
-    -- Chave estrangeira: Vincula o produto ao seu tipo específico.
+    -- Chave estrangeira: Usuário responsável pelo cadastro do produto.
     cpf VARCHAR(14) NOT NULL,
-	cod_estante INT, 
+    -- Chave estrangeira: Estante em que o produto está armazenado.
+    cod_estante INT,
+    -- Chave estrangeira: Categoria do produto.
     cod_categoria INT,
-    cod_tipo INT, 
-    cod_caracteristica INT,
+    -- Chave estrangeira: Tipo específico do produto.
+    cod_tipo INT,
+
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     FOREIGN KEY (cod_estante) REFERENCES estante (cod_estante),
     FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria),
-    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo),
-    FOREIGN KEY (cod_caracteristica) REFERENCES caracteristica (cod_caracteristica)
+    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -194,12 +197,16 @@ CREATE TABLE IF NOT EXISTS produto (
 CREATE TABLE IF NOT EXISTS produto_caracteristica (
     -- Chave primária: Identificador único da relação Produto-Característica.
     cod_prod_caracteristica INT PRIMARY KEY AUTO_INCREMENT,
-    -- Valor específico da característica para aquele produto (ex: 'Vermelho' para a Característica 'Cor').
+
+    -- Valor específico da característica para aquele produto 
+    -- (exemplo: 'Vermelho' para a Característica 'Cor').
     valor VARCHAR(255),
+
     -- Chave estrangeira: Produto envolvido.
     cod_produto INT,
     -- Chave estrangeira: Característica referenciada.
     cod_caracteristica INT,
+
     FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto),
     FOREIGN KEY (cod_caracteristica) REFERENCES caracteristica (cod_caracteristica)
 );
