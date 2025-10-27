@@ -780,6 +780,13 @@ def excluir_historico_alteracao():
     # Se não houver CPF na sessão, redireciona para a página de histórico 
     return redirect("/historico/alteracoes")
 
+# PEDIDO DE COMPRA -------------------------------------------------------------------------------------------------------
+
+@app.route("/pedido/compra")
+def pedido_compra():
+
+    return render_template("pagina_pedido_compra.html")
+
 # HISTÓRICO DO PEDIDO DE COMPRA -------------------------------------------------------------------------------------------------------
 
 @app.route("/historico/pedido/compra")
