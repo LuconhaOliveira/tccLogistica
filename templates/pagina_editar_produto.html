@@ -46,16 +46,17 @@
 
         </div>
 
-        <form method="POST" action="/post/editar/produto/{{produto.cod_produto}}" enctype="multipart/form-data" class="container--card-fundo"
+        <form method="POST" action="/post/editar/produto/{{produto.cod_produto}}" enctype="multipart/form-data"
+            class="container--card-fundo"
             style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
 
             <!-- detalhe da prateleira -->
             <div class="container--div-detalhe esquerda"
-                style="background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);"></div>
+                style="background-size: 100%; background-image: url();"></div>
 
             <!-- card -->
             <div class="card mb-4"
-                style="width: 600px; min-height:550px; background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);">
+                style="width: 600px; min-height:550px; background-color: var(--grey-dark);">
 
                 <div class="row g-0">
 
@@ -66,11 +67,13 @@
                             <figure>
                                 <!-- imagem -->
                                 <img id="preview" src="data:image/jpeg;base64,{{ imagem_base64 }}"
-                                class="img-fluid rounded-start" alt="Editar a foto. Clique em cima!">
+                                    class="img-fluid rounded-start" alt="Editar a foto. Clique em cima!">
 
-                                <!-- <figcaption class="figcaption-descricao">Para editar a foto, clique em cima da imagem!</figcaption> -->
+                                <!-- <figcaption class="figcaption-descricao">Para editar a foto, escolha um novo arquivo!</figcaption> -->
                             </figure>
-                                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto" accept="image/*">
+
+                            <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto"
+                                accept="image/*">
 
                         </div>
 
@@ -84,7 +87,8 @@
                                 <div class="mb-3">
 
                                     <!-- exemplo -->
-                                    <p class="card-text" name="cadastro-nome">Nome: {{ produto.produto }}</p>
+                                    <input name="cadastro-sku" maxlength="100" class="form-control" id="exampleInputSKU"
+                                        placeholder="SKU:" value="{{produto.produto}}">
 
                                 </div>
 
@@ -100,7 +104,8 @@
                                 <div class="mb-3">
 
                                     <input name="cadastro-quantidade" type="number" class="form-control"
-                                        id="exampleInputQuantidade" min="0" placeholder="Quantidade:" value="{{produto.quantidade}}">
+                                        id="exampleInputQuantidade" min="0" placeholder="Quantidade:"
+                                        value="{{produto.quantidade}}">
                                 </div>
 
                                 <!-- campo de valor -->
@@ -131,7 +136,7 @@
                                     </select>
 
                                 </div>
-                                
+
                                 <!-- campo de selecionar coluna da estante  -->
                                 <div class="mb-3">
 
@@ -141,9 +146,9 @@
 
                                         {% for i in range(1,11) %}
                                         {% if i|string ==produto.coluna[-1] %}
-                                        <option class="select-coluna" selected>Coluna {{i|string}}</option>
+                                        <option class="select-coluna" selected>{{i|string}}</option>
                                         {% else %}
-                                        <option class="select-coluna">Coluna {{i|string}}</option>
+                                        <option class="select-coluna">{{i|string}}</option>
                                         {% endif %}
                                         {% endfor %}
 
@@ -160,9 +165,9 @@
 
                                         {% for i in range(1,4) %}
                                         {% if i|string==produto.linha[-1] %}
-                                        <option class="select-linha" selected>Linha {{i|string}}</option>
+                                        <option class="select-linha" selected>{{i|string}}</option>
                                         {% else %}
-                                        <option class="select-linha">Linha {{i|string}}</option>
+                                        <option class="select-linha">{{i|string}}</option>
                                         {% endif %}
                                         {% endfor %}
 
@@ -219,15 +224,17 @@
                                         id="caracteristicasSelect">
 
                                         <option class="select-caracteristicas" disabled selected>Selecione uma
-                                            caracteristica:</option>
+                                            característica:</option>
 
-                                            {% for caracteristica in caracteristicas %}
-                                            {% if caracteristica.nome==produto.caracteristica %}
-                                            <option value="{{caracteristica.cod_caracteristica}}" selected>{{caracteristica.nome}}</option>
-                                            {% else %}
-                                            <option value="{{caracteristica.cod_caracteristica}}">{{caracteristica.nome}}</option>
-                                            {% endif %}
-                                            {% endfor %}
+                                        {% for caracteristica in caracteristicas %}
+                                        {% if caracteristica.nome==produto.caracteristica %}
+                                        <option value="{{caracteristica.cod_caracteristica}}" selected>
+                                            {{caracteristica.nome}}</option>
+                                        {% else %}
+                                        <option value="{{caracteristica.cod_caracteristica}}">{{caracteristica.nome}}
+                                        </option>
+                                        {% endif %}
+                                        {% endfor %}
 
                                     </select>
 
@@ -247,8 +254,9 @@
 
                     <div class="container--bottom-card">
 
-                        <button class="btn btn-primary" type="submit">Editar</button>
-
+                        <a href="/pagina/editar/produto/{{cod_produto}}">
+                            <button class="btn btn-primary" type="submit">Editar</button>
+                        </a>
 
                     </div>
 
@@ -266,20 +274,27 @@
     <!-- import da biblioteca do sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Link para importar as máscaras para VALOR -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+
+    <script> $('#exampleInputValor').mask('000.000,00', {reverse: true});</script>
+
     <script>
-        document.getElementById('exampleInputPhoto').addEventListener('change', function(event) {
-          const file = event.target.files[0];
-          if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-              const preview = document.getElementById('preview');
-              preview.src = ''
-              preview.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-          }
+        document.getElementById('exampleInputPhoto').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const preview = document.getElementById('preview');
+                    preview.src = ''
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
         });
-      </script>
+    </script>
 
 </body>
 

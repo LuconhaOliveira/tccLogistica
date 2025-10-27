@@ -197,9 +197,7 @@
 
                 <label for="exampleInputCaracteristicas" class="form-label">Características:</label>
 
-                <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect">
-        
-                        <option class="select-caracteristicas" disabled selected>Selecione uma caracteristica:</option>
+                <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect" multiple size="6">
 
                     {% for caracteristicas in caracteristica %}
                     <option value="{{caracteristicas.cod_caracteristica}}">{{caracteristicas.nome}}</option>
