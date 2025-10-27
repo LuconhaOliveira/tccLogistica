@@ -8,6 +8,7 @@ from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
 import base64
+import base64
 
 app = Flask(__name__)
 
@@ -114,10 +115,10 @@ def post_cadastro():
 
 # LOGIN ------------------------------------------------------------------------------------------------------# 
 
-@app.route("/logoff")
+@app.route("/logoff", methods=['GET', 'POST'])
 def logoff():
     Usuario.deslogar()
-    return jsonify({"redirect": "/pagina/login"}), 200
+    return jsonify({"redirect": "/"}), 200
 
 # Função da rota principal ("/") do aplicativo.
 
@@ -170,7 +171,7 @@ def post_login():
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Bem-vindo(a), {nome_usuario}."
+            "message": ""
         }), 200
     else:
         # Bloco executado se o login falhar
@@ -225,7 +226,7 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Alteração realizada com sucesso! Faça login para continuar."
+            "message": ""
         }), 200
     
     except Exception as e:
@@ -278,12 +279,12 @@ def cadastrar_produto():
 
 # Rota de POST para cadastro de produto
 # app.py (Rota /post/cadastrar/produto)
-
 @app.route("/post/cadastrar/produto", methods=['POST'])
 def post_produto():
     """
     Processa o formulário de cadastro de produto via AJAX e retorna JSON, 
     incluindo validação de campos OBRIGATÓRIOS.
+    AGORA SUPORTA SELECT MULTIPLE PARA CARACTERÍSTICAS.
     """
     # 1. Verificação de Sessão
     if "cpf" not in session:
@@ -307,8 +308,11 @@ def post_produto():
     
     cod_estante = request.form.get("cadastro-nome-estante")
     cod_categoria = request.form.get("cadastro-categoria")
-    cod_caracteristica = request.form.get("cadastro-caracteristicas")
     
+    # NOVO: Obtém a lista de IDs do SELECT MULTIPLE
+    selected_caracteristicas_ids_str = request.form.getlist("cadastro-caracteristicas")
+
+
     # 3. Validação de Campos NOT NULL (Backend)
     try:
         # 3.1. NOME (NOT NULL)
@@ -326,20 +330,26 @@ def post_produto():
         # 3.3. TIPO (cod_tipo é NOT NULL)
         if not cod_tipo_str:
             raise ValueError("A seleção do Tipo de produto é obrigatória.")
-        cod_tipo = int(cod_tipo_str) # Converte para int após validação NOT NULL
+        cod_tipo = int(cod_tipo_str) 
         
-        # 3.4. VALOR (NÃO é NOT NULL, mas a conversão é importante)
-        valor_str = request.form.get("cadastro-valor").replace('.', '').replace(',', '.')
-        valor = float(valor_str) if valor_str else 0.0 
+        # 3.4. VALOR (Limpeza e conversão)
+        valor_str_input = request.form.get("cadastro-valor", "0,00") # Pega o valor com máscara
+        
+        # Limpa: remove separador de milhar (.), troca vírgula por ponto (,)
+        valor_clean = valor_str_input.replace('.', '').replace(',', '.')
+        
+        # Converte para float, usando 0.0 se estiver vazio após limpeza
+        valor = float(valor_clean) if valor_clean else 0.0 
 
         # 3.5. Conversão dos outros IDs (NULÁVEIS)
         cod_estante = int(cod_estante) if cod_estante else None
         cod_categoria = int(cod_categoria) if cod_categoria else None
-        cod_caracteristica = int(cod_caracteristica) if cod_caracteristica else None
+        
+        # 3.6. Conversão das características (lista de strings para lista de inteiros)
+        caracteristicas_ids = [int(cod) for cod in selected_caracteristicas_ids_str if cod.isdigit()]
 
 
     except (TypeError, ValueError) as e:
-        # Captura erros de validação personalizada (ValueError) e de conversão (TypeError)
         return jsonify({
             'status': 'error', 
             'message': str(e)
@@ -355,18 +365,19 @@ def post_produto():
             'message': 'A imagem do produto é obrigatória.'
         })
 
-    # 5. Chamar a função de controle de produto
+    # 5. CHAMA A FUNÇÃO DE CADASTRO
+    # Note que agora 'caracteristicas_ids' é uma LISTA de IDs, e não mais um dicionário de valores.
     sucesso, mensagem_ou_id = ControleProduto.cadastrar_produto(
         nome, descricao, imagem_blob, quantidade, valor, sku,
         coluna, linha, cod_estante, cod_categoria,
-        cod_tipo, cod_caracteristica, user_cpf 
+        cod_tipo, user_cpf, caracteristicas_ids
     )
 
-    # 6. Retorno JSON
+    # 6. Retorno JSON (mantém a lógica SweetAlert)
     if sucesso:
         return jsonify({
             'status': 'success',
-            'message': f"Produto cadastrado!" 
+            'message': f"Produto cadastrado com sucesso! ID: {mensagem_ou_id}" 
         })
     else:
         return jsonify({
@@ -550,7 +561,7 @@ def adicionar_estante():
             return jsonify({
                 "status": "success",
                 "titulo": "Estante Criada!",
-                "mensagem": f"A estante '{nome}' foi cadastrada com sucesso!"
+                "mensagem": ""
             }), 201
         else:
             return jsonify({
@@ -558,6 +569,7 @@ def adicionar_estante():
                 "titulo": "Erro no Banco de Dados",
                 "mensagem": "Não foi possível cadastrar a estante. Tente novamente."
             }), 500
+
 
     except ValueError:
         return jsonify({
@@ -580,9 +592,18 @@ def adicionar_estante():
 def estante_especifica(id):
     produtos = Estante.buscar_estante(id)
     print(produtos)
-
+    imagens_base64 = []
     # Vai renderizar pra pagina estantes
-    return render_template(url_for('/pagina/consulta_produtos'))
+    if produtos:
+        for produto in produtos:
+            if produto["imagem"]:
+                imagem_blob = produto["imagem"]  # Aqui o produto.imagem é o BLOB do banco de dados
+
+                # Convertendo o BLOB para base64
+                imagens_base64.append(base64.b64encode(imagem_blob).decode('utf-8'))
+
+    # A correção está aqui:
+    return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64)
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
@@ -686,7 +707,7 @@ def post_cadastrar_caracteristica():
         # SUCESSO: Retorna um JSON com status 'success'
         return jsonify({
         "status": "success", 
-        "message": f"cadastrado feito"
+        "message": ""
     }), 200
 
     except ValueError:
@@ -719,9 +740,11 @@ def remover_tipo(cod_tipo):
 # Rota para excluir uma caracteristica
 @app.route("/post/remover/caracteristica/<cod_caracteristica>")
 def remover_caracteristica(cod_caracteristica):
-
-    # Chama a função do controler, remove a categoria e redireciona para a pagina de cadastro de categoria
-    Categoria.remover_caracteristica(cod_caracteristica)
+    """
+    Exclui uma característica e lida com o redirecionamento ou erro de dependência.
+    """
+    
+    Categoria.remover_caracteristica(cod_caracteristica) 
 
     return redirect("/cadastrar/categoria")
 

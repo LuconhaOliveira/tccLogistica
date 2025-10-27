@@ -31,7 +31,7 @@
     
     <!-- header bootstrap -->
     <header class="container--header">
-        <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;">
+        <a href="{{ url_for('pagina_principal') }}"><img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo" style="width: 300px;"></a>
      </header>
 
     <!-- container geral / principal -->
@@ -197,9 +197,7 @@
 
                 <label for="exampleInputCaracteristicas" class="form-label">Características:</label>
 
-                <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect">
-        
-                        <option class="select-caracteristicas" disabled selected>Selecione uma caracteristica:</option>
+                <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect" multiple size="6">
 
                     {% for caracteristicas in caracteristica %}
                     <option value="{{caracteristicas.cod_caracteristica}}">{{caracteristicas.nome}}</option>
@@ -221,10 +219,6 @@
         </form>
 
     </main>
-
-    <footer class="container--footer">
-        <!-- inserir mais tarde -->
-    </footer>
 
     <!-- Link importação do Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

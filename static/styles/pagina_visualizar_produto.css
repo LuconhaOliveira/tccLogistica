@@ -23,18 +23,13 @@
 }
 
 .container--card-fundo{   
-
     border-radius: 20px;
-
     width: 1400px;
     height: auto;
-    
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-
     align-items: center; 
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
-
     background-repeat: no-repeat; /* A imagem não repete quando acaba o tamanho */
     background-size: cover;      /* cobre todo o container e se estica */
 }

@@ -20,7 +20,7 @@
 
     <!-- header bootstrap -->
     <header class="container--header">
-        <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo">
+        <a href="{{ url_for('pagina_principal') }}"><img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo"></a>
 
         <nav class="navbar navbar-expand-lg bg-body-transparent">
             <div class="container-fluid">
@@ -46,16 +46,19 @@
         <div class="container--estante">
             <div class="grid-row row-1">
                 {% if produtos %}
-                {% for produto in produtos %}
-                {% if produto.linha=="1" %}
-            <div class="card--produto" style="
+                {% for i in range(0,produtos|length) %}
+                {% if produtos[i].linha[-1]=="1" %}
+                <div class="card--produto" style="
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-column: {{ produto.coluna }};
+                    grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                    <img src="{{ produto.imagem }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
-                    <h3 class="nome--produto">{{ produto.nome }}</h3>
-                    <p class="endereco--produto">Endereço: **{{ produto.linha }},{{produto.coluna}}**</p>
-            </div>
+                <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
+                    <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
+                    <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
+                    <p class="endereco--produto">{{ produtos[i].linha }},{{produtos[i].coluna}}</p>
+                </a>
+                </div>
+            
                 {% endif %}
                 {% endfor %}
                 {% endif %}
@@ -64,16 +67,18 @@
             <div class="grid-row row-2">
 
                 {% if produtos %}
-                {% for produto in produtos %}
-                {% if produto.linha=="2" %}
-            <div class="card--produto" style="
+                {% for i in range(0,produtos|length) %}
+                {% if produtos[i].linha[-1]=="2" %}
+                <div class="card--produto" style="
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-column: {{ produto.coluna }};
+                    grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                    <img src="{{ produto.imagem }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
-                    <h3 class="nome--produto">{{ produto.nome }}</h3>
-                    <p class="endereco--produto">Endereço: **{{ produto.linha }},{{produto.coluna}}**</p>
-            </div>
+                    <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
+                    <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
+                    <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
+                    <p class="endereco--produto">{{ produtos[i].linha }},{{produtos[i].coluna}}</p>
+                    </a>
+                </div>
                 {% endif %}
                 {% endfor %}
                 {% endif %}
@@ -83,16 +88,18 @@
             <div class="grid-row row-3">
 
                 {% if produtos %}
-                {% for produto in produtos %}
-                {% if produto.linha=="3" %}
-            <div class="card--produto" style="
+                {% for i in range(0,produtos|length) %}
+                {% if produtos[i].linha[-1]=="3" %}
+                <div class="card--produto" style="
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
-                    grid-column: {{ produto.coluna }};
+                    grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                    <img src="{{ produto.imagem }}" alt="Foto do Produto: {{ produto.nome }}" class="imagem--produto">
-                    <h3 class="nome--produto">{{ produto.nome }}</h3>
-                    <p class="endereco--produto">Endereço: **{{ produto.linha }},{{produto.coluna}}**</p>
-            </div>
+                <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
+                    <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
+                    <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
+                    <p class="endereco--produto">{{ produtos[i].linha }},{{produtos[i].coluna}}</p>
+                    </a>
+                </div>
                 {% endif %}
                 {% endfor %}
                 {% endif %}
@@ -103,7 +110,7 @@
 
         <form action="" class="container--botoes">
             <div class="mb-3 form-check">
-                <a href="/principal"><button type="submit" class="btn btn-primary">Excluir estante</button></a>
+                <a href="/post/remover/estante/{{cod_estante}}"><button type="submit" class="btn btn-primary">Excluir estante</button></a>
             </div>
             <div class="mb-3 form-check">
                 <a href="/principal"><button type="submit" class="btn btn-primary">Editar estante</button></a>
@@ -111,10 +118,6 @@
         </form>
 
     </main>
-
-    <footer class="container--footer">
-        <!-- inserir mais tarde -->
-    </footer>
 
     <!-- Link importação do Bootstrap Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

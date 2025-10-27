@@ -20,7 +20,7 @@
 
     <!-- Link importação do Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
+        xintegrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous" />
 
 
     <!-- nome com base no nome do produto -->
@@ -31,8 +31,10 @@
 
     <!-- header bootstrap -->
     <header class="container--header">
-        <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo"
-            style="width: 300px;">
+        <a href="{{ url_for('pagina_principal') }}">
+            <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo"
+                style="width: 300px;">
+        </a>
     </header>
 
     <!-- container geral / principal -->
@@ -61,11 +63,11 @@
                             {% else %}
                                 <img src="https://portal.crea-sc.org.br/wp-content/uploads/2017/11/imagem-indisponivel-para-produtos-sem-imagem_15_5.jpg" class="img-fluid rounded-start" alt="Imagem indisponível">
                             {% endif %}
-                        </div>   
+                        </div>   
                         
 
                         <div class="col-md-0">
-                           
+                            
                             <div class="card-body">
 
                                 <!-- nome do produto -->
@@ -85,11 +87,11 @@
                                 <!-- campo de nome da estante -->
                                 <p class="card-text">Estante: {{ produto.nome_estante }};</p>
                                 
-                                <!-- campo de selecionar coluna da estante  -->
-                                <p class="card-text">{{ produto.coluna }};</p>
+                                <!-- campo de selecionar coluna da estante  -->
+                                <p class="card-text">Coluna: {{ produto.coluna }};</p>
 
                                 <!-- campo de selecionar linha da estante -->
-                                <p class="card-text">{{ produto.linha }};</p>
+                                <p class="card-text">Linha: {{ produto.linha }};</p>
 
                                 <!-- CATEGORIAS -->
 
@@ -98,8 +100,19 @@
                                 <!-- campo de tipos de categoria -->
                                 <p class="card-text">Tipo: {{ produto.nome_tipo }};</p>
 
-                                <!-- campo de caracteristicas -->
-                                <p class="card-text">Característica: {{ produto.nome_caracteristica }}.</p>
+                                <!-- CARACTERÍSTICAS (NOVO CÓDIGO AQUI) -->
+                                <p class="card-text">
+                                    Características: 
+                                    {% if produto.caracteristicas %}
+                                        <!-- Itera sobre a lista de características -->
+                                        {% for carac in produto.caracteristicas %}
+                                            {{ carac.nome_caracteristica }}{% if not loop.last %};{% else %}.{% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        Nenhuma.
+                                    {% endif %}
+                                </p>
+                                <!-- FIM DO NOVO CÓDIGO DE CARACTERÍSTICAS -->
 
                             </div>
                             
@@ -142,10 +155,6 @@
         </section>
 
     </main>
-
-    <footer class="container--footer">
-        <!-- inserir mais tarde -->
-    </footer>
 
     <!-- import da biblioteca do sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

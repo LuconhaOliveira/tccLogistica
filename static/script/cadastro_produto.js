@@ -1,108 +1,90 @@
-// 1. Pega o formulário de cadastro de produto pelo seu ID
-const cadastroProdutoForm = document.getElementById('cadastroProdutoForm');
-
-// 2. Verifica se o formulário existe na página
-if (cadastroProdutoForm) {
-    
-    // 3. Adiciona o 'ouvinte' para o evento 'submit'
-    cadastroProdutoForm.addEventListener('submit', function(event) {
-
-        // ESSENCIAL: Impede que o navegador envie o formulário da maneira tradicional (o que causa a tela preta de JSON)
-        event.preventDefault(); 
-        
-        // 4. Coleta todos os dados, incluindo a imagem
-        const formData = new FormData(cadastroProdutoForm);
-
-        // 5. Envio assíncrono via fetch
-        fetch(cadastroProdutoForm.action, {
-            method: 'POST', 
-            body: formData 
-        })
-        .then(response => {
-            // Trata erros de HTTP antes de ler o JSON
-            if (!response.ok) {
-                // Se o servidor retornar 404, 500 etc.
-                throw new Error('Erro de servidor com status: ' + response.status);
-            }
-            // Retorna o JSON da resposta do Flask
-            return response.json(); 
-        })
-        .then(data => {
-            
-            // 6. Processa a resposta JSON
-            if (data.status === "success") {
-                // SUCESSO
-                Swal.fire({
-                    title: 'Sucesso!',
-                    text: `${data.message} Redirecionando...`, 
-                    icon: 'success',
-                    timer: 1000, 
-                    timerProgressBar: true, 
-                    showConfirmButton: false, 
-                }).then(() => { 
-                    // Redireciona para recarregar o formulário (limpo)
-                    window.location.href = "/cadastrar/produto"; 
-                });
-                
-            } else {
-                // ERRO
-                Swal.fire({
-                    title: 'Erro no Cadastro!',
-                    text: data.message, 
-                    icon: 'error',
-                    confirmButtonText: 'Tentar Novamente'
-                });
-            }
-        })
-        .catch(error => {
-            // 7. Trata erros de rede ou processamento do JSON
-            console.error('Erro de rede ou processamento:', error);
-            
-            Swal.fire({
-                title: 'Ops!',
-                text: 'Ocorreu um erro de comunicação inesperado. Tente novamente.', 
-                icon: 'warning',
-                confirmButtonText: 'OK'
-            });
-        });
-    });
-}
+// =========================================================================
+// FUNÇÕES ESSENCIAIS: MÁSCARA E ENVIO AJAX COM SWEETALERT
+// =========================================================================
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    // 1. CÓDIGO DA MÁSCARA (usando jQuery)
-    // O jQuery só é carregado após o DOM, então colocamos o código de máscara aqui
     
-    // A função 'ready' do jQuery garante que o código só é executado após o carregamento completo da página
+    // 1. CÓDIGO DA MÁSCARA (usando jQuery)
+    // Aplica a máscara de dinheiro (R$) no campo com id="exampleInputValor"
     $(document).ready(function(){
-        // Aplica a máscara de dinheiro (R$) no campo com id="exampleInputValor"
-        // '000.000.000,00' é o formato base (pode ser ajustado)
-        // {reverse: true} faz com que a digitação comece da direita para a esquerda, ideal para moeda.
         $('#exampleInputValor').mask('000.000.000,00', {
             reverse: true, 
-            placeholder: "0,00" // Define o que será exibido no campo vazio
+            placeholder: "0,00" 
         });
     });
 
+    // NOTA: Toda a lógica anterior para adicionar/remover características dinamicamente
+    // foi removida, pois o HTML agora usa um campo <select multiple> simples.
+    // O campo 'cadastro-caracteristicas' é enviado diretamente pelo FormData.
 
-    // 2. CÓDIGO DO SWEETALERT (JÁ REVISADO)
-    const fileInput = document.getElementById('exampleInputPhoto');
-    const MAX_SIZE_BYTES = 15 * 1024 * 1024; // 16MB
-    const MAX_SIZE_MB = MAX_SIZE_BYTES / (1024 * 1024); 
 
-    if (fileInput) {
-        fileInput.addEventListener('change', function(event) {
-            const file = event.target.files[0]; 
+    // Lógica de envio AJAX (SweetAlert)
+    const cadastroProdutoForm = document.getElementById('cadastroProdutoForm');
+    if (cadastroProdutoForm) {
+        cadastroProdutoForm.addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            
+            // O FormData captura todos os campos do formulário, 
+            // incluindo as múltiplas seleções do <select multiple>
+            const formData = new FormData(cadastroProdutoForm);
 
-            if (file && file.size > MAX_SIZE_BYTES) {
+            // Exibe um alerta de carregamento enquanto aguarda a resposta
+            Swal.fire({
+                title: 'Processando...',
+                text: 'Aguarde o cadastro do produto.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            });
+
+            // Envio AJAX
+            fetch(cadastroProdutoForm.action, {
+                method: 'POST', 
+                body: formData 
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // Se o status HTTP não for 2xx, lança um erro para o bloco .catch
+                    return response.json().then(err => { throw new Error(err.message || 'Erro desconhecido no servidor.'); });
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                if (data.status === "success") {
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: `${data.message} Redirecionando...`, 
+                        icon: 'success',
+                        timer: 1500, // Tempo suficiente para o usuário ler
+                        timerProgressBar: true, 
+                        showConfirmButton: false, 
+                    }).then(() => { 
+                        // Redireciona para recarregar o formulário (limpo)
+                        window.location.href = "/cadastrar/produto"; 
+                    });
+                    
+                } else {
+                    // Exibe erro retornado pelo backend
+                    Swal.fire({
+                        title: 'Erro no Cadastro!',
+                        text: data.message, 
+                        icon: 'error',
+                        confirmButtonText: 'Tentar Novamente'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Erro de comunicação ou validação:', error);
+                // Fecha o alerta de processamento e mostra o erro
+                Swal.close(); 
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Ops! 😥 Arquivo Muito Grande',
-                    text: `O tamanho máximo permitido para a imagem é de ${MAX_SIZE_MB} MB. Por favor, selecione um arquivo menor.`,
-                    timer: 3000,
-                    showConfirmButton: false
+                    title: 'Ops!',
+                    text: `Ocorreu um erro: ${error.message || 'Erro inesperado de rede.'}`, 
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
                 });
-                event.target.value = ''; 
-            }
+            });
         });
     }
 });
