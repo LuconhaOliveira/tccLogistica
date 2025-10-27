@@ -40,16 +40,14 @@
     <!-- container geral / principal -->
     <main class="container--main">
 
-        <section class="container--card-fundo"
-            style="background-image: url(/static/img/close-up-abstrato-de-metal.jpg)">
+        <section class="container--card-fundo">
 
             <!-- detalhe da prateleira -->
-            <div class="container--div-detalhe esquerda"
-                style="background-image: url(/static/img/design-de-plano-de-fundo-texturizado-liso-cinza.jpg);"></div>
+            <div class="container--div-detalhe esquerda"></div>
 
             <!-- card -->
             <div class="card mb-4"
-                style="width: 550px; min-height:550px; background-image: url(/static/img/close-up-abstrato-de-metal.jpg);">
+                style="width: 550px; min-height:550px; background-color: var(--grey-dark);">
 
                 <div class="row g-0">
 
@@ -63,7 +61,7 @@
                             {% else %}
                                 <img src="https://portal.crea-sc.org.br/wp-content/uploads/2017/11/imagem-indisponivel-para-produtos-sem-imagem_15_5.jpg" class="img-fluid rounded-start" alt="Imagem indisponível">
                             {% endif %}
-                        </div>   
+                        </div>
                         
 
                         <div class="col-md-0">
@@ -101,8 +99,7 @@
                                 <p class="card-text">Tipo: {{ produto.nome_tipo }};</p>
 
                                 <!-- CARACTERÍSTICAS (NOVO CÓDIGO AQUI) -->
-                                <p class="card-text">
-                                    Características: 
+                                <p class="card-text">Características: 
                                     {% if produto.caracteristicas %}
                                         <!-- Itera sobre a lista de características -->
                                         {% for carac in produto.caracteristicas %}
@@ -123,7 +120,7 @@
                     <!-- descrição -->
                     <div class="container--div-descricao">
 
-                        <p class="card-text">{{ produto.descricao }}</p>
+                        <p class="card-text descricao">{{ produto.descricao }}</p>
 
                     </div>
 
@@ -148,8 +145,7 @@
             </div>
 
             <!-- detalhe da prateleira -->
-            <div class="container--div-detalhe direita"
-                style=" background-image: url(/static/img/design-de-plano-de-fundo-texturizado-liso-cinza.jpg);">
+            <div class="container--div-detalhe direita">
             </div>
 
         </section>
