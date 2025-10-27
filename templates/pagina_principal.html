@@ -26,8 +26,8 @@
 </head>
 
 <body>
-    <header class="container--header">
 
+    <header class="container--header">
         <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo">
 
         <nav class="navbar navbar-expand-lg bg-body-transparent">
@@ -49,8 +49,8 @@
         </nav>
     </header>
 
-    <main>
-
+    <main class="container--main">
+        
         <!-- Add o icon "historico" no botão -->
         <section class="section-btn--historico">
             <button type="button" id="botaoToggleHistorico">
@@ -82,9 +82,9 @@
         <section>
             <div class="section-btn--opcoesDentroDoBtn" id="opcoesBotao">
                 <h1 class="section-div--tituloOpcoesBtn">Adicionar:</h1>
-                <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/produto">Produto</a>
                 <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/categoria">Categoria</a>
                 <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/estante">Estante</a>
+                <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/produto">Produto</a>
             </div>
         </section>
 
@@ -105,15 +105,12 @@
                 </div>
             </section>
 
-            <section class="card-estantesCriadas">
-                <div id="estantes">
-                    <a href="/pagina/consulta_produtos"></a>
+                <div class="container--estantesCriadas" id="estantes">
                 </div>
-            </section>
+
+    </main>
         
-        </main>
-        
-    </div>
+
 </body>
 
 <!-- JS -->
@@ -174,6 +171,7 @@
         }
     });
 });
+
 
 
 

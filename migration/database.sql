@@ -47,12 +47,14 @@ CREATE TABLE IF NOT EXISTS categoria (
     -- Chave primária: Identificador único e sequencial da categoria.
     cod_categoria INT PRIMARY KEY AUTO_INCREMENT,
     -- Nome da categoria. Utiliza VARCHAR(100) para flexibilidade.
-    nome VARCHAR(100) UNIQUE,
+    nome VARCHAR(100),
     -- Data e hora que a categoria foi cadastrada.
     data_hora DATETIME NOT NULL,
 	-- Chave estrangeira: Vincula a alteração ao usuário responsável.
     cpf VARCHAR(14) NOT NULL,
-    FOREIGN KEY (cpf) REFERENCES usuario (cpf)
+    FOREIGN KEY (cpf) REFERENCES usuario (cpf),
+    -- Garante que o 'nome' da categoria só é único em combinação com o 'cpf'.
+    UNIQUE (nome, cpf)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -149,45 +151,42 @@ CREATE TABLE IF NOT EXISTS pedido (
 -- INTEGRAÇÃO: Vinculado a 'tipo' para herdar características específicas.
 -- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS produto (
-    -- Chave primária: Identificador único e sequencial do produto.
+    -- Chave primária: Identificador único do produto.
     cod_produto INT PRIMARY KEY AUTO_INCREMENT,
-
-    -- Data e hora que o produto foi cadastrado.
+	-- Data e hora que o produto foi cadastrado.
     data_hora DATETIME NOT NULL,
-
+    
     -- Informações do produto:
-    -- Nome comercial do produto.
+	-- Nome comercial do produto.
     nome VARCHAR(100) NOT NULL,
-    -- Descrição detalhada do produto.
+	-- Descrição longa do produto.
     descricao VARCHAR(255),
     -- Imagem do produto, armazenada como BLOB (Binary Large Object).
     imagem LONGBLOB NOT NULL,
     -- Quantidade do produto.
     quantidade INT NOT NULL,
     -- Valor unitário do produto.
-    valor FLOAT(10),
+    valor FLOAT(10),    
     -- Stock Keeping Unit (código de identificação interna do produto).
     sku VARCHAR(100),
 
-    -- Endereçamento do produto:
+	-- Endereçamento do produto:
     -- Coluna da estante que o produto se encontra.
     coluna VARCHAR(10),
     -- Linha da estante que o produto se encontra.
     linha VARCHAR(10),
 
-    -- Chave estrangeira: Usuário responsável pelo cadastro do produto.
+    -- Chave estrangeira: Vincula o produto ao seu tipo específico.
     cpf VARCHAR(14) NOT NULL,
-    -- Chave estrangeira: Estante em que o produto está armazenado.
-    cod_estante INT,
-    -- Chave estrangeira: Categoria do produto.
+	cod_estante INT, 
     cod_categoria INT,
-    -- Chave estrangeira: Tipo específico do produto.
-    cod_tipo INT,
-
+    cod_tipo INT, 
+    cod_caracteristica INT,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     FOREIGN KEY (cod_estante) REFERENCES estante (cod_estante),
     FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria),
-    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
+    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo),
+    FOREIGN KEY (cod_caracteristica) REFERENCES caracteristica (cod_caracteristica)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -197,16 +196,12 @@ CREATE TABLE IF NOT EXISTS produto (
 CREATE TABLE IF NOT EXISTS produto_caracteristica (
     -- Chave primária: Identificador único da relação Produto-Característica.
     cod_prod_caracteristica INT PRIMARY KEY AUTO_INCREMENT,
-
-    -- Valor específico da característica para aquele produto 
-    -- (exemplo: 'Vermelho' para a Característica 'Cor').
+    -- Valor específico da característica para aquele produto (ex: 'Vermelho' para a Característica 'Cor').
     valor VARCHAR(255),
-
     -- Chave estrangeira: Produto envolvido.
     cod_produto INT,
     -- Chave estrangeira: Característica referenciada.
     cod_caracteristica INT,
-
     FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto),
     FOREIGN KEY (cod_caracteristica) REFERENCES caracteristica (cod_caracteristica)
 );
@@ -270,11 +265,10 @@ FOR EACH ROW
 BEGIN
     INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
-        CONCAT('Adicionado o produto "', NEW.nome, 
-               '", localizado na coluna "', NEW.coluna,
-               '" e na linha "', NEW.linha,
-               '". Adicionados "', NEW.quantidade,
-               '" produtos.'),
+        CONCAT('Inserido produto ', NEW.nome, 
+               ' na coluna ', NEW.coluna,
+               ' na linha ', NEW.linha,
+               ' com quantidade ', NEW.quantidade),
         NOW(),
         NEW.cpf
     );
@@ -302,31 +296,18 @@ FOR EACH ROW
 BEGIN
 	INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
-        CONCAT('Editado o produto "', OLD.nome, '": SKU antigo: "', OLD.sku, '" para SKU alterado: "', NEW.sku,
+        CONCAT('Alterado produto "', NEW.sku, '", antes "', OLD.sku,
 '";
- Nome antigo: "',OLD.nome,'" para nome alterado: "',NEW.nome,
+ nome: de "',OLD.nome,'" para "',NEW.nome,
 '";
- Quantidade antiga: "',OLD.quantidade,'" para quantidade alterada: "',NEW.quantidade,
+ categoria: de "',(SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
+'" para "',(SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria),
 '";
- Valor antigo: "',OLD.valor,'" para valor alterado: "',NEW.valor,
+ quantidade: de "',OLD.quantidade,'" para "',NEW.quantidade,
 '";
- Descrição antiga: "',OLD.descricao,'" para descrição alterada: "',NEW.descricao,
- '";
- Estante antiga: "', (SELECT nome FROM estante WHERE cod_estante = OLD.cod_estante),
- '" para estante alterada: "',(SELECT nome FROM estante WHERE cod_estante = NEW.cod_estante),
- '";
-  Coluna antiga: "',OLD.coluna, '" para coluna alterada: "', NEW.coluna,
- '";
-  Linha antiga: "',OLD.linha, '" para linha alterada: "', NEW.linha,
+ valor: de "',OLD.valor,'" para "',NEW.valor,
 '";
- Categoria antiga: "',(SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
-'" para categoria alterada: "',(SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria),
-'";
- Tipo antiga: "',(SELECT nome FROM tipo WHERE cod_tipo = OLD.cod_tipo),
-'" para tipo alterada: "',(SELECT nome FROM tipo WHERE cod_tipo = NEW.cod_tipo),
-'";
- Característica antiga: "',(SELECT nome FROM caracteristica WHERE cod_caracteristica = OLD.cod_caracteristica),
-'" para característica  alterada: "',(SELECT nome FROM caracteristica WHERE cod_caracteristica = NEW.cod_caracteristica),'".'
+ descrição: de "',OLD.descricao,'" para "',NEW.descricao,'"'
 ),
         NOW(),
         NEW.cpf
@@ -349,10 +330,10 @@ FOR EACH ROW
 BEGIN
     INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
-        CONCAT('"',OLD.quantidade, '" produto(s) identificado(s) como "', 
-               OLD.nome, '" foi/foram excluído(s). Pertencia(m) à coluna "',
-               OLD.coluna, '" e à linha "',
-               OLD.linha, '".'),
+        CONCAT('Deletado produto ', OLD.nome, 
+               ' na coluna ', OLD.coluna,
+               ' na linha ', OLD.linha,
+               ' em quantidade ', OLD.quantidade),
         NOW(),
         OLD.cpf
     );
@@ -373,7 +354,7 @@ FOR EACH ROW
 BEGIN
     INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
-        CONCAT('Adicionada a estante "', NEW.nome, '".'),
+        CONCAT('Inserida estante ', NEW.nome),
         NOW(),
         NEW.cpf
     );
@@ -395,15 +376,15 @@ BEGIN
 	INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
 		IF(OLD.nome=NEW.nome,
-        CONCAT('Alterada a categoria da "', OLD.nome,
-        '": "', (SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
-        '" para "', (SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria), '".'
+        CONCAT('Alterada categoria da estante ', OLD.nome,
+        ' de ', (SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
+        ' para ', (SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria)
         ),
         IF(OLD.cod_categoria=NEW.cod_categoria,
-        CONCAT('Alterado o nome da estante: "', OLD.nome, '" para "', NEW.nome, '".'),
-        CONCAT('Alterado nome e categoria da estante: "', OLD.nome, '" para "', NEW.nome,
-        '" e "', (SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
-        '" para "', (SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria)
+        CONCAT('Alterada estante ', OLD.nome, ' para ', NEW.nome),
+        CONCAT('Alterada estante ', OLD.nome, ' para ', NEW.nome,
+        ' e categoria ', (SELECT nome FROM categoria WHERE cod_categoria = OLD.cod_categoria),
+        ' para ', (SELECT nome FROM categoria WHERE cod_categoria = NEW.cod_categoria)
         )
         )),
         NOW(),
@@ -426,7 +407,7 @@ FOR EACH ROW
 BEGIN
     INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
-        CONCAT('Excluída a estante "', OLD.nome, '".'),
+        CONCAT('Deletada estante ', OLD.nome),
         NOW(),
         OLD.cpf
     );
@@ -447,7 +428,7 @@ FOR EACH ROW
 BEGIN
     INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
-        CONCAT('Adicionada a categoria "', NEW.nome,'".'),
+        CONCAT('Inserida categoria ', NEW.nome),
         NOW(),
         NEW.cpf
     );
@@ -468,87 +449,7 @@ FOR EACH ROW
 BEGIN
     INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
     VALUES (
-        CONCAT('Excluída a categoria "', OLD.nome, '".'),
-        NOW(),
-        OLD.cpf
-    );
-END$$
-
--- ---------------------------------------------------------------------------------------------------------
--- TRIGGER: trg_tipo_insert
--- MOMENTO: AFTER INSERT
--- OBJETIVO:
---     Registrar automaticamente a criação de um novo tipo dentro de uma caracteristica.
--- FUNCIONAMENTO:
---     Após o INSERT em "tipo", cria uma linha de log informando o nome do tipo cadastrado.
--- ---------------------------------------------------------------------------------------------------------
-CREATE TRIGGER trg_tipo_insert
-AFTER INSERT ON tipo
-FOR EACH ROW
-BEGIN
-    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
-    VALUES (
-        CONCAT('Adicionado o tipo "', NEW.nome, '".'),
-        NOW(),
-        NEW.cpf
-    );
-END$$
-
--- ---------------------------------------------------------------------------------------------------------
--- TRIGGER: trg_categoria_delete
--- MOMENTO: BEFORE DELETE
--- OBJETIVO:
---     Registrar a exclusão de uma categoria do sistema.
--- FUNCIONAMENTO:
---     Antes da exclusão do registro, grava no log o nome da categoria deletada e o CPF do responsável.
--- ---------------------------------------------------------------------------------------------------------
-CREATE TRIGGER trg_tipo_delete
-BEFORE DELETE ON tipo
-FOR EACH ROW
-BEGIN
-    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
-    VALUES (
-        CONCAT('Excluído o tipo "', OLD.nome, '".'),
-        NOW(),
-        OLD.cpf
-    );
-END$$
-
--- ---------------------------------------------------------------------------------------------------------
--- TRIGGER: trg_caracteristica_insert
--- MOMENTO: AFTER INSERT
--- OBJETIVO:
---     Registrar automaticamente a criação de um novo tipo dentro de uma caracteristica.
--- FUNCIONAMENTO:
---     Após o INSERT em "caracteristica", cria uma linha de log informando o nome da caracteristica cadastrado.
--- ---------------------------------------------------------------------------------------------------------
-CREATE TRIGGER trg_caracteristica_insert
-AFTER INSERT ON caracteristica
-FOR EACH ROW
-BEGIN
-    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
-    VALUES (
-        CONCAT('Adicionada a característica "', NEW.nome, '".'),
-        NOW(),
-        NEW.cpf
-    );
-END$$
-
--- ---------------------------------------------------------------------------------------------------------
--- TRIGGER: trg_caracteristica_delete
--- MOMENTO: BEFORE DELETE
--- OBJETIVO:
---     Registrar a exclusão de uma caracteristica do sistema.
--- FUNCIONAMENTO:
---     Antes da exclusão do registro, grava no log o nome da caracteristica deletada e o CPF do responsável.
--- ---------------------------------------------------------------------------------------------------------
-CREATE TRIGGER trg_caracteristica_delete
-BEFORE DELETE ON caracteristica
-FOR EACH ROW
-BEGIN
-    INSERT INTO alteracao_produto_estante (alteracao_realizada, data_hora, cpf)
-    VALUES (
-        CONCAT('Excluída a característica "', OLD.nome, '".'),
+        CONCAT('Deletada categoria ', OLD.nome),
         NOW(),
         OLD.cpf
     );

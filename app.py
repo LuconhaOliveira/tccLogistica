@@ -20,7 +20,7 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
  
 # Rota para a página principal
 @app.route("/principal")
-def principal():
+def pagina_principal():
 
     if "cpf" not in session:
         return redirect(url_for('pagina_logar')) 
@@ -226,8 +226,9 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": ""
-        }), 200
+            "message": "Alteração realizada com sucesso! Faça login para continuar.",
+            "message": "Alteração realizada com sucesso! Faça login para continuar."
+            }), 200
     
     except Exception as e:
         # 5. Tratamento de Exceções.
@@ -603,7 +604,7 @@ def estante_especifica(id):
                 imagens_base64.append(base64.b64encode(imagem_blob).decode('utf-8'))
 
     # A correção está aqui:
-    return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64)
+    return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64, cod_estante=id)
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 

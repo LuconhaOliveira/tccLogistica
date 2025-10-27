@@ -29,9 +29,15 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center; 
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.322);
+
+    background-color: var(--grey-dark);
     background-repeat: no-repeat; /* A imagem não repete quando acaba o tamanho */
     background-size: cover;      /* cobre todo o container e se estica */
+}
+
+.section-div-img--fundoEstanteBronze{
+    size: 50px;
 }
 
 .card{
@@ -61,7 +67,7 @@
     margin: 50px;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
 
-    background-repeat: no-repeat; /* A imagem não repete quando acaba o tamanho */
+    background-repeat: repeat; /* A imagem não repete quando acaba o tamanho */
     background-size: cover;      /* cobre todo o container e se estica */
 }
 
@@ -79,13 +85,17 @@
 /* container da descrição */
 .container--div-descricao{
 
-    background-color: var(--grey-light);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--grey-light);
     border-radius: 15px;
 
+    text-align: center;
+    padding: 10px 5px 10px 5px;
     text-align: center;
     margin: 3% 5% 1% 5% !important;
 
     width: 90% !important;
+    min-height: 135px;
     height: auto;
      
 }
@@ -104,7 +114,7 @@
 /* icones */
 .material-symbols-outlined{
     cursor: pointer;
-    color: var(--black);
+    color: var(--grey-light);
     line-height: 2!important;
 }
 
@@ -157,6 +167,3 @@ button[type="submit"]:hover {
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
 
 }
-
-
-
