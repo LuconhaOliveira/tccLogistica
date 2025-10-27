@@ -13,7 +13,7 @@ class Estante:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = "SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria FROM estante " \
+            sql = "SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria,estante.cod_categoria FROM estante " \
             "INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria " \
             "WHERE estante.cpf= %s"
             valores = (session["cpf"],)
@@ -78,9 +78,9 @@ class Estante:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = """SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria FROM estante
+            sql = """SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria, estante.cod_categoria FROM estante
             INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria
-            WHERE estante.cpf= %s AND categoria.nome=%s"""
+            WHERE estante.cpf= %s AND estante.cod_categoria=%s"""
             valores = (session["cpf"],filtro)
             
             cursor.execute(sql, valores)

@@ -36,8 +36,10 @@ def principal():
 def filtro():
     estantes = Estante.buscar_estantes()
 
-    filtros = [i["categoria"] for i in estantes]
-    filtros = list(set(filtros))
+    filtros=[]
+
+    for i in estantes:
+        filtros.append({"nome": i["categoria"],"cod_categoria": i["cod_categoria"]})
 
 
     return jsonify({"estantes": estantes,"filtros": filtros}), 200
@@ -47,8 +49,10 @@ def filtro():
 def filtro_filtro(filtro):
     estantes = Estante.buscar_estantes_filtro(filtro)
 
-    filtros = [i["categoria"] for i in estantes]
-    filtros = list(set(filtros))
+    filtros=[]
+
+    for i in estantes:
+        filtros.append({"nome": i["categoria"],"cod_categoria": i["cod_categoria"]})
 
     return jsonify({"estantes": estantes,"filtros": filtros}), 200
 
