@@ -202,54 +202,69 @@ class Categoria:
 # CARACTERISTICA ------------------------------------------------------------------------------------------------------#
 
    # Verifica se a Caracteristica está ligada a alguma Estante ou Produto
+    @staticmethod
     def verificar_dependencia_caracterisica(cod_caracteristica):
+        conexao = None
+        cursor = None
+        try:
+            conexao = Conection.create_connection()
+            cursor = conexao.cursor()
 
-        conexao = Conection.create_connection()
+            # CORREÇÃO: Verifica a tabela de junção PRODUTO_CARACTERISTICA
+            sql = """
+                SELECT EXISTS (
+                    SELECT 1 FROM produto_caracteristica WHERE cod_caracteristica = %s
+                ) AS dependencia;
+            """
 
-        cursor = conexao.cursor()
+            valor = (cod_caracteristica,)
+            
+            # Executa a consulta
+            cursor.execute(sql, valor)
+            
+            # O resultado será (1,) se houver dependência, ou (0,) se não houver
+            dependencia = cursor.fetchone()[0] == 1
+            return dependencia # Retorna True se houver dependência
 
-        # Verifica se a categoria está em alguma estante ou em algum produto
-        sql = """
-            SELECT EXISTS (
-                SELECT 1 FROM produto WHERE cod_caracteristica = %s
-            ) AS dependencia;
-        """
+        except Exception as e:
+            # Em caso de erro na DB, retorna True por segurança (dependência)
+            return True 
 
-        valor = (cod_caracteristica,)
-        
-        # Executa a consulta
-        cursor.execute(sql, valor)
-        
-        # O resultado será (1,) se houver dependência, ou (0,) se não houver
-        dependencia = cursor.fetchone()[0] == 1
+        finally:
+            if cursor: cursor.close()
+            if conexao: conexao.close()
 
-        cursor.close()
-        conexao.close()
-        return dependencia # Retorna True se houver dependência
     
     # Conexao com o banco de dados para criar uma caracteristica com base no tipo
+    @staticmethod
     def cadastrar_tipo_caracteristica(nome, cod_tipo, cpf):
-
         data_hora = datetime.datetime.today()
+        conexao = None
+        cursor = None
             
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
+            cursor = conexao.cursor()
 
-        cursor = conexao.cursor()
+            sql = """INSERT INTO caracteristica (
+                            nome, data_hora, cod_tipo, cpf)
+                        VALUES (
+                            %s, %s, %s, %s)"""
 
-        sql = """INSERT INTO caracteristica (
-                        nome, data_hora, cod_tipo, cpf)
-                    VALUES (
-                        %s, %s, %s, %s)"""
+            nome = nome.upper()
+            valores = (nome, data_hora, cod_tipo, cpf)
 
-        nome = nome.upper()
-        valores = (nome, data_hora, cod_tipo, cpf)
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+        except Exception as e:
+            # Em caso de erro, faz rollback para manter a integridade
+            if conexao: conexao.rollback()
+            
+        finally:
+            if cursor: cursor.close()
+            if conexao: conexao.close()
 
-        cursor.execute(sql, valores)
-
-        conexao.commit()
-
-        cursor.close()
-        conexao.close()
     
     # Recupera as caracteristicas registradas anteriormente
     def recuperar_caracteristica(cpf):
@@ -273,26 +288,36 @@ class Categoria:
     
     
         # Conexao com o banco de dados para excluir uma caracteristica
+    @staticmethod
     def remover_caracteristica(cod_caracteristica):
+        conexao = None
+        cursor = None
 
-        # Verifica se a categoria possui uma dependencia 
+        # 1. Verifica se a caracteristica possui uma dependencia 
         if Categoria.verificar_dependencia_caracterisica(cod_caracteristica):
             # Retorna se a remoção falhou por conta da dependência
             return False # Não pode excluir
 
-        # Se não possuir uma dependencia, executa a exclusão do tipo
-        conexao = Conection.create_connection()
-        cursor = conexao.cursor()
+        try:
+            # 2. Se não possuir uma dependencia, executa a exclusão da caracteristica
+            conexao = Conection.create_connection()
+            cursor = conexao.cursor()
 
-        sql = "DELETE FROM caracteristica WHERE cod_caracteristica = %s;"
+            sql = "DELETE FROM caracteristica WHERE cod_caracteristica = %s;"
+            valor = (cod_caracteristica,)
 
-        valor = (cod_caracteristica,)
+            cursor.execute(sql, valor)
+            conexao.commit()
+            
+            # 3. Retorna True se excluiu algo (rowcount > 0)
+            return cursor.rowcount > 0
 
-        cursor.execute(sql, valor)
+        except Exception as e:
+            # Em caso de erro, faz rollback e retorna False
+            if conexao: conexao.rollback()
+            return False # Falha na DB
 
-        conexao.commit()
-        
-        cursor.close()
-        conexao.close()
-        return True
+        finally:
+            if cursor: cursor.close()
+            if conexao: conexao.close()
 
