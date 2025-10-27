@@ -26,8 +26,8 @@
 </head>
 
 <body>
-    <header class="container--header">
 
+    <header class="container--header">
         <img src="/static/img/logo_InStock-transparente.png" class="img--InStock-logo" alt="InStock Logo">
 
         <nav class="navbar navbar-expand-lg bg-body-transparent">
@@ -38,7 +38,7 @@
                             <span class="nav-link active" aria-current="page">Bem Vindo(a) {{ nome }}</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><span class="material-symbols-outlined">shopping_cart</span></a>
+                            <a class="nav-link" href="/pedido/compra"><span class="material-symbols-outlined">shopping_cart</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" id="logoff"><span class="material-symbols-outlined">logout</span></a>
@@ -49,8 +49,8 @@
         </nav>
     </header>
 
-    <main>
-
+    <main class="container--main">
+        
         <!-- Add o icon "historico" no botão -->
         <section class="section-btn--historico">
             <button type="button" id="botaoToggleHistorico">
@@ -65,7 +65,7 @@
             <div class="section-btn--opcoesDentroDoBtn" id="botaoToggleHistoricoOpcoes">
                 <h1 class="section-div--tituloOpcoesBtn">Histórico</h1>
                 <a class="section-div--opcoesDentroDoBtn" href="/historico/alteracoes">Alterações</a>
-                <a class="section-div--opcoesDentroDoBtn" href="/pagina/cadastrar/categoria">Pedido de compra</a>
+                <a class="section-div--opcoesDentroDoBtn" href="historico/pedido/compra">Pedido de compra</a>
             </div>
         </section>
 
@@ -82,9 +82,9 @@
         <section>
             <div class="section-btn--opcoesDentroDoBtn" id="opcoesBotao">
                 <h1 class="section-div--tituloOpcoesBtn">Adicionar:</h1>
-                <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/produto">Produto</a>
                 <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/categoria">Categoria</a>
                 <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/estante">Estante</a>
+                <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/produto">Produto</a>
             </div>
         </section>
 
@@ -98,7 +98,6 @@
 
                     <section class="card-section--filtroEstante">
                         <form id="filtros" class="card-form--filtroEstante">
-                            <input type="radio" class="card-section-form--checkbox">
                         </form>
                         
                     </section>
@@ -106,15 +105,12 @@
                 </div>
             </section>
 
-            <section class="card-estantesCriadas">
-                <div id="estantes">
-                    <a href="/pagina/consulta_produtos"></a>
+                <div class="container--estantesCriadas" id="estantes">
                 </div>
-            </section>
+
+    </main>
         
-        </main>
-        
-    </div>
+
 </body>
 
 <!-- JS -->
@@ -175,6 +171,7 @@
         }
     });
 });
+
 
 
 
