@@ -20,7 +20,7 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
  
 # Rota para a página principal
 @app.route("/principal")
-def pagina_principal():
+def principal():
 
     if "cpf" not in session:
         return redirect(url_for('pagina_logar')) 
