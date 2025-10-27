@@ -105,11 +105,10 @@ class ControleProduto:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = """SELECT produto.cod_produto,produto.imagem,produto.descricao,produto.nome AS produto,produto.sku,produto.quantidade,produto.valor,estante.nome AS estante,produto.coluna,produto.linha,categoria.nome AS categoria,tipo.nome AS tipo,caracteristica.nome AS caracteristica
+            sql = """SELECT produto.cod_produto,produto.imagem,produto.descricao,produto.nome AS produto,produto.sku,produto.quantidade,produto.valor,estante.nome AS estante,produto.coluna,produto.linha,categoria.nome AS categoria,tipo.nome AS tipo
                     FROM produto INNER JOIN estante ON estante.cod_estante = produto.cod_estante
                     INNER JOIN categoria ON categoria.cod_categoria = produto.cod_categoria
                     INNER JOIN tipo ON tipo.cod_tipo = produto.cod_tipo
-                    INNER JOIN caracteristica ON caracteristica.cod_caracteristica = produto.cod_caracteristica
                     WHERE produto.cod_produto = %s;"""
             valores = (id,)
             

@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS alteracao_produto_estante (
     -- Chave primária: Identificador único do registro de alteração.
     cod_alteracao INT PRIMARY KEY AUTO_INCREMENT,
     -- Descrição detalhada da alteração realizada.
-    alteracao_realizada VARCHAR(255),
+    alteracao_realizada TEXT,
     -- Data e hora que a alteração foi registrada.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Vincula a alteração ao usuário responsável.
