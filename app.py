@@ -20,7 +20,7 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
  
 # Rota para a página principal
 @app.route("/principal")
-def pagina_principal():
+def principal():
 
     if "cpf" not in session:
         return redirect(url_for('pagina_logar')) 
@@ -56,7 +56,7 @@ def filtro_filtro(filtro):
  
 # Rota para a página de cadastro
 @app.route("/cadastrar/usuario")
-def pagina_cadastrar():
+def cadastrar():
 
     return render_template("pagina_cadastro.html")
 
@@ -127,7 +127,7 @@ def logoff():
 #    2. Capturar e passar qualquer mensagem de erro para o template HTML.
 
 @app.route("/")
-def pagina_logar():
+def logar():
 
     # 1. Renderiza o template HTML da página de login.
     # 'render_template' carrega o arquivo 'pagina_login.html'.
@@ -191,7 +191,7 @@ def post_login():
 # Esta rota é responsável por:
 # 1. Lidar com a exibição da página de recuperar senha.
 @app.route("/recuperar/senha")
-def pagina_recuperar_senha():
+def recuperar_senha():
 
     # 1. Renderiza o template HTML da página de recuperar senha.
     # 'render_template' carrega o arquivo 'pagina_recuperar_senha.html'.
@@ -251,7 +251,7 @@ def post_recuperar_senha():
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/cadastrar/produto")
-def pagina_produto():
+def cadastrar_produto():
     """Renderiza o formulário para cadastro de novos produtos."""
     
     if "cpf" not in session:
@@ -472,7 +472,7 @@ def post_editar_produto(id):
         cod_tipo = int(cod_tipo_str) # Converte para int após validação NOT NULL
         
         # 3.4. VALOR (NÃO é NOT NULL, mas a conversão é importante)
-        valor_str = request.form.get("cadastro-valor")
+        valor_str = request.form.get("cadastro-valor").replace('.', '').replace(',', '.')
         valor = float(valor_str) if valor_str else 0.0 
 
         # 3.5. Conversão dos outros IDs (NULÁVEIS)
@@ -489,8 +489,8 @@ def post_editar_produto(id):
         })
 
     # 4. Validação da IMAGEM (NOT NULL)
-    imagem_file = request.files.get("cadastro-imagem")  
-    imagem_blob = imagem_file.read() if imagem_file and imagem_file.filename else None
+    imagem_file = request.files.get("cadastro-imagem")
+    imagem_blob = imagem_file.read() if imagem_file and imagem_file.filename else produto["imagem"]
 
     # if not imagem_blob:
     #     return jsonify({
@@ -520,7 +520,7 @@ def post_editar_produto(id):
 # Acessa a URL "/pagina/cadastro_estante" e renderiza o arquivo HTML 'pagina_estante.html',
 # exibindo o formulário de cadastro de estante para o usuário.  
 @app.route("/cadastrar/estante")
-def pagina_cadastrar_estante():
+def cadastrar_estante():
 
     if "cpf" in session:
         cpf = session["cpf"]
@@ -589,7 +589,7 @@ def adicionar_estante():
 # BUSCAR ESTANTE -------------------------------------------------------------------------------------------------------------------------------#
 
 @app.route("/estante/<id>")
-def pagina_estante(id):
+def estante_especifica(id):
     produtos = Estante.buscar_estante(id)
     print(produtos)
     imagens_base64 = []
@@ -613,6 +613,13 @@ def remover_estante(cod_estante):
     # Chama a função do controler, remove a estante e redireciona para a pagina principal
     Estante.remover_estante(cod_estante)
     return redirect("/principal")
+
+# EDITAR ESTANTE -------------------------------------------------------------------------------------------------------
+
+@app.route("/editar/estante/<cod_estante>")
+def editar_estante():
+    
+    return render_template("pagina_editar_estante.html")
     
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
@@ -620,7 +627,7 @@ def remover_estante(cod_estante):
 # Acessa a URL "/pagina/cadastro_categoria" e renderiza o arquivo HTML 'pagina_categoria.html',
 # exibindo os formulários de cadastro de categoria, tipo e caracteristica para o usuário.
 @app.route("/cadastrar/categoria")
-def pagina_cadastrar_categoria():
+def cadastrar_categoria():
 
     if "cpf" in session:
         cpf = session["cpf"]
@@ -744,7 +751,7 @@ def remover_caracteristica(cod_caracteristica):
 # RECUPERA O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
 
 @app.route("/historico/alteracoes")
-def pagina_historico_alteracao():
+def historico_alteracao():
 
     # Se o CPF estiver na sessão.
     if "cpf" in session:
@@ -758,7 +765,7 @@ def pagina_historico_alteracao():
 # EXCLUI O HISTÓRICO DE ALTERAÇÃO DOS PRODUTOS, ESTANTES E CATEGORIAS -----------------------------------------------------#
 
 @app.route("/pagina/remover/historico/alteracoes", methods=['POST'])
-def pagina_excluir_historico_alteracao():
+def excluir_historico_alteracao():
 
     # Se o CPF estiver na sessão
     if "cpf" in session:
@@ -768,12 +775,31 @@ def pagina_excluir_historico_alteracao():
         Historico.excluir_historico_alteracoes(cpf)
         
         # Após a exclusão, redireciona o usuário para a mesma página que ele estava.
-        return redirect("/pagina/historico_alteracoes")
+        return redirect("/historico/alteracoes")
 
     # Se não houver CPF na sessão, redireciona para a página de histórico 
-    return redirect("/pagina/historico_alteracoes")
+    return redirect("/historico/alteracoes")
 
+# PEDIDO DE COMPRA -------------------------------------------------------------------------------------------------------
 
+@app.route("/pedido/compra")
+def pedido_compra():
+
+    return render_template("pagina_pedido_compra.html")
+
+# HISTÓRICO DO PEDIDO DE COMPRA -------------------------------------------------------------------------------------------------------
+
+@app.route("/historico/pedido/compra")
+def historico_pedido_compra():
+
+    return render_template("pagina_historico_pedido.html")
+
+# NOTA FISCAL -------------------------------------------------------------------------------------------------------
+
+@app.route("/nota/fiscal")
+def nota_fiscal():
+    
+    return render_template("pagina_nota_fiscal.html")
 # ----------------------------------------------------------------------------------------------------------------------------# 
 
 if __name__ == '__main__':
