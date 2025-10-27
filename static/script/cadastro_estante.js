@@ -66,13 +66,13 @@ if (formEstante) {
             if (data.status === "success") {
                 Swal.fire({
                     title: data.titulo || 'Sucesso!',
-                    text: `${data.mensagem || 'Cadastro realizado com sucesso!'} Redirecionando...`,
+                    text: `${data.mensagem}`,
                     icon: 'success',
                     timer: 1500,
                     timerProgressBar: true,
                     showConfirmButton: false
                 }).then(() => {
-                    window.location.href = "/pagina/principal";
+                    window.location.href = "/principal";
                 });
 
             } else {

@@ -115,10 +115,10 @@ def post_cadastro():
 
 # LOGIN ------------------------------------------------------------------------------------------------------# 
 
-@app.route("/logoff")
+@app.route("/logoff", methods=['GET', 'POST'])
 def logoff():
     Usuario.deslogar()
-    return jsonify({"redirect": "/pagina/login"}), 200
+    return jsonify({"redirect": "/"}), 200
 
 # Função da rota principal ("/") do aplicativo.
 
@@ -171,7 +171,7 @@ def post_login():
         # Retorna uma resposta HTTP com status code 200 (OK) e uma mensagem de sucesso
         return jsonify({
             "status": "success",
-            "message": f"Bem-vindo(a), {nome_usuario}."
+            "message": ""
         }), 200
     else:
         # Bloco executado se o login falhar
@@ -226,7 +226,7 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Alteração realizada com sucesso! Faça login para continuar."
+            "message": ""
         }), 200
     
     except Exception as e:
@@ -551,7 +551,7 @@ def adicionar_estante():
             return jsonify({
                 "status": "success",
                 "titulo": "Estante Criada!",
-                "mensagem": f"A estante '{nome}' foi cadastrada com sucesso!"
+                "mensagem": ""
             }), 201
         else:
             return jsonify({
@@ -559,6 +559,7 @@ def adicionar_estante():
                 "titulo": "Erro no Banco de Dados",
                 "mensagem": "Não foi possível cadastrar a estante. Tente novamente."
             }), 500
+
 
     except ValueError:
         return jsonify({
