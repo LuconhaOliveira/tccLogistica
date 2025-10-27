@@ -52,7 +52,7 @@
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
                     grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                <a href="/pagina/visualizar/produto/{{ produtos[i].cod_produto }}">
+                <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
                     <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
                     <p class="endereco--produto">{{ produtos[i].linha }},{{produtos[i].coluna}}</p>
@@ -73,7 +73,7 @@
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
                     grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                    <a href="/pagina/visualizar/produto/{{ produtos[i].cod_produto }}">
+                    <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
                     <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
                     <p class="endereco--produto">{{ produtos[i].linha }},{{produtos[i].coluna}}</p>
@@ -94,7 +94,7 @@
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
                     grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                <a href="/pagina/visualizar/produto/{{ produtos[i].cod_produto }}">
+                <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
                     <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
                     <p class="endereco--produto">{{ produtos[i].linha }},{{produtos[i].coluna}}</p>
