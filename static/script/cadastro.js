@@ -33,7 +33,7 @@ cadastroForm.addEventListener('submit', function(event) {
             // Alerta com Auto-Fechamento e Redirecionamento Automático
             Swal.fire({
                 title: 'Sucesso!',
-                text: `${data.message} Redirecionando para o login.`, // Informa o usuário
+                text: `Redirecionando para o login.`, // Informa o usuário
                 icon: 'success',
                 timer: 1000, // Define o tempo do timer (3 segundos)
                 timerProgressBar: true, // Mostra a barra de progresso
