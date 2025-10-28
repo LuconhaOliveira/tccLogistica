@@ -96,7 +96,7 @@
 
                     </div>
 
-                    <div class="container--bottom-card">
+                    <form class="container--bottom-card" method="post" action="/post/pedido/{{produto.cod_produto}}">
 
                         <button class="btn btn-primary" type="submit">Incluir no pedido de compra</button>
 
@@ -111,8 +111,7 @@
 
                         <a href="/post/produto/remover/{{produto.cod_produto}}"><span class="material-symbols-outlined">delete</span></a>
 
-
-                    </div>
+                    </form>
 
                 </div>
             </div>
