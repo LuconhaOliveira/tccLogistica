@@ -150,5 +150,42 @@ WHERE pedido.cpf=%s AND pedido.ativo=1;"""
             if 'conexao' in locals() and conexao:
                 conexao.close()
 
+
+    def remover_produto(cod_produto):
+            try:
+                conexao = Conection.create_connection()
+                if not conexao:
+                    return None
+
+                cursor = conexao.cursor()
+
+                sql = """UPDATE produto SET quantidade=quantidade+
+    (SELECT quantidade FROM item_pedido INNER JOIN pedido ON pedido.cod_pedido=item_pedido.cod_pedido 
+    WHERE item_pedido.cod_produto=%s AND pedido.ativo=1) WHERE cod_produto=%s;"""
+                valores = (cod_produto,cod_produto)
+                
+                cursor.execute(sql, valores)
+                conexao.commit()
+                        
+                sql = """DELETE item_pedido
+    FROM item_pedido
+    INNER JOIN pedido ON pedido.cod_pedido = item_pedido.cod_pedido
+    WHERE item_pedido.cod_produto = %s
+    AND pedido.ativo = 1;"""
+                valores = (cod_produto,)
+                
+                cursor.execute(sql, valores)
+                
+                conexao.commit()
+
+            except Error as e:
+                print(f"Erro ao validar login: {e}")
+                return None
+
+            finally:
+                if 'cursor' in locals() and cursor:
+                    cursor.close()
+                if 'conexao' in locals() and conexao:
+                    conexao.close()
     
 #TODO: NA HORA DE FECHAR O PEDIDO LEMBRA DE MUDAR O ATIVO PARA 0
