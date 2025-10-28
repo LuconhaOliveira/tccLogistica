@@ -644,7 +644,9 @@ def cadastrar_categoria():
         tipo = Categoria.recuperar_tipo(cpf)
         caracteristica = Categoria.recuperar_caracteristica(cpf)
 
-    return render_template("pagina_categoria.html",nome=nome, categoria = categoria, tipo = tipo, caracteristica = caracteristica)
+        tipo_categoria = list(zip(tipo, categoria)) # Engloba a caracteristica e o tipo em uma lista
+
+    return render_template("pagina_categoria.html",nome=nome, categoria = categoria, tipo = tipo, caracteristica = caracteristica, tipo_categoria = tipo_categoria)
 
 # Rota que processa os dados do formulário de cadastrar categoria (requisição POST).
 @app.route("/post/cadastrar/categoria", methods = ["POST"])

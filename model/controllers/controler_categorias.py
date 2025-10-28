@@ -268,6 +268,17 @@ class Categoria:
 
             conexao.commit()
 
+            return True
+
+        except Error as e:
+            # Lógica para o nome duplicado da categoria 
+            # 'e.errno' é o código numérico de erro retornado pelo MySQL, onde nesse caso é o 1062, que significa "Duplicate entry"
+            if e.errno == 1062: 
+                return False
+            
+            print(f"Erro ao cadastrar categoria (SQL/DB): {e}")
+            return False
+
         except Exception as e:
             print(f"Erro inesperado no cadastro de tipo: {e}")
             return False
