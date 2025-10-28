@@ -207,3 +207,37 @@ class Estante:
         conexao.close()
 
         return resultado
+    
+    # Busca o nome da estante desejada no banco de dados
+    def buscar_nome_estante(cod_estante):
+        try:
+            conexao = Conection.create_connection()
+
+            if not conexao:
+                return "Estante" # Retorna um nome padrão em caso de erro
+
+            cursor = conexao.cursor()
+            
+            # Buscar o nome da estante no banco
+            sql = "SELECT nome FROM estante WHERE cod_estante = %s"
+            valores = (cod_estante,)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchone()
+            
+            if resultado:
+                # Retorna o primeiro elemento da tupla (o nome da estante)
+                return resultado[0]
+            else:
+                return "Estante Não Encontrada"
+
+        except Error as e:
+            print(f"Erro ao buscar nome da estante: {e}")
+            return "Erro de Busca"
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
