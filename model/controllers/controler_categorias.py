@@ -105,25 +105,42 @@ class Categoria:
 
     # Recupera as categorias registradas anteriormente
     def recuperar_categoria(cpf):
-        
-        conexao = Conection.create_connection()
 
-        cursor = conexao.cursor(dictionary = True) 
-        
-        sql = """SELECT cod_categoria, nome, data_hora 
-                 FROM categoria
-                 WHERE cpf = %s;"""
-        
-        valor = (cpf,)
+        try:
+            conexao = Conection.create_connection()
+            
+            if not conexao:
+                print("Falha ao estabelecer conexão com o banco de dados.")
+                return [] # Retorna lista vazia em caso de falha de conexão
 
-        cursor.execute(sql, valor)
+            cursor = conexao.cursor(dictionary = True) 
+            
+            sql = """SELECT cod_categoria, nome, data_hora 
+                    FROM categoria
+                    WHERE cpf = %s;"""
+            
+            valor = (cpf,)
 
-        resultado = cursor.fetchall()
+            cursor.execute(sql, valor)
 
-        cursor.close()
-        conexao.close()
+            resultado = cursor.fetchall()
+            
+            return resultado 
 
-        return resultado
+        # Trata os erros do Banco de dados e retorna uma lista vazia em caso de erro 
+        except Error as e:
+            print(f"Erro no banco de dados ao recuperar categorias: {e}")
+            return [] 
+
+        except Exception as e:
+            print(f"Erro inesperado ao recuperar categorias: {e}")
+            return [] 
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
     # Conexao com o banco de dados para excluir uma categoria
     def remover_categoria(cod_categoria):
