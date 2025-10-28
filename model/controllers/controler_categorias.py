@@ -240,26 +240,43 @@ class Categoria:
     # Conexao com o banco de dados para criar um tipo com base em uma categoria
     def cadastrar_tipo_categoria(nome, cpf, cod_categoria):
 
-        data_hora = datetime.datetime.today()
+        # Validação de campo vazio, não permitindo que a categoria seja cadastrada sem escrever um nome 
+        # O strip() remove espaços em branco no início e fim.
+        if not nome or not nome.strip():
+            return False
+
+        data_hora = datetime.datetime.now()
+
+        nome_formatado = nome.upper().strip() 
+        
+        try:
+            conexao = Conection.create_connection()
             
-        conexao = Conection.create_connection()
+            if not conexao:
+                return False
 
-        cursor = conexao.cursor()
+            cursor = conexao.cursor()
 
-        sql = """INSERT INTO tipo (
-                        nome, data_hora, cpf, cod_categoria)
-                    VALUES (
-                        %s, %s, %s, %s)"""
+            sql = """INSERT INTO tipo (
+                            nome, data_hora, cpf, cod_categoria)
+                        VALUES (
+                            %s, %s, %s, %s)"""
 
-        nome = nome.upper()
-        valores = (nome, data_hora, cpf, cod_categoria)
+            valores = (nome_formatado, data_hora, cpf, cod_categoria)
 
-        cursor.execute(sql, valores)
+            cursor.execute(sql, valores)
 
-        conexao.commit()
+            conexao.commit()
 
-        cursor.close()
-        conexao.close()
+        except Exception as e:
+            print(f"Erro inesperado no cadastro de tipo: {e}")
+            return False
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
     # Recupera os tipos registradas anteriormente
     def recuperar_tipo(cpf):
