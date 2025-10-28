@@ -813,8 +813,16 @@ def adicionar_produto_pedido(cod_produto):
 
 @app.route("/pedido/compra")
 def pedido_compra():
-
-    return render_template("pagina_pedido_compra.html")
+    itens_pedido = Pedido.buscar_itens_pedido()
+    quantidade=0
+    subtotal=0
+    for item in itens_pedido:
+        quantidade+=item["quantidade"]
+        subtotal+=item["valor"]*item["quantidade"]
+        imagem_blob=item["imagem"]
+        imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+        item["imagem"]=imagem_base64
+    return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal)
 
 # HISTÓRICO DO PEDIDO DE COMPRA -------------------------------------------------------------------------------------------------------
 
