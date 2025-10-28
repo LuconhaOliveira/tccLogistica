@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="card-body-right">
-                                <span class="material-symbols-outlined">delete</span>
+                                <a href="/post/remover/produto/pedido/{{item.cod_produto}}"><span class="material-symbols-outlined">delete</span></a>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
 
             <div class="div-info">
                 <p>Quantidade: {{quantidade}}</p>
-                <p>Subtotal: {{subtotal}}</p>
+                <p>Subtotal: {{"%.2f"|format(subtotal)}}</p>
             </div>
 
         </div>
