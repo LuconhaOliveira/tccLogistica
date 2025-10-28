@@ -812,21 +812,28 @@ def adicionar_produto_pedido(cod_produto):
 
 @app.route("/pedido/compra")
 def pedido_compra():
-    print(Pedido.verificar_pedido_ativo()[0])
-    if Pedido.verificar_pedido_ativo()[0]:
-        itens_pedido = Pedido.buscar_itens_pedido()
-        quantidade=0
-        subtotal=0
-        for item in itens_pedido:
-            quantidade+=item["quantidade"]
-            subtotal+=item["valor"]*item["quantidade"]
-            imagem_blob=item["imagem"]
-            imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
-            item["imagem"]=imagem_base64
-        cod_pedido=Pedido.verificar_pedido_ativo()[1]
-        return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal, cod_pedido=cod_pedido)
+
+    if "cpf" in session:
+        if Pedido.verificar_pedido_ativo()[0]:
+            itens_pedido = Pedido.buscar_itens_pedido()
+            print(itens_pedido)
+            if itens_pedido:
+                quantidade=0
+                subtotal=0
+                for item in itens_pedido:
+                    quantidade+=item["quantidade"]
+                    subtotal+=item["valor"]*item["quantidade"]
+                    imagem_blob=item["imagem"]
+                    imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+                    item["imagem"]=imagem_base64
+                cod_pedido=Pedido.verificar_pedido_ativo()[1]
+                return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal, cod_pedido=cod_pedido)
+            else:
+                return render_template("pagina_pedido_compra.html")
+        else:
+            return render_template("pagina_pedido_compra.html")
     else:
-        return render_template("pagina_pedido_compra.html")
+        return redirect(url_for('pagina_logar'))
 
 # EXCLUSÃO DE PRODUTO DO PEDIDO DE COMPRA ------------------------------------------------------------------------------------#
 
