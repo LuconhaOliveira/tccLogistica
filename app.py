@@ -7,8 +7,8 @@ from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
-import base64
-import base64
+from model.controllers.controller_pedido import Pedido
+
 
 app = Flask(__name__)
 
@@ -594,6 +594,10 @@ def adicionar_estante():
 
 @app.route("/estante/<id>")
 def estante_especifica(id):
+
+    # Busca o nome da estante selecionada
+    nome_estante = Estante.buscar_nome_estante(id) 
+
     produtos = Estante.buscar_estante(id)
     nome = session['nome']
     print(produtos)
@@ -608,7 +612,7 @@ def estante_especifica(id):
                 imagens_base64.append(base64.b64encode(imagem_blob).decode('utf-8'))
 
     # A correção está aqui:
-    return render_template('pagina_consultar_produtos.html',nome=nome, produtos=produtos, imagens_base64=imagens_base64, cod_estante=id)
+    return render_template('pagina_consultar_produtos.html',nome=nome, produtos=produtos, imagens_base64=imagens_base64, cod_estante=id, nome_estante = nome_estante)
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
@@ -786,6 +790,26 @@ def excluir_historico_alteracao():
     return redirect("/historico/alteracoes")
 
 # PEDIDO DE COMPRA -------------------------------------------------------------------------------------------------------
+
+# CRIAÇÃO E ADIÇÃO AO PEDIDO DE COMPRA ------------------------------------------------------------------------------------#
+
+@app.route("/post/pedido/<cod_produto>", methods=['POST'])
+def adicionar_produto_pedido(cod_produto):
+
+    # Se o CPF estiver na sessão
+    if "cpf" in session:
+        quantidade=request.form.get('cadastro-quantidade')
+        (ativo,cod_pedido)=Pedido.verificar_pedido_ativo()
+        if not ativo:
+            cod_pedido=Pedido.criar_pedido()
+        print(ativo,cod_pedido,cod_produto,quantidade)
+        Pedido.adicionar_ao_pedido(cod_pedido,cod_produto,quantidade)
+        return redirect(url_for("principal"))
+
+
+    # Se não houver CPF na sessão, redireciona para a página de login
+    return redirect(url_for("pagina_logar"))
+
 
 @app.route("/pedido/compra")
 def pedido_compra():
