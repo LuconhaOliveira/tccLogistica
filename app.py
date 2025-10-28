@@ -824,6 +824,20 @@ def pedido_compra():
         item["imagem"]=imagem_base64
     return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal)
 
+# EXCLUSÃO DE PRODUTO DO PEDIDO DE COMPRA ------------------------------------------------------------------------------------#
+
+@app.route("/post/remover/produto/pedido/<cod_produto>")
+def remover_produto_pedido(cod_produto):
+
+    # Se o CPF estiver na sessão
+    if "cpf" in session:
+        Pedido.remover_produto(cod_produto)
+        return redirect(url_for("pedido_compra"))
+
+
+    # Se não houver CPF na sessão, redireciona para a página de login
+    return redirect(url_for("pagina_logar"))
+
 # HISTÓRICO DO PEDIDO DE COMPRA -------------------------------------------------------------------------------------------------------
 
 @app.route("/historico/pedido/compra")
