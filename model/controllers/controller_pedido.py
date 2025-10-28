@@ -117,5 +117,38 @@ class Pedido:
             if 'conexao' in locals() and conexao:
                 conexao.close()
 
+    def buscar_itens_pedido():
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor(dictionary=True)
+            
+            sql = """SELECT produto.cod_produto, produto.imagem, produto.nome, produto.valor, item_pedido.quantidade FROM pedido 
+INNER JOIN item_pedido ON item_pedido.cod_pedido = pedido.cod_pedido
+INNER JOIN produto ON produto.cod_produto=item_pedido.cod_produto 
+WHERE pedido.cpf=%s AND pedido.ativo=1;"""
+            valores = (session["cpf"],)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchall()
+
+            if resultado:
+                return resultado
+            else:
+                return None
+
+        except Error as e:
+            print(f"Erro ao validar login: {e}")
+            return None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
+
     
 #TODO: NA HORA DE FECHAR O PEDIDO LEMBRA DE MUDAR O ATIVO PARA 0
