@@ -7,11 +7,6 @@
     min-height: 100vh;
 }
 
-/* cor dos links e do span dentro do header para branco */
-.nav-link{
-    color: aliceblue !important;
-}
-
 /* Form */
 .container--main {
     flex: 1;
