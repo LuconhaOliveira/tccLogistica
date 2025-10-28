@@ -813,16 +813,21 @@ def adicionar_produto_pedido(cod_produto):
 
 @app.route("/pedido/compra")
 def pedido_compra():
-    itens_pedido = Pedido.buscar_itens_pedido()
-    quantidade=0
-    subtotal=0
-    for item in itens_pedido:
-        quantidade+=item["quantidade"]
-        subtotal+=item["valor"]*item["quantidade"]
-        imagem_blob=item["imagem"]
-        imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
-        item["imagem"]=imagem_base64
-    return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal)
+    print(Pedido.verificar_pedido_ativo()[0])
+    if Pedido.verificar_pedido_ativo()[0]:
+        itens_pedido = Pedido.buscar_itens_pedido()
+        quantidade=0
+        subtotal=0
+        for item in itens_pedido:
+            quantidade+=item["quantidade"]
+            subtotal+=item["valor"]*item["quantidade"]
+            imagem_blob=item["imagem"]
+            imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+            item["imagem"]=imagem_base64
+        cod_pedido=Pedido.verificar_pedido_ativo()[1]
+        return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal, cod_pedido=cod_pedido)
+    else:
+        return render_template("pagina_pedido_compra.html")
 
 # EXCLUSÃO DE PRODUTO DO PEDIDO DE COMPRA ------------------------------------------------------------------------------------#
 
@@ -833,6 +838,20 @@ def remover_produto_pedido(cod_produto):
     if "cpf" in session:
         Pedido.remover_produto(cod_produto)
         return redirect(url_for("pedido_compra"))
+
+
+    # Se não houver CPF na sessão, redireciona para a página de login
+    return redirect(url_for("pagina_logar"))
+
+# FINALIZAR PEDIDO ------------------------------------------------------------------------------------#
+
+@app.route("/post/finalizar/pedido/<cod_pedido>")
+def finalizar_pedido(cod_pedido):
+
+    # Se o CPF estiver na sessão
+    if "cpf" in session:
+        Pedido.remover_pedido(cod_pedido)
+        return redirect(url_for("nota_fiscal"))
 
 
     # Se não houver CPF na sessão, redireciona para a página de login
