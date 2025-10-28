@@ -3,126 +3,126 @@
 {% block titulo %}Visualizar produtos{% endblock %}
 
 {% block estilos %}
-    <!-- link css -->
-    <link rel="stylesheet" href="/static/styles/pagina_visualizar_produto.css">
+<!-- link css -->
+<link rel="stylesheet" href="/static/styles/pagina_visualizar_produto.css">
 {% endblock %}
 
 {% block conteudo %}
 
-    <!-- container geral / principal -->
-    <main class="container--main">
+<!-- container geral / principal -->
+<main class="container--main">
 
-        <section class="container--card-fundo">
+    <section class="container--card-fundo">
 
-            <!-- detalhe da prateleira -->
-            <div class="container--div-detalhe esquerda"></div>
+        <!-- detalhe da prateleira -->
+        <div class="container--div-detalhe esquerda"></div>
 
-            <!-- card -->
-            <div class="card mb-4"
-                style="width: 550px; min-height:550px; background-color: var(--grey-dark);">
+        <!-- card -->
+        <div class="card mb-4" style="width: 470px; min-height:550px; background-color: var(--grey-dark);">
 
-                <div class="row g-0">
+            <div class="row g-0">
 
-                    <section class="container--div-top">
+                <div class="col-md-0 img-produto">
+                    <figure>
+                        <!-- imagem -->
+                        {% if produto.imagem %}
+                        <img src="{{ produto.imagem }}" class="img-fluid rounded-start"
+                            alt="{{ produto.nome_produto }}">
+                        {% else %}
+                        <img src="https://portal.crea-sc.org.br/wp-content/uploads/2017/11/imagem-indisponivel-para-produtos-sem-imagem_15_5.jpg"
+                            class="img-fluid rounded-start" alt="Imagem indisponível">
+                        {% endif %}
+                    </figure>
+                </div>
 
-                        <div class="col-md-0">
+                <section class="container--div-top">
 
-                            <!-- imagem -->
-                            {% if produto.imagem %}
-                                <img src="{{ produto.imagem }}" class="img-fluid rounded-start" alt="{{ produto.nome_produto }}">
-                            {% else %}
-                                <img src="https://portal.crea-sc.org.br/wp-content/uploads/2017/11/imagem-indisponivel-para-produtos-sem-imagem_15_5.jpg" class="img-fluid rounded-start" alt="Imagem indisponível">
-                            {% endif %}
+                    <div class="col-md-0">
+
+                        <div class="card-body" style="background-color: var(--);">
+
+                            <!-- nome do produto -->
+                            <p class="card-text"><strong>Nome:</strong> {{ produto.nome_produto }}</p>
+
+                            <!-- campo de selecionar linha da estante -->
+                            <p class="card-text"><strong>Linha:</strong> {{ produto.linha }}</p>
+
+                            <!-- SKU -->
+                            <p class="card-text"><strong>SKU:</strong> {{ produto.sku }}</p>
+
+                            <!-- campo de selecionar coluna da estante  -->
+                            <p class="card-text"><strong>Coluna:</strong> {{ produto.coluna }}</p>
+
+                            <!-- quantidade de produtos existentes -->
+                            <p class="card-text"><strong>Qntd:</strong> {{ produto.quantidade }}</p>
+
+                            <p class="card-text"><strong>Categoria:</strong> {{ produto.nome_categoria }}</p>
+
+                            <!-- preço do produto -->
+                            <p class="card-text"><strong>R$</strong> {{ produto.valor }}</p>
+
+                            <!-- campo de tipos de categoria -->
+                            <p class="card-text"><strong>Tipo:</strong> {{ produto.nome_tipo }}</p>
+
+                            <!-- campo de nome da estante -->
+                            <p class="card-text"><strong>Estante:</strong> {{ produto.nome_estante }}</p>
+
+                            <!-- CARACTERÍSTICAS (NOVO CÓDIGO AQUI) -->
+                            <p class="card-text text-caracteristicas"><strong>Características: </strong>
+                                {% if produto.caracteristicas %}
+                                <!-- Itera sobre a lista de características -->
+                                {% for carac in produto.caracteristicas %}
+
+                                <span>• {{ carac.nome_caracteristica }}</span>{% if not loop.last %}{% else %}{% endif %}
+                                {% endfor %}
+                                {% else %}
+                                    <span>Nenhuma.</span>
+                                {% endif %}
+                            </p>
+                            <!-- FIM DO NOVO CÓDIGO DE CARACTERÍSTICAS -->
+
                         </div>
-                        
-
-                        <div class="col-md-0">
-                            
-                            <div class="card-body" style="background-color: var(--);">
-
-                                <!-- nome do produto -->
-                                <p class="card-text">Nome: {{ produto.nome_produto }};</p>
-
-                                <!-- SKU -->
-                                <p class="card-text">SKU: {{ produto.sku }};</p>
-
-                                <!-- quantidade de produtos existentes -->
-                                <p class="card-text">Qntd: {{ produto.quantidade }};</p>
-
-                                <!-- preço do produto -->
-                                <p class="card-text">R$ {{ produto.valor }};</p>
-
-                                <!-- ENDEREÇAMENTO -->
-
-                                <!-- campo de nome da estante -->
-                                <p class="card-text">Estante: {{ produto.nome_estante }};</p>
-                                
-                                <!-- campo de selecionar coluna da estante  -->
-                                <p class="card-text">Coluna: {{ produto.coluna }};</p>
-
-                                <!-- campo de selecionar linha da estante -->
-                                <p class="card-text">Linha: {{ produto.linha }};</p>
-
-                                <!-- CATEGORIAS -->
-
-                                <p class="card-text">Categoria: {{ produto.nome_categoria }};</p>
-
-                                <!-- campo de tipos de categoria -->
-                                <p class="card-text">Tipo: {{ produto.nome_tipo }};</p>
-
-                                <!-- CARACTERÍSTICAS (NOVO CÓDIGO AQUI) -->
-                                <p class="card-text">Características: 
-                                    {% if produto.caracteristicas %}
-                                        <!-- Itera sobre a lista de características -->
-                                        {% for carac in produto.caracteristicas %}
-                                            {{ carac.nome_caracteristica }}{% if not loop.last %};{% else %}.{% endif %}
-                                        {% endfor %}
-                                    {% else %}
-                                        Nenhuma.
-                                    {% endif %}
-                                </p>
-                                <!-- FIM DO NOVO CÓDIGO DE CARACTERÍSTICAS -->
-
-                            </div>
-                            
-                        </div>
-
-                    </section>
-
-                    <!-- descrição -->
-                    <div class="container--div-descricao">
-
-                        <p class="card-text descricao">{{ produto.descricao }}</p>
 
                     </div>
 
-                    <form class="container--bottom-card" method="post" action="/post/pedido/{{produto.cod_produto}}">
+                </section>
 
-                        <button class="btn btn-primary" type="submit">Incluir no pedido de compra</button>
+                <!-- descrição -->
+                <div class="container--div-descricao">
 
-                        <!-- campo de quantidade -->
-                        <div class="mb-0">
-                            <!-- quantidade: backend do cadastro -->
-                            <input name="cadastro-quantidade" type="number" class="form-control"
-                                id="exampleInputQuantidade" min="0" value="0">
-                        </div>
-
-                        <a href="/pagina/editar/produto/{{produto.cod_produto}}"><span class="material-symbols-outlined">edit</span> </a>
-
-                        <a href="/post/produto/remover/{{produto.cod_produto}}"><span class="material-symbols-outlined">delete</span></a>
-
-                    </form>
+                    <p class="card-text descricao">{{ produto.descricao }}</p>
 
                 </div>
+
+                <form class="container--bottom-card" method="post" action="/post/pedido/{{produto.cod_produto}}">
+
+                    <button class="btn btn-primary" type="submit">Incluir no pedido de compra</button>
+
+                    <!-- campo de quantidade -->
+                    <div class="mb-0">
+                        <!-- quantidade: backend do cadastro -->
+                        <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade"
+                            min="0" value="0">
+                    </div>
+
+                    <a href="/pagina/editar/produto/{{produto.cod_produto}}"><span
+                            class="material-symbols-outlined">edit</span> </a>
+
+                    <a href="/post/produto/remover/{{produto.cod_produto}}"><span
+                            class="material-symbols-outlined">delete</span></a>
+
+                </form>
+
             </div>
+        </div>
 
-            <!-- detalhe da prateleira -->
-            <div class="container--div-detalhe direita"
-                style=" background-image: url(/static/img/design-de-plano-de-fundo-texturizado-liso-cinza.jpg);">
-            </div>
+        <!-- detalhe da prateleira -->
+        <div class="container--div-detalhe direita"
+            style=" background-image: url(/static/img/design-de-plano-de-fundo-texturizado-liso-cinza.jpg);">
+        </div>
 
-        </section>
+    </section>
 
-    </main>
+</main>
 
 {% endblock %}
