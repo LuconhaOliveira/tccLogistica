@@ -126,28 +126,47 @@ class Categoria:
     # Verifica se o Tipo está ligado a alguma Estante ou Produto
     def verificar_dependencia_tipo(cod_tipo):
 
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
 
-        cursor = conexao.cursor()
+            cursor = conexao.cursor() 
 
-        # Verifica se o tipo está em alguma categoria
-        sql = """
-            SELECT EXISTS (
-                SELECT 1 FROM caracteristica WHERE cod_tipo = %s
-            ) AS dependencia;
-        """
+            # Verifica se o tipo está em alguma categoria
+            sql = """
+                SELECT EXISTS (
+                    SELECT 1 FROM caracteristica WHERE cod_tipo = %s
+                ) AS dependencia;
+            """
 
-        valor = (cod_tipo,)
-        
-        # Executa a consulta
-        cursor.execute(sql, valor)
-        
-        # O resultado será (1,) se houver dependência, ou (0,) se não houver
-        dependencia = cursor.fetchone()[0] == 1
+            valor = (cod_tipo,)
+            
+            # Executa a consulta
+            cursor.execute(sql, valor)
+            
+            resultado = cursor.fetchone()
 
-        cursor.close()
-        conexao.close()
-        return dependencia # Retorna True se houver dependência
+            if resultado:
+                # O resultado será (1,) se houver dependência, ou (0,) se não houver
+                dependencia = resultado[0] == 1
+
+            return dependencia # Retorna True se houver dependência
+
+        except Error as e:
+            # Erro no banco de dados (ex: tabela inexistente, erro de sintaxe)
+            print(f"Erro no banco de dados ao verificar dependência do tipo: {e}")
+            return True 
+
+        except Exception as e:
+            # Erros inesperados (ex: falha de conexão)
+            print(f"Erro inesperado ao verificar dependência do tipo: {e}")
+            return True 
+
+        finally:
+            # Garante que o cursor e a conexão sejam fechados
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
     # Conexao com o banco de dados para criar um tipo com base em uma categoria
     def cadastrar_tipo_categoria(nome, cpf, cod_categoria):
