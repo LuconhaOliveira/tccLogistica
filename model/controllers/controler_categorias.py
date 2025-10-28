@@ -241,13 +241,13 @@ class Categoria:
    # Verifica se a Caracteristica está ligada a alguma Estante ou Produto
     @staticmethod
     def verificar_dependencia_caracterisica(cod_caracteristica):
-        conexao = None
-        cursor = None
+
         try:
             conexao = Conection.create_connection()
+
             cursor = conexao.cursor()
 
-            # CORREÇÃO: Verifica a tabela de junção PRODUTO_CARACTERISTICA
+            # Verifica se a caracteristica está na tabela de produto_caracteristica
             sql = """
                 SELECT EXISTS (
                     SELECT 1 FROM produto_caracteristica WHERE cod_caracteristica = %s
@@ -258,19 +258,31 @@ class Categoria:
             
             # Executa a consulta
             cursor.execute(sql, valor)
+
+            resultado = cursor.fetchone()
             
-            # O resultado será (1,) se houver dependência, ou (0,) se não houver
-            dependencia = cursor.fetchone()[0] == 1
-            return dependencia # Retorna True se houver dependência
+            if resultado:
+                # O resultado será (1,) se houver dependência, ou (0,) se não houver
+                dependencia = resultado[0] == 1
+
+                return dependencia # Retorna True se houver dependência
+
+        except Error as e:
+            # Erro no banco de dados (ex: tabela inexistente, erro de sintaxe)
+            print(f"Erro no banco de dados ao verificar dependência da caracteristica: {e}")
+            return True 
 
         except Exception as e:
-            # Em caso de erro na DB, retorna True por segurança (dependência)
+            # Erros inesperados (ex: falha de conexão)
+            print(f"Erro inesperado ao verificar dependência da caracteristica: {e}")
             return True 
 
         finally:
-            if cursor: cursor.close()
-            if conexao: conexao.close()
-
+                # Garante que o cursor e a conexão sejam fechados
+                if 'cursor' in locals() and cursor:
+                    cursor.close()
+                if 'conexao' in locals() and conexao:
+                    conexao.close()
     
     # Conexao com o banco de dados para criar uma caracteristica com base no tipo
     @staticmethod
