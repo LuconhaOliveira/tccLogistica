@@ -199,7 +199,7 @@ input[type="radio" i]{
 /* Texto de info dentro do btn ----------------------------------------- */
 
 #botaoToggleQuestionTutorialInfoTxt{
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: #9C9C9Cff;
     color: var(--white);
     font-family: var(--font-outfit);
     padding: 15px;
@@ -268,17 +268,165 @@ input[type="radio" i]{
 
 /* -------------------------------------------------- */
 
-/* Formatando infos pro usuario */
-
-
-.details-infoTxt h3{
-
-
+.details-infoTxt {
+    font-family:var(--font-outfit);
+    background-color: var(--white);
+    border: 1px solid var(--orange-color);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin: 1rem 0; /* Espaçamento externo */
 }
 
-.section-p--infoTxt .span-h1--tituloInfo{
+.details-infoTxt summary {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    background-color: var(--orange-color);
+    color: var(--white);
+    list-style: none;
+    outline: none;
+    transition: background-color 0.2s ease;
+}
+
+.details-infoTxt summary:hover {
+    background-color: var(--orange-color);
+}
+
+/* seta pra webkit */
+.details-infoTxt summary::-webkit-details-marker {
+    color: #FFFFFF;
+    font-size: 0.8em;
+    margin-right: 0.5rem;
+}
+
+/* seta pra firefox */
+.details-infoTxt summary::marker {
+    color: #FFFFFF;
+    font-size: 0.8em;
+    margin-right: 0.5rem;
+}
+
+.details-infoTxt summary h2 {
+    display: inline;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #FFFFFF; 
+    margin: 0; 
+}
+
+.details-p--info1FluxoSistema {
+    padding: 1.25rem 1.5rem;
+    background-color: var(--white);
+    color: var(--grey-dark2);
+    border-top: 1px solid var(--white);
+}
+
+.details-p--info1FluxoSistema h3 {
+    color: var(--grey-dark2);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.details-p--info1FluxoSistema p {
+    color: #6E6E6E; /* Cinza escuro */
+    font-size: 0.95rem;
+    margin: 0.5rem 0 0.5rem 1.5rem; /* Indentação para os itens */
+    line-height: 1.5; /* Espaçamento entre linhas */
+}
+
+
+
+.details-infoTxt summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  cursor: pointer;
+  list-style: none;
+}
+
+/* Esconde o marcador padrão */
+.details-infoTxt summary::-webkit-details-marker {
+  display: none;
+}
+
+.details-p--info1FluxoSistema p {
+    color: var(--grey-dark2);
+    font-size: 0.95rem;
+    margin: 0.5rem 0 0.5rem 1.5rem;
+    line-height: 1.6;
+}
+
+/* Add uma seta ficticia, que da pra personalizar */
+.details-infoTxt summary::before {
+  content: "▶";
+  display: inline-block;
+  margin-bottom: 8px;
+  transition: transform 0.2s ease;
+}
+
+/* Animação da seta */
+.details-infoTxt[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.details-infoTxt section {
+  padding: 1.25rem 1.5rem;
+  background-color: var(--white);
+  color: var(--grey-dark2); 
+  line-height: 1.6; 
+}
+
+
+.details-infoTxt h3 {
+  font-size: 1.15rem;
+  font-weight: 700; /* Negrito */
+  color: #222; /* Cor escura (próximo ao var(--grey-dark2)) */
+  margin-top: 1.75rem; /* Espaçamento acima do título */
+  margin-bottom: 0.75rem; /* Espaçamento abaixo do título */
+  border-bottom: 1px solid #eee; /* Linha sutil de separação */
+  padding-bottom: 0.25rem;
+}
+
+/* Remove a margem superior do primeiro H3 para não ficar muito distante do <summary> */
+.details-infoTxt section > h3:first-of-type {
+  margin-top: 0;
+}
+
+/* Estilo para os subtítulos secundários (H4 - Exemplo) */
+.details-infoTxt h4 {
+  font-size: 1.05rem;
+  font-weight: 700; /* Negrito */
+  color: #444;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilo para os parágrafos de texto normais */
+.details-infoTxt p {
+  font-size: 0.95rem;
+  color: #6E6E6E; /* Tom de cinza (como no original) */
+  margin-top: 0;
+  margin-bottom: 1rem; /* Espaço padrão abaixo do parágrafo */
+}
+
+/* Estilo especial para os parágrafos de "Exemplo" (que vêm logo após um H4) */
+.details-infoTxt h4 + p {
+  background-color: #f7f7f7; /* Fundo levemente acinzentado */
+  border-left: 3px solid #ddd; /* Borda esquerda para destacar */
+  padding: 1rem;
+  margin-left: 0.5rem; /* Leve indentação */
+  font-family: 'Courier New', Courier, monospace; /* Fonte monoespaçada para exemplos */
+  font-size: 0.9rem;
+  color: #555;
+  white-space: pre-line; /* Preserva as quebras de linha do HTML */
+}
+/* .section-p--infoTxt .span-h1--tituloInfo{
     font-family: var(--font-cinzel);
     font-size: 30px;
     text-align: center;
-    color: #ef792f52;
-}
+    margin-top: 10px;
+    margin-bottom: 25px;
+    color: var(--white);
+} */
