@@ -1,39 +1,9 @@
-/* Header para todas as telas */
-.container--header {
-    width: 100%;
-    background-color: var(--grey-dark);
-    padding: 10px 20px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-family: var(--font-outfit);
-}
-
-/* Logo para todas as telas */
-.img--InStock-logo {
-    width: 120px;
-}
-
-/* Footer para todas as telas */
-.container--footer{
-    width: 100%;
-    background-color: var(--grey-dark);
-    padding: 10px 20px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-/* --------------------------------------------------------- */
-
 /* Card geral */
 .card-filtrosCategoria{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 789px;
+    height: auto;
     width: 180px;
     background-color: var(--grey-light);
     text-align:left ;
@@ -188,4 +158,50 @@ input[type="radio" i]{
     font-family: var(--font-outfit);
     
     margin-top: 10px; 
+}
+
+/* --------------------------------------------------------------------- */
+
+/* Card img estante */
+
+.container--estantesCriadas{
+    display: grid;
+    margin-top: 30px ;
+
+
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto ;
+
+    margin-left: auto;
+    margin-right: auto ;
+
+    gap: 30px;
+
+    height: 100%;
+
+}
+
+.container--estantesCriadas a{
+    color:  var(--black);align-items: flex-start;
+}
+
+
+.container--estantesCriadas div{
+    display: flex;
+    width: 200px;
+    height: 300px;
+
+    justify-content: center;
+    align-items: flex-start;
+
+    background-image: url(/static/img/fundo-estante-bronze.jpg);
+}
+
+.container--main{
+    display: flex;
+    align-items: stretch;
+    flex-direction: row;
+    height: auto;
+    width: auto;
+
 }

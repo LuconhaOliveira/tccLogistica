@@ -45,7 +45,7 @@ senhaForm.addEventListener('submit', function(event) {
             Swal.fire({
                 title: 'Sucesso!',
                 // Informa o usuário sobre o redirecionamento automático
-                text: `${data.message}! Redirecionando para o login.`, 
+                text: `${data.message}`, 
                 icon: 'success',
                 // --- Configurações para Alerta Automático ---
                 timer: 1000,           // Define o tempo do timer (3 segundos)

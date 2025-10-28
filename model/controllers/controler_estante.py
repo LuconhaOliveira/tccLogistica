@@ -13,7 +13,7 @@ class Estante:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = "SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria FROM estante " \
+            sql = "SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria,estante.cod_categoria FROM estante " \
             "INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria " \
             "WHERE estante.cpf= %s"
             valores = (session["cpf"],)
@@ -47,8 +47,7 @@ class Estante:
             
             sql = """SELECT produto.cod_produto, produto.nome, produto.imagem, produto.coluna, produto.linha
                         FROM produto INNER JOIN usuario ON usuario.cpf = produto.cpf
-                        INNER JOIN armazenamento ON armazenamento.cod_produto = produto.cod_produto
-                        INNER JOIN estante ON armazenamento.cod_estante = estante.cod_estante
+                        INNER JOIN estante ON produto.cod_estante = estante.cod_estante
                         WHERE usuario.cpf= %s and estante.cod_estante= %s"""
             valores = (session["cpf"],id)
             
@@ -79,9 +78,9 @@ class Estante:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = """SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria FROM estante
+            sql = """SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria, estante.cod_categoria FROM estante
             INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria
-            WHERE estante.cpf= %s AND categoria.nome=%s"""
+            WHERE estante.cpf= %s AND estante.cod_categoria=%s"""
             valores = (session["cpf"],filtro)
             
             cursor.execute(sql, valores)
@@ -105,43 +104,89 @@ class Estante:
 
     # Conexao com o banco de dados para criar uma nova estante
     def cadastrar_estante(nome, cpf, cod_categoria):
+        try:
 
-        data_hora = datetime.datetime.today()
-            
+            data_hora = datetime.datetime.today()
+                
+            conexao = Conection.create_connection()
+
+            cursor = conexao.cursor()
+
+            sql = """INSERT INTO estante (
+                            nome, data_hora, cpf, cod_categoria)
+                        VALUES (
+                            %s, %s, %s, %s)"""
+
+            nome = nome.upper()
+            valores = (nome, data_hora, cpf, cod_categoria)
+
+            cursor.execute(sql, valores)
+
+            conexao.commit()
+
+            cursor.close()
+            conexao.close()
+            return True
+        except Exception as e:
+            # Loga o erro e retorna False para o Flask detectar falha
+            print(f"Erro ao cadastrar estante no banco de dados: {e}")
+
+            try:
+                conexao.rollback()
+            except:
+                pass
+
+        return False
+
+    # Verifica se a Estante está ligada a algum produto
+    def verificar_dependencia_estante(cod_estante):
+
         conexao = Conection.create_connection()
 
         cursor = conexao.cursor()
 
-        sql = """INSERT INTO estante (
-                        nome, data_hora, cpf, cod_categoria)
-                    VALUES (
-                        %s, %s, %s, %s)"""
+        # Verifica se a estante está em algum produto
+        sql = """
+            SELECT EXISTS (
+                    SELECT 1 FROM produto WHERE cod_estante = %s  
+                ) AS dependencia;
+        """
 
-        nome = nome.upper()
-        valores = (nome, data_hora, cpf, cod_categoria)
-
+        valores = (cod_estante,)
+        
+        # Executa a consulta
         cursor.execute(sql, valores)
-
-        conexao.commit()
+        
+        # O resultado será (1,) se houver dependência, ou (0,) se não houver
+        dependencia = cursor.fetchone()[0] == 1
 
         cursor.close()
         conexao.close()
+        return dependencia # Retorna True se houver dependência    
 
     # Conexao com o banco de dados para excluir uma estante
     def remover_estante(cod_estante):
 
-        conexao = Conection.create_connection()
+        # Verifica se a estante possui uma dependencia 
+        if  Estante.verificar_dependencia_estante(cod_estante):
+            # Retorna se a remoção falhou por conta da dependência
+            return False # Não pode excluir
 
+        # Se não possuir uma dependencia, executa a exclusão da estante
+        conexao = Conection.create_connection()
         cursor = conexao.cursor()
 
         sql = "DELETE FROM estante WHERE cod_estante = %s;"
 
-        cursor.execute(sql, (cod_estante,))
+        valor = (cod_estante,)
+
+        cursor.execute(sql, valor)
+
         conexao.commit()
         
         cursor.close()
         conexao.close()
-        return True 
+        return True
     
     # Recupera as estantes registradas anteriormente
     def recuperar_estante(cpf):

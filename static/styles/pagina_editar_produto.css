@@ -8,7 +8,6 @@
 
     font-family: var(--font-outfit);
     font-size: var(--font-size-24);
-    font-weight: 600;
 }
 
 /* container principal geral para todas as telas */
@@ -22,75 +21,53 @@
 }
 
 .container--card-fundo{   
-
     border-radius: 20px;
-
     width: 1400px;
     height: auto;
-    
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-
     align-items: center; 
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
-    
+    background-color: var(--grey-dark2); 
 }
 
 .card{
-
     margin: 30px 0px 30px 0px;
     box-shadow: 0 6px 44px rgba(0, 0, 0, 0.6);
-
 }
 
 /* detalhes da gaveta */
 .container--div-detalhe{
-
     border-radius: 15px;
-
     width: 300px;
     height: 85%;
-
     margin: 50px;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
+    background-color: var(--grey-dark);
 }
 
 .container--div-top{
-
     width: 100%;
-
     display: grid;
     grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
-
-    align-items: center;
-    justify-content: center;
-    
     border-radius: 20px;
 }
 
 .card-body{
-
     margin-left: 8px;
 }
 
 /* container da descrição */
 .container--div-descricao{
-
-    background-color: var(--orange-light-color);
     border-radius: 15px;
-
     text-align: center;
     margin: 3% 5% 1% 5% !important;
-
     width: 90% !important;
     height: auto;
-     
 }
 
 .row{
-
     display: block !important;
-
 }
 
 /* parte de baixo do container de produto */
@@ -101,20 +78,17 @@
 }
 
 /* icones */
-.material-symbols-outlined{
+main .material-symbols-outlined{
     color: var(--black);
 }
 
 /* tamanho dos icones */
 .container--bottom-card .material-symbols-outlined {
-
     font-size: larger;
-
 }
    
 /* botao de quantidade */
 .mb-0 .form-control{
-
     width: 120px !important;
     height: 50px !important;
     font-size: var(--font-size-20) !important;
@@ -123,44 +97,42 @@
 
 /* botao de quantidade */
 .card-body .form-control{
-
     width: 100% !important;
     height: 50px !important;
     font-size: var(--font-size-20) !important;
     font-weight: bold !important;
+    border: none !important;
 }
 
 .form-select{
-
     width: 100% !important;
     height: 50px !important;
     font-size: var(--font-size-20) !important;
     font-weight: 500 !important;
-
+    border: none !important;
 }
 
 /* Botão de Login */
 button[type="submit"] {
 
     background-color: var(--grey-light);
-    color: var(--dark);
+    color: var(--black) !important;
     font-size: var(--font-size-20) !important;
-    
     font-weight: bold;
     border: none;
     border-radius: 12px;
     width: 180px;
-    height: 70px;
+    height: 50px;
     cursor: pointer;
-    padding: 6px;
-    margin: 10px;
+    padding: 4px;
+    margin: 20px;
     transition: background 0.5s ;
     transition: transform 0.3s ease-out;
 }
 
 button[type="submit"]:hover {
     background-color: var(--orange-color) !important;
-    color: var(--white);
+    color: var(--white) !important;
     transform: scale(1.02);
 }
 
@@ -170,61 +142,77 @@ figure{
 }
 
 .img-fluid{
-
     height: 300px !important;
     width: 290px !important;
     border-radius: 10px;
-
     margin: 8px;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
-
 }
 
 .figcaption-descricao{
-
-    background-color: var(--orange-light-color);
+    background-color: var(--white);
     border-radius: 20px;
     text-align: center;
-
-    width: 98%;
+    width: 96%;
     margin: 8px;
+    font-weight: bold !important;
 }
 
 .container--main{
-
     flex-direction: column;
-
 }
 
 .h1-titulo{
-
     font-family: var(--font-cinzel);
     font-size: var(--font-size-30);
-
     margin: 0 !important;
 }
 
 .descricao .form-control{
-
     border-radius: 15px;
     margin: 3% 5% 1% 5% !important;
     width: 90% !important;
     height: auto;
     font-size: var(--font-size-20) !important;
     font-weight: bold !important;
-
+    border: none !important;
 }
 
 .container--div-titulo {
-
     display: flex;
     justify-content: center; 
     align-items: center; 
-
     margin: 1.5%;
 }
 
 .container--div-left{
-
     padding-bottom: 230px;
+}
+
+.container--div-left .form-control{
+    padding: 10px;
+    margin: 0px 10px 0px 10px;
+    width: 96% !important;
+}
+
+.mb-3 .form-select{
+    background-color: var(--orange-light-color);
+    font-weight: bold !important;
+}
+
+.form-select:focus{
+    background-color: var(--grey-light) !important;
+}
+
+.mb-3 .form-control{
+    background-color: var(--orange-light-color);
+    font-weight: bold !important;
+}
+
+.form-control:focus{
+    background-color: var(--grey-light) !important;
+}
+
+.img{
+    background-color: var(--grey-light) !important;
 }

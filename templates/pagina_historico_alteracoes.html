@@ -1,0 +1,49 @@
+{% extends "header_head.html" %}
+
+{% block titulo %}Pedido de Compra{% endblock %}
+
+{% block estilos %}
+    <!-- link css -->
+    <link rel="stylesheet" href="/static/styles/pagina_historico_alteracoes.css">
+{% endblock %}
+
+{% block conteudo %}
+
+    <!-- container geral / principal -->
+    <main class="container--main">
+
+        <div class="container--div-titulo">
+
+            <h1 class="h1-titulo">Histórico - Alterações de produtos e estantes</h1>
+
+        </div>
+
+        <div class="mb-3 form-check">
+            <form method="POST" action="/pagina/remover/historico/alteracoes">
+            <button type="submit" class="btn btn-primary">Limpar Histórico</button>
+            </form>
+        </div>
+
+        <section class="container--card">
+
+            {% for historico in alteracoes %}
+            <div class="card" style="width: 50rem;">
+
+                <div class="card-header">
+                    
+                    <p><strong>Alteração {{ historico.cod_alteracao }}</strong></p>
+                </div>
+                
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ historico.alteracao_realizada }}</li>
+                    <li class="list-group-item card-header"><p><strong>{{ historico.data_hora }}</strong></p></li>
+                    
+                </ul>
+                
+            </div>
+            {% endfor %}
+
+        </section>
+
+    </main>
+{% endblock %}

@@ -47,12 +47,14 @@ CREATE TABLE IF NOT EXISTS categoria (
     -- Chave primária: Identificador único e sequencial da categoria.
     cod_categoria INT PRIMARY KEY AUTO_INCREMENT,
     -- Nome da categoria. Utiliza VARCHAR(100) para flexibilidade.
-    nome VARCHAR(100) UNIQUE,
+    nome VARCHAR(100),
     -- Data e hora que a categoria foi cadastrada.
     data_hora DATETIME NOT NULL,
 	-- Chave estrangeira: Vincula a alteração ao usuário responsável.
     cpf VARCHAR(14) NOT NULL,
-    FOREIGN KEY (cpf) REFERENCES usuario (cpf)
+    FOREIGN KEY (cpf) REFERENCES usuario (cpf),
+    -- Garante que o 'nome' da categoria só é único em combinação com o 'cpf'.
+    UNIQUE (nome, cpf)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -82,7 +84,7 @@ CREATE TABLE IF NOT EXISTS alteracao_produto_estante (
     -- Chave primária: Identificador único do registro de alteração.
     cod_alteracao INT PRIMARY KEY AUTO_INCREMENT,
     -- Descrição detalhada da alteração realizada.
-    alteracao_realizada VARCHAR(255),
+    alteracao_realizada TEXT,
     -- Data e hora que a alteração foi registrada.
     data_hora DATETIME NOT NULL,
     -- Chave estrangeira: Vincula a alteração ao usuário responsável.
