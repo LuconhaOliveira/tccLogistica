@@ -594,6 +594,10 @@ def adicionar_estante():
 
 @app.route("/estante/<id>")
 def estante_especifica(id):
+
+    # Busca o nome da estante selecionada
+    nome_estante = Estante.buscar_nome_estante(id) 
+
     produtos = Estante.buscar_estante(id)
     print(produtos)
     imagens_base64 = []
@@ -607,7 +611,7 @@ def estante_especifica(id):
                 imagens_base64.append(base64.b64encode(imagem_blob).decode('utf-8'))
 
     # A correção está aqui:
-    return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64, cod_estante=id)
+    return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64, cod_estante=id, nome_estante = nome_estante)
     
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
