@@ -57,7 +57,7 @@
             <!-- form cadastrar catergoria -->
             <!-- action/method: backend do add categoria -->
             <form action="/post/cadastrar/categoria" method="post" class="container--form container--add-categoria">
-                <h2>Adicionar Categoria</h2>
+                <h2>1. Adicionar Categoria</h2>
 
                 <!-- nome da categoria -->
                 <div class="mb-3">
@@ -72,7 +72,7 @@
             </form>
 
             <form action="/post/cadastrar/tipo" method="post" class="container--form">
-                <h2>Adicionar Tipo</h2>
+                <h2>2. Adicionar Tipo</h2>
 
                 <!-- nome do tipo -->
                 <div class="mb-3">
@@ -102,7 +102,7 @@
             </form>
 
             <form action="/post/cadastrar/caracteristica" method="post" class="container--form" id="caracteristicaForm">
-                <h2>Adicionar Características</h2>
+                <h2>3. Adicionar Característica</h2>
 
                 <!-- nome do tipo -->
                 <div class="mb-3">
@@ -150,10 +150,14 @@
             <div class="container--exclusao">
                 <h2 class="titulo-exclusao">Excluir tipos</h2>
                 {% for tipos in tipo %}
+
                 <div class="container--exclusao-itens">
-                    <label for="">{{tipos.nome}}</label>
+                    <div>
+                       <label for="">{{tipos.nome}}</label>
+                    </div>
                     <a href="/post/remover/tipo/{{tipos.cod_tipo}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
+
                 {% endfor %}
             </div>
 
