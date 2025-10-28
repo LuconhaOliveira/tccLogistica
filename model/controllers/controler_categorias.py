@@ -53,27 +53,55 @@ class Categoria:
 
     # Conexao com o banco de dados para criar uma categoria
     def cadastrar_categoria(nome, cpf):
+        
+        # Validação de campo vazio, não permitindo que a categoria seja cadastrada sem escrever um nome 
+        # O strip() remove espaços em branco no início e fim.
+        if not nome or not nome.strip():
+            return False
 
-        data_hora = datetime.datetime.today()
+        data_hora = datetime.datetime.now()
+
+        nome_formatado = nome.upper().strip() 
+        
+        try:
+            conexao = Conection.create_connection()
             
-        conexao = Conection.create_connection()
+            if not conexao:
+                return False
 
-        cursor = conexao.cursor()
+            cursor = conexao.cursor()
 
-        sql = """INSERT INTO categoria (
+            sql = """INSERT INTO categoria (
                         nome, data_hora, cpf)
                     VALUES (
                         %s, %s, %s)"""
 
-        nome = nome.upper()
-        valores = (nome, data_hora, cpf)
+            valores = (nome_formatado, data_hora, cpf)
 
-        cursor.execute(sql, valores)
+            cursor.execute(sql, valores)
+            
+            conexao.commit()
+            
+            return True
 
-        conexao.commit()
+        except Error as e:
+            # Lógica para o nome duplicado da categoria 
+            # 'e.errno' é o código numérico de erro retornado pelo MySQL, onde nesse caso é o 1062, que significa "Duplicate entry"
+            if e.errno == 1062: 
+                return False
+            
+            print(f"Erro ao cadastrar categoria (SQL/DB): {e}")
+            return False
 
-        cursor.close()
-        conexao.close()
+        except Exception as e:
+            print(f"Erro inesperado no cadastro de categoria: {e}")
+            return False
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
     # Recupera as categorias registradas anteriormente
     def recuperar_categoria(cpf):
