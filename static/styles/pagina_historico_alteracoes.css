@@ -6,7 +6,6 @@
     min-height: 100vh;
     font-family: var(--font-outfit);
     font-size: var(--font-size-24);
-    font-weight: 400;
 }
 
 /* container principal geral para todas as telas */
@@ -18,6 +17,7 @@
     padding-top: 20px;
     flex-direction: column;
     align-items: center;
+    font-weight: 400;
 }
 
 /* container do titulo */
