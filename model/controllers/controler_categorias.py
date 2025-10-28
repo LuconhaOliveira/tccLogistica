@@ -149,22 +149,46 @@ class Categoria:
         if Categoria.verificar_dependencia_categoria(cod_categoria):
             # Retorna se a remoção falhou por conta da dependência
             return False # Não pode excluir
-
-        # Se não possuir uma dependencia, executa a exclusão da categoria
-        conexao = Conection.create_connection()
-        cursor = conexao.cursor()
-
-        sql = "DELETE FROM categoria WHERE cod_categoria = %s;"
-
-        valor = (cod_categoria,)
-
-        cursor.execute(sql, valor)
-
-        conexao.commit()
         
-        cursor.close()
-        conexao.close()
-        return True
+        # Se não possuir uma dependencia, executa a exclusão da categoria
+        try:
+                # Se não possuir dependência, executa a exclusão
+                conexao = Conection.create_connection()
+                
+                if not conexao:
+                    return False
+                cursor = conexao.cursor()
+
+                sql = "DELETE FROM categoria WHERE cod_categoria = %s;"
+
+                valor = (cod_categoria,)
+
+                cursor.execute(sql, valor)
+
+                conexao.commit()
+
+                return True
+            
+        except Error as e:
+            # Desfaz a exclusão em caso de erro (ex: falha inesperada no BD)
+            if conexao:
+                conexao.rollback()
+
+            print(f"Erro no banco de dados ao remover categoria: {e}")
+
+            return False
+
+        except Exception as e:
+            if conexao:
+                conexao.rollback()
+            print(f"Erro inesperado ao remover categoria: {e}")
+            return False
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
 # TIPO ------------------------------------------------------------------------------------------------------#
 
