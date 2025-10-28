@@ -52,12 +52,16 @@
         <div class="container--main-bottom">
 
             <div class="mb-3 form-check">
-                <a href=""><button type="submit" class="btn btn-primary">Finalizar Pedido</button></a>
+                <a href="/post/finalizar/pedido/{{cod_pedido}}"><button class="btn btn-primary">Finalizar Pedido</button></a>
             </div>
 
             <div class="div-info">
                 <p>Quantidade: {{quantidade}}</p>
+                {% if subtotal %}
                 <p>Subtotal: {{"%.2f"|format(subtotal)}}</p>
+                {% else %}
+                <p>Subtotal:</p>
+                {% endif %}
             </div>
 
         </div>
