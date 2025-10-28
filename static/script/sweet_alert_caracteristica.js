@@ -35,8 +35,8 @@ if (caracteristicaForm) {
                 
                 // --- SWEET ALERT AUTOMÁTICO (TIMER) ---
                 Swal.fire({
-                    title: 'Cadastro Realizado com Sucesso! 🎉',
-                    text: `${data.message}`,
+                    title: data.titulo || 'Sucesso!',
+                    text: `${data.mensagem}`, 
                     icon: 'success',
                     timer: 1500,                
                     timerProgressBar: true,     

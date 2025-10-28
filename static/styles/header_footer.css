@@ -33,6 +33,10 @@
 }
 
 .navbar-nav .nav-link.active, .nav-link{
-    color: var(--white);
+    color: var(--white) !important;
     padding: 0px !important;
+}
+
+.material-symbols-outlined{
+    font-weight: normal !important;
 }

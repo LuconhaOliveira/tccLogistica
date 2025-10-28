@@ -41,8 +41,8 @@ function alterar_filtros(filtros){
     let checkbox = '';
 
     filtros.forEach(filtro => {
-        checkbox += `<input type="radio" id=${filtro} name="filtro" value=${filtro}>
-                <label for=${filtro}>${filtro}</label><br />`;
+        checkbox += `<input type="radio" id=${filtro.cod_categoria} name="filtro" value=${filtro.cod_categoria}>
+                <label for=${filtro.cod_categoria}>${filtro.nome}</label><br />`;
     });
 
     checkbox+=`<button class="card-section--btnLimparFiltro" type="reset">Limpar filtro</button>`

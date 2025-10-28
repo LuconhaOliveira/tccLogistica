@@ -105,11 +105,10 @@ class ControleProduto:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = """SELECT produto.cod_produto,produto.imagem,produto.descricao,produto.nome AS produto,produto.sku,produto.quantidade,produto.valor,estante.nome AS estante,produto.coluna,produto.linha,categoria.nome AS categoria,tipo.nome AS tipo,caracteristica.nome AS caracteristica
+            sql = """SELECT produto.cod_produto,produto.imagem,produto.descricao,produto.nome AS produto,produto.sku,produto.quantidade,produto.valor,estante.nome AS estante,produto.coluna,produto.linha,categoria.nome AS categoria,tipo.nome AS tipo
                     FROM produto INNER JOIN estante ON estante.cod_estante = produto.cod_estante
                     INNER JOIN categoria ON categoria.cod_categoria = produto.cod_categoria
                     INNER JOIN tipo ON tipo.cod_tipo = produto.cod_tipo
-                    INNER JOIN caracteristica ON caracteristica.cod_caracteristica = produto.cod_caracteristica
                     WHERE produto.cod_produto = %s;"""
             valores = (id,)
             
@@ -369,16 +368,14 @@ class ControleProduto:
 
         cursor = conexao.cursor()
 
-        # Verifica se a categoria está em alguma estante ou em algum produto
+        # Verifica se o produto está dentro de um pedido
         sql = """
             SELECT EXISTS (
                 SELECT 1 FROM item_pedido WHERE cod_produto = %s
-                UNION ALL
-                SELECT 1 FROM produto_caracteristica WHERE cod_produto = %s
             ) AS dependencia;
         """
 
-        valores = (cod_produto, cod_produto)
+        valores = (cod_produto,)
         
         # Executa a consulta
         cursor.execute(sql, valores)
@@ -398,18 +395,25 @@ class ControleProduto:
             # Retorna se a remoção falhou por conta da dependência
             return False # Não pode excluir
 
-        # Se não possuir uma dependencia, executa a exclusão da categoria
+        # Se não possuir uma dependencia, executa a exclusão do produto dentro da tabela de caracteristicas e de produto
         conexao = Conection.create_connection()
         cursor = conexao.cursor()
 
-        sql = "DELETE FROM produto WHERE cod_produto = %s;"
+        sql_caracteristica = "DELETE FROM produto_caracteristica WHERE cod_produto = %s;"
 
         valor = (cod_produto,)
 
-        cursor.execute(sql, valor)
+        cursor.execute(sql_caracteristica, valor)
+
+        sql_produto = "DELETE FROM produto WHERE cod_produto = %s;"
+
+        valor = (cod_produto,)
+
+        cursor.execute(sql_produto, valor)
 
         conexao.commit()
         
         cursor.close()
         conexao.close()
+        
         return True
