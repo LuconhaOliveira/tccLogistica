@@ -230,8 +230,8 @@ def post_recuperar_senha():
         # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
         return jsonify({
             "status": "success",
-            "message": "Alteração realizada com sucesso! Faça login para continuar.",
-            "message": "Alteração realizada com sucesso! Faça login para continuar."
+            "message": "Alteração realizada com sucesso!",
+            "message": "Alteração realizada com sucesso!"
             }), 200
     
     except Exception as e:
@@ -382,7 +382,7 @@ def post_produto():
     if sucesso:
         return jsonify({
             'status': 'success',
-            'message': f"Produto cadastrado!" 
+            'message': f"Produto Cadastrado!" 
         })
     else:
         return jsonify({
@@ -565,8 +565,7 @@ def adicionar_estante():
         if sucesso:
             return jsonify({
                 "status": "success",
-                "titulo": "Estante Criada!",
-                "mensagem": ""
+                "mensagem": "Estante Criada!"
             }), 201
         else:
             return jsonify({
@@ -701,7 +700,7 @@ def post_cadastrar_caracteristica():
     cod_tipo_str = request.form.get("cod_tipo") 
     
     if not nome or not cod_tipo_str:
-        return jsonify({"status": "error", "message": "Nome da característica e Tipo são obrigatórios."}), 400 
+        return jsonify({"status": "error", "message": "Nome da Característica e Tipo são obrigatórios."}), 400 
 
     try:
         cod_tipo = int(cod_tipo_str)
@@ -711,8 +710,8 @@ def post_cadastrar_caracteristica():
         
         # SUCESSO: Retorna um JSON com status 'success'
         return jsonify({
-        "status": "success", 
-        "message": ""
+        "status": "success",
+        "mensagem": "Cadastros Realizados!"
     }), 200
 
     except ValueError:

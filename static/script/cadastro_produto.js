@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 if (data.status === "success") {
                     Swal.fire({
                         title: 'Sucesso!',
-                        text: `${data.message} Redirecionando...`, 
+                        text: `${data.message}`, 
                         icon: 'success',
                         timer: 1500, // Tempo suficiente para o usuário ler
                         timerProgressBar: true, 
