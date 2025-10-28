@@ -1,5 +1,6 @@
 from data.conexao import Conection
 import datetime
+from mysql.connector import Error
 
 class Categoria:
 
@@ -8,30 +9,47 @@ class Categoria:
     # Verifica se a Categoria está ligada a alguma Estante ou Produto
     def verificar_dependencia_categoria(cod_categoria):
 
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
 
-        cursor = conexao.cursor()
+            cursor = conexao.cursor() 
 
-        # Verifica se a categoria está em alguma estante ou em algum produto
-        sql = """
-            SELECT EXISTS (
-                SELECT 1 FROM estante WHERE cod_categoria = %s
-                UNION ALL
-                SELECT 1 FROM produto WHERE cod_categoria = %s
-            ) AS dependencia;
-        """
+            # Verifica se a categoria está em alguma estante ou em algum produto
+            sql = """
+                SELECT EXISTS (
+                    SELECT 1 FROM estante WHERE cod_categoria = %s
+                    UNION ALL
+                    SELECT 1 FROM produto WHERE cod_categoria = %s
+                ) AS dependencia;
+            """
 
-        valores = (cod_categoria, cod_categoria)
-        
-        # Executa a consulta
-        cursor.execute(sql, valores)
-        
-        # O resultado será (1,) se houver dependência, ou (0,) se não houver
-        dependencia = cursor.fetchone()[0] == 1
+            valores = (cod_categoria, cod_categoria)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchone()
+            if resultado:
+                # O resultado será (1,) se houver dependência, ou (0,) se não houver
+                dependencia = resultado[0] == 1
 
-        cursor.close()
-        conexao.close()
-        return dependencia # Retorna True se houver dependência
+            return dependencia # Retorna True se houver dependência
+
+        except Error as e:
+            # Erro no banco de dados (ex: tabela inexistente, erro de sintaxe)
+            print(f"Erro no banco de dados ao verificar dependência da categoria: {e}")
+            return True 
+
+        except Exception as e:
+            # Erros inesperados (ex: falha de conexão)
+            print(f"Erro inesperado ao verificar dependência da categoria: {e}")
+            return True 
+
+        finally:
+            # Garante que o cursor e a conexão sejam fechados
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
     # Conexao com o banco de dados para criar uma categoria
     def cadastrar_categoria(nome, cpf):
