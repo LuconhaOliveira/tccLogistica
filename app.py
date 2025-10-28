@@ -7,8 +7,8 @@ from model.controllers.controller_produtos import ControleProduto
 from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
-import base64
-import base64
+from model.controllers.controller_pedido import Pedido
+
 
 app = Flask(__name__)
 
@@ -790,10 +790,52 @@ def excluir_historico_alteracao():
 
 # PEDIDO DE COMPRA -------------------------------------------------------------------------------------------------------
 
+# CRIAÇÃO E ADIÇÃO AO PEDIDO DE COMPRA ------------------------------------------------------------------------------------#
+
+@app.route("/post/pedido/<cod_produto>", methods=['POST'])
+def adicionar_produto_pedido(cod_produto):
+
+    # Se o CPF estiver na sessão
+    if "cpf" in session:
+        quantidade=request.form.get('cadastro-quantidade')
+        (ativo,cod_pedido)=Pedido.verificar_pedido_ativo()
+        if not ativo:
+            cod_pedido=Pedido.criar_pedido()
+        print(ativo,cod_pedido,cod_produto,quantidade)
+        Pedido.adicionar_ao_pedido(cod_pedido,cod_produto,quantidade)
+        return redirect(url_for("principal"))
+
+
+    # Se não houver CPF na sessão, redireciona para a página de login
+    return redirect(url_for("pagina_logar"))
+
+
 @app.route("/pedido/compra")
 def pedido_compra():
+    itens_pedido = Pedido.buscar_itens_pedido()
+    quantidade=0
+    subtotal=0
+    for item in itens_pedido:
+        quantidade+=item["quantidade"]
+        subtotal+=item["valor"]*item["quantidade"]
+        imagem_blob=item["imagem"]
+        imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+        item["imagem"]=imagem_base64
+    return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal)
 
-    return render_template("pagina_pedido_compra.html")
+# EXCLUSÃO DE PRODUTO DO PEDIDO DE COMPRA ------------------------------------------------------------------------------------#
+
+@app.route("/post/remover/produto/pedido/<cod_produto>")
+def remover_produto_pedido(cod_produto):
+
+    # Se o CPF estiver na sessão
+    if "cpf" in session:
+        Pedido.remover_produto(cod_produto)
+        return redirect(url_for("pedido_compra"))
+
+
+    # Se não houver CPF na sessão, redireciona para a página de login
+    return redirect(url_for("pagina_logar"))
 
 # HISTÓRICO DO PEDIDO DE COMPRA -------------------------------------------------------------------------------------------------------
 

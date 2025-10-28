@@ -20,27 +20,29 @@
         <section class="container--card">
 
             <div class="card mb-3" style="width: 640px;">
+                {% for item in itens_pedido %}
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="https://www.infoescola.com/wp-content/uploads/2009/09/morangos1.jpg" class="img-fluid rounded-start" alt="...">
+                        <img src="data:image/jpeg;base64,{{ item["imagem"] }}" class="img-fluid rounded-start" alt="...">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
 
                             <div class="card-body-left">
 
-                                <h3 class="card-title">Morango</h3>
-                                <p class="card-text">Valor Unitário:</p>
-                                <p class="card-text">Subtotal:</p>
-                                <p class="card-text">Quantidade:</p>
+                                <h3 class="card-title">{{item.nome}}</h3>
+                                <p class="card-text">Valor Unitário: {{item.valor}}</p>
+                                <p class="card-text">Subtotal: {{"%.2f"|format(item.valor * item.quantidade)}}</p>
+                                <p class="card-text">Quantidade: {{item.quantidade}}</p>
                             </div>
 
                             <div class="card-body-right">
-                                <span class="material-symbols-outlined">delete</span>
+                                <a href="/post/remover/produto/pedido/{{item.cod_produto}}"><span class="material-symbols-outlined">delete</span></a>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
 
             
@@ -54,8 +56,8 @@
             </div>
 
             <div class="div-info">
-                <p>Quantidade:</p>
-                <p>Subtotal:</p>
+                <p>Quantidade: {{quantidade}}</p>
+                <p>Subtotal: {{"%.2f"|format(subtotal)}}</p>
             </div>
 
         </div>
