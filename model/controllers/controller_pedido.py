@@ -42,36 +42,40 @@ class Pedido:
 
             cursor = conexao.cursor()
 
-            sql = """SELECT SUM(quantidade) FROM item_pedido WHERE cod_produto=%s"""
-            valores = (cod_produto,)
+            sql = """SELECT cod_pedido FROM item_pedido WHERE cod_produto=%s AND cod_pedido=%s"""
+            valores = (cod_produto,cod_pedido)
             
             cursor.execute(sql, valores)
-            resultado = cursor.fetchone()[0]
-            if not resultado: resultado=0
+            pedido = cursor.fetchone()
 
-            sql = """SELECT quantidade FROM produto WHERE cod_produto=%s"""
-            valores = (cod_produto,)
-            
-            cursor.execute(sql, valores)
-            resultado2 = cursor.fetchone()[0]
-            print(resultado)
-            print(quantidade)
-
-            if resultado2>=int(quantidade)+int(resultado):
-                sql = """INSERT INTO item_pedido (
-                            cod_pedido, cod_produto, quantidade)
-                        VALUES (
-                            %s, %s,%s)"""
-                valores = (cod_pedido,cod_produto,quantidade)
+            if pedido:
+                raise ValueError("Produto ja está no pedido atual")
+            else:
+                sql = """SELECT quantidade FROM produto WHERE cod_produto=%s"""
+                valores = (cod_produto,)
                 
                 cursor.execute(sql, valores)
-                
-                conexao.commit()
-            else:
-                raise ValueError("Quantidade adicionada maior que o estoque")
+                resultado = cursor.fetchone()[0]
 
-            cursor.close()
-            conexao.close()
+                if resultado>=int(quantidade):
+                    sql = """UPDATE produto SET quantidade=quantidade-%s WHERE cod_produto=%s;"""
+                    valores = (quantidade,cod_produto)
+                    
+                    cursor.execute(sql, valores)
+                        
+                    conexao.commit()
+                    
+                    sql = """INSERT INTO item_pedido (
+                                cod_pedido, cod_produto, quantidade)
+                            VALUES (
+                                %s, %s,%s)"""
+                    valores = (cod_pedido,cod_produto,quantidade)
+                    
+                    cursor.execute(sql, valores)
+                    
+                    conexao.commit()
+                else:
+                    raise ValueError("Quantidade adicionada maior que o estoque")
 
         except Error as e:
             print(f"Erro ao validar login: {e}")

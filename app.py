@@ -799,7 +799,7 @@ def adicionar_produto_pedido(cod_produto):
             cod_pedido=Pedido.criar_pedido()
         print(ativo,cod_pedido,cod_produto,quantidade)
         Pedido.adicionar_ao_pedido(cod_pedido,cod_produto,quantidade)
-        return redirect(url_for("pagina_principal"))
+        return redirect(url_for("principal"))
 
 
     # Se não houver CPF na sessão, redireciona para a página de login
