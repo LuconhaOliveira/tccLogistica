@@ -292,22 +292,39 @@ class Categoria:
     # Recupera os tipos registradas anteriormente
     def recuperar_tipo(cpf):
         
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
+            
+            if not conexao:
+                print("Falha ao estabelecer conexão com o banco de dados.")
+                return [] # Retorna lista vazia em caso de falha de conexão
 
-        cursor = conexao.cursor(dictionary = True) 
+            cursor = conexao.cursor(dictionary = True) 
         
-        sql = """select cod_tipo, nome, data_hora from tipo where cpf = %s;"""
+            sql = """select cod_tipo, nome, data_hora from tipo where cpf = %s;"""
 
-        valor = (cpf,)
+            valor = (cpf,)
 
-        cursor.execute(sql, valor)
+            cursor.execute(sql, valor)
 
-        resultado = cursor.fetchall()
+            resultado = cursor.fetchall()
 
-        cursor.close()
-        conexao.close()
+            return resultado
+        
+        # Trata os erros do Banco de dados e retorna uma lista vazia em caso de erro 
+        except Error as e:
+            print(f"Erro no banco de dados ao recuperar os tipos: {e}")
+            return [] 
 
-        return resultado
+        except Exception as e:
+            print(f"Erro inesperado ao recuperar os tipos: {e}")
+            return [] 
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
     # Conexao com o banco de dados para excluir um tipo
     def remover_tipo(cod_tipo):
@@ -318,25 +335,48 @@ class Categoria:
             return False # Não pode excluir
 
         # Se não possuir uma dependencia, executa a exclusão do tipo
-        conexao = Conection.create_connection()
-        cursor = conexao.cursor()
+        try:
+                # Se não possuir dependência, executa a exclusão
+                conexao = Conection.create_connection()
+                
+                if not conexao:
+                    return False
+                cursor = conexao.cursor()
 
-        sql = "DELETE FROM tipo WHERE cod_tipo = %s;"
+                sql = "DELETE FROM tipo WHERE cod_tipo = %s;"
 
-        valor = (cod_tipo,)
+                valor = (cod_tipo,)
 
-        cursor.execute(sql, valor)
+                cursor.execute(sql, valor)
 
-        conexao.commit()
+                conexao.commit()
+                
+                return True
         
-        cursor.close()
-        conexao.close()
-        return True
+        except Error as e:
+            # Desfaz a exclusão em caso de erro (ex: falha inesperada no BD)
+            if conexao:
+                conexao.rollback()
+
+            print(f"Erro no banco de dados ao remover tipo: {e}")
+
+            return False
+
+        except Exception as e:
+            if conexao:
+                conexao.rollback()
+            print(f"Erro inesperado ao remover tipo: {e}")
+            return False
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
 # CARACTERISTICA ------------------------------------------------------------------------------------------------------#
 
    # Verifica se a Caracteristica está ligada a alguma Estante ou Produto
-    @staticmethod
     def verificar_dependencia_caracterisica(cod_caracteristica):
 
         try:
@@ -382,7 +422,6 @@ class Categoria:
                     conexao.close()
     
     # Conexao com o banco de dados para criar uma caracteristica com base no tipo
-    @staticmethod
     def cadastrar_tipo_caracteristica(nome, cod_tipo, cpf):
         data_hora = datetime.datetime.today()
         conexao = None
@@ -415,55 +454,75 @@ class Categoria:
     # Recupera as caracteristicas registradas anteriormente
     def recuperar_caracteristica(cpf):
         
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
+            
+            if not conexao:
+                print("Falha ao estabelecer conexão com o banco de dados.")
+                return [] # Retorna lista vazia em caso de falha de conexão
 
-        cursor = conexao.cursor(dictionary = True) 
+            cursor = conexao.cursor(dictionary = True)
         
-        sql = """select cod_caracteristica, nome, data_hora from caracteristica where cpf = %s;"""
+            sql = """select cod_caracteristica, nome, data_hora from caracteristica where cpf = %s;"""
 
-        valor = (cpf,)
+            valor = (cpf,)
 
-        cursor.execute(sql, valor)
+            cursor.execute(sql, valor)
 
-        resultado = cursor.fetchall()
+            resultado = cursor.fetchall()
 
-        cursor.close()
-        conexao.close()
+            return resultado
+        
+        # Trata os erros do Banco de dados e retorna uma lista vazia em caso de erro 
+        except Error as e:
+            print(f"Erro no banco de dados ao recuperar caracteristicas: {e}")
+            return [] 
 
-        return resultado
+        except Exception as e:
+            print(f"Erro inesperado ao recuperar caracteristicas: {e}")
+            return [] 
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
     
-        # Conexao com o banco de dados para excluir uma caracteristica
-    @staticmethod
+    # Conexao com o banco de dados para excluir uma caracteristica
     def remover_caracteristica(cod_caracteristica):
-        conexao = None
-        cursor = None
 
-        # 1. Verifica se a caracteristica possui uma dependencia 
+        # Verifica se a caracteristica possui uma dependencia 
         if Categoria.verificar_dependencia_caracterisica(cod_caracteristica):
             # Retorna se a remoção falhou por conta da dependência
             return False # Não pode excluir
 
         try:
-            # 2. Se não possuir uma dependencia, executa a exclusão da caracteristica
-            conexao = Conection.create_connection()
-            cursor = conexao.cursor()
+                # Se não possuir dependência, executa a exclusão
+                conexao = Conection.create_connection()
+                
+                if not conexao:
+                    return False
+                cursor = conexao.cursor()
 
-            sql = "DELETE FROM caracteristica WHERE cod_caracteristica = %s;"
-            valor = (cod_caracteristica,)
+                sql = "DELETE FROM caracteristica WHERE cod_caracteristica = %s;"
+                valor = (cod_caracteristica,)
 
-            cursor.execute(sql, valor)
-            conexao.commit()
-            
-            # 3. Retorna True se excluiu algo (rowcount > 0)
-            return cursor.rowcount > 0
+                cursor.execute(sql, valor)
+                conexao.commit()
+    
+                return True
 
         except Exception as e:
             # Em caso de erro, faz rollback e retorna False
-            if conexao: conexao.rollback()
-            return False # Falha na DB
+            if conexao: 
+                conexao.rollback()
+            print(f"Erro inesperado ao remover caracteristica: {e}")
+            return False
 
         finally:
-            if cursor: cursor.close()
-            if conexao: conexao.close()
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
