@@ -20,6 +20,7 @@
         <section class="container--card">
 
             <div class="card mb-3" style="width: 640px;">
+                {% if itens_pedido %}
                 {% for item in itens_pedido %}
                 <div class="row g-0">
                     <div class="col-md-4">
@@ -43,6 +44,15 @@
                     </div>
                 </div>
                 {% endfor %}
+
+                {% else %}
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <h3 class="card-title">Nenhum item adicionado.</h3>
+                {% endif %}
+                        </div>
+                    </div>
             </div>
 
             
