@@ -636,7 +636,7 @@ def editar_estante(cod_estante):
 def post_editar_estante(cod_estante):
     
     nome = request.form.get("cadastro-nome")
-    categoria = request.form.get("cadastro-nome")
+    categoria = request.form.get("cadastro-categoia")
     
     Estante.editar_estante(nome,categoria,cod_estante)
     
