@@ -138,33 +138,7 @@ class Estante:
 
         return False
 
-    # Verifica se a Estante está ligada a algum produto
-    def verificar_dependencia_estante(cod_estante):
-
-        conexao = Conection.create_connection()
-
-        cursor = conexao.cursor()
-
-        # Verifica se a estante está em algum produto
-        sql = """
-            SELECT EXISTS (
-                    SELECT 1 FROM produto WHERE cod_estante = %s  
-                ) AS dependencia;
-        """
-
-        valores = (cod_estante,)
-        
-        # Executa a consulta
-        cursor.execute(sql, valores)
-        
-        # O resultado será (1,) se houver dependência, ou (0,) se não houver
-        dependencia = cursor.fetchone()[0] == 1
-
-        cursor.close()
-        conexao.close()
-        return dependencia # Retorna True se houver dependência 
-
-       # Conexao com o banco de dados para excluir uma estante
+    # Conexao com o banco de dados para excluir uma estante
     def remover_produtos_estante(cod_prod_caracteristica, cod_estante):
 
         try:
@@ -205,28 +179,23 @@ class Estante:
 
 
     # Conexao com o banco de dados para excluir uma estante
-    def remover_estante(cod_estante):
+    # def remover_estante(cod_estante):
 
-        # Verifica se a estante possui uma dependencia 
-        if  Estante.verificar_dependencia_estante(cod_estante):
-            # Retorna se a remoção falhou por conta da dependência
-            return False # Não pode excluir
+    #     # Se não possuir uma dependencia, executa a exclusão da estante
+    #     conexao = Conection.create_connection()
+    #     cursor = conexao.cursor()
 
-        # Se não possuir uma dependencia, executa a exclusão da estante
-        conexao = Conection.create_connection()
-        cursor = conexao.cursor()
+    #     sql = "DELETE FROM estante WHERE cod_estante = %s;"
 
-        sql = "DELETE FROM estante WHERE cod_estante = %s;"
+    #     valor = (cod_estante,)
 
-        valor = (cod_estante,)
+    #     cursor.execute(sql, valor)
 
-        cursor.execute(sql, valor)
-
-        conexao.commit()
+    #     conexao.commit()
         
-        cursor.close()
-        conexao.close()
-        return True
+    #     cursor.close()
+    #     conexao.close()
+    #     return True
     
     # Recupera as estantes registradas anteriormente
     def recuperar_estante(cpf):
