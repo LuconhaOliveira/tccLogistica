@@ -1,5 +1,4 @@
 /* body para todas as telas */
-
 .container--body {
     background-color: var(--white);
     display: flex;
@@ -10,9 +9,7 @@
     font-size: var(--font-size-24);
 }
 
-
 /* container principal geral para todas as telas */
-
 .container--main {
     flex: 1;
     display: flex;
@@ -30,7 +27,7 @@
     grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
-    background-color: var(--grey-dark2);
+    background-color: var(--orange-color);
 }
 
 .card {
@@ -60,24 +57,26 @@
     display: grid;
     grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
     justify-items: center;
-    align-items: stretch;
-    /* força tudo a ter a mesma altura  */
+    align-items: stretch; /* força tudo a ter a mesma altura  */
     gap: 5px;
 }
 
-
 /* container da descrição */
-
 .container--div-descricao {
     border-radius: 15px;
-    text-align: center;
     padding: 6px 5px 6px 5px;
     margin: 1% 5% 1% 5% !important;
     width: 90% !important;
     height: auto;
 }
 
-.descricao {
+.label-descricao{
+    color: var(--grey-light);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.descricao{
     background-color: var(--orange-color) !important;
     border-radius: 20px;
     color: var(--black) !important;
@@ -90,35 +89,57 @@
     display: block !important;
 }
 
-
-/* parte de baixo do container de produto */
-
-.container--bottom-card {
-    align-items: center;
-    justify-content: space-around;
-    display: flex;
-}
-
-
 /* icones */
 
-main .material-symbols-outlined {
+.container--main .material-symbols-outlined {
     color: var(--black);
+    font-size:larger;
+
+    margin-right: 10px;
 }
 
+.container--div-titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.5%;
+}
 
-/* tamanho dos icones */
+.material-symbols-outlined{
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* Add dots under the hoverable text */
+    cursor: pointer;
+    
+}
 
-.container--bottom-card .material-symbols-outlined {
-    font-size: larger;
+.aviso{
+    visibility: hidden; /* Hidden by default */
+    width: 130px;
+    background-color: black;
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    padding: 10px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: -6px;
+    right: 40px;
+}
+
+.material-symbols-outlined:hover .aviso {
+  visibility: visible;
 }
 
 .input-img {
-    margin: 10px 0px 25px 0px !important;
+    margin: 5px 0px 20px 0px !important;
     border-radius: 15px;
     text-align: center;
     padding: 6px 5px 6px 5px;
-    width: 90% !important;
+    width: 64% !important;
 }
 
 .img-produto .form-control {
@@ -138,7 +159,27 @@ main .material-symbols-outlined {
     height: 50px !important;
     font-size: var(--font-size-20) !important;
     font-weight: bold !important;
-    border: none !important;
+    border-radius: 6px;
+    background-color: var(--orange-color) !important;
+
+    margin-top: 13px !important;
+    align-content: center;
+    padding: 0px !important;
+}
+
+.form-check .form-check-input{
+    margin-left: 10px !important; 
+}
+
+.form-check .form-check-label{
+
+    margin-left: 10px !important; 
+}
+
+.label-caracteristicas{
+    color: var(--grey-light);
+    font-weight: bold;
+    margin: 0px !important;
 }
 
 .form-select {
@@ -149,9 +190,14 @@ main .material-symbols-outlined {
     border: none !important;
 }
 
+/* parte de baixo do container de produto */
+.container--bottom-card {
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+}
 
 /* Botão de Login */
-
 button[type="submit"] {
     background-color: var(--grey-light);
     color: var(--black) !important;
@@ -178,9 +224,7 @@ button[type="submit"]:active {
     background-color: var(--orange-color) !important;
 }
 
-
 /* imagem */
-
 figure {
     justify-items: flex-start;
 }
@@ -214,13 +258,6 @@ figure {
     font-family: var(--font-cinzel);
     font-size: var(--font-size-30);
     margin: 0 !important;
-}
-
-.container--div-titulo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 1.5%;
 }
 
 .card-body .card-text fieldset {
@@ -263,3 +300,5 @@ figure {
     background-color: var(--grey-light) !important;
     color: black !important;
 }
+
+

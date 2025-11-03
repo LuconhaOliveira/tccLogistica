@@ -6,7 +6,11 @@
 
     <div class="container--div-titulo">
 
-        <span class="material-symbols-outlined">edit</span>
+        <span class="material-symbols-outlined">
+            arrow_back
+            <span class="aviso">Voltar</span>
+        </span>
+
         <h1 class="h1-titulo">Editar Produto</h1>
 
     </div>
@@ -166,10 +170,10 @@
                                                 <option class="select-tipo" disabled selected>Selecione um tipo:</option>
 
                                                 {% for tipo in tipos %}
-                                                {% if tipo.nome==produto.tipo %}
-                                                <option value="{{tipo.cod_tipo}}" selected>{{tipo.nome}}</option>
+                                                {% if tipo.nome_tipo == produto.tipo %}
+                                                <option value="{{tipo.cod_tipo}}" selected>{{tipo.nome_tipo}} - Categoria: {{tipo.nome_categoria}}</option>
                                                 {% else %}
-                                                <option value="{{tipo.cod_tipo}}">{{tipo.nome}}</option>
+                                                <option value="{{tipo.cod_tipo}}">{{tipo.nome_tipo}}</option>
                                                 {% endif %}
                                                 {% endfor %}
 
@@ -178,25 +182,22 @@
                                     </div>
 
                                     <!-- campo de caracteristicas -->
-                                    <div class="mb-3">
+                                    <div class="checkbox-caracteristicas">
 
-                                        <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect">
+                                        <label class="label-caracteristicas">Característica(s)</label>
 
-                                                <option class="select-caracteristicas" disabled selected>Selecione uma
-                                                    característica:</option>
+                                        {% for caracteristica in caracteristicas %}
+                                        <div class="form-check">
 
-                                                {% for caracteristica in caracteristicas %}
-                                                {% if caracteristica.nome==produto.caracteristica %}
-                                                <option value="{{caracteristica.cod_caracteristica}}" selected>
-                                                    {{caracteristica.nome}}</option>
-                                                {% else %}
-                                                <option value="{{caracteristica.cod_caracteristica}}">{{caracteristica.nome}}
-                                                </option>
-                                                {% endif %}
-                                                {% endfor %}
+                                            <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas" value="{{caracteristica.cod_caracteristica}}" id="caracteristica-{{caracteristicas.cod_caracteristica}}">
 
-                                            </select>
 
+                                            <label class="form-check-label" for="caracteristica-{{caracteristica.cod_caracteristica}}">
+                                            {{caracteristica.nome_caracteristica}}
+                                            </label>
+
+                                        </div>
+                                        {% endfor %}
                                     </div>
 
                             </fieldset>
@@ -211,6 +212,8 @@
                 <!-- descrição -->
                 <div class="container--div-descricao ">
 
+                    <label class="label-descricao">Descrição</label>
+
                     <input name="cadastro-descricao" type="text" class="form-control descricao" id="exampleInputName" placeholder="Descrição:" value="{{produto.descricao}}">
 
                 </div>
@@ -218,7 +221,7 @@
                 <div class="container--bottom-card">
 
                     <a href="/pagina/editar/produto/{{cod_produto}}">
-                        <button class="btn btn-primary" type="submit">Editar</button>
+                        <button class="btn btn-primary" type="submit">Salvar Alteração</button>
                     </a>
 
                 </div>
