@@ -181,7 +181,7 @@
                 </div>
 
                 <!-- campo de caracteristicas -->
-                <div class="mb-3">
+                <!-- <div class="mb-3">
 
                     <label for="exampleInputCaracteristicas" class="form-label">Características:</label>
 
@@ -194,6 +194,24 @@
 
                     </select>
 
+                </div> -->
+
+                <div class="mb-3">
+                    <label class="form-label">Características:</label>
+                
+                    <div class ="checkbox-caracteristicas">
+                        {% for caracteristicas in caracteristica %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas"
+                                value="{{caracteristicas.cod_caracteristica}}"
+                                id="caracteristica-{{caracteristicas.cod_caracteristica}}">
+                
+                            <label class="form-check-label" for="caracteristica-{{caracteristicas.cod_caracteristica}}">
+                                {{caracteristicas.nome}}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
 
             </fieldset>

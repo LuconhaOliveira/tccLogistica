@@ -23,7 +23,7 @@
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Nome da categoria:</label>
                     <!-- name: backend do adicionar nome da categoria -->
-                    <input name="nome" type="text" class="form-control"></input>
+                    <input name="nome" type="text" class="form-control" required></input>
                 </div>
 
                 <div class="mb-3 form-check">
@@ -38,21 +38,23 @@
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Nome do tipo:</label>
                     <!-- name: backend do adicionar nome do tipo -->
-                    <input name="nome" type="text" class="form-control"></input>
+                    <input name="nome" type="text" class="form-control" required></input>
                 </div>
 
                     <!-- selecionar categoria -->
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Selecione a categoria:</label>
                     <!-- name: backend do adicionar nome da categoria -->
-                    <select name="cod_categoria" type="text" class="form-control">
-                        <!-- aparece apenas quando não há categoria cadastrada  -->
+                <select name="cod_categoria" type="text" class="form-control" required>
+                    {% if categoria %}
                         <option value="" disabled selected>Selecione a categoria</option>
-                        <!-- puxa as categorias que foram cadastradas no banco de dados para adicionar no select -->
                         {% for categorias in categoria %}
                         <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
                         {% endfor %}
-                    </select>
+                    {% else %}
+                        <option value="" disabled selected>Nenhuma categoria cadastrada</option>
+                    {% endif %}
+                </select>
 
                 </div>
 
@@ -68,20 +70,26 @@
                 <div class="mb-3">
                     <label class="form-label">Nome da característica:</label>
                     <!-- name: backend do adicionar nome da característica -->
-                    <input name="nome" type="text" class="form-control"></input>
+                    <input name="nome" type="text" class="form-control" required></input>
                 </div>
 
                 <!-- selecionar o tipo -->
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Selecione o tipo:</label>
                     <!-- name: backend selecionar nome do tipo -->
-                    <select name="cod_tipo" type="text" class="form-control">
-                        <option value="" disabled selected>Selecione o tipo</option>
-                        {% for tipos in tipo %}
-                        <option value="{{tipos.cod_tipo}}">{{tipos.nome}}</option>
-                        {% endfor %}
-
+                    <select name="cod_tipo" type="text" class="form-control" required>
+                        {% if tipo_categoria %}
+                            <!-- Se a lista não estiver vazia, exibe os dados -->
+                            <option value="" disabled selected>Selecione o tipo</option>
+                            {% for tipos, categorias in tipo_categoria %}
+                            <option value="{{tipos.cod_tipo}}">{{tipos.nome}} - Categoria: {{categorias.nome}}</option>
+                            {% endfor %}
+                        {% else %}
+                            <!-- Se a lista estiver vazia, exibe a mensagem de erro -->
+                            <option value="" disabled selected>Nenhum tipo cadastrado</option>
+                        {% endif %}
                     </select>
+            
                 </div>
 
                 <div class="mb-3 form-check">
