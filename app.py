@@ -612,7 +612,16 @@ def estante_especifica(id):
 
     # A correção está aqui:
     return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64, cod_estante=id, nome_estante = nome_estante)
-    
+
+# EXCLUSÃO DE TODOS OS PRODUTOS DENTRO DA ESTANTE ------------------------------------------------------------------------------------------------------#
+
+# Rota para excluir uma estante 
+@app.route("/post/remover/produtos/<cod_estante>")
+def remover_produtos_estante(cod_estante):
+    # Chama a função do controler, remove os produtos da estante e redireciona para a pagina principal
+    Estante.remover_produtos_estante(cod_estante)
+    return redirect("/estante/<cod_estante>")
+
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 
 # Rota para excluir uma estante 

@@ -162,7 +162,47 @@ class Estante:
 
         cursor.close()
         conexao.close()
-        return dependencia # Retorna True se houver dependência    
+        return dependencia # Retorna True se houver dependência 
+
+       # Conexao com o banco de dados para excluir uma estante
+    def remover_produtos_estante(cod_prod_caracteristica, cod_estante):
+
+        try:
+            conexao = Conection.create_connection()
+                
+            if not conexao:
+                return False
+            cursor = conexao.cursor()
+
+            sql_dependencia = "DELETE FROM produto_caracteristica WHERE cod_produto = %s;"
+
+            valor = (cod_prod_caracteristica,)
+
+            cursor.execute(sql_dependencia, valor)
+
+            sql_produtos = "DELETE FROM produto WHERE cod_estante = %s"
+
+            valor = (cod_estante,)
+
+            cursor.execute(sql_produtos, valor)
+
+            conexao.commit()
+        
+            return True   
+        
+        except Exception as e:
+            # Em caso de erro, faz rollback e retorna False
+            if conexao: 
+                conexao.rollback()
+            print(f"Erro inesperado ao remover produtos: {e}")
+            return False
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
+
 
     # Conexao com o banco de dados para excluir uma estante
     def remover_estante(cod_estante):
