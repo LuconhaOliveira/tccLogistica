@@ -173,7 +173,7 @@
                         <option class="select-tipo" disabled selected>Selecione um tipo:</option>
 
                         {% for tipos in tipo %}
-                        <option value="{{tipos.cod_tipo}}">{{tipos.nome}}</option>
+                        <option value="{{tipos.cod_tipo}}">{{tipos.nome_tipo}} - Categoria: {{tipos.nome_categoria}}</option>
                         {% endfor %}
 
                     </select>
@@ -207,7 +207,7 @@
                                 id="caracteristica-{{caracteristicas.cod_caracteristica}}">
                 
                             <label class="form-check-label" for="caracteristica-{{caracteristicas.cod_caracteristica}}">
-                                {{caracteristicas.nome}}
+                                {{caracteristicas.nome_caracteristica}} - Categoria: {{caracteristicas.nome_categoria}}
                             </label>
                         </div>
                         {% endfor %}
