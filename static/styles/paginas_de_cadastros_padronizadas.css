@@ -186,4 +186,24 @@ button[type="submit"]:hover {
     font-weight: bold;
 }
 
+/* ESPECIFICAÇÕES DO CHECKBOX DE CARACTERISTICAS */
+
+.checkbox-caracteristicas {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; 
+    background-color: var(--white);
+    padding: 10px 30px; 
+    border-radius: 5px; 
+}
+
+.checkbox-caracteristicas .form-check-input {
+    border-color: var(--grey-medium) !important; 
+    border-width: 2px !important;
+    box-shadow: none !important; 
+}
+
+.checkbox-caracteristicas .form-check-input:checked {
+    background-color: var(--orange-color) !important;
+}
 

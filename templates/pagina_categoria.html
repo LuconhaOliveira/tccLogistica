@@ -23,7 +23,7 @@
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Nome da categoria:</label>
                     <!-- name: backend do adicionar nome da categoria -->
-                    <input name="nome" type="text" class="form-control"></input>
+                    <input name="nome" type="text" class="form-control" required></input>
                 </div>
 
                 <div class="mb-3 form-check">
@@ -38,21 +38,23 @@
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Nome do tipo:</label>
                     <!-- name: backend do adicionar nome do tipo -->
-                    <input name="nome" type="text" class="form-control"></input>
+                    <input name="nome" type="text" class="form-control" required></input>
                 </div>
 
                     <!-- selecionar categoria -->
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Selecione a categoria:</label>
                     <!-- name: backend do adicionar nome da categoria -->
-                    <select name="cod_categoria" type="text" class="form-control">
-                        <!-- aparece apenas quando não há categoria cadastrada  -->
+                <select name="cod_categoria" type="text" class="form-control" required>
+                    {% if categoria %}
                         <option value="" disabled selected>Selecione a categoria</option>
-                        <!-- puxa as categorias que foram cadastradas no banco de dados para adicionar no select -->
                         {% for categorias in categoria %}
                         <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
                         {% endfor %}
-                    </select>
+                    {% else %}
+                        <option value="" disabled selected>Nenhuma categoria cadastrada</option>
+                    {% endif %}
+                </select>
 
                 </div>
 
@@ -68,20 +70,24 @@
                 <div class="mb-3">
                     <label class="form-label">Nome da característica:</label>
                     <!-- name: backend do adicionar nome da característica -->
-                    <input name="nome" type="text" class="form-control"></input>
+                    <input name="nome" type="text" class="form-control" required></input>
                 </div>
 
                 <!-- selecionar o tipo -->
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Selecione o tipo:</label>
                     <!-- name: backend selecionar nome do tipo -->
-                    <select name="cod_tipo" type="text" class="form-control">
+                    <select name="cod_tipo" type="text" class="form-control" required>
+                        {% if tipo_categoria %} 
                         <option value="" disabled selected>Selecione o tipo</option>
-                        {% for tipos in tipo %}
-                        <option value="{{tipos.cod_tipo}}">{{tipos.nome}}</option>
-                        {% endfor %}
-
+                            {% for tipo_item in tipo_categoria %}
+                            <option value="{{tipo_item.cod_tipo}}">{{tipo_item.nome_tipo}} - Categoria: {{tipo_item.nome_categoria}}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="" disabled selected>Nenhum tipo cadastrado</option>
+                        {% endif %}
                     </select>
+            
                 </div>
 
                 <div class="mb-3 form-check">
@@ -109,11 +115,11 @@
             <!-- tipos -->
             <div class="container--exclusao">
                 <h2 class="titulo-exclusao">Excluir tipos</h2>
-                {% for tipos in tipo %}
+                {% for tipos in tipo_categoria %}
 
                 <div class="container--exclusao-itens">
                     <div>
-                       <label for="">{{tipos.nome}}</label>
+                       <label for="">{{tipos.nome_tipo}} - Categoria: {{tipos.nome_categoria}}</label>
                     </div>
                     <a href="/post/remover/tipo/{{tipos.cod_tipo}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
@@ -126,7 +132,7 @@
                 <h2 class="titulo-exclusao">Excluir caracteristicas</h2>
                 {% for caracteristicas in caracteristica %}
                 <div class="container--exclusao-itens">   
-                    <label for="">{{caracteristicas.nome}}</label>
+                    <label for="">{{caracteristicas.nome_caracteristica}} - Categoria: {{caracteristicas.nome_categoria}}</label>
                     <a href="/post/remover/caracteristica/{{caracteristicas.cod_caracteristica}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
                 {% endfor %}
