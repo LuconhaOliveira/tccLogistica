@@ -61,24 +61,24 @@
     grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
 
     justify-items: center;  
-    text-align: left;    
-    align-items: start;    
+    align-items: stretch; /* força tudo a ter a mesma altura  */
+    gap: 5px;
 }
 
 /* container da descrição */
 .container--div-descricao{
     border-radius: 15px;
     text-align: center;
-    padding: 10px 5px 10px 5px;
-    margin: 3% 5% 1% 5% !important;
+    padding: 6px 5px 6px 5px;
+    margin: 1% 5% 1% 5% !important;
     width: 90% !important;
     height: auto;
 }
 
 .descricao{
-    background-color: var(--orange-light-color);
+    background-color: var(--orange-color);
     border-radius: 20px;
-    color: var(--black) !important;
+    color: var(--white) !important;
     font-weight: bold;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
@@ -156,16 +156,23 @@ button[type="submit"]:active {
     max-width: 380px !important;
     max-height: 380px !important;   
     display: block;
-    border: 4px solid var(--orange-light-color); 
+    border: 4px solid var(--orange-color); 
     border-radius: 4px;
 }
 
 .card-body .card-text{
     color: var(--white) !important;
-    width: 85%;
+    width: 100%;
     overflow-wrap: break-word;
     word-wrap: break-word; 
     word-break: normal;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
+
+.card-body .card-text fieldset{
+
+    height: auto !important;
 }
 
 .card-text.text-caracteristicas {
@@ -173,3 +180,8 @@ button[type="submit"]:active {
     flex-direction: column;
 }
 
+.card-body fieldset {
+    border: 1px solid var(--orange-color);
+    padding: 0px 15px 0 15px;
+    border-radius: 10px;
+}

@@ -41,44 +41,60 @@
 
                         <div class="card-body" style="background-color: var(--);">
 
-                            <!-- nome do produto -->
-                            <p class="card-text"><strong>Nome:</strong> {{ produto.nome_produto }}</p>
+                            <fieldset>
 
-                            <!-- campo de selecionar linha da estante -->
-                            <p class="card-text"><strong>Linha:</strong> {{ produto.linha }}</p>
+                                <div class="left--card-text">
+                                    <!-- nome do produto -->
+                                    <p class="card-text"><strong>Nome:</strong> {{ produto.nome_produto }}</p>
 
-                            <!-- SKU -->
-                            <p class="card-text"><strong>SKU:</strong> {{ produto.sku }}</p>
+                                    <!-- SKU -->
+                                    <p class="card-text"><strong>SKU:</strong> {{ produto.sku }}</p>
 
-                            <!-- campo de selecionar coluna da estante  -->
-                            <p class="card-text"><strong>Coluna:</strong> {{ produto.coluna }}</p>
+                                    <!-- quantidade de produtos existentes -->
+                                    <p class="card-text"><strong>Qntd:</strong> {{ produto.quantidade }}</p>
 
-                            <!-- quantidade de produtos existentes -->
-                            <p class="card-text"><strong>Qntd:</strong> {{ produto.quantidade }}</p>
+                                    <!-- preço do produto -->
+                                    <p class="card-text"><strong>R$</strong> {{ produto.valor }}</p>
 
-                            <p class="card-text"><strong>Categoria:</strong> {{ produto.nome_categoria }}</p>
+                                    <!-- campo de nome da estante -->
+                                    <p class="card-text"><strong>Estante:</strong> {{ produto.nome_estante }}</p>
 
-                            <!-- preço do produto -->
-                            <p class="card-text"><strong>R$</strong> {{ produto.valor }}</p>
+                                </div>
 
-                            <!-- campo de tipos de categoria -->
-                            <p class="card-text"><strong>Tipo:</strong> {{ produto.nome_tipo }}</p>
+                            </fieldset>
+                            
+                            <fieldset>
+                                
+                                <div class="right--card-text">
 
-                            <!-- campo de nome da estante -->
-                            <p class="card-text"><strong>Estante:</strong> {{ produto.nome_estante }}</p>
+                                    <!-- campo de selecionar linha da estante -->
+                                    <p class="card-text"><strong>Linha:</strong> {{ produto.linha }}</p>
 
-                            <!-- CARACTERÍSTICAS (NOVO CÓDIGO AQUI) -->
-                            <p class="card-text text-caracteristicas"><strong>Características: </strong>
-                                {% if produto.caracteristicas %}
-                                <!-- Itera sobre a lista de características -->
-                                {% for carac in produto.caracteristicas %}
+                            
+                                    <!-- campo de selecionar coluna da estante  -->
+                                    <p class="card-text"><strong>Coluna:</strong> {{ produto.coluna }}</p>
 
-                                <span>• {{ carac.nome_caracteristica }}</span>{% if not loop.last %}{% else %}{% endif %}
-                                {% endfor %}
-                                {% else %}
-                                    <span>Nenhuma.</span>
-                                {% endif %}
-                            </p>
+                            
+                                    <p class="card-text"><strong>Categoria:</strong> {{ produto.nome_categoria }}</p>
+
+                                    <!-- campo de tipos de categoria -->
+                                    <p class="card-text"><strong>Tipo:</strong> {{ produto.nome_tipo }}</p>
+
+                                    <!-- CARACTERÍSTICAS (NOVO CÓDIGO AQUI) -->
+                                    <p class="card-text text-caracteristicas"><strong>Características: </strong>
+                                        {% if produto.caracteristicas %}
+                                        <!-- Itera sobre a lista de características -->
+                                        {% for carac in produto.caracteristicas %}
+
+                                        <span>• {{ carac.nome_caracteristica }}</span>{% if not loop.last %}{% else %}{% endif %}
+                                        {% endfor %}
+                                        {% else %}
+                                            <span>Nenhuma.</span>
+                                        {% endif %}
+                                    </p>
+
+                                </div>
+                            </fieldset>
                             <!-- FIM DO NOVO CÓDIGO DE CARACTERÍSTICAS -->
 
                         </div>
