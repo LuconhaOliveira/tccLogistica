@@ -78,14 +78,12 @@
                     <label for="exampleInputPassword1" class="form-label">Selecione o tipo:</label>
                     <!-- name: backend selecionar nome do tipo -->
                     <select name="cod_tipo" type="text" class="form-control" required>
-                        {% if tipo_categoria %}
-                            <!-- Se a lista não estiver vazia, exibe os dados -->
-                            <option value="" disabled selected>Selecione o tipo</option>
-                            {% for tipos, categorias in tipo_categoria %}
-                            <option value="{{tipos.cod_tipo}}">{{tipos.nome}} - Categoria: {{categorias.nome}}</option>
+                        {% if tipo_categoria %} 
+                        <option value="" disabled selected>Selecione o tipo</option>
+                            {% for tipo_item in tipo_categoria %}
+                            <option value="{{tipo_item.cod_tipo}}">{{tipo_item.nome_tipo}} - Categoria: {{tipo_item.nome_categoria}}</option>
                             {% endfor %}
                         {% else %}
-                            <!-- Se a lista estiver vazia, exibe a mensagem de erro -->
                             <option value="" disabled selected>Nenhum tipo cadastrado</option>
                         {% endif %}
                     </select>
@@ -117,11 +115,11 @@
             <!-- tipos -->
             <div class="container--exclusao">
                 <h2 class="titulo-exclusao">Excluir tipos</h2>
-                {% for tipos in tipo %}
+                {% for tipos in tipo_categoria %}
 
                 <div class="container--exclusao-itens">
                     <div>
-                       <label for="">{{tipos.nome}}</label>
+                       <label for="">{{tipos.nome_tipo}} - Categoria: {{tipos.nome_categoria}}</label>
                     </div>
                     <a href="/post/remover/tipo/{{tipos.cod_tipo}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
@@ -134,7 +132,7 @@
                 <h2 class="titulo-exclusao">Excluir caracteristicas</h2>
                 {% for caracteristicas in caracteristica %}
                 <div class="container--exclusao-itens">   
-                    <label for="">{{caracteristicas.nome}}</label>
+                    <label for="">{{caracteristicas.nome_caracteristica}} - Categoria: {{caracteristicas.nome_categoria}}</label>
                     <a href="/post/remover/caracteristica/{{caracteristicas.cod_caracteristica}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
                 {% endfor %}
