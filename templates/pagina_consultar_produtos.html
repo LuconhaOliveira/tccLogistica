@@ -10,7 +10,7 @@
 {% block conteudo %}
 
     <main class="container--main">
-        <h1>{{nome_estante}}</h1>
+        <h1 class="nome--estante">{{nome_estante}}</h1>
         <!-- estante selecionada -->
         <div class="container--estante">
             <div class="grid-row row-1">
@@ -21,7 +21,7 @@
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
                     grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
+                <a class="link--nomes" href="/visualizar/produto/{{ produtos[i].cod_produto }}">
                     <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
                     <p class="endereco--produto">{{ produtos[i].linha }},{{produtos[i].coluna}}</p>
@@ -42,7 +42,7 @@
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
                     grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                    <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
+                    <a class="link--nomes" href="/visualizar/produto/{{ produtos[i].cod_produto }}">
                     <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
                     <p class="endereco--produto">{{ produtos[i].linha }},{{produtos[i].coluna}}</p>
@@ -63,7 +63,7 @@
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
                     grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
+                <a class="link--nomes" href="/visualizar/produto/{{ produtos[i].cod_produto }}">
                     <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
                     <p class="endereco--produto">{{ produtos[i].linha }},{{produtos[i].coluna}}</p>
@@ -78,13 +78,16 @@
         </div>
 
         <div class="container--botoes">
-            <div class="mb-3 form-check">
-                <a href="/post/remover/estante/{{cod_estante}}"><button class="btn btn-primary">Excluir estante</button></a>
-            </div>
 
-            <div class="mb-3 form-check">
-                <a href="/principal"><button class="btn btn-primary">Editar estante</button></a>
-            </div>
+            <a href="/principal"><button class="btn btn-primary">Limpar produtos</button></a>
+
+
+
+            <a href="/post/remover/estante/{{cod_estante}}"><button class="btn btn-primary">Excluir estante</button></a>
+
+
+            <a href="/principal"><button class="btn btn-primary">Editar estante</button></a>
+
         </div>
 
             
