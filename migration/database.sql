@@ -73,7 +73,8 @@ CREATE TABLE IF NOT EXISTS tipo (
 	cpf VARCHAR(14) NOT NULL, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     cod_categoria INT,
-    FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria)
+    FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria),
+    UNIQUE (nome, cpf, cod_categoria)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -108,7 +109,8 @@ CREATE TABLE IF NOT EXISTS caracteristica (
     -- Chave estrangeira: Vincula a criação/gestão da característica ao usuário.
     cpf VARCHAR(14) NOT NULL, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
-    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
+    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo),
+    UNIQUE (nome, cpf, cod_tipo)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
