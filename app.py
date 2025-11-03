@@ -422,6 +422,7 @@ def visualizar_produto(cod_produto):
 @app.route("/pagina/editar/produto/<id>")
 def editar_produto(id):
     produto = ControleProduto.buscar_produto(id)
+    produto["valor"]=f'{produto["valor"]:.2f}'
     imagem_base64 = ""
     if produto["imagem"]:
         imagem_blob = produto["imagem"]  # Aqui o produto.imagem é o BLOB do banco de dados
@@ -433,7 +434,6 @@ def editar_produto(id):
     tipos = Categoria.recuperar_tipo(session["cpf"])
     categorias = Categoria.recuperar_categoria(session["cpf"])
     estantes = Estante.buscar_estantes()
-    print(produto)
     return render_template('pagina_editar_produto.html', produto=produto, caracteristicas=caracteristicas,tipos=tipos,categorias=categorias, estantes=estantes, imagem_base64=imagem_base64)
 
 @app.route("/post/editar/produto/<id>", methods=["POST"])
@@ -451,6 +451,7 @@ def post_editar_produto(id):
     descricao = request.form.get("cadastro-descricao")
     coluna = request.form.get("cadastro-coluna-estante")
     linha = request.form.get("cadastro-linha-estante")
+    nome = request.form.get("cadastro-nome")
     
     # Campos que serão validados como OBRIGATÓRIOS ou numéricosa
     quantidade_str = request.form.get("cadastro-quantidade",str(produto["quantidade"]))
@@ -505,14 +506,14 @@ def post_editar_produto(id):
 
     # 5. Chamar a função de controle de produto
     sucesso, mensagem_ou_id = ControleProduto.editar_produto(
-        descricao, imagem_blob, quantidade, valor, sku,
+        nome,descricao, imagem_blob, quantidade, valor, sku,
         coluna, linha, cod_estante, cod_categoria,
-        cod_tipo, cod_caracteristica,id
+        cod_tipo,id
     )
 
     # 6. Retorno JSON
     if sucesso:
-        return redirect(f"/pagina/editar/produto/{id}")
+        return redirect(f"/visualizar/produto/{id}")
     else:
         return jsonify({
             'status': 'error',
