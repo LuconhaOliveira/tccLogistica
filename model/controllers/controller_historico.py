@@ -10,16 +10,16 @@ class Historico:
         cursor = conexao.cursor(dictionary = True) 
         
         sql = """
-SELECT
-    cod_alteracao,
-    alteracao_realizada,
-    DATE_FORMAT(data_hora, '%d/%m/%Y') AS data_hora
-FROM
-    alteracao_produto_estante
-WHERE
-    cpf = %s
-ORDER BY
-    data_hora DESC;"""
+                SELECT
+                    cod_alteracao,
+                    alteracao_realizada,
+                    DATE_FORMAT(data_hora, '%d/%m/%Y %h:%i') AS data_hora
+                FROM
+                    alteracao_produto_estante
+                WHERE
+                    cpf = %s
+                ORDER BY
+                    data_hora DESC;"""
 
         valor = (cpf,)
 
