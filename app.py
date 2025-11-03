@@ -627,7 +627,7 @@ def remover_estante(cod_estante):
 
 @app.route("/pagina/editar/estante/<cod_estante>")
 def editar_estante(cod_estante):
-    estante = Estante.buscar_estante(cod_estante)
+    estante = Estante.buscar_estante_especifica(cod_estante)[0]
     categorias = Categoria.recuperar_categoria(session["cpf"])
     
     return render_template("pagina_editar_estante.html", estante=estante, categorias=categorias)
@@ -636,9 +636,11 @@ def editar_estante(cod_estante):
 def post_editar_estante(cod_estante):
     
     nome = request.form.get("cadastro-nome")
-    categoria = request.form.get("cadastro-categoia")
+    categoria = request.form.get("cadastro-categoria")
+
+    print(nome,categoria,cod_estante)
     
-    Estante.editar_estante(nome,categoria,cod_estante)
+    print(Estante.editar_estante(nome,categoria,cod_estante))
     
     return redirect(url_for('principal'))
 

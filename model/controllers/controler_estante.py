@@ -258,7 +258,7 @@ class Estante:
             cursor = conexao.cursor()
 
             # 3. COMANDO SQL
-            sql = "UPDATE produto SET nome=%s, cod_categoria=%s WHERE cod_estante=%s"
+            sql = "UPDATE estante SET nome=%s, cod_categoria=%s WHERE cod_estante=%s"
             
             # 4. VALORES: Ordem deve ser EXATA à do SQL
             valores = (nome,cod_categoria,cod_estante)
@@ -268,7 +268,7 @@ class Estante:
             conexao.commit()
             
             # MUDANÇA: Retorna True e o ID do novo produto
-            return True
+            return True, cursor.lastrowid
 
         except Error as e:
             # Captura erros de banco de dados
@@ -286,4 +286,36 @@ class Estante:
             if cursor:
                 cursor.close()
             if conexao:
+                conexao.close()
+
+    def buscar_estante_especifica(id):
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor(dictionary=True)
+            
+            sql = """SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria,estante.cod_categoria FROM estante 
+            INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria 
+            WHERE estante.cod_estante= %s"""
+            valores = (id,)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchall()
+            
+            if resultado:
+                return resultado
+            else:
+                return None
+
+        except Error as e:
+            print(f"Erro ao validar login: {e}")
+            return None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
                 conexao.close()

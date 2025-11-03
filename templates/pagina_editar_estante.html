@@ -1,0 +1,28 @@
+{% extends "header_head.html" %}
+    {% block titulo %}Editar Estante{% endblock %}
+{% block estilos %}
+    <!-- link css -->
+    <link rel="stylesheet" href="/static/styles/pagina_editar_produto.css">
+ {% endblock %}
+
+ {% block conteudo %}
+ <main>
+    <form action="/post/editar/estante/{{estante.cod_estante}}" method="post">
+        <input type="text" name="cadastro-nome" value="{{estante.estante}}">
+        
+        <select name="cadastro-categoria">
+            <option value="?" disabled>Selecione uma estante</option>
+            {% for categoria in categorias %}
+            {% if categoria.cod_categoria==estante.cod_categoria %}
+            <option value="{{categoria.cod_categoria}}" selected>{{categoria.nome}}</option>
+            {% else %}
+            <option value="{{categoria.cod_categoria}}">{{categoria.nome}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+
+        <button>Editar</button>
+    </form>
+</main>
+
+{% endblock %}
