@@ -132,7 +132,7 @@
                 <h2 class="titulo-exclusao">Excluir caracteristicas</h2>
                 {% for caracteristicas in caracteristica %}
                 <div class="container--exclusao-itens">   
-                    <label for="">{{caracteristicas.nome_caracteristica}} - Categoria: {{caracteristicas.nome_categoria}}</label>
+                    <label for="">{{caracteristicas.nome_caracteristica}}</label>
                     <a href="/post/remover/caracteristica/{{caracteristicas.cod_caracteristica}}"><span class="material-symbols-outlined">delete</span></a>
                 </div>
                 {% endfor %}
