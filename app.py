@@ -625,11 +625,23 @@ def remover_estante(cod_estante):
 
 # EDITAR ESTANTE -------------------------------------------------------------------------------------------------------
 
-@app.route("/editar/estante/<cod_estante>")
-def editar_estante():
+@app.route("/pagina/editar/estante/<cod_estante>")
+def editar_estante(cod_estante):
+    estante = Estante.buscar_estante(cod_estante)
+    categorias = Categoria.recuperar_categoria(session["cpf"])
     
-    return render_template("pagina_editar_estante.html")
+    return render_template("pagina_editar_estante.html", estante=estante, categorias=categorias)
+
+@app.route("/post/editar/estante/<cod_estante>", methods=["POST"])
+def post_editar_estante(cod_estante):
     
+    nome = request.form.get("cadastro-nome")
+    categoria = request.form.get("cadastro-nome")
+    
+    Estante.editar_estante(nome,categoria,cod_estante)
+    
+    return redirect(url_for('principal'))
+
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
 # Rota que lida com a requisição GET para a página de cadastro de categoria, tipo e caracteristica.

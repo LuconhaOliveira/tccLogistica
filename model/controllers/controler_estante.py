@@ -241,3 +241,49 @@ class Estante:
                 cursor.close()
             if 'conexao' in locals() and conexao:
                 conexao.close()
+
+
+    def editar_estante(nome, cod_categoria, cod_estante):
+
+        conexao = None
+        cursor = None
+        
+
+        try:
+            # 2. CONEXÃO
+            conexao = Conection.create_connection()
+            if not conexao:
+                return False, "Falha na conexão com o banco de dados."
+
+            cursor = conexao.cursor()
+
+            # 3. COMANDO SQL
+            sql = "UPDATE produto SET nome=%s, cod_categoria=%s WHERE cod_estante=%s"
+            
+            # 4. VALORES: Ordem deve ser EXATA à do SQL
+            valores = (nome,cod_categoria,cod_estante)
+
+            # 5. EXECUÇÃO
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            # MUDANÇA: Retorna True e o ID do novo produto
+            return True
+
+        except Error as e:
+            # Captura erros de banco de dados
+            if conexao: conexao.rollback()
+            print(f"Erro ao cadastrar produto (SQL/DB): {e}")
+            return False, f"Erro no banco de dados: {e}"
+
+        except Exception as e:
+            # Captura outros erros
+            print(f"Erro inesperado no processo de cadastro: {e}")
+            return False, f"Erro inesperado: {e}"
+
+        finally:
+            # GARANTIA DE LIMPEZA DE RECURSOS
+            if cursor:
+                cursor.close()
+            if conexao:
+                conexao.close()
