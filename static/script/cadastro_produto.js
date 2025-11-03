@@ -87,4 +87,113 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
         });
     }
+
+    const estanteSelect = document.getElementById('nomeEstanteSelect');
+    const colunaSelect = document.getElementById('colunaEstanteSelect');
+    const linhaSelect = document.getElementById('linhaEstanteSelect');
+    
+    estanteSelect.addEventListener('input',()=>{
+        colunaSelect.innerHTML= `<option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
+
+                        <option class="select-coluna">1</option>
+                        <option class="select-coluna">2</option>
+                        <option class="select-coluna">3</option>
+                        <option class="select-coluna">4</option>
+                        <option class="select-coluna">5</option>
+                        <option class="select-coluna">6</option>
+                        <option class="select-coluna">7</option>
+                        <option class="select-coluna">8</option>
+                        <option class="select-coluna">9</option>
+                        <option class="select-coluna">10</option>
+
+                    </select>`
+
+        linhaSelect.innerHTML= `<option class="select-linha" disabled selected>Selecione uma Linha:</option>
+
+                        <option class="select-coluna">1</option>
+                        <option class="select-coluna">2</option>
+                        <option class="select-coluna">3</option>`
+    })
+    colunaSelect.addEventListener('input',async ()=>{
+        if(estanteSelect.value){
+            try {
+                const url = "/api/get/enderecamento/"+estanteSelect.value;
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                if(data){
+                    linhaSelect.innerHTML="<option class='select-linha' disabled selected>Selecione uma Linha:</option>";
+                    let option;
+                    for(let i=1;i<=3;i++){
+                        console.log('i:'+i);
+                        existe=false;
+                        option = document.createElement('option');
+                        option.className='select-coluna';
+                        option.textContent=i;
+                        for(let ii=0;ii<data.length;ii++){
+                            console.log('ii: '+ii);
+                            console.log(data[ii][1]);
+                            if(parseInt(data[ii][0])==colunaSelect.value && parseInt(data[ii][1])==i){
+                                existe=true;
+                                console.log('aaaa');
+                                ii=data.length;
+                            }
+                        }
+                        console.log(existe);
+                        console.log(option)
+                        if(!existe){
+                            linhaSelect.appendChild(option);
+                        }
+                    }
+                }
+            } catch (erro) {
+            console.error("Erro ao obter dados:", erro);
+            }
+        }
+    });
+    linhaSelect.addEventListener('input',async ()=>{
+        if(estanteSelect.value){
+            try {
+                const url = "/api/get/enderecamento/"+estanteSelect.value;
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                if(data){
+                    colunaSelect.innerHTML="<option class='select-coluna' disabled selected>Selecione uma Coluna:</option>";
+                    let option;
+                    for(let i=1;i<=10;i++){
+                        console.log('i:'+i);
+                        existe=false;
+                        option = document.createElement('option');
+                        option.className='select-coluna';
+                        option.textContent=i;
+                        for(let ii=0;ii<data.length;ii++){
+                            console.log('ii: '+ii);
+                            console.log(data[ii][1]);
+                            if(parseInt(data[ii][1])==linhaSelect.value && parseInt(data[ii][0])==i){
+                                existe=true;
+                                console.log('aaaa');
+                                ii=data.length;
+                            }
+                        }
+                        console.log(existe);
+                        console.log(option)
+                        if(!existe){
+                            colunaSelect.appendChild(option);
+                        }
+                    }
+                }
+            } catch (erro) {
+            console.error("Erro ao obter dados:", erro);
+            }
+        }
+    })
 });
