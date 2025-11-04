@@ -104,9 +104,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         <option class="select-coluna">7</option>
                         <option class="select-coluna">8</option>
                         <option class="select-coluna">9</option>
-                        <option class="select-coluna">10</option>
-
-                    </select>`
+                        <option class="select-coluna">10</option>`
 
         linhaSelect.innerHTML= `<option class="select-linha" disabled selected>Selecione uma Linha:</option>
 
@@ -126,29 +124,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 const data = await response.json();
                 if(data){
-                    linhaSelect.innerHTML="<option class='select-linha' disabled selected>Selecione uma Linha:</option>";
-                    let option;
-                    for(let i=1;i<=3;i++){
-                        console.log('i:'+i);
-                        existe=false;
-                        option = document.createElement('option');
-                        option.className='select-coluna';
-                        option.textContent=i;
-                        for(let ii=0;ii<data.length;ii++){
-                            console.log('ii: '+ii);
-                            console.log(data[ii][1]);
-                            if(parseInt(data[ii][0])==colunaSelect.value && parseInt(data[ii][1])==i){
-                                existe=true;
-                                console.log('aaaa');
-                                ii=data.length;
+                    let options = linhaSelect.querySelectorAll('option');
+                    options.forEach((option,i)=>{
+                        if(i){
+                            let display="block";
+                            for(let ii=0;ii<data.length;ii++){
+                                if(i==data[ii][1] && colunaSelect.value == data[ii][0]){
+                                    display = "none";
+                                }
                             }
+                            option.style.display = display;
                         }
-                        console.log(existe);
-                        console.log(option)
-                        if(!existe){
-                            linhaSelect.appendChild(option);
-                        }
-                    }
+                    })
                 }
             } catch (erro) {
             console.error("Erro ao obter dados:", erro);
@@ -156,7 +143,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
     linhaSelect.addEventListener('input',async ()=>{
-        if(estanteSelect.value){
+       if(estanteSelect.value){
             try {
                 const url = "/api/get/enderecamento/"+estanteSelect.value;
                 const response = await fetch(url);
@@ -167,29 +154,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 const data = await response.json();
                 if(data){
-                    colunaSelect.innerHTML="<option class='select-coluna' disabled selected>Selecione uma Coluna:</option>";
-                    let option;
-                    for(let i=1;i<=10;i++){
-                        console.log('i:'+i);
-                        existe=false;
-                        option = document.createElement('option');
-                        option.className='select-coluna';
-                        option.textContent=i;
-                        for(let ii=0;ii<data.length;ii++){
-                            console.log('ii: '+ii);
-                            console.log(data[ii][1]);
-                            if(parseInt(data[ii][1])==linhaSelect.value && parseInt(data[ii][0])==i){
-                                existe=true;
-                                console.log('aaaa');
-                                ii=data.length;
+                    let options = colunaSelect.querySelectorAll('option');
+                    options.forEach((option,i)=>{
+                        if(i){
+                            let display="block";
+                            for(let ii=0;ii<data.length;ii++){
+                                if(i==data[ii][0] && linhaSelect.value == data[ii][1]){
+                                    display = "none";
+                                }
                             }
+                            option.style.display = display;
                         }
-                        console.log(existe);
-                        console.log(option)
-                        if(!existe){
-                            colunaSelect.appendChild(option);
-                        }
-                    }
+                    })
                 }
             } catch (erro) {
             console.error("Erro ao obter dados:", erro);

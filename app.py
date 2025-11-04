@@ -400,15 +400,7 @@ def api_enderecamento(cod_estante):
     enderecamentos = []
 
     for produto in produtos:
-        enderecamentos.append([produto["coluna"],produto["linha"]])
-
-        print(produto["coluna"])
-        print("""a
-              a
-              a
-              a
-              a
-              a""")
+        enderecamentos.append([produto["coluna"],produto["linha"],produto["cod_produto"]])
     print(enderecamentos)
 
     return jsonify(enderecamentos)
