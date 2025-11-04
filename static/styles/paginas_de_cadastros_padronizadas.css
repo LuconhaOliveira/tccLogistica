@@ -57,7 +57,6 @@
 
 /* Botão de todas as telas */
 button[type="submit"] {
-
     color: var(--white);
     background-color: var(--orange-dark-color);
     font-family: var(--font-outfit);
@@ -83,9 +82,11 @@ button[type="submit"]:hover {
     padding: 0 !important;
 }
 
+/* alinhar o botão no meio */
 .button-adicionar {
     text-align: center;
 }
+
 
 /* ESPECIFICAÇÕES DA TELA DE CADASTRO */
 /* se a pessoa já tiver uma conta, então vai pro link de logar */
@@ -107,6 +108,7 @@ button[type="submit"]:hover {
     font-weight: bold;
 }
 
+
 /* ESPECIFICAÇÕES DE TELA DE LOGIN */
 /* se a pessoa ainda não possurir conta, vai para a pagina de cadastro */
 .container--a--label-possuiConta{
@@ -121,6 +123,7 @@ button[type="submit"]:hover {
     color: var(--orange-color);
     font-weight: bold;
 }
+
 /* link de cadastrar label */
 .container--a--label-possuiConta label{
     margin-top: 10px;
@@ -153,6 +156,7 @@ button[type="submit"]:hover {
     border-radius: 20px;
 }
 
+/* fieldset do formulario / divisao */
 .container--form fieldset {
     border: 2px solid var(--orange-light-color);
     padding: 0px 15px 0 15px;
@@ -160,6 +164,7 @@ button[type="submit"]:hover {
     margin-bottom: 20px;
 }
 
+/* legend do formulario */
 .container--form legend{
     font-size: var(--font-size-24);
     margin-bottom: 10px;
@@ -169,9 +174,11 @@ button[type="submit"]:hover {
     text-align: center;
 }
 
+/* input de sku para deixar letras maiusculas */
 .input-sku{
     text-transform: uppercase;
 }
+
 
 /* ESPECIFICAÇÕES DA TELA DE RECUPERAR SENHA */
 .container--label--a-voltar{
@@ -192,7 +199,9 @@ button[type="submit"]:hover {
     font-weight: bold;
 }
 
+
 /* ESPECIFICAÇÕES DO CHECKBOX DE CARACTERISTICAS */
+/* container das caracteristicas */
 .checkbox-caracteristicas {
     display: flex;
     flex-direction: column;
@@ -202,12 +211,14 @@ button[type="submit"]:hover {
     border-radius: 5px; 
 }
 
+/* input das caracteristicas */
 .checkbox-caracteristicas .form-check-input {
     border-color: var(--grey-medium) !important; 
     border-width: 2px !important;
     box-shadow: none !important; 
 }
 
+/* area do quadradinho */
 .checkbox-caracteristicas .form-check-input:checked {
     background-color: var(--orange-color) !important;
 }
