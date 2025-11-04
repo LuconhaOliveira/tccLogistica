@@ -1,11 +1,15 @@
 // =========================================================================
-// FUNÇÕES ESSENCIAIS: MÁSCARA E ENVIO AJAX COM SWEETALERT
+// FUNÇÕES ESSENCIAIS: MÁSCARA E ENVIO AJAX COM TEMPO MÍNIMO (Cadastro Produto)
+// Objetivo: Implementar a submissão assíncrona do formulário com feedback visual
+//           e otimização da User Experience (UX) para requisições rápidas.
 // =========================================================================
 
 document.addEventListener('DOMContentLoaded', (event) => {
     
     // 1. CÓDIGO DA MÁSCARA (usando jQuery)
-    // Aplica a máscara de dinheiro (R$) no campo com id="exampleInputValor"
+    // Aplica a máscara de dinheiro (R$) no campo com id="exampleInputValor".
+    // A opção 'reverse: true' é crucial para moedas, garantindo que a digitação
+    // comece da direita para a esquerda, tratando corretamente os centavos.
     $(document).ready(function(){
         $('#exampleInputValor').mask('000.000.000,00', {
             reverse: true, 
@@ -13,50 +17,79 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    // NOTA: Toda a lógica anterior para adicionar/remover características dinamicamente
-    // foi removida, pois o HTML agora usa um campo <select multiple> simples.
-    // O campo 'cadastro-caracteristicas' é enviado diretamente pelo FormData.
+    // Variável que define o PISO de tempo em milissegundos para o alerta de carregamento.
+    // Essencial para evitar o "pisca-pisca" (flash) em requisições de latência muito baixa.
+    const MIN_LOAD_TIME = 1000; 
 
 
     // Lógica de envio AJAX (SweetAlert)
     const cadastroProdutoForm = document.getElementById('cadastroProdutoForm');
     if (cadastroProdutoForm) {
         cadastroProdutoForm.addEventListener('submit', function(event) {
+            // Intercepta a submissão e previne o recarregamento síncrono da página.
             event.preventDefault(); 
             
-            // O FormData captura todos os campos do formulário, 
-            // incluindo as múltiplas seleções do <select multiple>
+            // O objeto FormData captura de forma nativa e eficiente todos os campos 
+            // do formulário (incluindo o campo <select multiple>), preparando-os para o POST.
             const formData = new FormData(cadastroProdutoForm);
+            
+            // Marca o tempo exato de início da requisição.
+            const startTime = Date.now(); 
 
-            // Exibe um alerta de carregamento enquanto aguarda a resposta
+            // Exibe o alerta de carregamento e bloqueia a interface.
             Swal.fire({
                 title: 'Processando...',
-                text: 'Aguarde o cadastro do produto.',
-                allowOutsideClick: false,
+                text: 'Aguarde, cadastrando produto.',
+                allowOutsideClick: false, // Força a espera do usuário
                 didOpen: () => {
-                    Swal.showLoading()
+                    Swal.showLoading() // Exibe o ícone de spinner
                 }
             });
 
-            // Envio AJAX
+            // Inicia a requisição assíncrona (Fetch API).
             fetch(cadastroProdutoForm.action, {
                 method: 'POST', 
                 body: formData 
             })
             .then(response => {
+                
+                // LÓGICA DO TEMPO MÍNIMO (PISO) DE CARREGAMENTO
+                // Calcula o tempo real que a requisição levou até a resposta chegar.
+                const elapsedTime = Date.now() - startTime; 
+                
+                // Calcula o tempo que ainda deve esperar (o máximo é 0 se a requisição foi lenta).
+                const remainingTime = Math.max(0, MIN_LOAD_TIME - elapsedTime);
+
+                // Retorna uma nova Promise para forçar o atraso no pipeline de Promises.
+                // O fechamento do loader e a continuação do código só ocorrem após o 'remainingTime'.
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        Swal.close(); // Fecha o alerta de carregamento APÓS o tempo mínimo.
+                        resolve(response); // Passa o objeto response para o próximo .then.
+                    }, remainingTime);
+                });
+            })
+            .then(response => {
+                // --- Tratamento da Resposta HTTP ---
+                // Verifica se o status HTTP está fora da faixa 2xx (e.g., 400, 500).
                 if (!response.ok) {
-                    // Se o status HTTP não for 2xx, lança um erro para o bloco .catch
-                    return response.json().then(err => { throw new Error(err.message || 'Erro desconhecido no servidor.'); });
+                    // Tenta ler o JSON de erro e lança uma exceção para o bloco .catch.
+                    return response.json().then(err => { 
+                        throw new Error(err.message || 'Erro desconhecido no servidor.'); 
+                    });
                 }
+                // Se OK (2xx), prossegue para parsear o JSON de dados.
                 return response.json(); 
             })
             .then(data => {
+                // --- Lógica de Negócio (Sucesso/Erro no JSON) ---
                 if (data.status === "success") {
+                    // Feedback de Sucesso e redirecionamento para o formulário limpo.
                     Swal.fire({
                         title: 'Sucesso!',
                         text: `${data.message}`, 
                         icon: 'success',
-                        timer: 1500, // Tempo suficiente para o usuário ler
+                        timer: 1500, // Tempo de exibição
                         timerProgressBar: true, 
                         showConfirmButton: false, 
                     }).then(() => { 
@@ -65,7 +98,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     });
                     
                 } else {
-                    // Exibe erro retornado pelo backend
+                    // Feedback de Erro de Lógica (e.g., validação de dados no backend).
                     Swal.fire({
                         title: 'Erro no Cadastro!',
                         text: data.message, 
@@ -75,9 +108,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 }
             })
             .catch(error => {
+                // --- Tratamento de Falhas Críticas (Rede, JSON Inválido, Erros Lançados) ---
                 console.error('Erro de comunicação ou validação:', error);
-                // Fecha o alerta de processamento e mostra o erro
+                
+                // Garante que o alerta de carregamento feche em caso de falha de rede total.
                 Swal.close(); 
+                
                 Swal.fire({
                     title: 'Ops!',
                     text: `Ocorreu um erro: ${error.message || 'Erro inesperado de rede.'}`, 

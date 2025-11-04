@@ -1,6 +1,6 @@
 {% extends "header_head.html" %}
 
-{% block titulo %}Adicionar Estante{% endblock %}
+{% block titulo %}Adicionar Produto{% endblock %}
 
 {% block estilos %}
     <!-- link css -->
@@ -18,11 +18,11 @@
             <h1>Adicionar Produto</h1>
 
             <fieldset>
-                <legend>Informações do Produto:</legend>
+                <legend>Informações do Produto</legend>
 
                 <!-- campo do nome -->
                 <div class="mb-3">
-                    <label for="exampleInputName" class="form-label">Nome:</label>
+                    <label for="exampleInputName" class="form-label">Nome</label>
                     <!-- name: backend do cadastro -->
                     <input name="cadastro-nome" type="text" maxlength="100" class="form-control" id="exampleInputName"
                         required>
@@ -30,7 +30,7 @@
 
                 <!-- campo da descrição -->
                 <div class="mb-3">
-                    <label for="exampleInputDescription" class="form-label">Descrição:</label>
+                    <label for="exampleInputDescription" class="form-label">Descrição</label>
                     <!-- description: backend do cadastro -->
                     <input name="cadastro-descricao" type="text" maxlength="255" class="form-control"
                         id="exampleInputDescription">
@@ -38,7 +38,7 @@
 
                 <!-- campo de imagem -->
                 <div class="mb-3">
-                    <label for="exampleInputPhoto" class="form-label">Imagem:</label>
+                    <label for="exampleInputPhoto" class="form-label">Imagem</label>
 
                     <!-- 
 
@@ -48,7 +48,7 @@
                     id="exampleInputPhoto"
                     accept="image/*" = indica ao navegador que apenas arquivos de imagem devem ser aceitos e mostrados nas opções de seleção.
                 
-                -->
+                    -->
 
                     <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto"
                         accept="image/*" required>
@@ -56,7 +56,7 @@
 
                 <!-- campo de quantidade -->
                 <div class="mb-3">
-                    <label for="exampleInputQuantidade" class="form-label">Quantidade:</label>
+                    <label for="exampleInputQuantidade" class="form-label">Quantidade</label>
                     <!-- quantidade: backend do cadastro -->
                     <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade"
                         min="0" placeholder="0" required min="1">
@@ -64,26 +64,26 @@
 
                 <!-- campo de valor -->
                 <div class="mb-3">
-                    <label for="exampleInputValor" class="form-label">Valor:</label>
+                    <label for="exampleInputValor" class="form-label">Valor</label>
                     <!-- valor: backend do cadastro -->
                     <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:">
                 </div>
 
                 <!-- campo do SKU -->
                 <div class="mb-3">
-                    <label for="exampleInputSKU" class="form-label">SKU:</label>
+                    <label for="exampleInputSKU" class="form-label">SKU</label>
                     <!-- SKU: backend do cadastro -->
-                    <input name="cadastro-sku" maxlength="100" class="form-control" id="exampleInputSKU">
+                    <input name="cadastro-sku" maxlength="100" class="form-control input-sku" id="exampleInputSKU">
                 </div>
             </fieldset>
 
             <fieldset>
-                <legend>Endereçamento:</legend>
+                <legend>Endereçamento</legend>
 
                 <!-- campo de nome da estante -->
                 <div class="mb-3">
 
-                    <label for="exampleInputNomeEstante" class="form-label">Nome da Estante:</label>
+                    <label for="exampleInputNomeEstante" class="form-label">Nome da Estante</label>
 
                     <select name="cadastro-nome-estante" class="form-select" id="nomeEstanteSelect">
 
@@ -100,10 +100,9 @@
                 <!-- campo da coluna da estante -->
                 <div class="mb-3">
 
-                    <label for="exampleInputColunaEstante" class="form-label">Coluna da Estante:</label>
+                    <label for="exampleInputColunaEstante" class="form-label">Coluna da Estante</label>
 
                     <select name="cadastro-coluna-estante" class="form-select" id="colunaEstanteSelect">
-
                         <option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
 
                         <option class="select-coluna">1</option>
@@ -124,7 +123,7 @@
                 <!-- campo de linha da estante -->
                 <div class="mb-3">
 
-                    <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante:</label>
+                    <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante</label>
 
                     <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
 
@@ -149,7 +148,7 @@
                 <!-- campo de categoria-->
                 <div class="mb-3">
 
-                    <label for="exampleInputCategoria" class="form-label">Categoria:</label>
+                    <label for="exampleInputCategoria" class="form-label">Categoria</label>
 
                     <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
 
@@ -166,7 +165,7 @@
                 <!-- campo de tipos de categoria -->
                 <div class="mb-3">
 
-                    <label for="exampleInputTipo" class="form-label">Tipo:</label>
+                    <label for="exampleInputTipo" class="form-label">Tipo</label>
 
                     <select name="cadastro-tipo" class="form-select" id="tipoSelect" required>
 
@@ -197,7 +196,7 @@
                 </div> -->
 
                 <div class="mb-3">
-                    <label class="form-label">Características:</label>
+                    <label class="form-label">Característica(s)</label>
                 
                     <div class ="checkbox-caracteristicas">
                         {% for caracteristicas in caracteristica %}
@@ -207,7 +206,7 @@
                                 id="caracteristica-{{caracteristicas.cod_caracteristica}}">
                 
                             <label class="form-check-label" for="caracteristica-{{caracteristicas.cod_caracteristica}}">
-                                {{caracteristicas.nome_caracteristica}} - Categoria: {{caracteristicas.nome_categoria}}
+                                {{caracteristicas.nome_caracteristica}}
                             </label>
                         </div>
                         {% endfor %}
@@ -217,7 +216,7 @@
             </fieldset>
 
             <!-- container do botão de adicionar -->
-            <div class="mb-3 form-check">
+            <div class="mb-3 form-check button-adicionar">
 
                 <a href="/cadastrar/produto">
                     <button class="btn btn-primary" type="submit">Adicionar</button>
