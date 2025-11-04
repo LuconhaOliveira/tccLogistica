@@ -131,9 +131,9 @@ class ControleProduto:
             if 'conexao' in locals() and conexao:
                 conexao.close()
     
-    def editar_produto(descricao, arquivo_imagem, quantidade, valor, sku, 
+    def editar_produto(nome, descricao, arquivo_imagem, quantidade, valor, sku, 
                           coluna, linha, cod_estante, cod_categoria, 
-                          cod_tipo, cod_caracteristica, cod_produto):
+                          cod_tipo, cod_produto):
         """
         Cadastra um novo produto no banco de dados.
 
@@ -170,13 +170,14 @@ class ControleProduto:
 
             # 3. COMANDO SQL: Inclui TODAS as 14 colunas da tabela 'produto'
             sql = """
-            UPDATE produto SET descricao=%s, imagem=%s, quantidade=%s, valor=%s, sku=%s, 
-                coluna=%s, linha=%s, cod_estante=%s, cod_categoria=%s, cod_tipo=%s, cod_caracteristica=%s
+            UPDATE produto SET nome=%s, descricao=%s, imagem=%s, quantidade=%s, valor=%s, sku=%s, 
+                coluna=%s, linha=%s, cod_estante=%s, cod_categoria=%s, cod_tipo=%s
                 WHERE cod_produto=%s
             """
             
             # 4. VALORES: Ordem deve ser EXATA à do SQL
             valores = (
+                nome,
                 descricao, 
                 arquivo_imagem, 
                 quantidade, 
@@ -187,7 +188,6 @@ class ControleProduto:
                 cod_estante,
                 cod_categoria, 
                 cod_tipo, 
-                cod_caracteristica,
                 cod_produto
             )
 
