@@ -388,6 +388,20 @@ def post_produto():
             'status': 'error',
             'message': f"Falha no cadastro (DB). Detalhes: {mensagem_ou_id}" 
         })
+    
+@app.route("/api/get/enderecamento/<cod_estante>")
+def api_enderecamento(cod_estante):
+
+    #busca os produtos daquela estante
+    produtos = Estante.buscar_estante(cod_estante)
+
+    enderecamentos = []
+
+    for produto in produtos:
+        #lista com a coluna, linha e codigo do produto
+        enderecamentos.append([produto["coluna"],produto["linha"],produto["cod_produto"]])
+
+    return jsonify(enderecamentos)
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
