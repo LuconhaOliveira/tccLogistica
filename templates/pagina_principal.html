@@ -1,6 +1,6 @@
     {% extends "header_head.html" %}
 
-    {% block titulo %}Página Inicial{% endblock %}
+    {% block titulo %}InStock{% endblock %}
 
     {% block estilos %}
     <!-- link do css da página -->
@@ -9,7 +9,6 @@
 
     {% block conteudo %}
     
-
     <main class="container--main">
 
         <!-- Btn question tutorial -->
@@ -25,12 +24,12 @@
             <span class="section-p--infoTxt">
 
                 <!-- Info sobre o sistema -->
-                <h1 class="span-h1--tituloInfo">Prioridade de cadastro</h1>
+                <h1 class="span-h1--tituloInfo">Prioridade de Cadastro</h1>
 
                 <!-- Fluxo do sistema -->
                 <details class="details-infoTxt" id="details-infoTxt">
                     <summary>
-                         <h2> Resumo do fluxo</h2>
+                         <h2> Resumo do Fluxo</h2>
                     </summary>
                     <div class="details-p--info1FluxoSistema">
                         <section>
@@ -45,7 +44,7 @@
                 <!-- Guia do Cadastro de estantes, categorias e produtos -->
                 <details class="details-infoTxt" id="details-infoTxt">
                     <summary>
-                         <h2>Guia de cadastro</h2>
+                         <h2>Guia de Cadastro</h2>
                     </summary>
                     <p>
                         <section>
@@ -197,7 +196,7 @@
         <!--  Opcoes que estão dentro do botão  -->
         <section>
             <div class="section-btn--opcoesDentroDoBtn" id="opcoesBotao">
-                <h1 class="section-div--tituloOpcoesBtn">Adicionar:</h1>
+                <h1 class="section-div--tituloOpcoesBtn">Adicionar</h1>
                 <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/categoria">Categoria</a>
                 <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/estante">Estante</a>
                 <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/produto">Produto</a>
@@ -209,10 +208,12 @@
                 <div class="card-categoriasFiltros">
 
                     <div class="card-body">
-                        <h5 class="card-title">Filtro:</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">Categoria:</h6>
+
+                        <h5 class="card-title">Filtros</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Categoria</h6>
 
                     <section class="card-section--filtroEstante">
+
                         <form id="filtros" class="card-form--filtroEstante">
                             Nenhuma categoria e/ou estante cadastrada no momento.
                         </form>
@@ -220,6 +221,7 @@
                     </section>
 
                 </div>
+
             </section>
 
                 <div class="container--estantesCriadas" id="estantes">
@@ -227,6 +229,7 @@
                     <p>Para começar, clique no botão com o sinal de '+' e depois em 'Estante'. Siga as etapas para adicionar uma nova estante. Se ainda não tiver cadastrado uma categoria, primeiro faça o cadastro da categoria necessária.</p>
                     <img src="/static/img/seta-laranja-sem-fundo.jpg" alt="imagem de seta">
                 </div>
+
     </main>
 
 <!-- JS -->
@@ -320,8 +323,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-
 
 </script>
 
