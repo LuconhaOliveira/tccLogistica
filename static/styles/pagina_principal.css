@@ -37,7 +37,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     height: 100%; 
-    width: 180px; 
+    width: 220px; 
     background-color: var(--grey-light);
     text-align:left ;
     flex-shrink: 0; 
@@ -51,30 +51,25 @@ body {
     grid-template-columns: 1fr 1fr 1fr; 
     grid-template-rows: auto ;
     gap: 30px;
-    
-
     padding: 0 100px 0 75px; 
-    
     height: auto;
     overflow-y: visible; 
 }
 
 .container--estantesCriadas a{
     color: var(--white);
+    font-size: var(--font-size-24);
+    font-weight: bold;
     width: 100%; 
     height: 100%;
-
     display: flex;
     flex-direction: column; 
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    
-
     overflow-wrap: break-word; 
     word-wrap: break-word; 
     word-break: break-word; 
-
     text-align: center; 
     padding: 30px; 
 }
@@ -86,26 +81,83 @@ body {
     height: 300px; 
     
     /* Centraliza  o nome (link) dentro da div */
-    justify-content: center;
-    align-items: center;
+    justify-content:flex-start;
+    align-items: flex-start;
     
     background-color: var(--orange-color);
     border-radius: 15px;
+}
+
+.container--estantesCriadas span{
+    background-color: var(--orange-dark-color);
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: center; 
+    align-items: center;    
 }
 
 /* Titulo "Filtro" */
 .card-filtrosCategoria .card-title{
     text-align: center;
     padding-top: 15px;
+    margin-top: 30px;
     font-family: var(--font-cinzel);
+    font-size: var(--font-size-30) !important;
 } 
 
 /* Titulo "categoria" */
 .card-filtrosCategoria .card-subtitle.mb-2.text-body-secondary{
-    padding-left: 8px;
-    padding-top: 20px;
-    font-size: 16px;
+    padding-top: 30px;
+    margin-bottom: 10px !important;
+    font-size: var(--font-size-24) !important;
     font-family: var(--font-outfit);
+    font-weight: bold;
+    color: var(--black) !important;
+}
+
+.card-body .card-subtitle{
+    margin-left: 15px;
+}
+
+.label-filtro{
+    font-size: var(--font-size-20) !important;
+    margin: 0px !important;
+}
+
+/* aqui ele esconde a bolinha azul padrão do navegador */
+.input-filtro {
+    opacity: 0;
+}
+
+/* 2. Prepare a <label> para ser a base do nosso novo botão */
+.label-filtro {
+    position: relative; /* posiciona o qudradinho certinho do lado do filtro */
+    cursor: pointer;  
+    padding-left: 12px;   
+    margin-bottom: 10px;    
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20) !important; 
+}
+
+/* 3. cria o novo quadradinho */
+.label-filtro::before {
+    content: ""; /* sem esse comando, o quadradinho não pode ser criado, pois é obrigatorio na opçao de ::before */
+    position: absolute; 
+    left: -15px !important;
+    top: 50%;           
+    transform: translateY(-50%); /* propriedade que permite mover, girar, escalar ou inclinar um elemento */
+    width: 20px;      
+    height: 20px;      
+    border: 2px solid var(--orange-color); 
+    background-color: var(--white); 
+    border-radius: 4px; 
+    transition: background-color 0.2s; 
+}
+
+/* quando o botão for clicado, ele fica laranja */
+.input-filtro:checked + .label-filtro::before {
+    background-color: var(--orange-color); 
 }
 
 /* Formata o input type radio (html) */
@@ -113,19 +165,23 @@ input[type="radio" i]{
     font-family: var(--font-outfit);
     padding-left: 5px;
     margin-left: 7px;
+    margin-left: 15px;
 }
 
 /* Btn do js */
 .card-section--btnLimparFiltro{
     display: flex;
     flex-direction: column;
-    width: 180px;
+    width: 100%;
     padding: 10px 20px;
     font-family: var(--font-outfit);
     margin-top: 20px;
     border: none;
     text-align: center;
     background-color: var(--orange-color);
+    font-size: var(--font-size-20);
+    color: var(--white);
+    font-weight: bold;
 }
 
 /* Btn Toggle ADD */
