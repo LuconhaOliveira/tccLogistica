@@ -617,10 +617,10 @@ def estante_especifica(id):
 
 # Rota para excluir uma estante 
 @app.route("/post/remover/produtos/<cod_estante>")
-def remover_produtos_estante(cod_prod_caracteristica, cod_estante):
+def remover_produtos_estante(cod_estante):
     # Chama a função do controler, remove os produtos da estante e redireciona para a pagina principal
-    Estante.remover_produtos_estante(cod_prod_caracteristica, cod_estante)
-    return redirect("/principal")
+    Estante.remover_produtos_estante(cod_estante)
+    return redirect(f"/estante/{cod_estante}")
 
 # EXCLUSÃO DE ESTANTE ------------------------------------------------------------------------------------------------------#
 

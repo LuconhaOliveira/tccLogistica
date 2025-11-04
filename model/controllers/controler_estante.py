@@ -124,45 +124,48 @@ class Estante:
 
             conexao.commit()
 
-            cursor.close()
-            conexao.close()
             return True
+        
         except Exception as e:
-            # Loga o erro e retorna False para o Flask detectar falha
-            print(f"Erro ao cadastrar estante no banco de dados: {e}")
-
-            try:
+            # Em caso de erro, faz rollback e retorna False
+            if conexao: 
                 conexao.rollback()
-            except:
-                pass
+            print(f"Erro ao cadastrar estante: {e}")
+            return False
 
-        return False
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
-    # Conexao com o banco de dados para excluir uma estante
-    def remover_produtos_estante(cod_prod_caracteristica, cod_estante):
+    # Conexao com o banco de dados para excluir todos os produtos da estante
+    def remover_produtos_estante(cod_estante):
 
         try:
             conexao = Conection.create_connection()
-                
             if not conexao:
                 return False
             cursor = conexao.cursor()
+            
+            # Localiza e exclui todos os produtos dentro da tabela de produtos_caracteristica, para remover a dependencia
+            sql_dependencia = """
+                DELETE FROM produto_caracteristica 
+                WHERE cod_produto IN (
+                    SELECT cod_produto FROM produto WHERE cod_estante = %s
+                );
+            """
+            valor_estante = (cod_estante,)
+            
+            cursor.execute(sql_dependencia, valor_estante) 
 
-            sql_dependencia = "DELETE FROM produto_caracteristica WHERE cod_produto = %s;"
-
-            valor = (cod_prod_caracteristica,)
-
-            cursor.execute(sql_dependencia, valor)
-
+            # Exclui todos os produtos da estante
             sql_produtos = "DELETE FROM produto WHERE cod_estante = %s"
-
-            valor = (cod_estante,)
-
-            cursor.execute(sql_produtos, valor)
-
+            
+            cursor.execute(sql_produtos, valor_estante) # Executa o DELETE dos produtos
+            
             conexao.commit()
-        
-            return True   
+            return True
         
         except Exception as e:
             # Em caso de erro, faz rollback e retorna False
@@ -178,24 +181,50 @@ class Estante:
                 conexao.close()
 
 
-    # Conexao com o banco de dados para excluir uma estante
-    # def remover_estante(cod_estante):
+    # Conexao com o banco de dados para excluir uma estante mesmo com todos os produtos dentro
+    def remover_estante(cod_estante):
 
-    #     # Se não possuir uma dependencia, executa a exclusão da estante
-    #     conexao = Conection.create_connection()
-    #     cursor = conexao.cursor()
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return False
 
-    #     sql = "DELETE FROM estante WHERE cod_estante = %s;"
+            # Remove as dependências dos produtos dentro da tabela de produto_caracteristica
+            sql_del_caracteristicas = """
+                DELETE FROM produto_caracteristica 
+                WHERE cod_produto IN (
+                    SELECT cod_produto FROM produto WHERE cod_estante = %s
+                );
+            """
 
-    #     valor = (cod_estante,)
+            cursor = conexao.cursor()
 
-    #     cursor.execute(sql, valor)
+            valor = (cod_estante,)
 
-    #     conexao.commit()
+            cursor.execute(sql_del_caracteristicas, valor) 
+
+            # Remove todos os produtos da estante  
+            sql_del_produtos = "DELETE FROM produto WHERE cod_estante = %s"
+            cursor.execute(sql_del_produtos, valor)
+
+            # Remove a estante, por fim
+            sql_del_estante = "DELETE FROM estante WHERE cod_estante = %s;"
+            cursor.execute(sql_del_estante, valor)
+
+            conexao.commit()
+            return True
         
-    #     cursor.close()
-    #     conexao.close()
-    #     return True
+        except Exception as e:
+            if 'conexao' in locals() and conexao: 
+                conexao.rollback()
+            print(f"Erro inesperado ao remover estante e seus produtos: {e}")
+            return False
+            
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
     # Recupera as estantes registradas anteriormente
     def recuperar_estante(cpf):
