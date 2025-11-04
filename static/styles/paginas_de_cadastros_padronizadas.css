@@ -77,6 +77,10 @@ button[type="submit"]:hover {
     color: var(--white);
 }
 
+button[type="submit"]:active {
+    background-color: var(--orange-color) !important;
+}
+
 /* alinhamento do form para tirar a formatação do bootstrap, por isso o !important */
 .form-check{
     padding: 0 !important;
@@ -129,6 +133,7 @@ button[type="submit"]:hover {
     margin-top: 10px;
 }
 
+/* link de cadastrar a hover */
 .container--a--label-possuiConta a:hover {
     transform: scale(1.2);
     text-decoration: wavy;
@@ -148,6 +153,11 @@ button[type="submit"]:hover {
 .a--esqueci-senha:hover{
     transform: scale(1.2);
     text-decoration: wavy;
+}
+
+/* input da senha para dar uma margem do texto de esquecer senha */
+.input-senha{
+    margin-bottom: 8px;
 }
 
 /* ESPECIFICAÇÕES DA TELA DE ADICIONAR PRODUTO */
