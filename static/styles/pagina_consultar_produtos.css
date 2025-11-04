@@ -8,6 +8,12 @@
     min-height: 100vh;
 }
 
+.nome--estante{
+font-family: var(--font-cinzel);
+font-size: var(--font-size-30);
+margin: 20px;
+}
+
 .container--main {
     flex: 1;
     display: flex;
@@ -30,11 +36,10 @@
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
     
-    background-color: var(--grey-dark);
+    background-color: var(--orange-color);
     padding: 10px;
     border-radius: 8px;
 
-    margin: 20px;
 
     
 }
@@ -72,13 +77,17 @@
     text-overflow: ellipsis;
 
 }
+.link--nomes{
+    text-decoration: none;
+    color: var(--black);
+}
 .endereco--produto{
     margin: 0 !important;
     font-size: 10px;
 }
 .imagem--produto{
-    width: 100%; /* Ocupa a largura total do card */
-    height: 90px;
+    width: 90px; /* Ocupa a largura total do card */
+    height: 80px;
     border-radius: 3px;
     margin-bottom: 5px;
 }
@@ -100,23 +109,27 @@
 .row-1 {
     grid-column: 1 / -1; 
     grid-row: 1; 
-    background-color: var(--grey-medium);
+    background-color: var(--orange-light-color);
 }
 .row-2 {
     grid-column: 1 / -1; 
     grid-row: 2; 
-    background-color: var(--grey-medium);
+    background-color: var(--orange-light-color);
 }
 .row-3 {
     grid-column: 1 / -1; 
     grid-row: 3; 
-    background-color: var(--grey-medium);
+    background-color: var(--orange-light-color);
 }
 
 
 .container--botoes{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px;
 }
 
 
