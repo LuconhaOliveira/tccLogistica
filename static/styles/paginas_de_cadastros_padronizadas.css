@@ -24,15 +24,16 @@
     padding: 30px 40px;
     border-radius: 12px;
     width: 750px;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* Titulo do form para todas as telas */
 .container--form h1{
     text-align: center;
     font-size: var(--font-size-30);
-    margin-top: 15px;
+    margin-bottom: 18px;
     font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
 }
 
 /* label (textos em cima dos inputs) para todas as telas */
@@ -40,7 +41,7 @@
     font-size: var(--font-size-20);
     margin-bottom: 5px;
     font-family: var(--font-outfit);
-    font-weight: 500 !important;
+    font-weight: 300 !important;
     display: block;
 }
 
@@ -57,15 +58,15 @@
 /* Botão de todas as telas */
 button[type="submit"] {
 
-    color: var(--black);
-    background-color: var(--grey-medium);
+    color: var(--white);
+    background-color: var(--orange-dark-color);
     font-family: var(--font-outfit);
     font-size: var(--font-size-20);
     font-weight: bold;
     border: none;
     border-radius: 12px;
     padding: 10px;
-    width: 100%;
+    width: 50%;
     margin-top: 30px;
     cursor: pointer;
     transition: background 0.5s;
@@ -73,15 +74,17 @@ button[type="submit"] {
 
 /* hover do botão para todas as telas */
 button[type="submit"]:hover {
-
     background-color: var(--orange-color) !important;
     color: var(--white);
-
 }
 
 /* alinhamento do form para tirar a formatação do bootstrap, por isso o !important */
 .form-check{
     padding: 0 !important;
+}
+
+.button-adicionar {
+    text-align: center;
 }
 
 /* ESPECIFICAÇÕES DA TELA DE CADASTRO */
@@ -151,8 +154,7 @@ button[type="submit"]:hover {
 }
 
 .container--form fieldset {
-
-    border: 1px solid var(--grey-medium);
+    border: 2px solid var(--orange-light-color);
     padding: 0px 15px 0 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -165,6 +167,10 @@ button[type="submit"]:hover {
     font-family: var(--font-outfit);
     font-weight: bold; 
     text-align: center;
+}
+
+.input-sku{
+    text-transform: uppercase;
 }
 
 /* ESPECIFICAÇÕES DA TELA DE RECUPERAR SENHA */
@@ -187,7 +193,6 @@ button[type="submit"]:hover {
 }
 
 /* ESPECIFICAÇÕES DO CHECKBOX DE CARACTERISTICAS */
-
 .checkbox-caracteristicas {
     display: flex;
     flex-direction: column;
