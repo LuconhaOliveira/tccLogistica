@@ -64,6 +64,18 @@ document.addEventListener('DOMContentLoaded',async ()=>{
     let estantesFiltros = await requisicao_filtros('');
     let estantes = estantesFiltros.estantes;
     let filtros = estantesFiltros.filtros;
+   
+    const map = new Map();
+
+    // Define a chave (o código) e o valor (o objeto).
+    // Se a chave 1 já existir, ela só é sobrescrita.
+    filtros.forEach(objeto => map.set(objeto.cod_categoria, objeto));
+
+    // O 'map' agora só tem valores únicos por chave
+    // Converte os VALORES do Map de volta para um array
+    filtros = Array.from(map.values());
+
+    console.log(filtros);
 
     alterar_estantes(estantes);
     alterar_filtros(filtros);

@@ -196,17 +196,6 @@ WHERE pedido.cpf=%s AND pedido.ativo=1;"""
 
                 cursor = conexao.cursor()
 
-                
-
-                for item in Pedido.buscar_itens_pedido():
-                    sql = """UPDATE produto SET quantidade=quantidade+
-        (SELECT SUM(quantidade) FROM item_pedido INNER JOIN pedido ON pedido.cod_pedido=item_pedido.cod_pedido 
-        WHERE pedido.ativo=1) WHERE cod_produto=%s;"""
-                    valores = (item["cod_produto"],)
-                
-                    cursor.execute(sql, valores)
-                    conexao.commit()
-
                 sql = """UPDATE pedido SET ativo=0 WHERE cod_pedido=%s;"""
                 valores = (cod_pedido,)
                 
