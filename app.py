@@ -249,10 +249,9 @@ def post_recuperar_senha():
 
 # PRODUTOS ------------------------------------------------------------------------------------------------------#
 
-# @app.route("/estante/<id>")
-# def pagina_estante(id):
-
-#     return jsonify(Estante.buscar_estante(id))
+@app.route("/api/get/caracteristicas/<tipo>")
+def api_caracteristicas(tipo):
+    return jsonify(Categoria.buscar_caracteristica(tipo))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/cadastrar/produto")

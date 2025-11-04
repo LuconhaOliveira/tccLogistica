@@ -4,7 +4,7 @@
 //           e otimização da User Experience (UX) para requisições rápidas.
 // =========================================================================
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     
     // 1. CÓDIGO DA MÁSCARA (usando jQuery)
     // Aplica a máscara de dinheiro (R$) no campo com id="exampleInputValor".
@@ -123,4 +123,45 @@ document.addEventListener('DOMContentLoaded', (event) => {
             });
         });
     }
+
+    const tipoSelect = document.querySelector('#tipoSelect');
+    const checkboxCaracteristicas = document.querySelector('.checkbox-caracteristicas');
+
+    tipoSelect.addEventListener('input',async (e)=>{
+        let checkboxes = '';
+
+        let novasCaracteristicas = await requisicao_filtros(e.target.value);
+
+        novasCaracteristicas.forEach(caracteristica=>{
+            checkboxes+=`<div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas"
+                                value="${caracteristica.cod_caracteristica}"
+                                id="caracteristica-${caracteristica.cod_caracteristica}">
+                
+                            <label class="form-check-label" for="caracteristica-${caracteristica.cod_caracteristica}">
+                                ${caracteristica.nome_caracteristica}
+                            </label>
+                        </div>`
+        });
+
+        checkboxCaracteristicas.innerHTML=checkboxes;
+    });
+
+
 });
+
+async function requisicao_filtros(tipo){
+    try {
+        const url = "/api/get/caracteristicas/"+tipo;
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (erro) {
+        console.error("Erro ao obter dados:", erro);
+    }
+} 
