@@ -88,11 +88,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     }
 
+    //selects relacionados ao endereçamento
     const estanteSelect = document.getElementById('nomeEstanteSelect');
     const colunaSelect = document.getElementById('colunaEstanteSelect');
     const linhaSelect = document.getElementById('linhaEstanteSelect');
     
+    //quando mudar a estante
     estanteSelect.addEventListener('input',()=>{
+        //reseta as colunas e linhas
+
         colunaSelect.innerHTML= `<option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
 
                         <option class="select-coluna">1</option>
@@ -112,9 +116,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         <option class="select-coluna">2</option>
                         <option class="select-coluna">3</option>`
     })
+
     colunaSelect.addEventListener('input',async ()=>{
+    //quando mudar a coluna e houver estante selecionada
         if(estanteSelect.value){
             try {
+                //requisição na api
                 const url = "/api/get/enderecamento/"+estanteSelect.value;
                 const response = await fetch(url);
 
@@ -122,14 +129,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
+                //lista com [[coluna,linha,codigo]]
                 const data = await response.json();
                 if(data){
+                    //busca os selects da linha, que serão alteradas
                     let options = linhaSelect.querySelectorAll('option');
                     options.forEach((option,i)=>{
+                        //roda em todos os options depois do primeiro
                         if(i){
                             let display="block";
                             for(let ii=0;ii<data.length;ii++){
                                 if(i==data[ii][1] && colunaSelect.value == data[ii][0]){
+                                    //se o option for de uma linha que ja tenha produto desta coluna ela não aparece
                                     display = "none";
                                 }
                             }
@@ -138,11 +149,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     })
                 }
             } catch (erro) {
-            console.error("Erro ao obter dados:", erro);
+                console.error("Erro ao obter dados:", erro);
             }
         }
     });
+
     linhaSelect.addEventListener('input',async ()=>{
+    //quando mudar a coluna e houver estante selecionada
        if(estanteSelect.value){
             try {
                 const url = "/api/get/enderecamento/"+estanteSelect.value;
@@ -168,7 +181,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     })
                 }
             } catch (erro) {
-            console.error("Erro ao obter dados:", erro);
+                console.error("Erro ao obter dados:", erro);
             }
         }
     })

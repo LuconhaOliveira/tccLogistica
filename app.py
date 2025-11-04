@@ -393,15 +393,14 @@ def post_produto():
 @app.route("/api/get/enderecamento/<cod_estante>")
 def api_enderecamento(cod_estante):
 
+    #busca os produtos daquela estante
     produtos = Estante.buscar_estante(cod_estante)
-
-    print(produtos)
 
     enderecamentos = []
 
     for produto in produtos:
+        #lista com a coluna, linha e codigo do produto
         enderecamentos.append([produto["coluna"],produto["linha"],produto["cod_produto"]])
-    print(enderecamentos)
 
     return jsonify(enderecamentos)
 
