@@ -51,7 +51,7 @@ body {
     grid-template-columns: 1fr 1fr 1fr; 
     grid-template-rows: auto ;
     gap: 30px;
-    padding: 0 100px 0 75px; 
+    padding: 0px 100px 30px 75px;
     height: auto;
     overflow-y: visible; 
 }
@@ -60,8 +60,8 @@ body {
     color: var(--white);
     font-size: var(--font-size-24);
     font-weight: bold;
-    width: 100%; 
-    height: 100%;
+    width: 360px; 
+    height: 540px;
     display: flex;
     flex-direction: column; 
     justify-content: center;
@@ -71,21 +71,26 @@ body {
     word-wrap: break-word; 
     word-break: break-word; 
     text-align: center; 
-    padding: 30px; 
 }
 
 /* Div da Estante (preenche o grid) */
 .container--estantesCriadas div{
     display: flex;
     width: 100%; 
-    height: 300px; 
-    
+    height: 100%; 
     /* Centraliza  o nome (link) dentro da div */
     justify-content:flex-start;
     align-items: flex-start;
-    
     background-color: var(--orange-color);
     border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); 
+    transition: transform 0.5s ease, box-shadow 0.5s ease; 
+}
+
+/* animação para a div saltar */
+.container--estantesCriadas div:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .container--estantesCriadas span{
@@ -94,7 +99,8 @@ body {
     height: 25%;
     display: flex;
     justify-content: center; 
-    align-items: center;    
+    align-items: center;  
+    border-radius: 15px 15px 0px 0px !important;
 }
 
 /* Titulo "Filtro" */
@@ -168,6 +174,11 @@ input[type="radio" i]{
     margin-left: 15px;
 }
 
+.form-aviso{
+    font-size: var(--font-size-20) !important;
+    margin: 20px !important;
+}
+
 /* Btn do js */
 .card-section--btnLimparFiltro{
     display: flex;
@@ -182,6 +193,53 @@ input[type="radio" i]{
     font-size: var(--font-size-20);
     color: var(--white);
     font-weight: bold;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.card-section--btnLimparFiltro:hover{
+    transform: translateY(-1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* quando não há estantes cadastradas */
+.container-estantesNaoCriadas{
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative;
+}
+
+.h2-aviso{
+    font-family: var(--font-outfit) !important;
+    font-weight: bold !important;
+    font-size: var(--font-size-30) !important;
+    text-align: center;
+    position: absolute;
+    left: 28%;
+    top: 5%;
+}
+
+.p-orientacao{
+    font-family: var(--font-outfit) !important;
+    font-size: var(--font-size-24) !important;
+    color: var(--white);
+    width: 40%;
+    position: relative;
+    left: 22%;
+    top: 20%;
+
+    text-align: center;
+
+    background-color: var(--orange-color);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.img-seta{
+    width: 60px;
+    height: 70px;
+    position: relative;
+    left: 90%;
+    top: 60%;
 }
 
 /* Btn Toggle ADD */
@@ -223,6 +281,16 @@ input[type="radio" i]{
     font-size: 30px;
     font-family: var(--font-outfit);
     margin-top: 10px; 
+}
+
+/* todos os botoes toggle */
+.button-toggle{
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.button-toggle:hover{
+    transform: translateY(-2px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* opcoes dentro do btn */
@@ -304,6 +372,13 @@ input[type="radio" i]{
     font-family: var(--font-outfit);
     z-index: 1000; 
     margin-top: 10px; 
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+#botaoToggleQuestionTutorial:hover {
+    /* O efeito de animação que você quer */
+    transform: translateY(-2px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4); /* Deixa a sombra mais forte */
 }
 
 /* Texto de info dentro do btn ----------------------------------------- */
@@ -329,7 +404,7 @@ input[type="radio" i]{
 
 /* Título Principal */
 .span-h1--tituloInfo {
-    font-size: 1.6rem; 
+    font-size: var(--font-size-30); 
     font-family: var(--font-cinzel);
     text-align: center;
     padding: 18px 15px; 
@@ -423,7 +498,7 @@ input[type="radio" i]{
 
 /* Ajuste dos títulos internos do conteúdo*/
 .details-infoTxt h3 {
-    font-size: 1.35rem; 
+    font-size: var(--font-size-24); 
     font-weight: 700;
     color: var(--orange-color); 
     margin-top: 2rem;
@@ -438,7 +513,7 @@ input[type="radio" i]{
 
 /* Títulos H4*/
 .details-infoTxt h4 {
-    font-size: 1.15rem; 
+    font-size: var(--font-size-20); 
     font-weight: 700; 
     color: #000000; 
     margin-top: 1.7rem;
@@ -447,7 +522,7 @@ input[type="radio" i]{
 
 /* Parágrafos gerais*/
 .details-infoTxt p {
-    font-size: 1rem; 
+    font-size: var(--font-size-16); 
     color: #000000; 
     margin-bottom: 1.2rem; 
 }

@@ -27,7 +27,8 @@ def principal():
     
     else:
         nome = session['nome']
-        return render_template("pagina_principal.html", nome=nome)
+        estantes = Estante.buscar_estantes()
+        return render_template("pagina_principal.html", nome=nome, estantes=estantes)
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
