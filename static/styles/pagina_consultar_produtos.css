@@ -1,4 +1,3 @@
-
 /* body */
 .container--body {
     background-color: var(--white);
@@ -9,9 +8,12 @@
 }
 
 .nome--estante{
-font-family: var(--font-cinzel);
-font-size: var(--font-size-30);
-margin: 20px;
+    text-align: center;
+    font-size: var(--font-size-30);
+    margin-bottom: 18px;
+    font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
+    margin: 20px;
 }
 
 .container--main {
@@ -23,47 +25,36 @@ margin: 20px;
     flex-direction: column;
 }
 
-
 /* estante selecionada, onde os produtos irão aparecer */
 .container--estante{
     width: 1200px;
     height: 500px;
-
     display: grid;
     /* Define 10 colunas de larguras iguais */
     grid-template-columns: 1fr;
     /* Define 3 linhas */
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
-    
     background-color: var(--orange-color);
     padding: 10px;
     border-radius: 8px;
-
-
-    
 }
 
 /* card de produto */
 .card--produto {
     /* ATENÇÃO: AS PROPRIEDADES grid-row e grid-column FORAM REMOVIDAS DAQUI! 
     Elas são injetadas dinamicamente via Jinja no HTML. */
-    
-
     background-color: var(--white); /* Fundo branco */
     border: 1px solid var(--grey-medium);
     border-radius: 5px;
     padding: 5px;
-    
     /* Para organizar o conteúdo do card */
     display: flex;
     flex-direction: column; /* Organiza os itens (foto, nome, endereço) verticalmente */
     align-items: center;
     text-align: center;
     color: var(--black);
-
     grid-row: 1;
-
 }
 .nome--produto{
     font-size: 10px  !important;
@@ -75,23 +66,24 @@ margin: 20px;
     overflow: hidden;
     /* adiciona "..." */
     text-overflow: ellipsis;
-
 }
+
 .link--nomes{
     text-decoration: none;
     color: var(--black);
 }
+
 .endereco--produto{
     margin: 0 !important;
     font-size: 10px;
 }
+
 .imagem--produto{
     width: 90px; /* Ocupa a largura total do card */
     height: 80px;
     border-radius: 3px;
     margin-bottom: 5px;
 }
-
 
 .grid-row {
     color: var(--white);
@@ -122,7 +114,6 @@ margin: 20px;
     background-color: var(--orange-light-color);
 }
 
-
 .container--botoes{
     display: flex;
     flex-direction: row;
@@ -132,12 +123,10 @@ margin: 20px;
     margin: 20px;
 }
 
-
 /* Botão de Excluir estante */
 .btn{
-
-    color: var(--black) !important;
-    background-color: var(--grey-medium) !important;
+    color: var(--white) !important;
+    background-color: var(--orange-dark-color) !important;
     font-family: var(--font-outfit) !important;
     font-size: var(--font-size-20) !important;
     font-weight: bold !important;
@@ -153,3 +142,13 @@ margin: 20px;
     background-color: var(--orange-color) !important;
     color: var(--white) !important;
 }
+
+.btn:active {
+    background-color: var(--orange-color) !important;
+}
+
+.btn:hover{
+    transform: translateY(-1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
