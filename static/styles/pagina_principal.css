@@ -227,11 +227,11 @@ input[type="radio" i]{
 }
 
 .img-seta{
-    width: 350px;
+    width: 150px;
     height: auto;
     position: absolute;
-    left: 64%;
-    top: 73%;
+    left: 69%;
+    top: 78%;
     transform: rotate(14deg);
 }
 
