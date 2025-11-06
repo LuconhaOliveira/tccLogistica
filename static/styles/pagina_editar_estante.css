@@ -26,50 +26,62 @@
 }
 
 /* Titulo do form */
-form h1 {
+/* Titulo do form */
+.container--form h1{
     text-align: center;
     font-size: var(--font-size-30);
-    margin-bottom: 25px;
-    font-weight: bold;
+    margin-bottom: 18px;
+    font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
 }
 
-/* label (textos em cima dos inputs) */
-.form-label {
+/* label (textos em cima dos inputs) para todas as telas */
+.form-label{
     font-size: var(--font-size-20);
     margin-bottom: 5px;
-    font-weight: 500;
+    font-family: var(--font-outfit);
     display: block;
 }
 
-/* Botão de Login */
+/* dentro dos inputs, para colocar uma fonte, para todas as telas */
+.form-control{
+    font-family: var(--font-outfit) !important;
+    font-size: var(--font-size-20);
+}
+
+/* botão de adicionar estante */
 button[type="submit"] {
-    background-color: var(--grey-medium);
+    color: var(--white);
+    background-color: var(--orange-dark-color);
     font-family: var(--font-outfit);
     font-size: var(--font-size-20);
-    color: var(--grey-dark);
     font-weight: bold;
     border: none;
     border-radius: 12px;
     padding: 10px;
-    width: 100%;
-    margin-top: 10px;
+    width: 50%;
+    margin-top: 30px;
     cursor: pointer;
-    transition: background 0.5s ;
+    transition: background 0.5s;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
+/* hover do botão para todas as telas */
 button[type="submit"]:hover {
     background-color: var(--orange-color) !important;
-    color: var(--grey-light);
+    color: var(--white);
+}
+
+button[type="submit"]:active {
+    background-color: var(--orange-color) !important;
+}
+
+button[type="submit"]:hover{
+    transform: translateY(-1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .form-check{
-
     padding: 0 !important;
-
-}
-
-.form-control{
-
-    font-family: var(--font-outfit);
-    font-size: var(--font-size-20);
+    text-align: center;
 }

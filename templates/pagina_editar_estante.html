@@ -1,6 +1,6 @@
 {% extends "header_head.html" %}
 
-{% block titulo %}Adicionar Estante{% endblock %}
+{% block titulo %}Editar Estante{% endblock %}
 
 {% block estilos %}
     <!-- link css -->
@@ -15,14 +15,14 @@
 
             <!-- nome da estante -->
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Nome da Estante:</label>
+                <label for="exampleInputPassword1" class="form-label">Nome</label>
                 <!-- name: backend do adicionar nome estante -->
                 <input name="cadastro-nome" id="cadastro-nome" type="text" class="form-control" value="{{estante.estante}}"></input>
             </div>
 
             <!-- categoria da estante -->
             <div class="mb-3">
-                <label for="exampleInputCategory" class="form-label">Categoria:</label>
+                <label for="exampleInputCategory" class="form-label">Categoria</label>
                 <!-- name: backend do adicionar categoria -->
                 
                 <select name="cadastro-categoria" id="estante-cod-categoria" class="form-control">

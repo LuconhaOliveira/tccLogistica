@@ -41,7 +41,6 @@
     font-size: var(--font-size-20);
     margin-bottom: 5px;
     font-family: var(--font-outfit);
-    font-weight: 300 !important;
     display: block;
 }
 
@@ -81,16 +80,15 @@ button[type="submit"]:active {
     background-color: var(--orange-color) !important;
 }
 
-/* alinhamento do form para tirar a formatação do bootstrap, por isso o !important */
-.form-check{
-    padding: 0 !important;
-}
-
 /* alinhar o botão no meio */
 .button-adicionar {
     text-align: center;
 }
 
+/* alinhamento do form para tirar a formatação do bootstrap, por isso o !important */
+.form-check{
+    padding: 0 !important;
+}
 
 /* ESPECIFICAÇÕES DA TELA DE CADASTRO */
 /* se a pessoa já tiver uma conta, então vai pro link de logar */
