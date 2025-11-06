@@ -44,7 +44,7 @@
 .card--produto {
     /* ATENÇÃO: AS PROPRIEDADES grid-row e grid-column FORAM REMOVIDAS DAQUI! 
     Elas são injetadas dinamicamente via Jinja no HTML. */
-    background-color: var(--white); /* Fundo branco */
+    background-color: var(--grey-light); /* Fundo branco */
     border: 1px solid var(--grey-medium);
     border-radius: 5px;
     padding: 5px;
@@ -55,17 +55,22 @@
     text-align: center;
     color: var(--black);
     grid-row: 1;
+    height: 150px !important;
+    font-family: var(--font-outfit);
 }
 .nome--produto{
-    font-size: 10px  !important;
+    font-size: var(--font-size-12)  !important;
     /* 'ch' mede a largura do caractere '0' para 7 caracteres */
-    max-width: 7ch !important;
+    max-width: 12ch !important;
     /* garante que o texto fique em uma unica linha */
     white-space: nowrap !important;
     /* esconde qualquer texto que ultrapasse do maximo permitido */
     overflow: hidden;
     /* adiciona "..." */
     text-overflow: ellipsis;
+    text-align: left !important;
+    margin-top: 2px;
+    font-weight: bold;
 }
 
 .link--nomes{
@@ -76,6 +81,8 @@
 .endereco--produto{
     margin: 0 !important;
     font-size: 10px;
+    font-size: var(--font-size-12);
+
 }
 
 .imagem--produto{
