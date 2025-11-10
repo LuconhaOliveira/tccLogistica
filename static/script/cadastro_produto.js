@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     estanteSelect.addEventListener('input',()=>{
         //reseta as colunas e linhas
 
-        colunaSelect.innerHTML= `<option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
+        colunaSelect.innerHTML= `<option class="select-coluna" disabled selected>Selecione uma coluna:</option>
 
                         <option class="select-coluna">1</option>
                         <option class="select-coluna">2</option>
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <option class="select-coluna">9</option>
                         <option class="select-coluna">10</option>`
 
-        linhaSelect.innerHTML= `<option class="select-linha" disabled selected>Selecione uma Linha:</option>
+        linhaSelect.innerHTML= `<option class="select-linha" disabled selected>Selecione uma linha:</option>
 
                         <option class="select-coluna">1</option>
                         <option class="select-coluna">2</option>
