@@ -6,7 +6,7 @@ from mysql.connector import Error
 class Usuario:
 
     # Conexao com o banco de dados para cadastrar um novo usuario
-    def cadastrar_usuario(cpf, nome, senha):
+    def cadastrar_usuario(cpf, nome, email, senha):
 
         cpf_limpo = cpf.replace('.', '').replace('-', '')
         
@@ -19,12 +19,13 @@ class Usuario:
         sql = """INSERT INTO usuario (
                         cpf, 
                         nome,
-                        senha)
+                        senha,
+                        email)
                         
                     VALUES (
-                        %s, %s, %s)"""
+                        %s, %s, %s, %s)"""
 
-        valores = (cpf_limpo, nome, senha)
+        valores = (cpf_limpo, nome, senha, email)
 
         cursor.execute(sql, valores)
 
