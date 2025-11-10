@@ -35,7 +35,9 @@ CREATE TABLE IF NOT EXISTS usuario (
     -- Nome completo do usuário.
     nome VARCHAR(100),
     -- Senha criptografada (hash). Usa VARCHAR(255) para armazenar o hash SHA-256 (ou similar).
-    senha VARCHAR(255)
+    senha VARCHAR(255),
+    -- Email para redefinição de senha
+    email VARCHAR(255)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
