@@ -451,3 +451,62 @@ class ControleProduto:
                 cursor.close()
             if 'conexao' in locals() and conexao:
                 conexao.close()
+
+    def editar_caracteristicas(caracteristicas_ids,cod_produto):
+        try:
+            conexao = Conection.create_connection()
+
+            if not conexao:
+                return  # Retorna um nome padrão em caso de erro
+
+            cursor = conexao.cursor()
+
+            sql = """DELETE FROM produto_caracteristica WHERE cod_produto=%s;"""
+            valores=(cod_produto,)
+
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            # Buscar o nome da estante no banco
+            sql = """
+            INSERT INTO produto_caracteristica (valor, cod_produto, cod_caracteristica)
+            VALUES (%s, %s, %s)
+            """
+
+            # O valor padrão '1' ou 'Sim' é usado, já que o SELECT MULTIPLE só envia os IDs.
+            # Se a característica for selecionada, ela está "presente" (valor '1').
+            valor_padrao = '1' 
+
+            if caracteristicas_ids and cod_produto:
+                # Prepara os dados para inserção em lote (executemany)
+                caracteristicas_para_inserir = []
+                
+                # Itera sobre a LISTA de IDs, que é o que vem do app.py
+                for cod_caracteristica in caracteristicas_ids:
+                    # Garantir que o cod_caracteristica é um inteiro válido (já filtrado no app.py, mas bom reforço)
+                    try:
+                        cod_caracteristica_int = int(cod_caracteristica)
+                        caracteristicas_para_inserir.append((
+                            valor_padrao, # Usa o valor padrão
+                            cod_produto, 
+                            cod_caracteristica_int
+                        ))
+                    except ValueError:
+                        # Ignora IDs inválidos, embora o app.py já filtre isso
+                        continue
+
+                # Executa a inserção em lote para todas as características selecionadas
+                if caracteristicas_para_inserir:
+                    cursor.executemany(sql, caracteristicas_para_inserir)
+
+            conexao.commit()
+
+        except Error as e:
+            print(f"Erro ao editar caracteristica do produto: {e}")
+            return "Erro de Busca"
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
