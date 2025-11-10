@@ -8,6 +8,8 @@ from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
 from model.controllers.controller_pedido import Pedido
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 
 
 app = Flask(__name__)
@@ -15,6 +17,27 @@ app = Flask(__name__)
 # Chave secreta para o funcionamento da sessão no Flask:
 # Usada para criptografar os cookies de sessão (como 'cpf'), garantindo que os dados da sessão não possam ser lidos ou adulterados pelo usuário.
 app.secret_key = "ch@v3s3cr3t4444&&@"
+
+# --- CONFIGURAÇÃO DE RESET DE SENHA ---
+
+# 1. Configuração do Flask-Mail (Use um e-mail "App Password" do Gmail)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'oliveiraplumas03@gmail.com' 
+app.config['MAIL_PASSWORD'] = 'Avlis5779'
+app.config['MAIL_DEFAULT_SENDER'] = ('teste', 'oliveiraplumas03@gmail.com')
+
+# 2. Configuração do 'itsdangerous' para tokens seguros
+# (SECURITY_PASSWORD_SALT é um "tempero" extra para o token)
+app.config['SECURITY_PASSWORD_SALT'] = 'meu-salt-de-reset-muito-seguro' 
+# O 'SECRET_KEY' que você já tem (app.secret_key) será usado pelo 'itsdangerous'
+
+# 3. Inicialização
+mail = Mail(app)
+# O Serializer usará a 'app.secret_key' automaticamente
+s = URLSafeTimedSerializer(app.secret_key)
+
 
 # PÁGINA PRINCIPAL ------------------------------------------------------------------------------------------------------#
  
@@ -144,6 +167,9 @@ def logar():
 #    e retorna uma resposta JSON (sucesso ou erro) para o cliente.
 @app.route("/post/login", methods=["POST"])
 def post_login():
+
+    #olha o gemini
+
     # 1. Captura os dados do formulário enviado via POST
     # Obtém o valor do campo 'login-cpf' do formulário
     cpf = request.form.get("login-cpf")
