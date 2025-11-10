@@ -154,10 +154,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // HTML dos checkboxes será injetado.
     const checkboxCaracteristicas = document.querySelector('.checkbox-caracteristicas');
 
+    const actionUrl = document.querySelector('form').getAttribute('action');
+
+    // Extrai o cod_produto da URL usando regex
+    const codProduto = actionUrl.match(/\/post\/editar\/produto\/(\d+)/)[1];
+
+    console.log(codProduto);
+
     async function alteracao_caracteristicas(){
         
         // Variável que irá acumular o HTML gerado dinamicamente.
-        let checkboxes = '';
+        let checkboxes = '<label class="label-caracteristicas">Característica(s)</label>';
 
         // --- Requisição Assíncrona ---
         // 1. Chama a função 'requisicao_filtros' passando o valor atual do select.
@@ -170,6 +177,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // (Assume-se que se 'novasCaracteristicas' for 'undefined' por um erro,
         // o .forEach simplesmente não rodará, resultando em 'checkboxes' vazio).
         novasCaracteristicas.forEach(caracteristica => {
+            let check = false
+
+            if(caracteristica.cod_produtos){
+                caracteristica.cod_produtos.forEach(produto=>{
+                    if (produto==codProduto){
+                        check=true
+                    }
+                });
+            }
             
             // Concatena o HTML de cada checkbox na variável acumuladora.
             // Template literals (crases ``) são usados para interpolar
@@ -177,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             checkboxes += `<div class="form-check">
                              <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas"
                                  value="${caracteristica.cod_caracteristica}"
-                                 id="caracteristica-${caracteristica.cod_caracteristica}">
+                                 id="caracteristica-${caracteristica.cod_caracteristica}" ${check? 'checked':''}>
             
                              <label class="form-check-label" for="caracteristica-${caracteristica.cod_caracteristica}">
                                  ${caracteristica.nome_caracteristica}
@@ -198,43 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // O evento 'input' é usado para uma resposta imediata (diferente de 'change',
     // que só dispara ao perder o foco).
     // A função do listener é 'async' para permitir o uso de 'await' na requisição.
-    tipoSelect.addEventListener('input', async (e) => {
-        
-        // Variável que irá acumular o HTML gerado dinamicamente.
-        let checkboxes = '';
-
-        // --- Requisição Assíncrona ---
-        // 1. Chama a função 'requisicao_filtros' passando o valor atual do select.
-        // 2. O 'await' pausa a execução DESTA FUNÇÃO até que a Promise
-        //    (a requisição fetch) seja resolvida e retorne os dados.
-        let novasCaracteristicas = await requisicao_filtros(e.target.value);
-
-        // --- Construção do HTML ---
-        // Itera sobre o array de dados (JSON) retornado pela API.
-        // (Assume-se que se 'novasCaracteristicas' for 'undefined' por um erro,
-        // o .forEach simplesmente não rodará, resultando em 'checkboxes' vazio).
-        novasCaracteristicas.forEach(caracteristica => {
-            
-            // Concatena o HTML de cada checkbox na variável acumuladora.
-            // Template literals (crases ``) são usados para interpolar
-            // as variáveis 'cod_caracteristica' e 'nome_caracteristica' facilmente.
-            checkboxes += `<div class="form-check">
-                             <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas"
-                                 value="${caracteristica.cod_caracteristica}"
-                                 id="caracteristica-${caracteristica.cod_caracteristica}">
-            
-                             <label class="form-check-label" for="caracteristica-${caracteristica.cod_caracteristica}">
-                                 ${caracteristica.nome_caracteristica}
-                             </label>
-                         </div>`;
-        });
-
-        // --- Injeção no DOM ---
-        // Substitui o conteúdo HTML do container <div> pela string HTML
-        // que acabamos de construir. Isso limpa os checkboxes antigos e
-        // insere os novos.
-        checkboxCaracteristicas.innerHTML = checkboxes;
-    });
+    tipoSelect.addEventListener('input',alteracao_caracteristicas);
 
     // =========================================================================
     // FUNÇÃO HELPER: REQUISIÇÃO AJAX (Fetch API)

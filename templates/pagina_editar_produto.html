@@ -53,7 +53,7 @@
                                     <div class="mb-3">
 
                                         <!-- exemplo -->
-                                        <input name="cadastro-nome" maxlength="100" class="form-control" id="exampleInputSKU" placeholder="SKU:" value="{{produto.produto}}">
+                                        <input name="cadastro-nome" maxlength="100" class="form-control" id="exampleInputSKU" placeholder="Nome:" value="{{produto.nome_produto}}">
 
                                     </div>
 
@@ -84,7 +84,7 @@
                                             <option class="select-estante" disabled selected>Selecione uma Estante:</option>
 
                                             {% for estante in estantes %}
-                                            {% if estante.estante==produto.estante %}
+                                            {% if estante.estante==produto.nome_estante %}
                                             <option value="{{estante.cod_estante}}" selected>{{estante.estante}}</option>
                                             {% else %}
                                             <option value="{{estante.cod_estante}}">{{estante.estante}}</option>
@@ -151,7 +151,7 @@
                                                 </option>
 
                                                 {% for categoria in categorias %}
-                                                {% if categoria.nome==produto.categoria %}
+                                                {% if categoria.nome==produto.nome_categoria %}
                                                 <option value="{{categoria.cod_categoria}}" selected>{{categoria.nome}}</option>
                                                 {% else %}
                                                 <option value="{{categoria.cod_categoria}}">{{categoria.nome}}</option>
@@ -170,7 +170,7 @@
                                                 <option class="select-tipo" disabled selected>Selecione um tipo:</option>
 
                                                 {% for tipo in tipos %}
-                                                {% if tipo.nome_tipo == produto.tipo %}
+                                                {% if tipo.nome_tipo == produto.nome_tipo %}
                                                 <option value="{{tipo.cod_tipo}}" selected>{{tipo.nome_tipo}} - Categoria: {{tipo.nome_categoria}}</option>
                                                 {% else %}
                                                 <option value="{{tipo.cod_tipo}}">{{tipo.nome_tipo}}</option>
@@ -234,7 +234,20 @@
 
     </form>
 
+
+    <!-- Link para importar as máscaras para VALOR -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+
     <script>
+
+        $(document).ready(function(){
+            $('#exampleInputValor').mask('000.000.000,00', {
+                reverse: true, 
+                placeholder: "0,00" 
+            });
+        });
+
         document.getElementById('exampleInputPhoto').addEventListener('change', function (event) {
             const file = event.target.files[0];
             if (file) {
