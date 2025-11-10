@@ -138,7 +138,7 @@
 /* aviso de mensagem no container de categoria */
 .aviso-cadastro-categoria{
     visibility: hidden; 
-    width: 180px;
+    width: 100px;
     background-color: var(--orange-dark-color);
     color: #ffffff;
     text-align: center;
