@@ -17,7 +17,7 @@
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Nome</label>
                 <!-- name: backend do adicionar nome estante -->
-                <input name="nome" id="estante-nome" type="text" class="form-control" placeholder="Insira o nome da estante:"></input>
+                <input name="nome" id="estante-nome" type="text" class="form-control" placeholder="Insira o nome da estante:" required maxlength="100"></input>
             </div>
 
             <!-- categoria da estante -->
@@ -26,10 +26,14 @@
                 <!-- name: backend do adicionar categoria -->
                 
                 <select name="cod_categoria" id="estante-cod-categoria" class="form-control">
-                    <option disabled selected>Selecione a categoria:</option>
-                    {% for categorias in categoria %}
-                    <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
-                    {% endfor %}
+                    {% if categoria %}
+                        <option value="" disabled selected>Selecione a Categoria:</option>
+                        {% for categorias in categoria %}
+                        <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="" disabled selected>Nenhuma categoria cadastrada</option>
+                    {% endif %}
                 </select>
                 
             </div>
