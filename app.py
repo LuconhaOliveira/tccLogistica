@@ -271,6 +271,7 @@ def cadastrar_produto():
     tipo = Categoria.recuperar_tipo(cpf)
     caracteristica = Categoria.recuperar_caracteristica(cpf)
     estante = Estante.recuperar_estante(cpf)
+    tipo_categoria = Categoria.recuperar_tipo(cpf)
 
     # Renderiza o template, passando os dados para os selects
     return render_template(
@@ -278,7 +279,8 @@ def cadastrar_produto():
         categoria=categoria, 
         tipo=tipo, 
         caracteristica=caracteristica, 
-        estante=estante
+        estante=estante,
+        tipo_categoria = tipo_categoria
     )
 
 # CADASTRAR PRODUTOS ------------------------------------------------------------------------------------------------------#
