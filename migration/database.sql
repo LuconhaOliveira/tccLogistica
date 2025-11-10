@@ -323,9 +323,7 @@ BEGIN
 '";
  Tipo antiga: "',(SELECT nome FROM tipo WHERE cod_tipo = OLD.cod_tipo),
 '" para tipo alterada: "',(SELECT nome FROM tipo WHERE cod_tipo = NEW.cod_tipo),
-'";
- Característica antiga: "',(SELECT nome FROM caracteristica WHERE cod_caracteristica = OLD.cod_caracteristica),
-'" para característica  alterada: "',(SELECT nome FROM caracteristica WHERE cod_caracteristica = NEW.cod_caracteristica),'".'
+'";'
 ),
         NOW(),
         NEW.cpf

@@ -53,7 +53,7 @@ def filtro_filtro(filtro):
     filtros=[]
 
     for i in estantes:
-        filtros.append({"nome": i["categoria"],"cod_categoria": i["cod_categoria"]})
+        filtros.append({"nome": i["categoria"],"cod_categoria": i["cod_categoria"],"produtos": i["produtos"]})
 
     return jsonify({"estantes": estantes,"filtros": filtros}), 200
 
@@ -424,6 +424,8 @@ def visualizar_produto(cod_produto):
 
     produto = ControleProduto.selecionar_produto(cod_produto)
 
+    produto["valor"]=f'{produto["valor"]:.2f}'
+
     nome_produto = ControleProduto.buscar_nome_produto(cod_produto)
 
     if produto and produto.get('imagem'):
@@ -439,7 +441,7 @@ def visualizar_produto(cod_produto):
 
 @app.route("/pagina/editar/produto/<id>")
 def editar_produto(id):
-    produto = ControleProduto.buscar_produto(id)
+    produto = ControleProduto.selecionar_produto(id)
     produto["valor"]=f'{produto["valor"]:.2f}'
     imagem_base64 = ""
     if produto["imagem"]:
@@ -477,7 +479,8 @@ def post_editar_produto(id):
     
     cod_estante = request.form.get("cadastro-nome-estante")
     cod_categoria = request.form.get("cadastro-categoria")
-    cod_caracteristica = request.form.get("cadastro-caracteristicas")
+    # Obtém a lista de IDs do SELECT MULTIPLE
+    selected_caracteristicas_ids_str = request.form.getlist("cadastro-caracteristicas")
     
     # 3. Validação de Campos NOT NULL (Backend)
     try:
@@ -502,7 +505,8 @@ def post_editar_produto(id):
         # 3.5. Conversão dos outros IDs (NULÁVEIS)
         cod_estante = int(cod_estante) if cod_estante else None
         cod_categoria = int(cod_categoria) if cod_categoria else None
-        cod_caracteristica = int(cod_caracteristica) if cod_caracteristica else None
+        # 3.6. Conversão das características (lista de strings para lista de inteiros)
+        caracteristicas_ids = [int(cod) for cod in selected_caracteristicas_ids_str if cod.isdigit()]
 
 
     except (TypeError, ValueError) as e:
@@ -528,6 +532,8 @@ def post_editar_produto(id):
         coluna, linha, cod_estante, cod_categoria,
         cod_tipo,id
     )
+
+    if(sucesso and caracteristicas_ids): ControleProduto.editar_caracteristicas(caracteristicas_ids,id)
 
     # 6. Retorno JSON
     if sucesso:
