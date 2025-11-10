@@ -35,7 +35,9 @@ CREATE TABLE IF NOT EXISTS usuario (
     -- Nome completo do usuário.
     nome VARCHAR(100),
     -- Senha criptografada (hash). Usa VARCHAR(255) para armazenar o hash SHA-256 (ou similar).
-    senha VARCHAR(255)
+    senha VARCHAR(255),
+    -- Email para redefinição de senha
+    email VARCHAR(255)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -73,7 +75,8 @@ CREATE TABLE IF NOT EXISTS tipo (
 	cpf VARCHAR(14) NOT NULL, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
     cod_categoria INT,
-    FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria)
+    FOREIGN KEY (cod_categoria) REFERENCES categoria (cod_categoria),
+    UNIQUE (nome, cpf, cod_categoria)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -108,7 +111,8 @@ CREATE TABLE IF NOT EXISTS caracteristica (
     -- Chave estrangeira: Vincula a criação/gestão da característica ao usuário.
     cpf VARCHAR(14) NOT NULL, 
     FOREIGN KEY (cpf) REFERENCES usuario (cpf),
-    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo)
+    FOREIGN KEY (cod_tipo) REFERENCES tipo (cod_tipo),
+    UNIQUE (nome, cpf, cod_tipo)
 );
 
 -- ---------------------------------------------------------------------------------------------------------

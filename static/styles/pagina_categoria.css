@@ -1,17 +1,31 @@
-/* tamanho da fonte: */
-/* titulo: 30*/
-/* outros: 20 */
-h2{
+.container--form h2{
+    text-align: center;
+    font-size: var(--font-size-24);
     font-family: var(--font-cinzel);
-    font-size: var(--font-size-24) !important;
+    color: var(--orange-dark-color);
 }
-form h2{
+
+/* label (textos em cima dos inputs) para todas as telas */
+.form-label{
+    font-size: var(--font-size-20);
+    margin-bottom: 5px;
     font-family: var(--font-outfit);
-    font-weight: bold;
+    display: block;
 }
+
 .titulo-exclusao{
-    font-family: var(--font-outfit);
-    font-weight: bold;
+    text-align: center;
+    font-size: var(--font-size-30);
+    margin-bottom: 18px;
+    font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
+}
+
+.form--titulo-exclusao{
+    text-align: center;
+    font-size: var(--font-size-24);
+    font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
 }
 
 /* body */
@@ -51,12 +65,14 @@ form h2{
     width: 100%;
     gap: 20px;
 }
+
 .container--divisao2{
     display: flex;
     justify-content: center;
     width: 100%;
     gap: 20px;
 }
+
 .container--exclusao{
     background-color: var(--grey-light);
     padding: 60px 40px;
@@ -84,15 +100,21 @@ form h2{
 }
 
 .container--exclusao-itens label{
-    
     text-align: center;
     font-weight: bolder;
-
 }
 
 .container--exclusao-itens .material-symbols-outlined{
     color: var(--black) !important;
     line-height: 2 !important;
+}
+
+.material-symbols-outlined{
+    transition: transform 0.5s ease, box-shadow 0.5s ease; 
+}
+
+.material-symbols-outlined:hover{
+    transform: translateY(-2px); 
 
 }
 
@@ -109,58 +131,141 @@ form h2{
     justify-content: center;
 }
 
+.tooltip-container{
+    position: relative;
+}
+
+/* aviso de mensagem no container de categoria */
+.aviso-cadastro-categoria{
+    visibility: hidden; 
+    width: 180px;
+    background-color: var(--orange-dark-color);
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    padding: 8px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; 
+
+    bottom: 95px; 
+    right: 380px;
+}
+
+.container--add-categoria:hover .aviso-cadastro-categoria {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* aviso de mensagem no container de tipo */
+.aviso-cadastro-tipo{
+    visibility: hidden; 
+    width: 100px;
+    background-color: var(--orange-dark-color);
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    padding: 8px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; 
+
+    bottom: 95px; 
+    right: 380px;
+}
+
+.container--add-tipo:hover .aviso-cadastro-tipo {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* aviso de mensagem no container de caracteristica */
+.aviso-cadastro-caracteristica{
+    visibility: hidden; 
+    width: 100px;
+    background-color: var(--orange-dark-color);
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    padding: 8px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; 
+
+    bottom: 95px; 
+    right: 410px;
+}
+
+.container--add-caracteristica:hover .aviso-cadastro-caracteristica {
+    visibility: visible;
+    opacity: 1;
+}
+
+.container--form{
+    transition: transform 0.5s ease, box-shadow 0.5s ease; 
+}
+
+.container--form:hover{
+    transform: translateY(-5px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
 /* Titulo do form */
-form h1 {
+.container--main h1{
     text-align: center;
     font-size: var(--font-size-30);
-    margin-bottom: 25px;
-    font-weight: bold;
+    margin-bottom: 18px;
+    font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
 }
 
-/* label (textos em cima dos inputs) */
-.form-label {
+/* dentro dos inputs, para colocar uma fonte, para todas as telas */
+.form-control{
+    font-family: var(--font-outfit) !important;
     font-size: var(--font-size-20);
-    margin-bottom: 5px;
-    font-weight: 500;
-    display: block;
 }
 
+/* botão de adicionar estante */
 button[type="submit"] {
-    background-color: var(--grey-medium);
-    color: var(--grey-dark);
+    color: var(--white);
+    background-color: var(--orange-dark-color);
     font-family: var(--font-outfit);
     font-size: var(--font-size-20);
     font-weight: bold;
     border: none;
     border-radius: 12px;
     padding: 10px;
-    width: 100%;
-    margin-top: 10px;
+    width: 50%;
+    margin-top: 30px;
     cursor: pointer;
-    transition: background 0.5s ;
+    transition: background 0.5s;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
+/* hover do botão para todas as telas */
 button[type="submit"]:hover {
     background-color: var(--orange-color) !important;
-    color: var(--grey-light);
+    color: var(--white);
 }
 
 button[type="submit"]:active {
     background-color: var(--orange-color) !important;
-    color: var(--grey-light);
 }
 
-.btn1{
-    position: relative;
-    top: 92.5px;
+button[type="submit"]:hover{
+    transform: translateY(-1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .form-check{
     padding: 0 !important;
+    text-align: center;
 }
 
-.form-control{
-    font-family: var(--font-outfit);
-    font-size: var(--font-size-20);
+.btn1{
+    position: relative;
+    top: 91px !important;
 }
-

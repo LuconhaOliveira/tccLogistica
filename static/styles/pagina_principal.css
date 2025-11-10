@@ -1,126 +1,358 @@
-/* Card geral */
-.card-filtrosCategoria{
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.container--header {
+    height: 70px;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.container--main {
+    flex-grow: 1;
+    display: flex;
+    align-items: stretch;
+    flex-direction: row;
+    width: 100%;
+    min-height: auto;
+    height: auto;
+}
+
+/* Card lateral */
+.card-filtrosCategoria {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: auto;
-    width: 180px;
+    height: 100%;
+    width: 220px;
     background-color: var(--grey-light);
-    text-align:left ;
-} 
-
-/* Titulo "Filtro" */
-.card-filtrosCategoria .card-title{
-text-align: center;
-padding-top: 15px;
-font-family: var(--font-cinzel);
-} 
-
-/* Titulo "categoria" */
-.card-filtrosCategoria .card-subtitle.mb-2.text-body-secondary{
-    padding-left: 8px;
-    padding-top: 20px;
-    font-size: 16px;
-    font-family: var(--font-outfit);
+    text-align: left;
+    flex-shrink: 0;
 }
 
-/* Formata o input type radio (html) */
-input[type="radio" i]{
-    font-family: var(--font-outfit);
-    padding-left: 5px;
-    margin-left: 7px;
+/*  Grid estantes */
+.container--estantesCriadas {
+    display: grid;
+    margin-top: 30px;
+    flex-grow: 1;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 30px;
+    padding: 0px 100px 30px 75px;
+    height: auto;
+    overflow-y: visible;
 }
 
-/* Btn do js */
-.card-section--btnLimparFiltro{
+.container--estantesCriadas a {
+    color: var(--white);
+    font-size: var(--font-size-24);
+    font-weight: bold;
+    width: 360px;
+    height: 540px;
     display: flex;
     flex-direction: column;
-    
-
-    width: 180px;
-    padding: 10px 20px;
-    font-family: var(--font-outfit);
-    margin-top: 20px;
-
-
-    border: none;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
     text-align: center;
+}
+
+/* Div da Estante (preenche o grid) */
+.container--estantesCriadas div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    /* Centraliza  o nome (link) dentro da div */
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: var(--orange-color);
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* animação para a div saltar */
+.container--estantesCriadas div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.container--estantesCriadas span {
+    background-color: var(--orange-dark-color);
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px 15px 0px 0px !important;
+}
+
+/* Titulo "Filtro" */
+.card-filtrosCategoria .card-title {
+    text-align: center;
+    padding-top: 15px;
+    margin-top: 30px;
+    font-family: var(--font-cinzel);
+    font-size: var(--font-size-30) !important;
+}
+
+/* Titulo "categoria" */
+.card-filtrosCategoria .card-subtitle.mb-2.text-body-secondary {
+    padding-top: 30px;
+    margin-bottom: 10px !important;
+    font-size: var(--font-size-24) !important;
+    font-family: var(--font-outfit);
+    font-weight: bold;
+    color: var(--black) !important;
+}
+
+.card-body .card-subtitle {
+    margin-left: 15px;
+}
+
+.label-filtro {
+    font-size: var(--font-size-20) !important;
+    margin: 0px !important;
+}
+
+/* aqui ele esconde a bolinha azul padrão do navegador */
+.input-filtro {
+    opacity: 0;
+}
+
+/* 2. Prepare a <label> para ser a base do nosso novo botão */
+.label-filtro {
+    position: relative;
+    /* posiciona o qudradinho certinho do lado do filtro */
+    cursor: pointer;
+    padding-left: 12px;
+    margin-bottom: 10px;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20) !important;
+}
+
+/* 3. cria o novo quadradinho */
+.label-filtro::before {
+    content: "";
+    /* sem esse comando, o quadradinho não pode ser criado, pois é obrigatorio na opçao de ::before */
+    position: absolute;
+    left: -15px !important;
+    top: 50%;
+    transform: translateY(-50%);
+    /* propriedade que permite mover, girar, escalar ou inclinar um elemento */
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--orange-color);
+    background-color: var(--white);
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+/* quando o botão for clicado, ele fica laranja */
+.input-filtro:checked+.label-filtro::before {
     background-color: var(--orange-color);
 }
 
-/* ------------------------------------------------ */
+/* Formata o input type radio (html) */
+input[type="radio" i] {
+    font-family: var(--font-outfit);
+    padding-left: 5px;
+    margin-left: 7px;
+    margin-left: 15px;
+}
+
+.form-aviso {
+    font-size: var(--font-size-20) !important;
+    margin: 20px !important;
+}
+
+/* Btn do js */
+.card-section--btnLimparFiltro {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 20px;
+    font-family: var(--font-outfit);
+    margin-top: 20px;
+    border: none;
+    text-align: center;
+    background-color: var(--orange-color);
+    font-size: var(--font-size-20);
+    color: var(--white);
+    font-weight: bold;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.card-section--btnLimparFiltro:hover {
+    transform: translateY(-1px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* quando não há estantes cadastradas */
+.h2-aviso {
+    font-family: var(--font-outfit) !important;
+    font-weight: bold !important;
+    font-size: var(--font-size-30) !important;
+    text-align: center;
+    position: relative;
+    right: 8%;
+    top: 15%;
+}
+
+.p-orientacao {
+    font-family: var(--font-outfit) !important;
+    font-size: var(--font-size-24) !important;
+    color: var(--white);
+    width: 40%;
+    position: relative;
+    left: 22%;
+    top: 28%;
+    text-align: center;
+    background-color: var(--orange-color);
+    padding: 10px;
+    border-radius: 10px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.p-orientacao:hover{
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.img-seta {
+    width: 150px;
+    height: auto;
+    position: relative;
+    left: 63%;
+    top: 20%;
+    transform: rotate(-14deg);
+}
 
 /* Btn Toggle ADD */
-
 .section-btn--cadastrarProdCatEst {
     position: fixed;
-    bottom: 40px;
+    bottom: 180px;
+    /* <-- MUDADO DE 40px PARA 180px */
     right: 20px;
     z-index: 1000;
-
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
 
-.section-div--tituloOpcoesBtn{
+.section-div--tituloOpcoesBtn {
     color: var(--white);
     font-size: 25px;
     align-items: center;
     font-family: var(--font-outfit);
+    font-weight: bold;
     text-align: center;
 }
 
-.section-div--opcoesDentroDoBtn{
+.section-div--opcoesDentroDoBtn {
     font-family: var(--font-outfit);
-    text-align:left;
+    text-align: left;
 }
 
+/* botao toggle do + */
 #botaoToggle {
     border: none;
     background-color: var(--orange-color);
     color: var(--white);
     cursor: pointer;
-    
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    
-    /* Centraliza o ícon de + */
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 30px;
     font-family: var(--font-outfit);
-    
-    margin-top: 10px; 
+    margin-top: 10px;
+    position: relative;
+}
+
+.aviso-cadastrar {
+    visibility: hidden;
+    /* Hidden by default */
+    width: 120px;
+    background-color: var(--orange-dark-color);
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    padding: 8px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    /* Ensure tooltip is displayed above content */
+
+    top: 8px;
+    right: 75px;
+}
+
+#botaoToggle:hover .aviso-cadastrar {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* todos os botoes toggle */
+.button-toggle {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.button-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* tamanho dos icones dos botões */
+.material-symbols-outlined{
+    font-size: 25px !important;
+}
+
+.icone-add{
+    font-size: 30px !important;
 }
 
 /* opcoes dentro do btn */
 .section-btn--opcoesDentroDoBtn {
-    position: fixed; 
+    position: fixed;
     bottom: 40px;
     right: 85px;
-    
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
-    
     padding: 17px;
     border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1000; 
+    z-index: 1000;
 }
-    
+
 .section-btn--opcoesDentroDoBtn a {
     display: block;
     text-decoration: none;
-    
-    background-color: #ff8c42; 
+    background-color: #ff8c42;
     color: white;
     padding: 8px 15px;
-
     margin-top: 5px;
     text-align: center;
     font-weight: bold;
@@ -128,13 +360,11 @@ input[type="radio" i]{
 }
 
 /* Btn toggle do historico */
-
 .section-btn--historico {
     position: fixed;
     bottom: 110px;
     right: 20px;
     z-index: 1000;
-
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -145,63 +375,236 @@ input[type="radio" i]{
     background-color: var(--orange-color);
     color: var(--white);
     cursor: pointer;
-    
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    
-    /* Centraliza o ícon de + */
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 30px;
     font-family: var(--font-outfit);
-    
-    margin-top: 10px; 
+    margin-top: 10px;
+    position: relative;
 }
 
-/* --------------------------------------------------------------------- */
+.aviso-historico {
+    visibility: hidden;
+    /* Hidden by default */
+    width: 100px;
+    background-color: var(--orange-dark-color);
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    padding: 8px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    /* Ensure tooltip is displayed above content */
 
-/* Card img estante */
-
-.container--estantesCriadas{
-    display: grid;
-    margin-top: 30px ;
-
-
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto ;
-
-    margin-left: auto;
-    margin-right: auto ;
-
-    gap: 30px;
-
-    height: 100%;
-
+    top: 8px;
+    right: 75px;
 }
 
-.container--estantesCriadas a{
-    color:  var(--black);align-items: flex-start;
+#botaoToggleHistorico:hover .aviso-historico {
+    visibility: visible;
+    opacity: 1;
 }
 
-
-.container--estantesCriadas div{
+/* Btn toggle da question (Botão ?) */
+.div-btn--questionTutorial {
+    position: fixed;
+    bottom: 40px;
+    /* <-- MUDADO DE 180px PARA 40px */
+    right: 20px;
     display: flex;
-    width: 200px;
-    height: 300px;
+    flex-direction: column;
+    align-items: flex-end;
+}
 
+#botaoToggleQuestionTutorial {
+    border: none;
+    background-color: var(--orange-color);
+    color: var(--white);
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
     justify-content: center;
-    align-items: flex-start;
-
-    background-image: url(/static/img/fundo-estante-bronze.jpg);
+    align-items: center;
+    font-size: 30px;
+    font-family: var(--font-outfit);
+    z-index: 1000;
+    margin-top: 10px;
+    position: relative;
 }
 
-.container--main{
-    display: flex;
-    align-items: stretch;
-    flex-direction: row;
-    height: auto;
-    width: auto;
+.aviso-info {
+    visibility: hidden;
+    /* Hidden by default */
+    width: 150px;
+    background-color: var(--orange-dark-color);
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    padding: 6px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    /* Ensure tooltip is displayed above content */
 
+    top: -5px !important;
+    right: 75px;
+}
+
+#botaoToggleQuestionTutorial:hover .aviso-info {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Texto de info dentro do btn ----------------------------------------- */
+#botaoToggleQuestionTutorialInfoTxt {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: var(--white);
+    font-family: var(--font-outfit);
+    padding: 0;
+    border-radius: 12px;
+
+    /* Centralização na tela */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    z-index: 999;
+}
+
+/* Título Principal */
+.span-h1--tituloInfo {
+    font-size: var(--font-size-30);
+    font-family: var(--font-cinzel);
+    text-align: center;
+    padding: 18px 15px;
+    margin: 0;
+    border-bottom: 2px solid var(--orange-color);
+    width: 100%;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+/* Container de Rolagem (conteúdo) */
+.section-summary--info {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 750px;
+    height: 500px;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Tags <details> */
+.details-infoTxt {
+    width: 90%;
+    margin: 1rem auto;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(var(--orange-color), 0.5);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/*Tag <summary>*/
+.details-infoTxt summary {
+    padding: 1.2rem 1.5rem;
+    background-color: var(--orange-color);
+    transition: background-color 0.3s ease;
+    color: var(--white);
+}
+
+.details-infoTxt summary:hover {
+    background-color: #ff8c42;
+}
+
+.details-infoTxt summary h2 {
+    display: inline;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0;
+    color: var(--white);
+}
+
+/*Conteúdo que aparece quando o details é aberto*/
+.details-p--info1FluxoSistema,
+.details-infoTxt section {
+    padding: 1.5rem 1.75rem;
+    background-color: #ffffff;
+    color: #000000;
+    border-top: 1px solid #cccccc;
+}
+
+/* Parágrafos internos*/
+.details-p--info1FluxoSistema p,
+.details-infoTxt section p {
+    color: #000000;
+    font-size: 1rem;
+    margin: 0.7rem 0 0.7rem 1.5rem;
+    line-height: 1.7;
+}
+
+.details-infoTxt summary {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    cursor: pointer;
+    list-style: none;
+}
+
+/* Seta personalizada */
+.details-infoTxt summary::before {
+    content: "▶";
+    display: inline-block;
+    margin-bottom: 0;
+    font-size: 0.9em;
+    color: var(--white);
+    transition: transform 0.3s ease;
+}
+
+/* Animação da seta */
+.details-infoTxt[open] summary::before {
+    transform: rotate(90deg);
+}
+
+/* Ajuste dos títulos internos do conteúdo*/
+.details-infoTxt h3 {
+    font-size: var(--font-size-24);
+    font-weight: 700;
+    color: var(--orange-color);
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(var(--orange-color), 0.5);
+    padding-bottom: 0.3rem;
+}
+
+.details-infoTxt section>h3:first-of-type {
+    margin-top: 0;
+}
+
+/* Títulos H4*/
+.details-infoTxt h4 {
+    font-size: var(--font-size-20);
+    font-weight: 700;
+    color: #000000;
+    margin-top: 1.7rem;
+    margin-bottom: 0.6rem;
+}
+
+/* Parágrafos gerais*/
+.details-infoTxt p {
+    font-size: var(--font-size-16);
+    color: #000000;
+    margin-bottom: 1.2rem;
 }

@@ -124,69 +124,107 @@ class Estante:
 
             conexao.commit()
 
-            cursor.close()
-            conexao.close()
             return True
+        
         except Exception as e:
-            # Loga o erro e retorna False para o Flask detectar falha
-            print(f"Erro ao cadastrar estante no banco de dados: {e}")
-
-            try:
+            # Em caso de erro, faz rollback e retorna False
+            if conexao: 
                 conexao.rollback()
-            except:
-                pass
+            print(f"Erro ao cadastrar estante: {e}")
+            return False
 
-        return False
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
-    # Verifica se a Estante está ligada a algum produto
-    def verificar_dependencia_estante(cod_estante):
+    # Conexao com o banco de dados para excluir todos os produtos da estante
+    def remover_produtos_estante(cod_estante):
 
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return False
+            cursor = conexao.cursor()
+            
+            # Localiza e exclui todos os produtos dentro da tabela de produtos_caracteristica, para remover a dependencia
+            sql_dependencia = """
+                DELETE FROM produto_caracteristica 
+                WHERE cod_produto IN (
+                    SELECT cod_produto FROM produto WHERE cod_estante = %s
+                );
+            """
+            valor_estante = (cod_estante,)
+            
+            cursor.execute(sql_dependencia, valor_estante) 
 
-        cursor = conexao.cursor()
-
-        # Verifica se a estante está em algum produto
-        sql = """
-            SELECT EXISTS (
-                    SELECT 1 FROM produto WHERE cod_estante = %s  
-                ) AS dependencia;
-        """
-
-        valores = (cod_estante,)
+            # Exclui todos os produtos da estante
+            sql_produtos = "DELETE FROM produto WHERE cod_estante = %s"
+            
+            cursor.execute(sql_produtos, valor_estante) # Executa o DELETE dos produtos
+            
+            conexao.commit()
+            return True
         
-        # Executa a consulta
-        cursor.execute(sql, valores)
-        
-        # O resultado será (1,) se houver dependência, ou (0,) se não houver
-        dependencia = cursor.fetchone()[0] == 1
+        except Exception as e:
+            # Em caso de erro, faz rollback e retorna False
+            if conexao: 
+                conexao.rollback()
+            print(f"Erro inesperado ao remover produtos: {e}")
+            return False
 
-        cursor.close()
-        conexao.close()
-        return dependencia # Retorna True se houver dependência    
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
-    # Conexao com o banco de dados para excluir uma estante
+
+    # Conexao com o banco de dados para excluir uma estante mesmo com todos os produtos dentro
     def remover_estante(cod_estante):
 
-        # Verifica se a estante possui uma dependencia 
-        if  Estante.verificar_dependencia_estante(cod_estante):
-            # Retorna se a remoção falhou por conta da dependência
-            return False # Não pode excluir
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return False
 
-        # Se não possuir uma dependencia, executa a exclusão da estante
-        conexao = Conection.create_connection()
-        cursor = conexao.cursor()
+            # Remove as dependências dos produtos dentro da tabela de produto_caracteristica
+            sql_del_caracteristicas = """
+                DELETE FROM produto_caracteristica 
+                WHERE cod_produto IN (
+                    SELECT cod_produto FROM produto WHERE cod_estante = %s
+                );
+            """
 
-        sql = "DELETE FROM estante WHERE cod_estante = %s;"
+            cursor = conexao.cursor()
 
-        valor = (cod_estante,)
+            valor = (cod_estante,)
 
-        cursor.execute(sql, valor)
+            cursor.execute(sql_del_caracteristicas, valor) 
 
-        conexao.commit()
+            # Remove todos os produtos da estante  
+            sql_del_produtos = "DELETE FROM produto WHERE cod_estante = %s"
+            cursor.execute(sql_del_produtos, valor)
+
+            # Remove a estante, por fim
+            sql_del_estante = "DELETE FROM estante WHERE cod_estante = %s;"
+            cursor.execute(sql_del_estante, valor)
+
+            conexao.commit()
+            return True
         
-        cursor.close()
-        conexao.close()
-        return True
+        except Exception as e:
+            if 'conexao' in locals() and conexao: 
+                conexao.rollback()
+            print(f"Erro inesperado ao remover estante e seus produtos: {e}")
+            return False
+            
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
     # Recupera as estantes registradas anteriormente
     def recuperar_estante(cpf):
@@ -235,6 +273,84 @@ class Estante:
         except Error as e:
             print(f"Erro ao buscar nome da estante: {e}")
             return "Erro de Busca"
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
+
+
+    def editar_estante(nome, cod_categoria, cod_estante):
+
+        conexao = None
+        cursor = None
+        
+
+        try:
+            # 2. CONEXÃO
+            conexao = Conection.create_connection()
+            if not conexao:
+                return False, "Falha na conexão com o banco de dados."
+
+            cursor = conexao.cursor()
+
+            # 3. COMANDO SQL
+            sql = "UPDATE estante SET nome=%s, cod_categoria=%s WHERE cod_estante=%s"
+            
+            # 4. VALORES: Ordem deve ser EXATA à do SQL
+            valores = (nome,cod_categoria,cod_estante)
+
+            # 5. EXECUÇÃO
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            # MUDANÇA: Retorna True e o ID do novo produto
+            return True, cursor.lastrowid
+
+        except Error as e:
+            # Captura erros de banco de dados
+            if conexao: conexao.rollback()
+            print(f"Erro ao cadastrar produto (SQL/DB): {e}")
+            return False, f"Erro no banco de dados: {e}"
+
+        except Exception as e:
+            # Captura outros erros
+            print(f"Erro inesperado no processo de cadastro: {e}")
+            return False, f"Erro inesperado: {e}"
+
+        finally:
+            # GARANTIA DE LIMPEZA DE RECURSOS
+            if cursor:
+                cursor.close()
+            if conexao:
+                conexao.close()
+
+    def buscar_estante_especifica(id):
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor(dictionary=True)
+            
+            sql = """SELECT estante.cod_estante,estante.nome AS estante,categoria.nome AS categoria,estante.cod_categoria FROM estante 
+            INNER JOIN categoria ON categoria.cod_categoria = estante.cod_categoria 
+            WHERE estante.cod_estante= %s"""
+            valores = (id,)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchall()
+            
+            if resultado:
+                return resultado
+            else:
+                return None
+
+        except Error as e:
+            print(f"Erro ao validar login: {e}")
+            return None
 
         finally:
             if 'cursor' in locals() and cursor:

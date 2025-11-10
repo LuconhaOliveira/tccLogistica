@@ -25,13 +25,13 @@
         </div>
 
         <section class="container--card">
-
+            {% if alteracoes %}
             {% for historico in alteracoes %}
             <div class="card" style="width: 50rem;">
 
                 <div class="card-header">
                     
-                    <p><strong>Alteração {{ historico.cod_alteracao }}</strong></p>
+                    <p><strong>Alteração</strong></p>
                 </div>
                 
                 <ul class="list-group list-group-flush">
@@ -42,6 +42,16 @@
                 
             </div>
             {% endfor %}
+
+                {% else %}
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <h3 class="card-title">Histórico vazio.</h3>
+                {% endif %}
+                        </div>
+                    </div>
+            </div>
 
         </section>
 

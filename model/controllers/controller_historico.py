@@ -9,7 +9,20 @@ class Historico:
 
         cursor = conexao.cursor(dictionary = True) 
         
-        sql = """ select cod_alteracao, alteracao_realizada, data_hora from alteracao_produto_estante where cpf = %s;"""
+        sql = """
+                SELECT
+                    cod_alteracao,
+                    alteracao_realizada,
+                        DATE_FORMAT(
+                        CONVERT_TZ(data_hora, 'UTC', 'America/Sao_Paulo'),
+                        '%d/%m/%Y %H:%i' 
+                        ) AS data_hora
+                FROM
+                    alteracao_produto_estante
+                WHERE
+                    cpf = %s
+                ORDER BY
+                    data_hora DESC;"""
 
         valor = (cpf,)
 

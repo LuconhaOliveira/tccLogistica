@@ -1,5 +1,7 @@
 from data.conexao import Conection
 import datetime
+from mysql.connector import Error
+from flask import session
 
 class Categoria:
 
@@ -8,76 +10,138 @@ class Categoria:
     # Verifica se a Categoria está ligada a alguma Estante ou Produto
     def verificar_dependencia_categoria(cod_categoria):
 
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
 
-        cursor = conexao.cursor()
+            cursor = conexao.cursor() 
 
-        # Verifica se a categoria está em alguma estante ou em algum produto
-        sql = """
-            SELECT EXISTS (
-                SELECT 1 FROM estante WHERE cod_categoria = %s
-                UNION ALL
-                SELECT 1 FROM produto WHERE cod_categoria = %s
-            ) AS dependencia;
-        """
+            # Verifica se a categoria está em alguma estante ou em algum produto
+            sql = """
+                SELECT EXISTS (
+                    SELECT 1 FROM estante WHERE cod_categoria = %s
+                    UNION ALL
+                    SELECT 1 FROM produto WHERE cod_categoria = %s
+                ) AS dependencia;
+            """
 
-        valores = (cod_categoria, cod_categoria)
-        
-        # Executa a consulta
-        cursor.execute(sql, valores)
-        
-        # O resultado será (1,) se houver dependência, ou (0,) se não houver
-        dependencia = cursor.fetchone()[0] == 1
+            valores = (cod_categoria, cod_categoria)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchone()
+            if resultado:
+                # O resultado será (1,) se houver dependência, ou (0,) se não houver
+                dependencia = resultado[0] == 1
 
-        cursor.close()
-        conexao.close()
-        return dependencia # Retorna True se houver dependência
+            return dependencia # Retorna True se houver dependência
+
+        except Error as e:
+            # Erro no banco de dados (ex: tabela inexistente, erro de sintaxe)
+            print(f"Erro no banco de dados ao verificar dependência da categoria: {e}")
+            return True 
+
+        except Exception as e:
+            # Erros inesperados (ex: falha de conexão)
+            print(f"Erro inesperado ao verificar dependência da categoria: {e}")
+            return True 
+
+        finally:
+            # Garante que o cursor e a conexão sejam fechados
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
     # Conexao com o banco de dados para criar uma categoria
     def cadastrar_categoria(nome, cpf):
+        
+        # Validação de campo vazio, não permitindo que a categoria seja cadastrada sem escrever um nome 
+        # O strip() remove espaços em branco no início e fim.
+        if not nome or not nome.strip():
+            return False
 
-        data_hora = datetime.datetime.today()
+        data_hora = datetime.datetime.now()
+
+        nome_formatado = nome.upper().strip() 
+        
+        try:
+            conexao = Conection.create_connection()
             
-        conexao = Conection.create_connection()
+            if not conexao:
+                return False
 
-        cursor = conexao.cursor()
+            cursor = conexao.cursor()
 
-        sql = """INSERT INTO categoria (
+            sql = """INSERT INTO categoria (
                         nome, data_hora, cpf)
                     VALUES (
                         %s, %s, %s)"""
 
-        nome = nome.upper()
-        valores = (nome, data_hora, cpf)
+            valores = (nome_formatado, data_hora, cpf)
 
-        cursor.execute(sql, valores)
+            cursor.execute(sql, valores)
+            
+            conexao.commit()
+            
+            return True
 
-        conexao.commit()
+        except Error as e:
+            # Lógica para o nome duplicado da categoria 
+            # 'e.errno' é o código numérico de erro retornado pelo MySQL, onde nesse caso é o 1062, que significa "Duplicate entry"
+            if e.errno == 1062: 
+                return False
+            
+            print(f"Erro ao cadastrar categoria (SQL/DB): {e}")
+            return False
 
-        cursor.close()
-        conexao.close()
+        except Exception as e:
+            print(f"Erro inesperado no cadastro de categoria: {e}")
+            return False
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
     # Recupera as categorias registradas anteriormente
     def recuperar_categoria(cpf):
-        
-        conexao = Conection.create_connection()
 
-        cursor = conexao.cursor(dictionary = True) 
-        
-        sql = """SELECT cod_categoria, nome, data_hora 
-                 FROM categoria
-                 WHERE cpf = %s;"""
-        
-        valor = (cpf,)
+        try:
+            conexao = Conection.create_connection()
+            
+            if not conexao:
+                print("Falha ao estabelecer conexão com o banco de dados.")
+                return [] # Retorna lista vazia em caso de falha de conexão
 
-        cursor.execute(sql, valor)
+            cursor = conexao.cursor(dictionary = True) 
+            
+            sql = """SELECT cod_categoria, nome, data_hora 
+                    FROM categoria
+                    WHERE cpf = %s;"""
+            
+            valor = (cpf,)
 
-        resultado = cursor.fetchall()
+            cursor.execute(sql, valor)
 
-        cursor.close()
-        conexao.close()
+            resultado = cursor.fetchall()
+            
+            return resultado 
 
-        return resultado
+        # Trata os erros do Banco de dados e retorna uma lista vazia em caso de erro 
+        except Error as e:
+            print(f"Erro no banco de dados ao recuperar categorias: {e}")
+            return [] 
+
+        except Exception as e:
+            print(f"Erro inesperado ao recuperar categorias: {e}")
+            return [] 
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
     # Conexao com o banco de dados para excluir uma categoria
     def remover_categoria(cod_categoria):
@@ -86,94 +150,191 @@ class Categoria:
         if Categoria.verificar_dependencia_categoria(cod_categoria):
             # Retorna se a remoção falhou por conta da dependência
             return False # Não pode excluir
-
-        # Se não possuir uma dependencia, executa a exclusão da categoria
-        conexao = Conection.create_connection()
-        cursor = conexao.cursor()
-
-        sql = "DELETE FROM categoria WHERE cod_categoria = %s;"
-
-        valor = (cod_categoria,)
-
-        cursor.execute(sql, valor)
-
-        conexao.commit()
         
-        cursor.close()
-        conexao.close()
-        return True
+        # Se não possuir uma dependencia, executa a exclusão da categoria
+        try:
+                # Se não possuir dependência, executa a exclusão
+                conexao = Conection.create_connection()
+                
+                if not conexao:
+                    return False
+                cursor = conexao.cursor()
+
+                sql = "DELETE FROM categoria WHERE cod_categoria = %s;"
+
+                valor = (cod_categoria,)
+
+                cursor.execute(sql, valor)
+
+                conexao.commit()
+
+                return True
+            
+        except Error as e:
+            # Desfaz a exclusão em caso de erro (ex: falha inesperada no BD)
+            if conexao:
+                conexao.rollback()
+
+            print(f"Erro no banco de dados ao remover categoria: {e}")
+
+            return False
+
+        except Exception as e:
+            if conexao:
+                conexao.rollback()
+            print(f"Erro inesperado ao remover categoria: {e}")
+            return False
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
 # TIPO ------------------------------------------------------------------------------------------------------#
 
     # Verifica se o Tipo está ligado a alguma Estante ou Produto
     def verificar_dependencia_tipo(cod_tipo):
 
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
 
-        cursor = conexao.cursor()
+            cursor = conexao.cursor() 
 
-        # Verifica se o tipo está em alguma categoria
-        sql = """
-            SELECT EXISTS (
-                SELECT 1 FROM caracteristica WHERE cod_tipo = %s
-            ) AS dependencia;
-        """
+            # Verifica se o tipo está em alguma categoria
+            sql = """
+                SELECT EXISTS (
+                    SELECT 1 FROM caracteristica WHERE cod_tipo = %s
+                ) AS dependencia;
+            """
 
-        valor = (cod_tipo,)
-        
-        # Executa a consulta
-        cursor.execute(sql, valor)
-        
-        # O resultado será (1,) se houver dependência, ou (0,) se não houver
-        dependencia = cursor.fetchone()[0] == 1
+            valor = (cod_tipo,)
+            
+            # Executa a consulta
+            cursor.execute(sql, valor)
+            
+            resultado = cursor.fetchone()
 
-        cursor.close()
-        conexao.close()
-        return dependencia # Retorna True se houver dependência
+            if resultado:
+                # O resultado será (1,) se houver dependência, ou (0,) se não houver
+                dependencia = resultado[0] == 1
+
+            return dependencia # Retorna True se houver dependência
+
+        except Error as e:
+            # Erro no banco de dados (ex: tabela inexistente, erro de sintaxe)
+            print(f"Erro no banco de dados ao verificar dependência do tipo: {e}")
+            return True 
+
+        except Exception as e:
+            # Erros inesperados (ex: falha de conexão)
+            print(f"Erro inesperado ao verificar dependência do tipo: {e}")
+            return True 
+
+        finally:
+            # Garante que o cursor e a conexão sejam fechados
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
     # Conexao com o banco de dados para criar um tipo com base em uma categoria
     def cadastrar_tipo_categoria(nome, cpf, cod_categoria):
 
-        data_hora = datetime.datetime.today()
+        # Validação de campo vazio, não permitindo que a categoria seja cadastrada sem escrever um nome 
+        # O strip() remove espaços em branco no início e fim.
+        if not nome or not nome.strip():
+            return False
+
+        data_hora = datetime.datetime.now()
+
+        nome_formatado = nome.upper().strip() 
+        
+        try:
+            conexao = Conection.create_connection()
             
-        conexao = Conection.create_connection()
+            if not conexao:
+                return False
 
-        cursor = conexao.cursor()
+            cursor = conexao.cursor()
 
-        sql = """INSERT INTO tipo (
-                        nome, data_hora, cpf, cod_categoria)
-                    VALUES (
-                        %s, %s, %s, %s)"""
+            sql = """INSERT INTO tipo (
+                            nome, data_hora, cpf, cod_categoria)
+                        VALUES (
+                            %s, %s, %s, %s)"""
 
-        nome = nome.upper()
-        valores = (nome, data_hora, cpf, cod_categoria)
+            valores = (nome_formatado, data_hora, cpf, cod_categoria)
 
-        cursor.execute(sql, valores)
+            cursor.execute(sql, valores)
 
-        conexao.commit()
+            conexao.commit()
 
-        cursor.close()
-        conexao.close()
+            return True
+
+        except Error as e:
+            # Lógica para o nome duplicado da categoria 
+            # 'e.errno' é o código numérico de erro retornado pelo MySQL, onde nesse caso é o 1062, que significa "Duplicate entry"
+            if e.errno == 1062: 
+                return False
+            
+            print(f"Erro ao cadastrar categoria (SQL/DB): {e}")
+            return False
+
+        except Exception as e:
+            print(f"Erro inesperado no cadastro de tipo: {e}")
+            return False
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
     # Recupera os tipos registradas anteriormente
     def recuperar_tipo(cpf):
         
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
+            
+            if not conexao:
+                print("Falha ao estabelecer conexão com o banco de dados.")
+                return [] # Retorna lista vazia em caso de falha de conexão
 
-        cursor = conexao.cursor(dictionary = True) 
+            cursor = conexao.cursor(dictionary = True) 
         
-        sql = """select cod_tipo, nome, data_hora from tipo where cpf = %s;"""
+            sql = """SELECT 
+                tipo.cod_tipo, 
+                tipo.nome AS nome_tipo, 
+                tipo.data_hora, 
+                categoria.cod_categoria, 
+                categoria.nome AS nome_categoria 
+            FROM tipo
+            LEFT JOIN categoria ON tipo.cod_categoria = categoria.cod_categoria
+            WHERE tipo.cpf = %s
+            ORDER BY tipo.cod_tipo;"""
 
-        valor = (cpf,)
+            valor = (cpf,)
 
-        cursor.execute(sql, valor)
+            cursor.execute(sql, valor)
 
-        resultado = cursor.fetchall()
+            resultado = cursor.fetchall()
 
-        cursor.close()
-        conexao.close()
+            return resultado
+        
+        # Trata os erros do Banco de dados e retorna uma lista vazia em caso de erro 
+        except Error as e:
+            print(f"Erro no banco de dados ao recuperar os tipos: {e}")
+            return [] 
 
-        return resultado
+        except Exception as e:
+            print(f"Erro inesperado ao recuperar os tipos: {e}")
+            return [] 
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
     # Conexao com o banco de dados para excluir um tipo
     def remover_tipo(cod_tipo):
@@ -184,33 +345,56 @@ class Categoria:
             return False # Não pode excluir
 
         # Se não possuir uma dependencia, executa a exclusão do tipo
-        conexao = Conection.create_connection()
-        cursor = conexao.cursor()
+        try:
+                # Se não possuir dependência, executa a exclusão
+                conexao = Conection.create_connection()
+                
+                if not conexao:
+                    return False
+                cursor = conexao.cursor()
 
-        sql = "DELETE FROM tipo WHERE cod_tipo = %s;"
+                sql = "DELETE FROM tipo WHERE cod_tipo = %s;"
 
-        valor = (cod_tipo,)
+                valor = (cod_tipo,)
 
-        cursor.execute(sql, valor)
+                cursor.execute(sql, valor)
 
-        conexao.commit()
+                conexao.commit()
+                
+                return True
         
-        cursor.close()
-        conexao.close()
-        return True
+        except Error as e:
+            # Desfaz a exclusão em caso de erro (ex: falha inesperada no BD)
+            if conexao:
+                conexao.rollback()
+
+            print(f"Erro no banco de dados ao remover tipo: {e}")
+
+            return False
+
+        except Exception as e:
+            if conexao:
+                conexao.rollback()
+            print(f"Erro inesperado ao remover tipo: {e}")
+            return False
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
 # CARACTERISTICA ------------------------------------------------------------------------------------------------------#
 
    # Verifica se a Caracteristica está ligada a alguma Estante ou Produto
-    @staticmethod
     def verificar_dependencia_caracterisica(cod_caracteristica):
-        conexao = None
-        cursor = None
+
         try:
             conexao = Conection.create_connection()
+
             cursor = conexao.cursor()
 
-            # CORREÇÃO: Verifica a tabela de junção PRODUTO_CARACTERISTICA
+            # Verifica se a caracteristica está na tabela de produto_caracteristica
             sql = """
                 SELECT EXISTS (
                     SELECT 1 FROM produto_caracteristica WHERE cod_caracteristica = %s
@@ -221,22 +405,33 @@ class Categoria:
             
             # Executa a consulta
             cursor.execute(sql, valor)
+
+            resultado = cursor.fetchone()
             
-            # O resultado será (1,) se houver dependência, ou (0,) se não houver
-            dependencia = cursor.fetchone()[0] == 1
-            return dependencia # Retorna True se houver dependência
+            if resultado:
+                # O resultado será (1,) se houver dependência, ou (0,) se não houver
+                dependencia = resultado[0] == 1
+
+                return dependencia # Retorna True se houver dependência
+
+        except Error as e:
+            # Erro no banco de dados (ex: tabela inexistente, erro de sintaxe)
+            print(f"Erro no banco de dados ao verificar dependência da caracteristica: {e}")
+            return True 
 
         except Exception as e:
-            # Em caso de erro na DB, retorna True por segurança (dependência)
+            # Erros inesperados (ex: falha de conexão)
+            print(f"Erro inesperado ao verificar dependência da caracteristica: {e}")
             return True 
 
         finally:
-            if cursor: cursor.close()
-            if conexao: conexao.close()
-
+                # Garante que o cursor e a conexão sejam fechados
+                if 'cursor' in locals() and cursor:
+                    cursor.close()
+                if 'conexao' in locals() and conexao:
+                    conexao.close()
     
     # Conexao com o banco de dados para criar uma caracteristica com base no tipo
-    @staticmethod
     def cadastrar_tipo_caracteristica(nome, cod_tipo, cpf):
         data_hora = datetime.datetime.today()
         conexao = None
@@ -269,55 +464,109 @@ class Categoria:
     # Recupera as caracteristicas registradas anteriormente
     def recuperar_caracteristica(cpf):
         
-        conexao = Conection.create_connection()
+        try:
+            conexao = Conection.create_connection()
+            
+            if not conexao:
+                print("Falha ao estabelecer conexão com o banco de dados.")
+                return [] # Retorna lista vazia em caso de falha de conexão
 
-        cursor = conexao.cursor(dictionary = True) 
+            cursor = conexao.cursor(dictionary = True)
         
-        sql = """select cod_caracteristica, nome, data_hora from caracteristica where cpf = %s;"""
+            sql = """select cod_caracteristica, nome AS nome_caracteristica, data_hora, cod_tipo, cpf from caracteristica where cpf = %s;"""
 
-        valor = (cpf,)
+            valor = (cpf,)
 
-        cursor.execute(sql, valor)
+            cursor.execute(sql, valor)
 
-        resultado = cursor.fetchall()
+            resultado = cursor.fetchall()
 
-        cursor.close()
-        conexao.close()
+            return resultado
+        
+        # Trata os erros do Banco de dados e retorna uma lista vazia em caso de erro 
+        except Error as e:
+            print(f"Erro no banco de dados ao recuperar caracteristicas: {e}")
+            return [] 
 
-        return resultado
+        except Exception as e:
+            print(f"Erro inesperado ao recuperar caracteristicas: {e}")
+            return [] 
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
     
     
-        # Conexao com o banco de dados para excluir uma caracteristica
-    @staticmethod
+    # Conexao com o banco de dados para excluir uma caracteristica
     def remover_caracteristica(cod_caracteristica):
-        conexao = None
-        cursor = None
 
-        # 1. Verifica se a caracteristica possui uma dependencia 
+        # Verifica se a caracteristica possui uma dependencia 
         if Categoria.verificar_dependencia_caracterisica(cod_caracteristica):
             # Retorna se a remoção falhou por conta da dependência
             return False # Não pode excluir
 
         try:
-            # 2. Se não possuir uma dependencia, executa a exclusão da caracteristica
-            conexao = Conection.create_connection()
-            cursor = conexao.cursor()
+                # Se não possuir dependência, executa a exclusão
+                conexao = Conection.create_connection()
+                
+                if not conexao:
+                    return False
+                cursor = conexao.cursor()
 
-            sql = "DELETE FROM caracteristica WHERE cod_caracteristica = %s;"
-            valor = (cod_caracteristica,)
+                sql = "DELETE FROM caracteristica WHERE cod_caracteristica = %s;"
+                valor = (cod_caracteristica,)
 
-            cursor.execute(sql, valor)
-            conexao.commit()
-            
-            # 3. Retorna True se excluiu algo (rowcount > 0)
-            return cursor.rowcount > 0
+                cursor.execute(sql, valor)
+                conexao.commit()
+    
+                return True
 
         except Exception as e:
             # Em caso de erro, faz rollback e retorna False
-            if conexao: conexao.rollback()
-            return False # Falha na DB
+            if conexao: 
+                conexao.rollback()
+            print(f"Erro inesperado ao remover caracteristica: {e}")
+            return False
 
         finally:
-            if cursor: cursor.close()
-            if conexao: conexao.close()
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
 
+    def buscar_caracteristica(tipo):
+        try:
+            conexao = Conection.create_connection()
+            
+            if not conexao:
+                print("Falha ao estabelecer conexão com o banco de dados.")
+                return [] # Retorna lista vazia em caso de falha de conexão
+
+            cursor = conexao.cursor(dictionary = True)
+        
+            sql = """select cod_caracteristica, nome AS nome_caracteristica from caracteristica where cpf = %s AND cod_tipo=%s;"""
+
+            valor = (session["cpf"],tipo)
+
+            cursor.execute(sql, valor)
+
+            resultado = cursor.fetchall()
+
+            return resultado
+        
+        # Trata os erros do Banco de dados e retorna uma lista vazia em caso de erro 
+        except Error as e:
+            print(f"Erro no banco de dados ao recuperar caracteristicas: {e}")
+            return [] 
+
+        except Exception as e:
+            print(f"Erro inesperado ao recuperar caracteristicas: {e}")
+            return [] 
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()

@@ -1,5 +1,5 @@
 /* body para todas as telas */
-.container--body {
+.container--body{
     background-color: var(--white);
     display: flex;
     flex-direction: column;
@@ -22,7 +22,7 @@
 
 .container--card-fundo{   
     border-radius: 20px;
-    width: 1400px;
+    width: 1000px;
     height: auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -40,48 +40,46 @@
     box-shadow: 0 6px 44px rgba(0, 0, 0, 0.6);
 }
 
-.container--figure-img .img-fluid{
-    height: 100%;
-    width: 100%;
-}
-
 /* detalhes da gaveta */
 .container--div-detalhe{
     border-radius: 15px;
-    width: 320px;
+    width: 80%;
     height: 85%;
-    margin: 50px;
+    margin-left: 26px;
     box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
     background-color: var(--grey-dark);
 }
 
 .container--div-top{
     width: 100%;
-    display: grid;
-    grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
     border-radius: 20px;
 }
 
 .card-body{
-    margin-left: 8px;
+    padding-top: 0px !important;
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
+    justify-items: center;  
+    align-items: stretch; /* força tudo a ter a mesma altura  */
+    gap: 5px;
 }
 
 /* container da descrição */
 .container--div-descricao{
-
-    background-color: rgba(0, 0, 0, 0.5);
-    color: var(--grey-light);
     border-radius: 15px;
-
     text-align: center;
-    padding: 10px 5px 10px 5px;
-    text-align: center;
-    margin: 3% 5% 1% 5% !important;
-
+    padding: 6px 5px 6px 5px;
+    margin: 1% 5% 1% 5% !important;
     width: 90% !important;
-    min-height: 135px;
     height: auto;
-     
+}
+
+.descricao{
+    background-color: var(--orange-color);
+    border-radius: 20px;
+    color: var(--white) !important;
+    font-weight: bold;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .row{
@@ -115,7 +113,7 @@
     font-weight: bold !important;
 }
 
-/* Botão de Login */
+/* Botão */
 button[type="submit"] {
     background-color: var(--grey-light);
     color: var(--dark);
@@ -138,29 +136,50 @@ button[type="submit"]:hover {
     transform: scale(1.02);
 }
 
+button[type="submit"]:active {
+    background-color: var(--orange-color) !important;
+}
+
+.img-produto{
+    min-height: 100px; 
+    min-width: 150px; 
+    padding-top: 15px;       
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* imagem */
 .img-fluid{
-    height: 300px !important;
-    width: 400px !important;
-    border-radius: 10px;
-    margin: 20px 8px 0px 8px;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
+    max-width: 380px !important;
+    max-height: 380px !important;   
+    display: block;
+    border: 4px solid var(--orange-color); 
+    border-radius: 4px;
 }
 
-.card-text{
-
+.card-body .card-text{
     color: var(--white) !important;
+    width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word; 
+    word-break: normal;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
 }
 
-.descricao{
-    background-color: var(--orange-light-color);
-    border-radius: 20px;
-    color: var(--black) !important;
-    font-weight: bold;
+.card-body .card-text fieldset{
+
+    height: auto !important;
 }
 
-.card-text{
-
-    font-weight: bold;
+.card-text.text-caracteristicas {
+    display: flex;
+    flex-direction: column;
 }
 
+.card-body fieldset {
+    border: 1px solid var(--orange-color);
+    padding: 0px 15px 0 15px;
+    border-radius: 10px;
+}

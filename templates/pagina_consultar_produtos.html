@@ -1,16 +1,18 @@
 {% extends "header_head.html" %}
 
-{% block titulo %}Adicionar Estante{% endblock %}
+{% block titulo %}{{nome_estante}}{% endblock %}
 
 {% block estilos %}
 <!-- link css -->
     <link rel="stylesheet" href="/static/styles/pagina_consultar_produtos.css">
+    <!-- link imagem -->
+    <link rel="icon" href="/static/img/logo-topo.png">
 {% endblock %}
 
 {% block conteudo %}
 
     <main class="container--main">
-        <h1>{{nome_estante}}</h1>
+        <h1 class="nome--estante">{{nome_estante}}</h1>
         <!-- estante selecionada -->
         <div class="container--estante">
             <div class="grid-row row-1">
@@ -21,7 +23,7 @@
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
                     grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
+                <a class="link--nomes" href="/visualizar/produto/{{ produtos[i].cod_produto }}">
                     <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
                     <p class="endereco--produto">Linha: {{ produtos[i].linha }} - Coluna: {{produtos[i].coluna}}</p>
@@ -42,10 +44,10 @@
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
                     grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                    <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
+                    <a class="link--nomes" href="/visualizar/produto/{{ produtos[i].cod_produto }}">
                     <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
-                    <p class="endereco--produto">Linha:{{ produtos[i].linha }} - Coluna:{{produtos[i].coluna}}</p>
+                    <p class="endereco--produto">Linha: {{ produtos[i].linha }}, Coluna: {{produtos[i].coluna}}</p>
                     </a>
                 </div>
                 {% endif %}
@@ -63,10 +65,10 @@
                     /* POSICIONAMENTO DINÂMICO APLICADO DIRETAMENTE VIA JINJA */
                     grid-column: {{ produtos[i].coluna[-2]+produtos[i].coluna[-1] if produtos[i].coluna[-1]=='0' else produtos[i].coluna[-1] }};
                 ">
-                <a href="/visualizar/produto/{{ produtos[i].cod_produto }}">
+                <a class="link--nomes" href="/visualizar/produto/{{ produtos[i].cod_produto }}">
                     <img src="data:image/jpeg;base64,{{ imagens_base64[i] }}" alt="Foto do Produto: {{ produtos[i].nome }}" class="imagem--produto">
                     <h3 class="nome--produto">{{ produtos[i].nome }}</h3>
-                    <p class="endereco--produto">Linha:{{ produtos[i].linha }} - Coluna:{{produtos[i].coluna}}</p>
+                    <p class="endereco--produto">Linha: {{ produtos[i].linha }}, Coluna: {{produtos[i].coluna}}</p>
                     </a>
                 </div>
                 {% endif %}
@@ -76,18 +78,16 @@
             </div>
 
         </div>
-
+        
         <div class="container--botoes">
-            <div class="mb-3 form-check">
-                <a href="/post/remover/estante/{{cod_estante}}"><button class="btn btn-primary">Excluir estante</button></a>
-            </div>
 
-            <div class="mb-3 form-check">
-                <a href="/principal"><button class="btn btn-primary">Editar estante</button></a>
-            </div>
+            <a href="/post/remover/produtos/{{cod_estante}}"><button class="btn btn-primary">Limpar Produtos</button></a>
+
+            <a href="/pagina/editar/estante/{{cod_estante}}"><button class="btn btn-primary">Editar Estante</button></a>
+
+            <a href="/post/remover/estante/{{cod_estante}}"><button class="btn btn-primary">Excluir Estante</button></a>
+
         </div>
-
-            
 
     </main>
     
