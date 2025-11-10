@@ -631,7 +631,6 @@ def estante_especifica(id):
                 # Convertendo o BLOB para base64
                 imagens_base64.append(base64.b64encode(imagem_blob).decode('utf-8'))
 
-    # A correção está aqui:
     return render_template('pagina_consultar_produtos.html', produtos=produtos, imagens_base64=imagens_base64, cod_estante=id, nome_estante = nome_estante)
 
 # EXCLUSÃO DE TODOS OS PRODUTOS DENTRO DA ESTANTE ------------------------------------------------------------------------------------------------------#
