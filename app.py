@@ -77,6 +77,7 @@ def post_cadastro():
     """
     cpf = request.form.get("cadastro-cpf")
     nome = request.form.get("cadastro-nome")
+    email = request.form.get("cadastro-email")
     senha = request.form.get("cadastro-senha")
 
     # 2. Validação de dados de entrada (Input Validation).
@@ -95,7 +96,7 @@ def post_cadastro():
         # Espera-se que este método execute o hash da senha (segurança) e o INSERT no banco de dados.
         # A responsabilidade de limpeza do CPF (remoção de pontos/traços) é delegada a este método,
         # mantendo a rota limpa e focada no controle de fluxo.
-        Usuario.cadastrar_usuario(cpf, nome, senha)
+        Usuario.cadastrar_usuario(cpf, nome, email, senha)
 
         # 4. Resposta de Sucesso.
         # Em caso de cadastro bem-sucedido, retorna o status HTTP 200 (OK)

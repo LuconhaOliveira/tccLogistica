@@ -47,21 +47,28 @@
             <div class="mb-3">
                 <label for="exampleInputCPF" class="form-label">CPF</label>
                 <!-- name: backend do cadastro -->
-                <input name="cadastro-cpf" minlength="14" class="form-control" id="exampleInputCPF" placeholder="Insira seu CPF:">
+                <input name="cadastro-cpf" minlength="14" class="form-control" id="exampleInputCPF" placeholder="Insira seu CPF:" required>
             </div>
 
             <!-- campo do Nome -->
             <div class="mb-3">
                 <label for="exampleInputCPF" class="form-label">Nome</label>
                 <!-- name: backend do cadastro -->
-                <input name="cadastro-nome" type="text" maxlength="50" class="form-control" id="exampleInputName" placeholder="Insira seu nome:">
+                <input name="cadastro-nome" type="text" maxlength="50" class="form-control" id="exampleInputName" placeholder="Insira seu nome:" required>
+            </div>
+
+            <!-- campo do email -->
+            <div class="mb-3">
+                <label for="exampleInputCPF" class="form-label">E-mail</label>
+                <!-- name: backend do cadastro -->
+                <input name="cadastro-email" type="email" class="form-control" id="exampleInputemail" placeholder="Insira seu email:" required>
             </div>
 
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Senha</label>
                 <!-- name: backend do login -->
                 <input name="cadastro-senha" minlength="8" maxlength="20" type="password" class="form-control"
-                    id="exampleInputPassword1" placeholder="Insira sua senha:">
+                    id="exampleInputPassword1" placeholder="Insira sua senha:" required>
             </div>
 
             <div class="mb-3 form-check button-adicionar">
