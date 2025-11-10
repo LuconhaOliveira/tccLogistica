@@ -53,7 +53,7 @@ def filtro_filtro(filtro):
     filtros=[]
 
     for i in estantes:
-        filtros.append({"nome": i["categoria"],"cod_categoria": i["cod_categoria"],"produtos": i["produtos"]})
+        filtros.append({"nome": i["categoria"],"cod_categoria": i["cod_categoria"]})
 
     return jsonify({"estantes": estantes,"filtros": filtros}), 200
 
