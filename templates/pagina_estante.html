@@ -27,7 +27,7 @@
                 
                 <select name="cod_categoria" id="estante-cod-categoria" class="form-control">
                     {% if categoria %}
-                        <option value="" disabled selected>Selecione a Categoria:</option>
+                        <option value="" disabled selected>Selecione a categoria:</option>
                         {% for categorias in categoria %}
                         <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
                         {% endfor %}
