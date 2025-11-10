@@ -4,7 +4,8 @@
 
 {% block estilos %}
 <!-- link css -->
-<link rel="stylesheet" href="/static/styles/pagina_consultar_produtos.css">
+<link rel="stylesheet" href="/static/styles/pagina_nota_fiscal.css">
+
 {% endblock %}
 
 {% block conteudo %}
@@ -86,6 +87,7 @@
 
 
         <!-- Seção Destinatário e Remetente -->
+        <span class="titulo">Destinatário e Remetente</span>
         <span>Destinatário/Remetente</span>
 
         <section>
@@ -150,6 +152,7 @@
             </div>
 
             <!-- Seção Fatura -->
+            <span class="titulo">Fatura</span>
             <span>Fatura</span>
 
             <div class="nota nota--card-fatura1">
@@ -168,6 +171,7 @@
 
 
         <!-- Seção Cálculo e Imposto -->
+        <span class="titulo">Cálculo e imposto</span>
         <span>Cálculo/Imposto</span>
 
         <section>
@@ -232,6 +236,7 @@
 
 
         <!-- Seção Transportador e Volumes Transportados -->
+        <span class="titulo">Transportador e Volumes Transportados</span>
         <section>
 
             <div class="nota nota--razao-social">
@@ -317,6 +322,7 @@
         </section>
 
         <!-- Seção Dados do Produto ou Serviço -->
+        <span class="titulo">Dados do Produto ou Serviço</span>  
          <section>
 
             <div class="nota--cod-produto">
@@ -351,6 +357,7 @@
 
 
          <!-- Seção Cálculo do ISSQN -->
+        <span class="titulo">Cálculo do ISSQN</span>  
          <section>
 
             <div class="nota--inscricao-municipal">
@@ -375,12 +382,10 @@
 
          </section>
 
-
-
-
-
     </div>
-
+    
+    <a href=""><button>Download</button></a>
+    
 </main>
 
 {% endblock %}
