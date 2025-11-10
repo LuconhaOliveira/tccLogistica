@@ -37,7 +37,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     height: 100%; 
-    width: 180px; 
+    width: 220px; 
     background-color: var(--grey-light);
     text-align:left ;
     flex-shrink: 0; 
@@ -51,61 +51,119 @@ body {
     grid-template-columns: 1fr 1fr 1fr; 
     grid-template-rows: auto ;
     gap: 30px;
-    
-
-    padding: 0 100px 0 75px; 
-    
+    padding: 0px 100px 30px 75px;
     height: auto;
     overflow-y: visible; 
 }
 
 .container--estantesCriadas a{
     color: var(--white);
-    width: 100%; 
-    height: 100%;
-
+    font-size: var(--font-size-24);
+    font-weight: bold;
+    width: 360px; 
+    height: 540px;
     display: flex;
     flex-direction: column; 
     justify-content: center;
     align-items: center;
     text-decoration: none;
-    
-
     overflow-wrap: break-word; 
     word-wrap: break-word; 
     word-break: break-word; 
-
     text-align: center; 
-    padding: 30px; 
 }
 
 /* Div da Estante (preenche o grid) */
 .container--estantesCriadas div{
     display: flex;
     width: 100%; 
-    height: 300px; 
-    
+    height: 100%; 
     /* Centraliza  o nome (link) dentro da div */
-    justify-content: center;
-    align-items: center;
-    
+    justify-content:flex-start;
+    align-items: flex-start;
     background-color: var(--orange-color);
     border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15); 
+    transition: transform 0.5s ease, box-shadow 0.5s ease; 
+}
+
+/* animação para a div saltar */
+.container--estantesCriadas div:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.container--estantesCriadas span{
+    background-color: var(--orange-dark-color);
+    width: 100%;
+    height: 25%;
+    display: flex;
+    justify-content: center; 
+    align-items: center;  
+    border-radius: 15px 15px 0px 0px !important;
 }
 
 /* Titulo "Filtro" */
 .card-filtrosCategoria .card-title{
     text-align: center;
     padding-top: 15px;
+    margin-top: 30px;
     font-family: var(--font-cinzel);
+    font-size: var(--font-size-30) !important;
 } 
 
 /* Titulo "categoria" */
 .card-filtrosCategoria .card-subtitle.mb-2.text-body-secondary{
-    padding-left: 8px;
-    padding-top: 20px;
-    font-size: 16px;
+    padding-top: 30px;
+    margin-bottom: 10px !important;
+    font-size: var(--font-size-24) !important;
     font-family: var(--font-outfit);
+    font-weight: bold;
+    color: var(--black) !important;
+}
+
+.card-body .card-subtitle{
+    margin-left: 15px;
+}
+
+.label-filtro{
+    font-size: var(--font-size-20) !important;
+    margin: 0px !important;
+}
+
+/* aqui ele esconde a bolinha azul padrão do navegador */
+.input-filtro {
+    opacity: 0;
+}
+
+/* 2. Prepare a <label> para ser a base do nosso novo botão */
+.label-filtro {
+    position: relative; /* posiciona o qudradinho certinho do lado do filtro */
+    cursor: pointer;  
+    padding-left: 12px;   
+    margin-bottom: 10px;    
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20) !important; 
+}
+
+/* 3. cria o novo quadradinho */
+.label-filtro::before {
+    content: ""; /* sem esse comando, o quadradinho não pode ser criado, pois é obrigatorio na opçao de ::before */
+    position: absolute; 
+    left: -15px !important;
+    top: 50%;           
+    transform: translateY(-50%); /* propriedade que permite mover, girar, escalar ou inclinar um elemento */
+    width: 20px;      
+    height: 20px;      
+    border: 2px solid var(--orange-color); 
+    background-color: var(--white); 
+    border-radius: 4px; 
+    transition: background-color 0.2s; 
+}
+
+/* quando o botão for clicado, ele fica laranja */
+.input-filtro:checked + .label-filtro::before {
+    background-color: var(--orange-color); 
 }
 
 /* Formata o input type radio (html) */
@@ -113,19 +171,68 @@ input[type="radio" i]{
     font-family: var(--font-outfit);
     padding-left: 5px;
     margin-left: 7px;
+    margin-left: 15px;
+}
+
+.form-aviso{
+    font-size: var(--font-size-20) !important;
+    margin: 20px !important;
 }
 
 /* Btn do js */
 .card-section--btnLimparFiltro{
     display: flex;
     flex-direction: column;
-    width: 180px;
+    width: 100%;
     padding: 10px 20px;
     font-family: var(--font-outfit);
     margin-top: 20px;
     border: none;
     text-align: center;
     background-color: var(--orange-color);
+    font-size: var(--font-size-20);
+    color: var(--white);
+    font-weight: bold;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.card-section--btnLimparFiltro:hover{
+    transform: translateY(-1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* quando não há estantes cadastradas */
+.h2-aviso{
+    font-family: var(--font-outfit) !important;
+    font-weight: bold !important;
+    font-size: var(--font-size-30) !important;
+    text-align: center;
+    position: relative;
+    right: 8.2%;
+    top: 15%;
+}
+
+.p-orientacao{
+    font-family: var(--font-outfit) !important;
+    font-size: var(--font-size-24) !important;
+    color: var(--white);
+    width: 40%;
+    position: relative;
+    left: 22%;
+    top: 28%;
+    text-align: center;
+    background-color: var(--orange-color);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.img-seta{
+    width: 150px;
+    height: auto;
+    position: absolute;
+    left: 69%;
+    top: 78%;
+    transform: rotate(14deg);
 }
 
 /* Btn Toggle ADD */
@@ -153,6 +260,7 @@ input[type="radio" i]{
     text-align:left;
 }
 
+/* botao toggle do + */
 #botaoToggle {
     border: none;
     background-color: var(--orange-color);
@@ -167,6 +275,39 @@ input[type="radio" i]{
     font-size: 30px;
     font-family: var(--font-outfit);
     margin-top: 10px; 
+    position: relative;
+}
+
+.aviso-cadastrar{
+    visibility: hidden; /* Hidden by default */
+    width: 120px;
+    background-color: var(--orange-dark-color);
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    padding: 8px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: 8px;
+    right: 75px;
+}
+
+#botaoToggle:hover .aviso-cadastrar {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* todos os botoes toggle */
+.button-toggle{
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.button-toggle:hover{
+    transform: translateY(-2px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* opcoes dentro do btn */
@@ -221,6 +362,29 @@ input[type="radio" i]{
     font-size: 30px;
     font-family: var(--font-outfit);
     margin-top: 10px; 
+    position: relative;
+}
+
+.aviso-historico{
+    visibility: hidden; /* Hidden by default */
+    width: 100px;
+    background-color: var(--orange-dark-color);
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    padding: 8px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: 8px;
+    right: 75px;
+}
+
+#botaoToggleHistorico:hover .aviso-historico {
+    visibility: visible;
+    opacity: 1;
 }
 
 /* Btn toggle da question (Botão ?) */
@@ -248,6 +412,29 @@ input[type="radio" i]{
     font-family: var(--font-outfit);
     z-index: 1000; 
     margin-top: 10px; 
+    position: relative;
+}
+
+.aviso-info{
+    visibility: hidden; /* Hidden by default */
+    width: 150px;
+    background-color: var(--orange-dark-color);
+    color: #ffffff;
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+    padding: 6px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: -5px;
+    right: 75px;
+}
+
+#botaoToggleQuestionTutorial:hover .aviso-info {
+    visibility: visible;
+    opacity: 1;
 }
 
 /* Texto de info dentro do btn ----------------------------------------- */
@@ -273,7 +460,7 @@ input[type="radio" i]{
 
 /* Título Principal */
 .span-h1--tituloInfo {
-    font-size: 1.6rem; 
+    font-size: var(--font-size-30); 
     font-family: var(--font-cinzel);
     text-align: center;
     padding: 18px 15px; 
@@ -367,7 +554,7 @@ input[type="radio" i]{
 
 /* Ajuste dos títulos internos do conteúdo*/
 .details-infoTxt h3 {
-    font-size: 1.35rem; 
+    font-size: var(--font-size-24); 
     font-weight: 700;
     color: var(--orange-color); 
     margin-top: 2rem;
@@ -382,7 +569,7 @@ input[type="radio" i]{
 
 /* Títulos H4*/
 .details-infoTxt h4 {
-    font-size: 1.15rem; 
+    font-size: var(--font-size-20); 
     font-weight: 700; 
     color: #000000; 
     margin-top: 1.7rem;
@@ -391,7 +578,7 @@ input[type="radio" i]{
 
 /* Parágrafos gerais*/
 .details-infoTxt p {
-    font-size: 1rem; 
+    font-size: var(--font-size-16); 
     color: #000000; 
     margin-bottom: 1.2rem; 
 }

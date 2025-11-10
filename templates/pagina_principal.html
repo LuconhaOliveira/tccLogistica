@@ -1,146 +1,142 @@
-    {% extends "header_head.html" %}
+{% extends "header_head.html" %}
 
-    {% block titulo %}Página Inicial{% endblock %}
+{% block titulo %}InStock{% endblock %}
 
-    {% block estilos %}
-    <!-- link do css da página -->
-    <link rel="stylesheet" href="/static/styles/pagina_principal.css">
-    {% endblock %}
+{% block estilos %}
+<!-- link do css da página -->
+<link rel="stylesheet" href="/static/styles/pagina_principal.css">
+{% endblock %}
 
-    {% block conteudo %}
-    
+{% block conteudo %}
 
-    <main class="container--main">
+<main class="container--main">
 
-        <!-- Btn question tutorial -->
-        <div class="div-btn--questionTutorial">
-            <button type="button" id="botaoToggleQuestionTutorial">
-                <span class="material-symbols-outlined">
-                    question_mark
-                </span>
-            </button>
-        </div>
+    <!-- Btn question tutorial -->
+    <div class="div-btn--questionTutorial">
+        <button type="button" id="botaoToggleQuestionTutorial" class="button-toggle">
+            <span class="material-symbols-outlined">
+                question_mark
+            </span>
+            <span class="aviso-info">Instruções de Cadastro</span>
+        </button>
+    </div>
 
-        <div id="botaoToggleQuestionTutorialInfoTxt" class="section-summary--info">
-            <span class="section-p--infoTxt">
+    <div id="botaoToggleQuestionTutorialInfoTxt" class="section-summary--info">
+        <span class="section-p--infoTxt">
 
-                <!-- Info sobre o sistema -->
-                <h1 class="span-h1--tituloInfo">Prioridade de cadastro</h1>
+            <!-- Info sobre o sistema -->
+            <h1 class="span-h1--tituloInfo">Prioridade de Cadastro</h1>
 
-                <!-- Fluxo do sistema -->
-                <details class="details-infoTxt" id="details-infoTxt">
-                    <summary>
-                         <h2> Resumo do fluxo</h2>
-                    </summary>
-                    <div class="details-p--info1FluxoSistema">
-                        <section>
-                            <h3> O fluxo de cadastro deve ser: </h2>
-                            <p>1. Cadastro de categoria, tipo e caracteristicas</p>
-                            <p>2. Cadastro de estante </p>
-                            <p>3. Cadastro de Produto</p>
-                        </section>
-                    </div>
-                </details>
+            <!-- Fluxo do sistema -->
+            <details class="details-infoTxt" id="details-infoTxt">
+                <summary>
+                    <h2> Resumo do Fluxo</h2>
+                </summary>
+                <div class="details-p--info1FluxoSistema">
+                    <section>
+                        <h3>Ordem a ser seguida:</h2>
+                            <p>1. Cadastro de Categoria, Tipo e caracteristica(s);</p>
+                            <p>2. Cadastro de Estante;</p>
+                            <p>3. Cadastro de Produto.</p>
+                    </section>
+                </div>
+            </details>
 
-                <!-- Guia do Cadastro de estantes, categorias e produtos -->
-                <details class="details-infoTxt" id="details-infoTxt">
-                    <summary>
-                         <h2>Guia de cadastro</h2>
-                    </summary>
-                    <p>
-                        <section>
-                            <h3>1. Cadastro de Categoria, Tipo e Características<h3>
+            <!-- Guia do Cadastro de estantes, categorias e produtos -->
+            <details class="details-infoTxt" id="details-infoTxt">
+                <summary>
+                    <h2>Guia de Cadastro</h2>
+                </summary>
+                <p>
+                <section>
+                    <h3>1. Cadastro de Categoria, Tipo e Característica(s)<h3>
 
-                            <p>
-                                Este é o cadastro base do aplicativo, pois para registrar uma estante ou um produto, é obrigatório que os itens cadastrados nesta seção já existam.
-                            </p>
+                            <p>Esta é a seção de cadastro principal do aplicativo. O cadastro de estantes e produtos só
+                                é liberado após a criação dos itens obrigatórios desse período.</p>
 
-                            <p>
-                                A página possui três formulários na seguinte ordem: Categoria, Tipo e Característica. Logo abaixo, encontram-se três campos de exclusão para esses mesmos itens. A exclusão só é permitida se o item não estiver ligado a nenhuma estante, produto ou a outros cadastros base (Categoria e Tipo).
-                            </p>
+                            <p>A página contém três formulários sequenciais: Categoria, Tipo e Característica. Abaixo
+                                deles, estão os respectivos campos de exclusão para cada um desses itens. A exclusão só
+                                é permitida se o item não estiver vinculado a nenhuma estante, produto, ou a outros
+                                cadastros base (Categoria e Tipo).</p>
 
                             <h3>Fluxo de Inserção:</h3>
 
-                            <p>
-                                Cadastre uma Categoria (seu nome deve ser único), pois ela é um pré-requisito para o cadastro de Tipos.
-                            </p>
+                            <p>Cadastre uma Categoria (com nome único), pois ela é um pré-requisito para o cadastro de
+                                Tipos;</p>
+
+                            <p>Em seguida, cadastre um Tipo, associando-o à Categoria desejada;</p>
+
+                            <p>Por fim, insira a Característica, vinculando-a ao Tipo correspondente.</p>
+
+                            <p><strong>OBS:</strong> É importante notar que uma única Categoria pode ter múltiplos
+                                Tipos, e um único Tipo
+                                pode estar associado a múltiplas Características.</p>
+
+                            <h4>Exemplo de Inserção:</h4>
 
                             <p>
-                            Em seguida, cadastre um Tipo, associando-o à Categoria desejada.
+                                Categoria: Vestiário;<br>
+                                Tipo: Camiseta;<br>
+                                Características: Branca, Tamanho M, Manga Longa.
                             </p>
+
+                            <h3>2. Cadastro de Estante</h3>
+
+                            <p>Este é o cadastro base para a inserção de produtos. Para registrar qualquer produto no
+                                sistema, é obrigatório que haja pelo menos uma estante já cadastrada.</p>
+
+                            <p>A página contém um formulário onde o usuário deve inserir o Nome e selecionar a Categoria
+                                correspondente à estante. O nome deve ser escolhido de forma a indicar o tipo de produto
+                                que será armazenado.</p>
+
+                            <p><strong>OBS:</strong> A Categoria e as Estantes cadastradas só serão exibidas na área de
+                                filtragem da
+                                página principal após o registro da primeira estante.</p>
+
+                            <h4>Exemplo de Inserção:</h4>
 
                             <p>
-                            Por fim, insira a Característica, vinculando-a ao Tipo correspondente.
+                                Nome: Camisetas;<br>
+                                Categoria: Vestiário.
                             </p>
 
-                            <p>
-                            OBS: É importante notar que uma única categoria pode ter múltiplos tipos, e um único tipo pode estar associado a múltiplas características.
-                            </p>
+                            <h3>3. Cadastro de Produto</h3>
 
-                            <h4>
-                            Exemplo de Inserção:
-                            </h4>
+                            <p>Esta é a etapa final do processo de cadastro. Após concluir todos os passos anteriores
+                                (cadastro de Categoria, Tipo, Característica e Estante), o usuário pode registrar os
+                                produtos que serão armazenados nas estantes criadas.</p>
 
-                            <p>
-                                Categoria: Vestiário<br>
-                                Tipo: Camiseta<br>
-                                Características: Branca, Tamanho M, Manga Longa
-                            </p>
+                            <p>A página contém um formulário onde o usuário deve inserir as seguintes informações:</p>
 
-                            <h3>
-                                2. Cadastro de Estante
-                            </h3>
+                            <h4>Especificações do Produto:</h4>
 
-                            <p>
-                                Este é o cadastro base para a inserção de produtos. Para registrar qualquer produto no sistema, é obrigatório que pelo menos uma estante já esteja cadastrada.
-                            </p>
+                            <ul>
+                                <li>Nome;</li>
+                                <li>Descrição;</li>
+                                <li>Imagem;</li>
+                                <li>Quantidade em Estoque;</li>
+                                <li>Valor unitário;</li>
+                                <li>SKU.</li>
+                            </ul>
 
-                            <p>
-                                A página contém um formulário onde o usuário deve inserir o Nome e selecionar a Categoria correspondente à estante. O nome deve ser escolhido de forma a indicar o tipo de produto que a estante irá armazenar.
-                            </p>
+                            <h4>Endereçamento:</h4>
 
-                            <p>
-                                
-                                OBS: A Categoria e as Estantes cadastradas só serão exibidas na área de filtragem da página principal após a primeira estante ser registrada.
-                            </p>
+                            <ul>
+                                <li>Nome da Estante;</li>
+                                <li>Coluna;</li>
+                                <li>Linha.</li>
+                            </ul>
 
-                            <h4>
-                                Exemplo de Inserção:
-                            </h4>
+                            <h4>Classificação:</h4>
 
-                            <p>
-                                Nome: Camisetas<br>
-                                Categoria: Vestiário
-                            </p>
+                            <ul>
+                                <li>Categoria;</li>
+                                <li>Tipo;</li>
+                                <li>Característica(s).</li>
+                            </ul>
 
-                            <h3>
-                                3. Cadastro de Produto
-                            </h3>
-
-                            <p>
-
-                                Esta é a etapa final do processo de cadastro. Após seguir todos os passos anteriores (cadastro de Categoria, Tipo, Característica e Estante), o usuário pode registrar os produtos que serão armazenados nas estantes criadas.
-                            </p>
-
-                            <p>
-                                A página contém um formulário onde o usuário deve inserir as seguintes informações:
-                            </p>
-
-                            <p>
-                                Informações do Produto: Nome, Descrição, Imagem, Quantidade em estoque, Valor unitário e SKU.
-                            </p>
-
-                            <p>
-                                Endereçamento: Nome da Estante e seu endereçamento (Coluna e Linha).
-                            </p>
-
-                            <p>
-                                Classificação: Categoria, Tipo e Características.
-                            </p>
-
-                            <p>
-                                OBS: Os produtos serão exibidos dentro da estante em que foram cadastrados e em seu devido endereçamento (Coluna e Linha).
-                            </p>
+                            <p><strong>OBS:</strong> Os produtos serão exibidos dentro da estante em que foram
+                                cadastrados, em seu respectivo endereço (Coluna e Linha).</p>
 
                             <h4>
                                 Exemplo de Inserção:
@@ -149,7 +145,8 @@
 
                             <p>
                                 Nome: Camisa<br>
-                                Descrição: Camisa casual branca de manga longa, tamanho M. Peça clássica e versátil, ideal para looks elegantes ou casuais.<br>
+                                Descrição: Camisa casual branca de manga longa, tamanho M. Peça clássica e versátil,
+                                ideal para looks elegantes ou casuais.<br>
                                 Imagem: camisa.jpg<br>
                                 Quantidade: 560<br>
                                 Valor: 45,99<br>
@@ -161,163 +158,181 @@
                                 Tipo: Camiseta<br>
                                 Características: Branca, Tamanho M, Manga Longa<br>
                             </p>
-                        </section>
-                    </p>
-                </details>
+                </section>
+                </p>
+            </details>
+        </span>
+    </div>
+
+    <!-- Add o icon "historico" no botão -->
+    <section class="section-btn--historico">
+        <button type="button" id="botaoToggleHistorico" class="button-toggle">
+            <span class="material-symbols-outlined">
+                history
             </span>
+            <span class="aviso-historico">Históricos</span>
+        </button>
+    </section>
+
+    <!--  Opcoes que estão dentro do botão(histórico)  -->
+    <section>
+        <div class="section-btn--opcoesDentroDoBtn" id="botaoToggleHistoricoOpcoes">
+            <h1 class="section-div--tituloOpcoesBtn">Histórico</h1>
+            <a class="section-div--opcoesDentroDoBtn" href="/historico/alteracoes">Alterações</a>
+            <a class="section-div--opcoesDentroDoBtn" href="historico/pedido/compra">Pedido de compra</a>
         </div>
-        
-        <!-- Add o icon "historico" no botão -->
-        <section class="section-btn--historico">
-            <button type="button" id="botaoToggleHistorico">
-                <span class="material-symbols-outlined">
-                    history
-                </span>
-            </button>
-        </section>
+    </section>
 
-        <!--  Opcoes que estão dentro do botão(histórico)  -->
-        <section>
-            <div class="section-btn--opcoesDentroDoBtn" id="botaoToggleHistoricoOpcoes">
-                <h1 class="section-div--tituloOpcoesBtn">Histórico</h1>
-                <a class="section-div--opcoesDentroDoBtn" href="/historico/alteracoes">Alterações</a>
-                <a class="section-div--opcoesDentroDoBtn" href="historico/pedido/compra">Pedido de compra</a>
+    <!-- Add o icon "mais" no botão(adicionar) -->
+    <section class="section-btn--cadastrarProdCatEst">
+        <button type="button" id="botaoToggle" class="button-toggle">
+            <span class="material-symbols-outlined">
+                add_2
+            </span>
+            <span class="aviso-cadastrar">Cadastros</span>
+        </button>
+    </section>
+
+    <!--  Opcoes que estão dentro do botão  -->
+    <section>
+        <div class="section-btn--opcoesDentroDoBtn" id="opcoesBotao">
+            <h1 class="section-div--tituloOpcoesBtn">Adicionar</h1>
+            <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/categoria">Categoria</a>
+            <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/estante">Estante</a>
+            <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/produto">Produto</a>
+        </div>
+    </section>
+
+    <!-- Card lateral esquerdo, aqui vai as categorias, estantes e produtos cadastrados -->
+    <section class="card-filtrosCategoria">
+        <div class="card-categoriasFiltros">
+
+            <div class="card-body">
+
+                <h5 class="card-title">Filtros</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Categoria</h6>
+
+                <section class="card-section--filtroEstante">
+
+                    <form id="filtros" class="card-form--filtroEstante">
+
+                        <p class="form-aviso">Nenhuma categoria e/ou estante cadastrada no momento.</p>
+
+                    </form>
+
+                </section>
+
             </div>
-        </section>
 
-        <!-- Add o icon "mais" no botão(adicionar) -->
-        <section class="section-btn--cadastrarProdCatEst">
-            <button type="button" id="botaoToggle">
-                <span class="material-symbols-outlined">
-                    add_2
-                </span>
-            </button>
-        </section>
+    </section>
 
-        <!--  Opcoes que estão dentro do botão  -->
-        <section>
-            <div class="section-btn--opcoesDentroDoBtn" id="opcoesBotao">
-                <h1 class="section-div--tituloOpcoesBtn">Adicionar:</h1>
-                <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/categoria">Categoria</a>
-                <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/estante">Estante</a>
-                <a class="section-div--opcoesDentroDoBtn" href="/cadastrar/produto">Produto</a>
-            </div>
-        </section>
+    <!-- quando existir um cadastro de estante, o css vai receber a formatação dessa classe -->
+    <div class="container--estantesCriadas" id="estantes">
+    </div>
 
-            <!-- Card lateral esquerdo, aqui vai as categorias, estantes e produtos cadastrados -->
-            <section class="card-filtrosCategoria">
-                <div class="card-categoriasFiltros">
+    <!-- quando não tiver cadastro de estante -->
+    {% if not estantes %}
+    <div class="container-estantesNaoCriadas">
 
-                    <div class="card-body">
-                        <h5 class="card-title">Filtro:</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">Categoria:</h6>
+        <h2 class="h2-aviso">Nenhuma estante cadastrada.</h2>
+        <p class="p-orientacao">Para cadastrar uma estante, selecione o botão <strong>"+"</strong> localizado no canto inferior direito da página. <strong>Importante!</strong> Você só poderá criá-la após o processo de cadastramento de <strong>Categoria</strong>, pois, caso contrário, o cadastro não será permitido. Feito isso, ainda no <strong>"+"</strong>, selecione a opção <strong>"Estante"</strong>. Em seguida, adicione as informações de Nome e a Categoria de sua escolha para adicioná-la. Após o cadastro, ela aparecerá na página principal.</p>
+        <img class="img-seta" src="/static/img/seta-img-Photoroom.png" alt="imagem de seta">
+    </div>
+    {% endif %}
 
-                    <section class="card-section--filtroEstante">
-                        <form id="filtros" class="card-form--filtroEstante">
-                        </form>
-                        
-                    </section>
-
-                </div>
-            </section>
-
-                <div class="container--estantesCriadas" id="estantes">
-                </div>
-    </main>
+</main>
 
 <!-- JS -->
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // Botão e Div do primeiro toggle
-    const botaoToggle = document.getElementById('botaoToggle');
-    const opcoesDiv = document.getElementById('opcoesBotao');
+    document.addEventListener('DOMContentLoaded', function () {
 
-    // Botão e Div do segundo toggle
-    const botaoToggleHistorico = document.getElementById('botaoToggleHistorico');
-    const opcoesDivHistorico = document.getElementById('botaoToggleHistoricoOpcoes');
+        // Botão e Div do primeiro toggle
+        const botaoToggle = document.getElementById('botaoToggle');
+        const opcoesDiv = document.getElementById('opcoesBotao');
 
-    // Botão e Div do terceiro toggle
-    const botaoToggleQuestionTutorial = document.getElementById('botaoToggleQuestionTutorial');
-    const botaoToggleQuestionTutorialInfoTxt = document.getElementById('botaoToggleQuestionTutorialInfoTxt');
+        // Botão e Div do segundo toggle
+        const botaoToggleHistorico = document.getElementById('botaoToggleHistorico');
+        const opcoesDivHistorico = document.getElementById('botaoToggleHistoricoOpcoes');
 
-    // carrega a pagina e os toggles estão fechados
-    opcoesDiv.style.display = 'none';
-    opcoesDivHistorico.style.display = 'none';
-    botaoToggleQuestionTutorialInfoTxt.style.display = 'none';
+        // Botão e Div do terceiro toggle
+        const botaoToggleQuestionTutorial = document.getElementById('botaoToggleQuestionTutorial');
+        const botaoToggleQuestionTutorialInfoTxt = document.getElementById('botaoToggleQuestionTutorialInfoTxt');
 
-    // função para alternar visibilidade
-    function toggleVisibility(div) {
-        if (div.style.display === 'none' || div.style.display === '') {
-            div.style.display = 'block';
-        } else {
-            div.style.display = 'none';
+        // carrega a pagina e os toggles estão fechados
+        opcoesDiv.style.display = 'none';
+        opcoesDivHistorico.style.display = 'none';
+        botaoToggleQuestionTutorialInfoTxt.style.display = 'none';
+
+        // função para alternar visibilidade
+        function toggleVisibility(div) {
+            if (div.style.display === 'none' || div.style.display === '') {
+                div.style.display = 'block';
+            } else {
+                div.style.display = 'none';
+            }
         }
-    }
 
-    // primeiro botão
-    if (botaoToggle && opcoesDiv) {
-        botaoToggle.addEventListener('click', function(event) {
-            event.stopPropagation();
-            toggleVisibility(opcoesDiv);
+        // primeiro botão
+        if (botaoToggle && opcoesDiv) {
+            botaoToggle.addEventListener('click', function (event) {
+                event.stopPropagation();
+                toggleVisibility(opcoesDiv);
 
-            // fecha os outros menus se estiverem abertos
-            if (opcoesDivHistorico.style.display === 'block') {
+                // fecha os outros menus se estiverem abertos
+                if (opcoesDivHistorico.style.display === 'block') {
+                    opcoesDivHistorico.style.display = 'none';
+                }
+                if (botaoToggleQuestionTutorialInfoTxt.style.display === 'block') {
+                    botaoToggleQuestionTutorialInfoTxt.style.display = 'none';
+                }
+            });
+        }
+
+        // segundo botão
+        if (botaoToggleHistorico && opcoesDivHistorico) {
+            botaoToggleHistorico.addEventListener('click', function (event) {
+                event.stopPropagation();
+                toggleVisibility(opcoesDivHistorico);
+
+                if (opcoesDiv.style.display === 'block') {
+                    opcoesDiv.style.display = 'none';
+                }
+                if (botaoToggleQuestionTutorialInfoTxt.style.display === 'block') {
+                    botaoToggleQuestionTutorialInfoTxt.style.display = 'none';
+                }
+            });
+        }
+
+        // terceiro botão (tutorial)
+        if (botaoToggleQuestionTutorial && botaoToggleQuestionTutorialInfoTxt) {
+            botaoToggleQuestionTutorial.addEventListener('click', function (event) {
+                event.stopPropagation();
+                toggleVisibility(botaoToggleQuestionTutorialInfoTxt);
+
+                // fecha os outros menus se estiverem abertos
+                if (opcoesDiv.style.display === 'block') {
+                    opcoesDiv.style.display = 'none';
+                }
+                if (opcoesDivHistorico.style.display === 'block') {
+                    opcoesDivHistorico.style.display = 'none';
+                }
+            });
+        }
+
+        // fecha tudo ao clicar fora
+        document.addEventListener('click', function (event) {
+            if (!opcoesDiv.contains(event.target) && opcoesDiv.style.display === 'block') {
+                opcoesDiv.style.display = 'none';
+            }
+            if (!opcoesDivHistorico.contains(event.target) && opcoesDivHistorico.style.display === 'block') {
                 opcoesDivHistorico.style.display = 'none';
             }
-            if (botaoToggleQuestionTutorialInfoTxt.style.display === 'block') {
+            if (!botaoToggleQuestionTutorialInfoTxt.contains(event.target) && botaoToggleQuestionTutorialInfoTxt.style.display === 'block') {
                 botaoToggleQuestionTutorialInfoTxt.style.display = 'none';
             }
         });
-    }
-
-    // segundo botão
-    if (botaoToggleHistorico && opcoesDivHistorico) {
-        botaoToggleHistorico.addEventListener('click', function(event) {
-            event.stopPropagation();
-            toggleVisibility(opcoesDivHistorico);
-            
-            if (opcoesDiv.style.display === 'block') {
-                opcoesDiv.style.display = 'none';
-            }
-            if (botaoToggleQuestionTutorialInfoTxt.style.display === 'block') {
-                botaoToggleQuestionTutorialInfoTxt.style.display = 'none';
-            }
-        });
-    }
-
-    // terceiro botão (tutorial)
-    if (botaoToggleQuestionTutorial && botaoToggleQuestionTutorialInfoTxt) {
-        botaoToggleQuestionTutorial.addEventListener('click', function(event) {
-            event.stopPropagation();
-            toggleVisibility(botaoToggleQuestionTutorialInfoTxt);
-
-            // fecha os outros menus se estiverem abertos
-            if (opcoesDiv.style.display === 'block') {
-                opcoesDiv.style.display = 'none';
-            }
-            if (opcoesDivHistorico.style.display === 'block') {
-                opcoesDivHistorico.style.display = 'none';
-            }
-        });
-    }
-
-    // fecha tudo ao clicar fora
-    document.addEventListener('click', function(event) {
-        if (!opcoesDiv.contains(event.target) && opcoesDiv.style.display === 'block') {
-            opcoesDiv.style.display = 'none';
-        }
-        if (!opcoesDivHistorico.contains(event.target) && opcoesDivHistorico.style.display === 'block') {
-            opcoesDivHistorico.style.display = 'none';
-        }
-        if (!botaoToggleQuestionTutorialInfoTxt.contains(event.target) && botaoToggleQuestionTutorialInfoTxt.style.display === 'block') {
-            botaoToggleQuestionTutorialInfoTxt.style.display = 'none';
-        }
     });
-});
-
-
 
 </script>
 

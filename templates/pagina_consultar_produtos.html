@@ -1,6 +1,6 @@
 {% extends "header_head.html" %}
 
-{% block titulo %}Editar Estante{% endblock %}
+{% block titulo %}{{nome_estante}}{% endblock %}
 
 {% block estilos %}
 <!-- link css -->
@@ -81,14 +81,14 @@
         
         <div class="container--botoes">
 
-            <a href="/post/remover/produtos/{{cod_estante}}"><button class="btn btn-primary">Limpar produtos</button></a>
+            <a href="/post/remover/produtos/{{cod_estante}}"><button class="btn btn-primary">Limpar Produtos</button></a>
 
 
 
-            <a href="/post/remover/estante/{{cod_estante}}"><button class="btn btn-primary">Excluir estante</button></a>
+            <a href="/post/remover/estante/{{cod_estante}}"><button class="btn btn-primary">Excluir Estante</button></a>
 
 
-            <a href="/editar/estante/{{cod_estante}}"><button class="btn btn-primary">Editar estante</button></a>
+            <a href="/pagina/editar/estante/{{cod_estante}}"><button class="btn btn-primary">Editar Estante</button></a>
 
         </div>
 

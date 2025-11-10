@@ -27,7 +27,8 @@ def principal():
     
     else:
         nome = session['nome']
-        return render_template("pagina_principal.html", nome=nome)
+        estantes = Estante.buscar_estantes()
+        return render_template("pagina_principal.html", nome=nome, estantes=estantes)
 
 # FILTROS ------------------------------------------------------------------------------------------------------#
 
@@ -249,10 +250,9 @@ def post_recuperar_senha():
 
 # PRODUTOS ------------------------------------------------------------------------------------------------------#
 
-# @app.route("/estante/<id>")
-# def pagina_estante(id):
-
-#     return jsonify(Estante.buscar_estante(id))
+@app.route("/api/get/caracteristicas/<tipo>")
+def api_caracteristicas(tipo):
+    return jsonify(Categoria.buscar_caracteristica(tipo))
   
 # Rota para exibir o formulário de cadastro de produto
 @app.route("/cadastrar/produto")
@@ -389,6 +389,20 @@ def post_produto():
             'status': 'error',
             'message': f"Falha no cadastro (DB). Detalhes: {mensagem_ou_id}" 
         })
+    
+@app.route("/api/get/enderecamento/<cod_estante>")
+def api_enderecamento(cod_estante):
+
+    #busca os produtos daquela estante
+    produtos = Estante.buscar_estante(cod_estante)
+
+    enderecamentos = []
+
+    for produto in produtos:
+        #lista com a coluna, linha e codigo do produto
+        enderecamentos.append([produto["coluna"],produto["linha"],produto["cod_produto"]])
+
+    return jsonify(enderecamentos)
 
 # EXCLUSÃO DE PRODUTO ------------------------------------------------------------------------------------------------------#  
 
@@ -410,6 +424,8 @@ def visualizar_produto(cod_produto):
 
     produto = ControleProduto.selecionar_produto(cod_produto)
 
+    nome_produto = ControleProduto.buscar_nome_produto(cod_produto)
+
     if produto and produto.get('imagem'):
         imagem_blob = produto['imagem']
         imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
@@ -417,11 +433,14 @@ def visualizar_produto(cod_produto):
     else:
         produto['imagem'] = None
 
-    return render_template("pagina_visualizar_produto.html", produto = produto)# EDIÇÃO DE PRODUTO --------------------------------------------------------------------------------------------------------#  
+    return render_template("pagina_visualizar_produto.html", produto = produto, nome_produto = nome_produto)
+
+# EDIÇÃO DE PRODUTO --------------------------------------------------------------------------------------------------------#  
 
 @app.route("/pagina/editar/produto/<id>")
 def editar_produto(id):
     produto = ControleProduto.buscar_produto(id)
+    produto["valor"]=f'{produto["valor"]:.2f}'
     imagem_base64 = ""
     if produto["imagem"]:
         imagem_blob = produto["imagem"]  # Aqui o produto.imagem é o BLOB do banco de dados
@@ -433,7 +452,6 @@ def editar_produto(id):
     tipos = Categoria.recuperar_tipo(session["cpf"])
     categorias = Categoria.recuperar_categoria(session["cpf"])
     estantes = Estante.buscar_estantes()
-    print(produto)
     return render_template('pagina_editar_produto.html', produto=produto, caracteristicas=caracteristicas,tipos=tipos,categorias=categorias, estantes=estantes, imagem_base64=imagem_base64)
 
 @app.route("/post/editar/produto/<id>", methods=["POST"])
@@ -451,6 +469,7 @@ def post_editar_produto(id):
     descricao = request.form.get("cadastro-descricao")
     coluna = request.form.get("cadastro-coluna-estante")
     linha = request.form.get("cadastro-linha-estante")
+    nome = request.form.get("cadastro-nome")
     
     # Campos que serão validados como OBRIGATÓRIOS ou numéricosa
     quantidade_str = request.form.get("cadastro-quantidade",str(produto["quantidade"]))
@@ -505,14 +524,14 @@ def post_editar_produto(id):
 
     # 5. Chamar a função de controle de produto
     sucesso, mensagem_ou_id = ControleProduto.editar_produto(
-        descricao, imagem_blob, quantidade, valor, sku,
+        nome,descricao, imagem_blob, quantidade, valor, sku,
         coluna, linha, cod_estante, cod_categoria,
-        cod_tipo, cod_caracteristica,id
+        cod_tipo,id
     )
 
     # 6. Retorno JSON
     if sucesso:
-        return redirect(f"/pagina/editar/produto/{id}")
+        return redirect(f"/visualizar/produto/{id}")
     else:
         return jsonify({
             'status': 'error',
@@ -633,11 +652,25 @@ def remover_estante(cod_estante):
 
 # EDITAR ESTANTE -------------------------------------------------------------------------------------------------------
 
-@app.route("/editar/estante/<cod_estante>")
-def editar_estante():
+@app.route("/pagina/editar/estante/<cod_estante>")
+def editar_estante(cod_estante):
+    estante = Estante.buscar_estante_especifica(cod_estante)[0]
+    categorias = Categoria.recuperar_categoria(session["cpf"])
     
-    return render_template("pagina_editar_estante.html")
+    return render_template("pagina_editar_estante.html", estante=estante, categorias=categorias)
+
+@app.route("/post/editar/estante/<cod_estante>", methods=["POST"])
+def post_editar_estante(cod_estante):
     
+    nome = request.form.get("cadastro-nome")
+    categoria = request.form.get("cadastro-categoria")
+
+    print(nome,categoria,cod_estante)
+    
+    print(Estante.editar_estante(nome,categoria,cod_estante))
+    
+    return redirect(url_for('principal'))
+
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
 # Rota que lida com a requisição GET para a página de cadastro de categoria, tipo e caracteristica.
