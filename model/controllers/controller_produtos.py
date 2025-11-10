@@ -417,3 +417,37 @@ class ControleProduto:
         conexao.close()
         
         return True
+    
+    # Busca o nome do produto desejado no banco de dados
+    def buscar_nome_produto(cod_produto):
+        try:
+            conexao = Conection.create_connection()
+
+            if not conexao:
+                return "Produto" # Retorna um nome padrão em caso de erro
+
+            cursor = conexao.cursor()
+            
+            # Buscar o nome da estante no banco
+            sql = "SELECT nome FROM produto WHERE cod_produto = %s"
+            valores = (cod_produto,)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchone()
+            
+            if resultado:
+                # Retorna o primeiro elemento da tupla (o nome do produto)
+                return resultado[0]
+            else:
+                return "Produto não encontrado"
+
+        except Error as e:
+            print(f"Erro ao buscar nome do produto: {e}")
+            return "Erro de Busca"
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()

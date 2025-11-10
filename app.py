@@ -424,6 +424,8 @@ def visualizar_produto(cod_produto):
 
     produto = ControleProduto.selecionar_produto(cod_produto)
 
+    nome_produto = ControleProduto.buscar_nome_produto(cod_produto)
+
     if produto and produto.get('imagem'):
         imagem_blob = produto['imagem']
         imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
@@ -431,7 +433,9 @@ def visualizar_produto(cod_produto):
     else:
         produto['imagem'] = None
 
-    return render_template("pagina_visualizar_produto.html", produto = produto)# EDIÇÃO DE PRODUTO --------------------------------------------------------------------------------------------------------#  
+    return render_template("pagina_visualizar_produto.html", produto = produto, nome_produto = nome_produto)
+
+# EDIÇÃO DE PRODUTO --------------------------------------------------------------------------------------------------------#  
 
 @app.route("/pagina/editar/produto/<id>")
 def editar_produto(id):
