@@ -33,7 +33,7 @@
                     <label for="exampleInputDescription" class="form-label">Descrição</label>
                     <!-- description: backend do cadastro -->
                     <input name="cadastro-descricao" type="text" maxlength="255" class="form-control"
-                        id="exampleInputDescription">
+                        id="exampleInputDescription" required>
                 </div>
 
                 <!-- campo de imagem -->
@@ -66,14 +66,14 @@
                 <div class="mb-3">
                     <label for="exampleInputValor" class="form-label">Valor</label>
                     <!-- valor: backend do cadastro -->
-                    <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:">
+                    <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:" required>
                 </div>
 
                 <!-- campo do SKU -->
                 <div class="mb-3">
                     <label for="exampleInputSKU" class="form-label">SKU</label>
                     <!-- SKU: backend do cadastro -->
-                    <input name="cadastro-sku" maxlength="100" class="form-control input-sku" id="exampleInputSKU">
+                    <input name="cadastro-sku" maxlength="100" class="form-control input-sku" id="exampleInputSKU" required>
                 </div>
             </fieldset>
 
@@ -87,11 +87,40 @@
 
                     <select name="cadastro-nome-estante" class="form-select" id="nomeEstanteSelect">
 
-                        <option class="select-estante" disabled selected>Selecione uma Estante:</option>
+                        {% if estante %}
+                            <option class="select-estante" disabled selected>Selecione uma Estante:</option>
 
                         {% for estantes in estante %}
                         <option value="{{estantes.cod_estante}}">{{estantes.nome}}</option>
                         {% endfor %}
+
+                        <!-- Caso nenhuma categoria tenha sido cadastrada ainda -->
+                        {% else %}
+                            <option value="" disabled selected>Nenhuma estante cadastrada.</option>
+                        {% endif %}
+
+                    </select>
+
+                </div>
+
+                                <!-- campo de linha da estante -->
+                <div class="mb-3">
+
+                    <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante</label>
+
+                    <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
+                
+                    {% if linha %}
+                    <!-- Opções disponíveis -->
+                    <option class="select-coluna" disabled selected>Selecione uma Linha:</option>
+                    {% for linha in linhas_disponiveis %}
+                        <option value="{{coluna.cod_coluna}}">{{linha.nome_linha}}</option>
+                    {% endfor %}
+                    {% else %}
+                    <!-- Mensagem de esgotamento quando a lista está vazia -->
+                    <option class="select-coluna" disabled selected>Selecione uma estante primeiro.</option>
+                    {% endif %}
+
 
                     </select>
 
@@ -103,21 +132,16 @@
                     <label for="exampleInputColunaEstante" class="form-label">Coluna da Estante</label>
 
                     <select name="cadastro-coluna-estante" class="form-select" id="colunaEstanteSelect">
-                        <option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
-
-
-                    </select>
-
-                </div>
-
-                <!-- campo de linha da estante -->
-                <div class="mb-3">
-
-                    <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante</label>
-
-                    <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
-
-                        <option class="select-linha" disabled selected>Selecione uma Linha:</option>
+                    {% if coluna %}
+                    <!-- Opções disponíveis -->
+                    <option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
+                    {% for coluna in colunas_disponiveis %}
+                        <option value="{{coluna.cod_coluna}}">{{coluna.nome_coluna}}</option>
+                    {% endfor %}
+                {% else %}
+                    <!-- Mensagem de esgotamento quando a lista está vazia -->
+                    <option class="select-coluna" disabled selected>Selecione uma estante primeiro.</option>
+                {% endif %}
 
 
                     </select>
@@ -139,11 +163,15 @@
 
                     <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
 
-                        <option class="select-categoria" disabled selected>Selecione uma categoria:</option>
-
-                        {% for categorias in categoria %}
-                        <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
-                        {% endfor %}
+                        {% if categoria %}
+                            <option value="" disabled selected>Selecione a Categoria:</option>
+                            {% for categorias in categoria %}
+                            <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
+                            {% endfor %}
+                            <!-- Caso nenhuma categoria tenha sido cadastrada ainda -->
+                        {% else %}
+                            <option value="" disabled selected>Nenhuma categoria cadastrada.</option>
+                        {% endif %}
 
                     </select>
 
@@ -156,11 +184,15 @@
 
                     <select name="cadastro-tipo" class="form-select" id="tipoSelect" required>
 
-                        <option class="select-tipo" disabled selected>Selecione um tipo:</option>
-
-                        {% for tipos in tipo %}
-                        <option value="{{tipos.cod_tipo}}">{{tipos.nome_tipo}} - Categoria: {{tipos.nome_categoria}}</option>
-                        {% endfor %}
+                        {% if tipo_categoria %} 
+                        <option value="" disabled selected>Selecione o Tipo:</option>
+                            {% for tipo_item in tipo_categoria %}
+                            <option value="{{tipo_item.cod_tipo}}">{{tipo_item.nome_tipo}} - Categoria: {{tipo_item.nome_categoria}}</option>
+                            {% endfor %}
+                            <!-- Caso nenhum tipo tenha sido cadastrado ainda -->
+                        {% else %}
+                            <option value="" disabled selected>Nenhum tipo cadastrado.</option>
+                        {% endif %}
 
                     </select>
 
@@ -186,18 +218,23 @@
                     <label class="form-label">Característica(s)</label>
                 
                     <div class ="checkbox-caracteristicas">
-                        {% for caracteristicas in caracteristica %}
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas"
-                                value="{{caracteristicas.cod_caracteristica}}"
-                                id="caracteristica-{{caracteristicas.cod_caracteristica}}">
-                
-                            <label class="form-check-label" for="caracteristica-{{caracteristicas.cod_caracteristica}}">
-                                {{caracteristicas.nome_caracteristica}}
-                            </label>
+                            {% for caracteristicas in caracteristica %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas"
+                                    value="{{caracteristicas.cod_caracteristica}}"
+                                    id="caracteristica-{{caracteristicas.cod_caracteristica}}">
+
+                                <label class="form-check-label" for="caracteristica-{{caracteristicas.cod_caracteristica}}">
+                                    {{caracteristicas.nome_caracteristica}}
+                                </label>
+                            </div>
+                            {% else %}
+                           <!-- Caso nenhuma caracteristica tenha sido cadastrada ainda -->
+                            <div >
+                                Nenhuma característica cadastrada.
+                            </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
-                    </div>
                 </div>
 
             </fieldset>
