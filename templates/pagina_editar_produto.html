@@ -13,7 +13,7 @@
     <form method="POST" action="/post/editar/produto/{{produto.cod_produto}}" enctype="multipart/form-data" class="container--card-fundo" style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
 
         <!-- card -->
-        <div class="card mb-4" style="width: 1090px; min-height:550px; background-color: var(--orange-light-color);">
+        <div class="card mb-4" style="width: 1090px; min-height:550px; background-color: var(--grey-dark);">
 
             <div class="row g-0">
 
@@ -185,7 +185,7 @@
                                         {% for caracteristica in caracteristicas %}
                                         <div class="form-check">
 
-                                            <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas" value="{{caracteristica.cod_caracteristica}}" id="caracteristica-{{caracteristicas.cod_caracteristica}}">
+                                            <input required class="form-check-input" type="checkbox" name="cadastro-caracteristicas" value="{{caracteristica.cod_caracteristica}}" id="caracteristica-{{caracteristicas.cod_caracteristica}}">
 
 
                                             <label class="form-check-label" for="caracteristica-{{caracteristica.cod_caracteristica}}">

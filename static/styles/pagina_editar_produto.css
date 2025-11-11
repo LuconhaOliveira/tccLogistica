@@ -48,7 +48,7 @@
 }
 
 .label-descricao{
-    color: var(--black);
+    color: var(--white);
     font-weight: bold;
     margin-bottom: 10px;
 }
@@ -60,6 +60,7 @@
     font-weight: bold !important;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
     font-size: var(--font-size-24) !important;
+    padding: 15px !important;
 }
 
 .row {
@@ -97,6 +98,7 @@
     text-align: center;
     font-family: var(--font-outfit);
     font-size: var(--font-size-24);
+    font-weight: bold;
     padding: 2px 0;
     border-radius: 6px;
     position: absolute;
@@ -113,6 +115,7 @@
 .icone-voltar{
     margin-left: 20px;
     margin-top: 10px;
+    color: var(--white) !important;
 }
 
 .input-img {
@@ -120,7 +123,7 @@
     border-radius: 15px;
     text-align: center;
     padding: 6px 5px 6px 5px;
-    width: 64% !important;
+    width: 40% !important;
 }
 
 .img-produto .form-control {
@@ -135,30 +138,8 @@
     border: none !important;
 }
 
-.form-check {
-    width: 100% !important;
-    height: 50px !important;
-    font-size: var(--font-size-20) !important;
-    font-weight: bold !important;
-    border-radius: 6px;
-    background-color: var(--orange-light-color) !important;
-
-    margin-top: 13px !important;
-    align-content: center;
-    padding: 0px !important;
-}
-
-.form-check .form-check-input{
-    margin-left: 10px !important; 
-}
-
-.form-check .form-check-label{
-
-    margin-left: 10px !important; 
-}
-
 .label-caracteristicas{
-    color: var(--black);
+    color: var(--white);
     font-weight: bold;
     margin: 0px !important;
 }
@@ -187,7 +168,7 @@ button[type="submit"] {
     font-weight: bold;
     border: none;
     border-radius: 12px;
-    padding: 10px;
+    padding: 16px;
     width: 100%;
     margin-top: 10px;
     margin-bottom: 20px;
@@ -226,14 +207,12 @@ figure {
     flex-direction: column;
 }
 
-
 /* imagem */
-
 .img-fluid {
     max-width: 380px !important;
     max-height: 380px !important;
     display: block;
-    border: 4px solid var(--orange-color);
+    border: 4px solid var(--orange-light-color);
     border-radius: 4px;
 }
 
@@ -251,7 +230,6 @@ figure {
 .card-body .card-text fieldset{
     height: auto !important;
     width: 100% !important;
-    
 }
 
 .card-text.text-caracteristicas {
@@ -261,12 +239,10 @@ figure {
 
 .card-body fieldset {
     border: 2px solid var(--orange-dark-color);
-    background-color: var(--grey-light);
     padding: 0px 15px 0 15px;
     border-radius: 10px;
     width: 100% !important;
 }
-
 
 .left--card-text,
 .right--card-text {
@@ -275,7 +251,7 @@ figure {
 }
 
 .mb-3 .form-select {
-    background-color: var(--orange-light-color);
+    background-color: var(--grey-light);
     font-weight: bold !important;
 }
 
@@ -285,13 +261,44 @@ figure {
 }
 
 .mb-3 .form-control {
-    background-color: var(--orange-light-color);
+    background-color: var(--grey-light);
     font-weight: bold !important;
 }
 
 .form-control:focus {
     background-color: var(--grey-light) !important;
     color: black !important;
+}
+
+.form-check {
+    width: 100% !important;
+    height: 50px !important;
+    font-size: var(--font-size-20) !important;
+    font-weight: bold !important;
+    border-radius: 6px;
+    background-color: var(--grey-light) !important;
+
+    margin-top: 13px !important;
+    align-content: center;
+    padding: 0px !important;
+}
+
+.form-check .form-check-input{
+    margin-left: 10px !important; 
+    background-color: var(--grey-light) !important;
+    color: var(--orange-color) !important;
+    border: 2px solid var(--orange-dark-color);
+    
+}
+
+.form-check-input:checked{
+    background-color: var(--orange-color) !important;
+    color: var(--white) !important;
+    border: 2px solid var(--orange-dark-color) !important;
+}
+
+.form-check .form-check-label{
+    margin-left: 10px !important; 
 }
 
 
