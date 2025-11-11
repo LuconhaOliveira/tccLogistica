@@ -116,7 +116,7 @@ def post_cadastro():
         # garantindo que o frontend receba um código de erro apropriado para o tratamento.
         return jsonify({
             "status": "error",
-            "message": "Erro ao realizar o cadastro. Tente novamente ou entre em contato."
+            "message": "Este CPF já está registrado em nosso sistema."
         }), 500
 
 # LOGIN ------------------------------------------------------------------------------------------------------# 
