@@ -14,13 +14,14 @@
 
     <section class="container--card-fundo">
 
-        <!-- detalhe da prateleira -->
-        <div class="container--div-detalhe esquerda"></div>
-
         <!-- card -->
-        <div class="card mb-4" style="width: 470px; min-height:550px; background-color: var(--grey-dark);">
+        <div class="card mb-4" style="width: 1090px; min-height:550px; background-color: var(--grey-dark);">
 
             <div class="row g-0">
+
+                <!-- voltar -->
+                <a href="/estante/{{produto.cod_estante}}"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+                </span></a>
 
                 <div class="col-md-0 img-produto">
                     <figure>
@@ -39,9 +40,9 @@
 
                     <div class="col-md-0">
 
-                        <div class="card-body" style="background-color: var(--);">
+                        <div class="card-body">
 
-                            <fieldset>
+                            <fieldset class="left--fieldset-left">
 
                                 <div class="left--card-text">
                                     <!-- nome do produto -->
@@ -54,7 +55,9 @@
                                     <p class="card-text"><strong>Qntd:</strong> {{ produto.quantidade }}</p>
 
                                     <!-- preço do produto -->
-                                    <p class="card-text"><strong>R$</strong><span id="valor"> {{ produto.valor }}</span></p>
+                                    <p class="card-text"><strong>R$ </strong><span id="valor"> {{ produto.valor
+                                            }}</span>
+                                    </p>
 
                                     <!-- campo de nome da estante -->
                                     <p class="card-text"><strong>Estante:</strong> {{ produto.nome_estante }}</p>
@@ -62,19 +65,19 @@
                                 </div>
 
                             </fieldset>
-                            
-                            <fieldset>
+
+                            <fieldset class="left--fieldset-right">
 
                                 <div class="right--card-text">
 
                                     <!-- campo de selecionar linha da estante -->
                                     <p class="card-text"><strong>Linha:</strong> {{ produto.linha }}</p>
 
-                            
+
                                     <!-- campo de selecionar coluna da estante  -->
                                     <p class="card-text"><strong>Coluna:</strong> {{ produto.coluna }}</p>
 
-                            
+
                                     <p class="card-text"><strong>Categoria:</strong> {{ produto.nome_categoria }}</p>
 
                                     <!-- campo de tipos de categoria -->
@@ -86,10 +89,11 @@
                                         <!-- Itera sobre a lista de características -->
                                         {% for carac in produto.caracteristicas %}
 
-                                        <span>• {{ carac.nome_caracteristica }}</span>{% if not loop.last %}{% else %}{% endif %}
+                                        <span>• {{ carac.nome_caracteristica }}</span>{% if not loop.last %}{% else %}{%
+                                        endif %}
                                         {% endfor %}
                                         {% else %}
-                                            <span>Nenhuma.</span>
+                                        <span>Nenhuma.</span>
                                         {% endif %}
                                     </p>
 
@@ -106,35 +110,37 @@
                 <!-- descrição -->
                 <div class="container--div-descricao">
 
+                    <span class="label-descricao" style="text-align: left !important;"><strong>Descrição:</strong></span>
                     <p class="card-text descricao">{{ produto.descricao }}</p>
 
                 </div>
 
                 <form class="container--bottom-card" method="post" action="/post/pedido/{{produto.cod_produto}}">
 
-                    <button class="btn btn-primary" type="submit">Incluir no pedido de compra</button>
+                    <div class="container--left-card">
+                        <button class="btn btn-primary" type="submit">Incluir no Pedido de Compra</button>
 
-                    <!-- campo de quantidade -->
-                    <div class="mb-0">
-                        <!-- quantidade: backend do cadastro -->
-                        <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade"
-                            min="0" value="0">
+                        <!-- campo de quantidade -->
+                        <div class="mb-0">
+                            <!-- quantidade: backend do cadastro -->
+                            <input name="cadastro-quantidade" type="number" class="form-control"
+                                id="exampleInputQuantidade" min="1" value="1" placeholder="Qntd:">
+                        </div>
                     </div>
 
-                    <a href="/pagina/editar/produto/{{produto.cod_produto}}"><span
-                            class="material-symbols-outlined">edit</span> </a>
+                    <div class="container--right-card" style="display: flex; gap: 40px;">
 
-                    <a href="/post/produto/remover/{{produto.cod_produto}}"><span
-                            class="material-symbols-outlined">delete</span></a>
+                        <a href="/pagina/editar/produto/{{produto.cod_produto}}"><span
+                                class="material-symbols-outlined">edit</span> </a>
+
+                        <a href="/post/produto/remover/{{produto.cod_produto}}"><span
+                                class="material-symbols-outlined">delete</span></a>
+
+                    </div>
 
                 </form>
 
             </div>
-        </div>
-
-        <!-- detalhe da prateleira -->
-        <div class="container--div-detalhe direita"
-            style=" background-image: url(/static/img/design-de-plano-de-fundo-texturizado-liso-cinza.jpg);">
         </div>
 
     </section>
@@ -146,10 +152,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('#valor').mask('000.000.000,00', {
-            reverse: true, 
-            placeholder: "0,00" 
+            reverse: true,
+            placeholder: "0,00"
         });
     });
 </script>
