@@ -5,18 +5,19 @@ class Historico:
     # Recupera as alterações dos produtos e estantes 
     def recuperar_historico_alteracoes(cpf):
         
-        conexao = Conection.create_connection()
-
-        cursor = conexao.cursor(dictionary = True) 
-        
-        sql = """
+        try:
+            # Tenta criar a conexão
+            conexao = Conection.create_connection()
+            cursor = conexao.cursor(dictionary=True) 
+            
+            sql = """
                 SELECT
                     cod_alteracao,
                     alteracao_realizada,
-                        DATE_FORMAT(
+                    DATE_FORMAT(
                         CONVERT_TZ(data_hora, 'UTC', 'America/Sao_Paulo'),
                         '%d/%m/%Y %H:%i' 
-                        ) AS data_hora
+                    ) AS data_hora
                 FROM
                     alteracao_produto_estante
                 WHERE
@@ -24,14 +25,24 @@ class Historico:
                 ORDER BY
                     data_hora DESC;"""
 
-        valor = (cpf,)
+            valor = (cpf,)
 
-        cursor.execute(sql, valor)
+            # Tenta executar a consulta dentro do banco de dados
+            cursor.execute(sql, valor)
+            resultado = cursor.fetchall()
+            
 
-        resultado = cursor.fetchall()
-
-        cursor.close()
-        conexao.close()
+        except Exception as e:
+            # Erros inesperados (ex: falha de conexão)
+            print(f"Erro ao recuperar histórico de alterações para o CPF {cpf}: {e}")
+            resultado = []
+            
+        finally:
+            # Garante que o cursor e a conexão sejam fechados
+            if cursor:
+                cursor.close()
+            if conexao:
+                conexao.close()
 
         return resultado
     
