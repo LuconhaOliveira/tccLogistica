@@ -28,6 +28,38 @@
     color: var(--orange-dark-color);
 }
 
+.aviso{
+    visibility: hidden; /* Hidden by default */
+    width: 80px;
+    background-color: var(--orange-dark-color);
+    color: var(--white);
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: bold;
+    padding: 4px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: -3px;
+    right: 30px;
+}
+
+.material-symbols-outlined:hover .aviso {
+    visibility: visible;
+}
+
+.icone-voltar{
+    margin-left: 0px;
+    margin-top: 6px;
+    color: var(--black) !important;
+}
+
+.container--div-titulo{
+    display: flex;
+}
+
 /* container do card todo */
 .container--card{
     display: flex;
@@ -39,6 +71,14 @@
 .card-header{
     display: flex;
     justify-content: space-between;
+}
+
+.icone-nota-fiscal{
+    position: relative;
+    top: 6px;
+    font-size: 26px !important;
+    color: var(--black) !important;
+    margin-right: 8px;
 }
 
 /* todos os p do header */
@@ -56,6 +96,13 @@
 .material-symbols-outlined{
     font-weight: bold !important;
     cursor: pointer;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.material-symbols-outlined:hover{
+    font-weight: bold !important;
+    cursor: pointer;
+    transform: translateY(-1px); 
 }
 
 /* fundo do header, que consequentemente leva a mesma formatação para o "footer" */
@@ -88,6 +135,7 @@ button[type="submit"] {
     margin: 10px 0 10px 0;
     cursor: pointer;
     transition: background 0.5s;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
 /* hover do botão para todas as telas */
@@ -98,6 +146,11 @@ button[type="submit"]:hover {
 
 button[type="submit"]:active {
     background-color: var(--orange-color) !important;
+}
+
+button[type="submit"]:hover{
+    transform: translateY(-1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .form-check{
