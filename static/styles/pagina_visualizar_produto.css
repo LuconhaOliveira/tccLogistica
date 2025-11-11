@@ -1,5 +1,5 @@
 /* body para todas as telas */
-.container--body {
+.container--body{
     background-color: var(--white);
     display: flex;
     flex-direction: column;
@@ -59,7 +59,6 @@
     padding-top: 0px !important;
     display: grid;
     grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr);
-
     justify-items: center;  
     align-items: stretch; /* força tudo a ter a mesma altura  */
     gap: 5px;
@@ -114,7 +113,7 @@
     font-weight: bold !important;
 }
 
-/* Botão de Login */
+/* Botão */
 button[type="submit"] {
     background-color: var(--grey-light);
     color: var(--dark);
@@ -148,7 +147,6 @@ button[type="submit"]:active {
     display: flex;
     justify-content: center;
     align-items: center;
-  
 }
 
 /* imagem */

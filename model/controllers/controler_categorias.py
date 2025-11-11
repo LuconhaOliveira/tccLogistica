@@ -1,6 +1,7 @@
 from data.conexao import Conection
 import datetime
 from mysql.connector import Error
+from flask import session
 
 class Categoria:
 
@@ -535,3 +536,37 @@ class Categoria:
             if 'conexao' in locals() and conexao:
                 conexao.close()
 
+    def buscar_caracteristica(tipo):
+        try:
+            conexao = Conection.create_connection()
+            
+            if not conexao:
+                print("Falha ao estabelecer conexão com o banco de dados.")
+                return [] # Retorna lista vazia em caso de falha de conexão
+
+            cursor = conexao.cursor(dictionary = True)
+        
+            sql = """select cod_caracteristica, nome AS nome_caracteristica from caracteristica where cpf = %s AND cod_tipo=%s;"""
+
+            valor = (session["cpf"],tipo)
+
+            cursor.execute(sql, valor)
+
+            resultado = cursor.fetchall()
+
+            return resultado
+        
+        # Trata os erros do Banco de dados e retorna uma lista vazia em caso de erro 
+        except Error as e:
+            print(f"Erro no banco de dados ao recuperar caracteristicas: {e}")
+            return [] 
+
+        except Exception as e:
+            print(f"Erro inesperado ao recuperar caracteristicas: {e}")
+            return [] 
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()

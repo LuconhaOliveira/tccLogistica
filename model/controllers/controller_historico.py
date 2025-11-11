@@ -13,7 +13,10 @@ class Historico:
                 SELECT
                     cod_alteracao,
                     alteracao_realizada,
-                    DATE_FORMAT(data_hora, '%d/%m/%Y %h:%i') AS data_hora
+                        DATE_FORMAT(
+                        CONVERT_TZ(data_hora, 'UTC', 'America/Sao_Paulo'),
+                        '%d/%m/%Y %H:%i' 
+                        ) AS data_hora
                 FROM
                     alteracao_produto_estante
                 WHERE

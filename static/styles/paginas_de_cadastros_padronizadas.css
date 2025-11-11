@@ -41,7 +41,6 @@
     font-size: var(--font-size-20);
     margin-bottom: 5px;
     font-family: var(--font-outfit);
-    font-weight: 300 !important;
     display: block;
 }
 
@@ -77,9 +76,8 @@ button[type="submit"]:hover {
     color: var(--white);
 }
 
-/* alinhamento do form para tirar a formatação do bootstrap, por isso o !important */
-.form-check{
-    padding: 0 !important;
+button[type="submit"]:active {
+    background-color: var(--orange-color) !important;
 }
 
 /* alinhar o botão no meio */
@@ -87,6 +85,10 @@ button[type="submit"]:hover {
     text-align: center;
 }
 
+/* alinhamento do form para tirar a formatação do bootstrap, por isso o !important */
+.form-check{
+    padding: 0 !important;
+}
 
 /* ESPECIFICAÇÕES DA TELA DE CADASTRO */
 /* se a pessoa já tiver uma conta, então vai pro link de logar */
@@ -129,6 +131,7 @@ button[type="submit"]:hover {
     margin-top: 10px;
 }
 
+/* link de cadastrar a hover */
 .container--a--label-possuiConta a:hover {
     transform: scale(1.2);
     text-decoration: wavy;
@@ -148,6 +151,11 @@ button[type="submit"]:hover {
 .a--esqueci-senha:hover{
     transform: scale(1.2);
     text-decoration: wavy;
+}
+
+/* input da senha para dar uma margem do texto de esquecer senha */
+.input-senha{
+    margin-bottom: 8px;
 }
 
 /* ESPECIFICAÇÕES DA TELA DE ADICIONAR PRODUTO */
@@ -175,10 +183,9 @@ button[type="submit"]:hover {
 }
 
 /* input de sku para deixar letras maiusculas */
-.input-sku{
+.input-sku {
     text-transform: uppercase;
 }
-
 
 /* ESPECIFICAÇÕES DA TELA DE RECUPERAR SENHA */
 .container--label--a-voltar{
@@ -223,3 +230,14 @@ button[type="submit"]:hover {
     background-color: var(--orange-color) !important;
 }
 
+.aviso-caracteristicaNaoCadastrada{
+    margin-left: -16px !important;
+}
+
+.form-check-label{
+    margin-left: 6px !important;  
+}
+
+.form-check-input{
+    margin-left: -17px !important;  
+}

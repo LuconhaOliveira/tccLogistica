@@ -35,7 +35,9 @@ CREATE TABLE IF NOT EXISTS usuario (
     -- Nome completo do usuário.
     nome VARCHAR(100),
     -- Senha criptografada (hash). Usa VARCHAR(255) para armazenar o hash SHA-256 (ou similar).
-    senha VARCHAR(255)
+    senha VARCHAR(255),
+    -- Email para redefinição de senha
+    email VARCHAR(255)
 );
 
 -- ---------------------------------------------------------------------------------------------------------
@@ -323,9 +325,7 @@ BEGIN
 '";
  Tipo antiga: "',(SELECT nome FROM tipo WHERE cod_tipo = OLD.cod_tipo),
 '" para tipo alterada: "',(SELECT nome FROM tipo WHERE cod_tipo = NEW.cod_tipo),
-'";
- Característica antiga: "',(SELECT nome FROM caracteristica WHERE cod_caracteristica = OLD.cod_caracteristica),
-'" para característica  alterada: "',(SELECT nome FROM caracteristica WHERE cod_caracteristica = NEW.cod_caracteristica),'".'
+'";'
 ),
         NOW(),
         NEW.cpf

@@ -1,0 +1,50 @@
+{% extends "header_head.html" %}
+
+{% block titulo %}{{nome_estante}}{% endblock %}
+
+{% block estilos %}
+    <!-- link css -->
+    <link rel="stylesheet" href="/static/styles/pagina_editar_estante.css">
+{% endblock %}
+
+{% block conteudo %}
+    <main class="container--main">
+        <!-- action/method: backend do add categoria -->
+        <form action="/post/editar/estante/{{estante.cod_estante}}" id="form-cadastro-estante" method="post" class="container--form">
+            <h1>Editar Estante</h1>
+
+            <!-- nome da estante -->
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Nome</label>
+                <!-- name: backend do adicionar nome estante -->
+                <input maxlength="100" required name="cadastro-nome" id="cadastro-nome" type="text" class="form-control" value="{{estante.estante}}"></input>
+            </div>
+
+            <!-- categoria da estante -->
+            <div class="mb-3">
+                <label for="exampleInputCategory" class="form-label">Categoria</label>
+                <!-- name: backend do adicionar categoria -->
+                
+                <select name="cadastro-categoria" id="estante-cod-categoria" class="form-control">
+                    <option value="" disabled>Selecione a Categoria</option>
+                    {% for categoria in categorias %}
+                    {% if categoria.cod_categoria==estante.cod_categoria %}
+                    <option value="{{categoria.cod_categoria}}" selected>{{categoria.nome}}</option>
+                    {% else %}
+                    <option value="{{categoria.cod_categoria}}">{{categoria.nome}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                
+            </div>
+
+            <div class="mb-3 form-check">
+            <button type="submit" class="btn btn-primary">Editar</button>
+            <div class="container--a--label-possuiConta">
+            </div>
+
+        </form>
+    </main>
+
+    <script src="../static/script/cadastro_estante.js"></script>
+{% endblock %}

@@ -131,9 +131,9 @@ class ControleProduto:
             if 'conexao' in locals() and conexao:
                 conexao.close()
     
-    def editar_produto(descricao, arquivo_imagem, quantidade, valor, sku, 
+    def editar_produto(nome, descricao, arquivo_imagem, quantidade, valor, sku, 
                           coluna, linha, cod_estante, cod_categoria, 
-                          cod_tipo, cod_caracteristica, cod_produto):
+                          cod_tipo, cod_produto):
         """
         Cadastra um novo produto no banco de dados.
 
@@ -170,13 +170,14 @@ class ControleProduto:
 
             # 3. COMANDO SQL: Inclui TODAS as 14 colunas da tabela 'produto'
             sql = """
-            UPDATE produto SET descricao=%s, imagem=%s, quantidade=%s, valor=%s, sku=%s, 
-                coluna=%s, linha=%s, cod_estante=%s, cod_categoria=%s, cod_tipo=%s, cod_caracteristica=%s
+            UPDATE produto SET nome=%s, descricao=%s, imagem=%s, quantidade=%s, valor=%s, sku=%s, 
+                coluna=%s, linha=%s, cod_estante=%s, cod_categoria=%s, cod_tipo=%s
                 WHERE cod_produto=%s
             """
             
             # 4. VALORES: Ordem deve ser EXATA à do SQL
             valores = (
+                nome,
                 descricao, 
                 arquivo_imagem, 
                 quantidade, 
@@ -187,7 +188,6 @@ class ControleProduto:
                 cod_estante,
                 cod_categoria, 
                 cod_tipo, 
-                cod_caracteristica,
                 cod_produto
             )
 
@@ -417,3 +417,96 @@ class ControleProduto:
         conexao.close()
         
         return True
+    
+    # Busca o nome do produto desejado no banco de dados
+    def buscar_nome_produto(cod_produto):
+        try:
+            conexao = Conection.create_connection()
+
+            if not conexao:
+                return "Produto" # Retorna um nome padrão em caso de erro
+
+            cursor = conexao.cursor()
+            
+            # Buscar o nome da estante no banco
+            sql = "SELECT nome FROM produto WHERE cod_produto = %s"
+            valores = (cod_produto,)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchone()
+            
+            if resultado:
+                # Retorna o primeiro elemento da tupla (o nome do produto)
+                return resultado[0]
+            else:
+                return "Produto não encontrado"
+
+        except Error as e:
+            print(f"Erro ao buscar nome do produto: {e}")
+            return "Erro de Busca"
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
+
+    def editar_caracteristicas(caracteristicas_ids,cod_produto):
+        try:
+            conexao = Conection.create_connection()
+
+            if not conexao:
+                return  # Retorna um nome padrão em caso de erro
+
+            cursor = conexao.cursor()
+
+            sql = """DELETE FROM produto_caracteristica WHERE cod_produto=%s;"""
+            valores=(cod_produto,)
+
+            cursor.execute(sql, valores)
+            conexao.commit()
+            
+            # Buscar o nome da estante no banco
+            sql = """
+            INSERT INTO produto_caracteristica (valor, cod_produto, cod_caracteristica)
+            VALUES (%s, %s, %s)
+            """
+
+            # O valor padrão '1' ou 'Sim' é usado, já que o SELECT MULTIPLE só envia os IDs.
+            # Se a característica for selecionada, ela está "presente" (valor '1').
+            valor_padrao = '1' 
+
+            if caracteristicas_ids and cod_produto:
+                # Prepara os dados para inserção em lote (executemany)
+                caracteristicas_para_inserir = []
+                
+                # Itera sobre a LISTA de IDs, que é o que vem do app.py
+                for cod_caracteristica in caracteristicas_ids:
+                    # Garantir que o cod_caracteristica é um inteiro válido (já filtrado no app.py, mas bom reforço)
+                    try:
+                        cod_caracteristica_int = int(cod_caracteristica)
+                        caracteristicas_para_inserir.append((
+                            valor_padrao, # Usa o valor padrão
+                            cod_produto, 
+                            cod_caracteristica_int
+                        ))
+                    except ValueError:
+                        # Ignora IDs inválidos, embora o app.py já filtre isso
+                        continue
+
+                # Executa a inserção em lote para todas as características selecionadas
+                if caracteristicas_para_inserir:
+                    cursor.executemany(sql, caracteristicas_para_inserir)
+
+            conexao.commit()
+
+        except Error as e:
+            print(f"Erro ao editar caracteristica do produto: {e}")
+            return "Erro de Busca"
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
