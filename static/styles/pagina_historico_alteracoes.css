@@ -33,12 +33,10 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
-   
 }
 
 /* container do header do card */
 .card-header{
-
     display: flex;
     justify-content: space-between;
 }

@@ -302,6 +302,7 @@ input[type="radio" i] {
     border-radius: 6px;
     position: absolute;
     z-index: 1;
+    font-weight: bold;
     /* Ensure tooltip is displayed above content */
 
     top: 8px;
@@ -400,6 +401,7 @@ input[type="radio" i] {
     border-radius: 6px;
     position: absolute;
     z-index: 1;
+    font-weight: bold;
     /* Ensure tooltip is displayed above content */
 
     top: 8px;
@@ -453,6 +455,7 @@ input[type="radio" i] {
     border-radius: 6px;
     position: absolute;
     z-index: 1;
+    font-weight: bold;
     /* Ensure tooltip is displayed above content */
 
     top: -5px !important;
