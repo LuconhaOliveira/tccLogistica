@@ -8,6 +8,8 @@ from model.controllers.controler_estante import Estante
 from model.controllers.controler_categorias import Categoria
 from model.controllers.controller_historico import Historico
 from model.controllers.controller_pedido import Pedido
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 
 
 app = Flask(__name__)
@@ -15,6 +17,27 @@ app = Flask(__name__)
 # Chave secreta para o funcionamento da sessão no Flask:
 # Usada para criptografar os cookies de sessão (como 'cpf'), garantindo que os dados da sessão não possam ser lidos ou adulterados pelo usuário.
 app.secret_key = "ch@v3s3cr3t4444&&@"
+
+# --- CONFIGURAÇÃO DE RESET DE SENHA ---
+
+# 1. Configuração do Flask-Mail (Use um e-mail "App Password" do Gmail)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'oliveiraplumas03@gmail.com' 
+app.config['MAIL_PASSWORD'] = 'naqm yjml loec ituo'
+app.config['MAIL_DEFAULT_SENDER'] = ('InStock', 'oliveiraplumas03@gmail.com')
+
+# 2. Configuração do 'itsdangerous' para tokens seguros
+# (SECURITY_PASSWORD_SALT é um "tempero" extra para o token)
+app.config['SECURITY_PASSWORD_SALT'] = 'meu-salt-de-reset-muito-seguro' 
+# O 'SECRET_KEY' que você já tem (app.secret_key) será usado pelo 'itsdangerous'
+
+# 3. Inicialização
+mail = Mail(app)
+# O Serializer usará a 'app.secret_key' automaticamente
+s = URLSafeTimedSerializer(app.secret_key)
+
 
 # PÁGINA PRINCIPAL ------------------------------------------------------------------------------------------------------#
  
@@ -145,6 +168,9 @@ def logar():
 #    e retorna uma resposta JSON (sucesso ou erro) para o cliente.
 @app.route("/post/login", methods=["POST"])
 def post_login():
+
+    #olha o gemini
+
     # 1. Captura os dados do formulário enviado via POST
     # Obtém o valor do campo 'login-cpf' do formulário
     cpf = request.form.get("login-cpf")
@@ -210,14 +236,12 @@ def post_recuperar_senha():
     # 1. Captura os dados do formulário enviado via POST
     # Obtém o valor do campo 'login-cpf' do formulário
     cpf = request.form.get("login-cpf")
-    # Obtém o valor do campo 'login-senha' do formulário
-    nova_senha = request.form.get("login-senha")
 
 
-    if not cpf or not nova_senha:
+    if not cpf:
         return jsonify({
             "status": "error",
-            "message": "Todos os campos são obrigatórios."
+            "message": "CPF é obrigatório."
         }), 400
 
     try:
@@ -226,28 +250,86 @@ def post_recuperar_senha():
         # Espera-se que este método execute o hash da senha (segurança) e o INSERT no banco de dados.
         # A responsabilidade de limpeza do CPF (remoção de pontos/traços) é delegada a este método,
         # mantendo a rota limpa e focada no controle de fluxo.
-        Usuario.alterar_senha(cpf, nova_senha)
+        email = Usuario.buscar_email(cpf)[0]
 
-        # 4. Resposta de Sucesso.
-        # Em caso de cadastro bem-sucedido, retorna o status HTTP 200 (OK)
-        # e uma mensagem JSON que será usada pelo JavaScript (SweetAlert2) para notificar o usuário.
+        token = s.dumps(cpf, salt='password-reset-salt')
+
+        reset_link = url_for('reset_com_token', token=token, _external=True)
+
+        msg = Message('Redefinição de Senha',
+                      recipients=[email])
+        msg.body = f'Olá!\n\nPara redefinir sua senha, clique no link a seguir: {reset_link}\n\n' \
+                   f'Este link expira em 1 hora.\n\n' \
+                   f'Se você não solicitou isso, por favor ignore este e-mail.'
+        
+        mail.send(msg)
+
         return jsonify({
             "status": "success",
-            "message": "Alteração realizada com sucesso!",
-            "message": "Alteração realizada com sucesso!"
-            }), 200
-    
-    except Exception as e:
-        # 5. Tratamento de Exceções.
-        # Este bloco captura erros que podem ocorrer na camada de acesso ao banco de dados (DAO),
-        # como a tentativa de inserir um CPF duplicado (violação de chave primária) ou falhas de conexão.
-        print(f"Erro ao cadastrar usuário: {e}") 
+            "message": "Se este e-mail estiver cadastrado, um link de redefinição será enviado."
+        }), 200
 
-        # Retorna o status HTTP 500 (Internal Server Error) para indicar um erro do servidor/sistema,
-        # garantindo que o frontend receba um código de erro apropriado para o tratamento.
+    except Exception as e:
+        print(f"Erro ao solicitar reset: {e}")
         return jsonify({
             "status": "error",
-            "message": "Erro ao realizar a alteração. Tente novamente ou entre em contato."
+            "message": "Erro interno ao processar a solicitação."
+        }), 500
+    
+@app.route('/reset-senha/<token>')
+def reset_com_token(token):
+    try:
+        # 1. Validar o token
+        # Verifica se o token é válido e não expirou (max_age=3600 segundos = 1 hora)
+        # O 'salt' DEVE ser o mesmo usado na criação
+        cpf = s.loads(token, salt='password-reset-salt', max_age=3600)
+    
+    except SignatureExpired:
+        # O token expirou
+        return "O link de redefinição expirou. Por favor, solicite um novo."
+    except BadTimeSignature:
+        # O token é inválido (malformado ou chave errada)
+        return "Link de redefinição inválido. Por favor, solicite um novo."
+    except Exception:
+        return "Link de redefinição inválido."
+
+    # 2. Se o token for válido, mostre a página para criar uma nova senha
+    # (Você deve criar este arquivo HTML)
+    return render_template('pagina_nova_senha.html', token=token)
+
+@app.route('/post/nova-senha', methods=['POST'])
+def post_nova_senha():
+    # 1. Obter dados do formulário
+    token = request.form.get('token')
+    nova_senha = request.form.get('login-senha')
+
+    if not nova_senha or not token:
+        return jsonify({"status": "error", "message": "Todos os campos são obrigatórios."}), 400
+
+    try:
+        # 2. Validar o token NOVAMENTE (sempre valide no backend)
+        cpf = s.loads(token, salt='password-reset-salt', max_age=3600)
+    
+    except (SignatureExpired, BadTimeSignature):
+        return jsonify({"status": "error", "message": "Token inválido ou expirado."}), 400
+
+    # 3. Se tudo estiver OK, chame sua função para alterar a senha
+    # (Esta é a função 'alterar_senha(cpf, nova_senha)' que você já tem!)
+    try:
+        Usuario.alterar_senha(cpf, nova_senha)
+        
+        # O seu 'alterar_senha' já deve fazer o HASH da senha antes de salvar!
+        
+        return jsonify({
+            "status": "success",
+            "message": "Senha alterada com sucesso! Você pode fechar esta página e fazer login."
+        }), 200
+
+    except Exception as e:
+        print(f"Erro ao alterar senha: {e}")
+        return jsonify({
+            "status": "error",
+            "message": "Erro ao atualizar a senha no banco de dados."
         }), 500
 
 # PRODUTOS ------------------------------------------------------------------------------------------------------#

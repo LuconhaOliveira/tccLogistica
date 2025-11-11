@@ -37,18 +37,19 @@
 
     <main class="container--main">
         <!-- action/method: backend do login -->
-        <form action="/post/recuperar/senha" method="post" class="container--form" id="senhaForm">
+        <form action="/post/nova-senha" method="post" class="container--form" id="senhaForm">
 
             <h1>Redefinir Senha</h1>
 
-            <!-- campo de cpf -->
+            <!-- campo de nova senha -->
             <div class="mb-3">
-                <label for="exampleInputCPF" class="form-label">CPF</label>
+                <label for="exampleInputPassword1" class="form-label">Nova Senha</label>
                 <!-- name: backend do login -->
-                <input name="login-cpf" class="form-control" id="exampleInputCPF" aria-describedby="CPFHelp"
-                    placeholder="Insira seu CPF:">
-                <div id="CPFHelp" class="form-text"></div>
+                <input name="login-senha" type="password" class="form-control" id="exampleInputPassword1"
+                    placeholder="Insira sua senha:">
             </div>
+
+            <input type="hidden" name="token" value="{{token}}">
 
             <div class="mb-3 form-check button-adicionar">
 
