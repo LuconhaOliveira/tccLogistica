@@ -24,9 +24,9 @@ app.secret_key = "ch@v3s3cr3t4444&&@"
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'oliveiraplumas03@gmail.com' 
-app.config['MAIL_PASSWORD'] = 'naqm yjml loec ituo'
-app.config['MAIL_DEFAULT_SENDER'] = ('InStock', 'oliveiraplumas03@gmail.com')
+app.config['MAIL_USERNAME'] = 'instock.suporte@gmail.com' 
+app.config['MAIL_PASSWORD'] = 'bvjc pwhg xybv flfc'
+app.config['MAIL_DEFAULT_SENDER'] = ('InStock', 'instock.suporte@gmail.com')
 
 # 2. Configuração do 'itsdangerous' para tokens seguros
 # (SECURITY_PASSWORD_SALT é um "tempero" extra para o token)
