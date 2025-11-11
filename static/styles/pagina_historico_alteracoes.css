@@ -22,8 +22,10 @@
 
 /* container do titulo */
 .h1-titulo{
-    font-family: var(--font-cinzel);
+    text-align: center;
     font-size: var(--font-size-30);
+    font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
 }
 
 /* container do card todo */
@@ -31,6 +33,7 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
+   
 }
 
 /* container do header do card */
@@ -53,32 +56,53 @@
 
 /* icone do header */
 .material-symbols-outlined{
-
     font-weight: bold !important;
     cursor: pointer;
 }
 
 /* fundo do header, que consequentemente leva a mesma formatação para o "footer" */
 .card-header{
-
-    background-color: var(--grey-light) !important;
+    background-color: var(--orange-light-color) !important;
 }
 
-/* Botão de limpar */
+.card{
+     border: 2px solid var(--orange-light-color) !important; 
+}
+
+.card-title{
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-30);
+    font-weight: bold;
+    text-align: center !important;
+}
+
+/* button de limpar */
 button[type="submit"] {
-    background-color: var(--grey-medium);
-    color: var(--grey-dark);
+    color: var(--white);
+    background-color: var(--orange-dark-color);
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
     font-weight: bold;
     border: none;
     border-radius: 12px;
     padding: 10px;
     width: 100%;
-    margin-top: 10px;
+    margin: 10px 0 10px 0;
     cursor: pointer;
-    transition: background 0.5s ;
+    transition: background 0.5s;
 }
 
+/* hover do botão para todas as telas */
 button[type="submit"]:hover {
     background-color: var(--orange-color) !important;
-    color: var(--grey-light);
+    color: var(--white);
 }
+
+button[type="submit"]:active {
+    background-color: var(--orange-color) !important;
+}
+
+.form-check{
+    padding: 0px !important;
+}
+

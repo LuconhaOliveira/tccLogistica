@@ -1,6 +1,6 @@
 {% extends "header_head.html" %}
 
-{% block titulo %}Pedido de Compra{% endblock %}
+{% block titulo %}Histórico de Alterações{% endblock %}
 
 {% block estilos %}
     <!-- link css -->
@@ -14,7 +14,7 @@
 
         <div class="container--div-titulo">
 
-            <h1 class="h1-titulo">Histórico - Alterações de produtos e estantes</h1>
+            <h1 class="h1-titulo">Histórico de Alterações</h1>
 
         </div>
 
@@ -36,23 +36,20 @@
                 
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ historico.alteracao_realizada }}</li>
-                    <li class="list-group-item card-header"><p><strong>{{ historico.data_hora }}</strong></p></li>
+                    <li class="list-group-item"><strong>{{ historico.data_hora }}</strong></li>
                     
                 </ul>
                 
             </div>
             {% endfor %}
 
-                {% else %}
-                <div class="row g-0">
-                    <div class="col-md-12">
-                        <div class="card-body">
-                            <h3 class="card-title">Histórico vazio.</h3>
-                {% endif %}
-                        </div>
+            {% else %}
+                <div class="card-aviso">
+                    <div class="card-body">
+                        <h2 class="card-title">Histórico vazio.</h2>
                     </div>
-            </div>
-
+                </div>
+            {% endif %}
         </section>
 
     </main>

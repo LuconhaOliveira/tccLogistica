@@ -75,8 +75,9 @@ def filtro_filtro(filtro):
 
     filtros=[]
 
-    for i in estantes:
-        filtros.append({"nome": i["categoria"],"cod_categoria": i["cod_categoria"],"produtos": i["produtos"]})
+    if estantes:
+        for i in estantes:
+            filtros.append({"nome": i["categoria"],"cod_categoria": i["cod_categoria"]})
 
     return jsonify({"estantes": estantes,"filtros": filtros}), 200
 
@@ -353,6 +354,7 @@ def cadastrar_produto():
     tipo = Categoria.recuperar_tipo(cpf)
     caracteristica = Categoria.recuperar_caracteristica(cpf)
     estante = Estante.recuperar_estante(cpf)
+    tipo_categoria = Categoria.recuperar_tipo(cpf)
 
     # Renderiza o template, passando os dados para os selects
     return render_template(
@@ -360,7 +362,8 @@ def cadastrar_produto():
         categoria=categoria, 
         tipo=tipo, 
         caracteristica=caracteristica, 
-        estante=estante
+        estante=estante,
+        tipo_categoria = tipo_categoria
     )
 
 # CADASTRAR PRODUTOS ------------------------------------------------------------------------------------------------------#
