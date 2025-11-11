@@ -933,11 +933,9 @@ def adicionar_produto_pedido(cod_produto):
 
     # Se o CPF estiver na sessão
     if "cpf" in session:
-        quantidade=request.form.get('cadastro-quantidade')
-        (ativo,cod_pedido)=Pedido.verificar_pedido_ativo()
-        if not ativo:
-            cod_pedido=Pedido.criar_pedido()
-        print(ativo,cod_pedido,cod_produto,quantidade)
+        quantidade=request.form.get('cadastro-quantidade')  
+        cod_pedido=Pedido.buscar_pedido()
+        if not cod_pedido: cod_pedido=Pedido.criar_pedido()
         Pedido.adicionar_ao_pedido(cod_pedido,cod_produto,quantidade)
         return redirect(url_for("principal"))
 
@@ -950,22 +948,19 @@ def adicionar_produto_pedido(cod_produto):
 def pedido_compra():
 
     if "cpf" in session:
-        if Pedido.verificar_pedido_ativo()[0]:
-            itens_pedido = Pedido.buscar_itens_pedido()
-            print(itens_pedido)
-            if itens_pedido:
-                quantidade=0
-                subtotal=0
-                for item in itens_pedido:
-                    quantidade+=item["quantidade"]
-                    subtotal+=item["valor"]*item["quantidade"]
-                    imagem_blob=item["imagem"]
-                    imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
-                    item["imagem"]=imagem_base64
-                cod_pedido=Pedido.verificar_pedido_ativo()[1]
-                return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal, cod_pedido=cod_pedido)
-            else:
-                return render_template("pagina_pedido_compra.html")
+        itens_pedido = Pedido.buscar_itens_pedido()
+        if itens_pedido:
+            quantidade=0
+            subtotal=0
+            for item in itens_pedido:
+                quantidade+=item["quantidade"]
+                subtotal+=item["valor"]*item["quantidade"]
+                imagem_blob=item["imagem"]
+                imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+                item["imagem"]=imagem_base64
+            cod_pedido=Pedido.buscar_pedido()
+            print(cod_pedido)
+            return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal, cod_pedido=cod_pedido)
         else:
             return render_template("pagina_pedido_compra.html")
     else:

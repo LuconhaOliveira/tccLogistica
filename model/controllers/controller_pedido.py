@@ -14,9 +14,9 @@ class Pedido:
             cursor = conexao.cursor()
             
             sql = """INSERT INTO pedido (
-                        cpf, data_pedido, ativo)
+                        cpf, data_pedido)
                     VALUES (
-                        %s, %s, 1)"""
+                        %s, %s)"""
             valores = (session["cpf"],datetime.now())
             
             cursor.execute(sql, valores)
@@ -87,36 +87,6 @@ class Pedido:
             if 'conexao' in locals() and conexao:
                 conexao.close()
 
-    def verificar_pedido_ativo():
-        try:
-            conexao = Conection.create_connection()
-            if not conexao:
-                return None
-
-            cursor = conexao.cursor()
-            
-            sql = """SELECT cod_pedido FROM pedido WHERE cpf=%s AND ativo=1"""
-            valores = (session["cpf"],)
-            
-            cursor.execute(sql, valores)
-            
-            resultado = cursor.fetchone()
-
-            if resultado:
-                return True,resultado[0]
-            else:
-                return False,None
-
-        except Error as e:
-            print(f"Erro ao validar login: {e}")
-            return None
-
-        finally:
-            if 'cursor' in locals() and cursor:
-                cursor.close()
-            if 'conexao' in locals() and conexao:
-                conexao.close()
-
     def buscar_itens_pedido():
         try:
             conexao = Conection.create_connection()
@@ -128,7 +98,7 @@ class Pedido:
             sql = """SELECT produto.cod_produto, produto.imagem, produto.nome, produto.valor, item_pedido.quantidade FROM pedido 
 INNER JOIN item_pedido ON item_pedido.cod_pedido = pedido.cod_pedido
 INNER JOIN produto ON produto.cod_produto=item_pedido.cod_produto 
-WHERE pedido.cpf=%s AND pedido.ativo=1;"""
+WHERE pedido.cpf=%s;"""
             valores = (session["cpf"],)
             
             cursor.execute(sql, valores)
@@ -161,7 +131,7 @@ WHERE pedido.cpf=%s AND pedido.ativo=1;"""
 
                 sql = """UPDATE produto SET quantidade=quantidade+
     (SELECT quantidade FROM item_pedido INNER JOIN pedido ON pedido.cod_pedido=item_pedido.cod_pedido 
-    WHERE item_pedido.cod_produto=%s AND pedido.ativo=1) WHERE cod_produto=%s;"""
+    WHERE item_pedido.cod_produto=%s) WHERE cod_produto=%s;"""
                 valores = (cod_produto,cod_produto)
                 
                 cursor.execute(sql, valores)
@@ -170,8 +140,7 @@ WHERE pedido.cpf=%s AND pedido.ativo=1;"""
                 sql = """DELETE item_pedido
     FROM item_pedido
     INNER JOIN pedido ON pedido.cod_pedido = item_pedido.cod_pedido
-    WHERE item_pedido.cod_produto = %s
-    AND pedido.ativo = 1;"""
+    WHERE item_pedido.cod_produto = %s;"""
                 valores = (cod_produto,)
                 
                 cursor.execute(sql, valores)
@@ -212,4 +181,32 @@ WHERE pedido.cpf=%s AND pedido.ativo=1;"""
                 if 'conexao' in locals() and conexao:
                     conexao.close()
     
-#TODO: NA HORA DE FECHAR O PEDIDO LEMBRA DE MUDAR O ATIVO PARA 0
+    def buscar_pedido():
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor(dictionary=True)
+            
+            sql = """SELECT cod_pedido WHERE cpf=%s;"""
+            valores = (session["cpf"],)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchone()
+
+            if resultado:
+                return resultado[0]
+            else:
+                return None
+
+        except Error as e:
+            print(f"Erro ao validar login: {e}")
+            return None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
