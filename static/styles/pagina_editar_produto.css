@@ -19,32 +19,9 @@
     padding-bottom: 20px;
 }
 
-.container--card-fundo {
-    border-radius: 20px;
-    width: 1400px;
-    height: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    align-items: center;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
-    background-color: var(--orange-color);
-}
-
 .card {
-    margin: 30px 0px 30px 0px;
+    margin: 0px 0px 30px 0px;
     box-shadow: 0 6px 44px rgba(0, 0, 0, 0.6);
-}
-
-
-/* detalhes da gaveta */
-
-.container--div-detalhe {
-    border-radius: 15px;
-    width: 300px;
-    height: 85%;
-    margin: 50px;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.6);
-    background-color: var(--grey-dark);
 }
 
 .container--div-top {
@@ -71,13 +48,13 @@
 }
 
 .label-descricao{
-    color: var(--grey-light);
+    color: var(--black);
     font-weight: bold;
     margin-bottom: 10px;
 }
 
 .descricao{
-    background-color: var(--orange-color) !important;
+    background-color: var(--grey-light) !important;
     border-radius: 20px;
     color: var(--black) !important;
     font-weight: bold !important;
@@ -106,32 +83,36 @@
 }
 
 .material-symbols-outlined{
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black; /* Add dots under the hoverable text */
     cursor: pointer;
-    
+    color: var(--black);
+    line-height: 2!important;
+    font-size: 35px !important;
 }
 
 .aviso{
     visibility: hidden; /* Hidden by default */
-    width: 130px;
-    background-color: black;
-    color: #ffffff;
+    width: 80px;
+    background-color: var(--orange-dark-color);
+    color: var(--white);
     text-align: center;
     font-family: var(--font-outfit);
     font-size: var(--font-size-24);
-    padding: 10px 0;
+    padding: 2px 0;
     border-radius: 6px;
     position: absolute;
     z-index: 1; /* Ensure tooltip is displayed above content */
 
-    top: -6px;
-    right: 40px;
+    top: 18px;
+    left: -60px;
 }
 
 .material-symbols-outlined:hover .aviso {
-  visibility: visible;
+    visibility: visible;
+}
+
+.icone-voltar{
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
 .input-img {
@@ -160,7 +141,7 @@
     font-size: var(--font-size-20) !important;
     font-weight: bold !important;
     border-radius: 6px;
-    background-color: var(--orange-color) !important;
+    background-color: var(--orange-light-color) !important;
 
     margin-top: 13px !important;
     align-content: center;
@@ -177,7 +158,7 @@
 }
 
 .label-caracteristicas{
-    color: var(--grey-light);
+    color: var(--black);
     font-weight: bold;
     margin: 0px !important;
 }
@@ -197,31 +178,37 @@
     display: flex;
 }
 
-/* Botão de Login */
+/* Botão */
 button[type="submit"] {
-    background-color: var(--grey-light);
-    color: var(--black) !important;
-    font-size: var(--font-size-20) !important;
+    color: var(--white);
+    background-color: var(--orange-dark-color);
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
     font-weight: bold;
     border: none;
     border-radius: 12px;
-    width: 180px;
-    height: 50px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
     cursor: pointer;
-    padding: 4px;
-    margin: 20px;
     transition: background 0.5s;
-    transition: transform 0.3s ease-out;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
+/* hover do botão para todas as telas */
 button[type="submit"]:hover {
     background-color: var(--orange-color) !important;
-    color: var(--white) !important;
-    transform: scale(1.02);
+    color: var(--white);
 }
 
 button[type="submit"]:active {
     background-color: var(--orange-color) !important;
+}
+
+button[type="submit"]:hover{
+    transform: translateY(-1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* imagem */
@@ -254,14 +241,17 @@ figure {
     flex-direction: column;
 }
 
-.h1-titulo {
+/* container do titulo */
+.h1-titulo{
     font-family: var(--font-cinzel);
     font-size: var(--font-size-30);
-    margin: 0 !important;
+    color: var(--orange-dark-color);
 }
 
-.card-body .card-text fieldset {
+.card-body .card-text fieldset{
     height: auto !important;
+    width: 100% !important;
+    
 }
 
 .card-text.text-caracteristicas {
@@ -270,10 +260,13 @@ figure {
 }
 
 .card-body fieldset {
-    border: 1px solid var(--orange-color);
+    border: 2px solid var(--orange-dark-color);
+    background-color: var(--grey-light);
     padding: 0px 15px 0 15px;
     border-radius: 10px;
+    width: 100% !important;
 }
+
 
 .left--card-text,
 .right--card-text {
@@ -282,7 +275,7 @@ figure {
 }
 
 .mb-3 .form-select {
-    background-color: var(--orange-color);
+    background-color: var(--orange-light-color);
     font-weight: bold !important;
 }
 
@@ -292,7 +285,7 @@ figure {
 }
 
 .mb-3 .form-control {
-    background-color: var(--orange-color);
+    background-color: var(--orange-light-color);
     font-weight: bold !important;
 }
 

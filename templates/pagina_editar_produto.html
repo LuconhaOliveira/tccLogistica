@@ -6,24 +6,20 @@
 
     <div class="container--div-titulo">
 
-        <span class="material-symbols-outlined">
-            arrow_back
-            <span class="aviso">Voltar</span>
-        </span>
-
         <h1 class="h1-titulo">Editar Produto</h1>
 
     </div>
 
     <form method="POST" action="/post/editar/produto/{{produto.cod_produto}}" enctype="multipart/form-data" class="container--card-fundo" style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
 
-        <!-- detalhe da prateleira -->
-        <div class="container--div-detalhe esquerda" style="background-size: 100%; background-image: url();"></div>
-
         <!-- card -->
-        <div class="card mb-4" style="width: 600px; min-height:550px; background-color: var(--grey-dark);">
+        <div class="card mb-4" style="width: 1090px; min-height:550px; background-color: var(--orange-light-color);">
 
             <div class="row g-0">
+
+                <!-- voltar -->
+                <a href=""><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+                </span></a>
 
                 <section class="container--div-top">
 
@@ -228,9 +224,6 @@
 
                 </div>
                 </div>
-
-                <!-- detalhe da prateleira -->
-                <div class="container--div-detalhe direita" style="background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);"></div>
 
     </form>
 
