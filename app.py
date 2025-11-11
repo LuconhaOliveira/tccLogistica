@@ -140,7 +140,7 @@ def post_cadastro():
         # garantindo que o frontend receba um código de erro apropriado para o tratamento.
         return jsonify({
             "status": "error",
-            "message": "Erro ao realizar o cadastro. Tente novamente ou entre em contato."
+            "message": "Este CPF já está registrado em nosso sistema."
         }), 500
 
 # LOGIN ------------------------------------------------------------------------------------------------------# 
@@ -540,7 +540,8 @@ def editar_produto(id):
     tipos = Categoria.recuperar_tipo(session["cpf"])
     categorias = Categoria.recuperar_categoria(session["cpf"])
     estantes = Estante.buscar_estantes()
-    return render_template('pagina_editar_produto.html', produto=produto, caracteristicas=caracteristicas,tipos=tipos,categorias=categorias, estantes=estantes, imagem_base64=imagem_base64)
+    nome_produto = ControleProduto.buscar_nome_produto(id)
+    return render_template('pagina_editar_produto.html', nome_produto = nome_produto, produto=produto, caracteristicas=caracteristicas,tipos=tipos,categorias=categorias, estantes=estantes, imagem_base64=imagem_base64)
 
 @app.route("/post/editar/produto/<id>", methods=["POST"])
 def post_editar_produto(id):
