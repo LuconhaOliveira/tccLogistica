@@ -13,7 +13,6 @@ class Conection:
     # _PORT = 3306
     
     # "Descomente" o código a baix0 e comente o código a cima para trocar entre banco de dados online e local
-    
     _HOST = 'db-instock.mysql.database.azure.com' 
     _DATABASE = 'tcc_logistica'   
     _USER = 'gabrieladmin'            
