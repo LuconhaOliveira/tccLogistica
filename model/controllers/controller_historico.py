@@ -1,4 +1,5 @@
 from data.conexao import Conection
+from mysql.connector import Error
 
 class Historico:
 
@@ -46,24 +47,35 @@ class Historico:
 
         return resultado
     
-    
     # Excluir todas as alterações dos produtos e estantes 
     def excluir_historico_alteracoes(cpf):
-        
-        conexao = Conection.create_connection()
 
-        cursor = conexao.cursor(dictionary = True) 
-        
-        sql = """ DELETE FROM alteracao_produto_estante WHERE cpf = %s; """
+        try:
+            conexao = Conection.create_connection()
+            cursor = conexao.cursor(dictionary=True) 
+            
+            sql = """ DELETE FROM alteracao_produto_estante WHERE cpf = %s; """
+            valor = (cpf,)
 
-        valor = (cpf,)
+            cursor.execute(sql, valor)
+            
+            conexao.commit() 
 
-        cursor.execute(sql, valor)
-        
-        conexao.commit() 
-        
-        cursor.close()
-        conexao.close()
+        except Error as e:
+            # Captura erros específicos de banco de dados
+            print(f"Erro no banco de dados ao excluir histórico para o CPF {cpf}: {e}")
+            if conexao:
+                conexao.rollback() # Desfaz a operação em caso de erro no DB
+            
+        except Exception as e:
+            # Captura erros gerais (como falha de conexão)
+            print(f"Erro inesperado ao excluir histórico para o CPF {cpf}: {e}")
+            if conexao:
+                conexao.rollback() # Tenta desfazer se a conexão estava ativa
 
-        # Retorna True ou None, indicando sucesso, mas o retorno não é mais usado
-        return True 
+        finally:
+            # Garante o fechamento da conexão e do cursor, independentemente do resultado
+            if cursor:
+                cursor.close()
+            if conexao:
+                conexao.close()
