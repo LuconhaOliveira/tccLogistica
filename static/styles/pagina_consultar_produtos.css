@@ -23,6 +23,7 @@
     align-items: center;
     width: 100%;
     flex-direction: column;
+    margin-top: 100px;
 }
 
 /* estante selecionada, onde os produtos irão aparecer */
