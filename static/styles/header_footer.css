@@ -12,6 +12,9 @@
     font-family: var(--font-outfit);
     font-size: var(--font-size-16);
     font-weight: bold;
+    
+    position: fixed !important;
+    z-index: 1 !important;
 }
 
 /* Logo para todas as telas */
