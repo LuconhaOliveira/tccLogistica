@@ -93,7 +93,7 @@
 
 .aviso{
     visibility: hidden; /* Hidden by default */
-    width: 80px;
+    width: 85px;
     background-color: var(--orange-dark-color);
     color: var(--white);
     text-align: center;
@@ -106,7 +106,7 @@
     z-index: 1; /* Ensure tooltip is displayed above content */
 
     top: 18px;
-    left: -60px;
+    left: -66px;
 }
 
 .material-symbols-outlined:hover .aviso {
@@ -224,7 +224,7 @@ figure {
 /* container do titulo */
 .h1-titulo{
     font-family: var(--font-cinzel);
-    font-size: var(--font-size-30);
+    font-size: var(--font-size-30) !important;
     color: var(--orange-dark-color);
 }
 
