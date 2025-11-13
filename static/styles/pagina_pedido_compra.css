@@ -21,12 +21,64 @@
     margin-top: 100px;
 }
 
-/* container do titulo */
-.h1-titulo{
-    font-family: var(--font-cinzel);
-    font-size: var(--font-size-30);
+.container--card > .card {
+    transition: transform 0.5s ease, box-shadow 0.5s ease; 
 }
 
+.container--card > .card:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* container do titulo */
+.h1-titulo{
+    text-align: center;
+    font-size: var(--font-size-30);
+    font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
+}
+
+/* aviso de voltar */
+.aviso{
+    visibility: hidden; /* Hidden by default */
+    width: 80px;
+    background-color: var(--orange-dark-color);
+    color: var(--white);
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: bold;
+    padding: 6px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: 120px;
+    left: 710px;
+}
+
+.material-symbols-outlined:hover .aviso {
+    visibility: visible;
+}
+
+.icone-voltar{
+    margin-right: 5px;
+    margin-top: 6px;
+    color: var(--black) !important;
+}
+
+.container--div-titulo{
+    display: flex;
+    margin-bottom: 40px;
+}
+
+/* imagem */
+.img-fluid{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* QUANDO NÃO TEM PRODUTO */
 /* container do card todo */
 .container--card{
     display: flex;
@@ -38,38 +90,78 @@
 .card-body{
     background-color: var(--grey-light);
     display: flex;
-    justify-content: space-between; 
+    align-items: stretch;   /* as duas colunas tenham a mesma altura */
+    padding: 0px !important;
+    gap: 30px;
+
+}
+
+/* container do card lado esquerdo */
+.card-body-left{
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
     align-items: center;
-    align-items: flex-end;
+    text-align: center;
+    background-color: var(--orange-light-color); 
+    padding: 20px; 
 }
 
-/* imagem */
-.img-fluid{
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.col-md-4{
-    height: 185px !important;
-    width: 212.6px !important;
-}
-
-/* titulo - nome do produto */
+/* titulo */
 .card-title{
     font-weight: bold;
-    margin: 0px 0px 8px 0px !important;
-    text-shadow: 2px 2px 4px rgba(255, 114, 27, 0.6);
+    font-size: var(--font-size-30);
+    color: var(--orange-dark-color) !important;
+    margin-bottom: 15px !important; 
+}
+
+/* container do card lado direito */
+.card-body-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 20px;
 }
 
 /* outras informações do produto */
 .card-text{
-    margin: 1px 0px 1px 0px !important;
+    font-size: var(--font-size-24);
+}
+
+/* QUANDO TEM PRODUTO */
+.container-card-body-produto{
+    background-color: var(--grey-light);
+    display: flex;
+}
+
+.card-body-produto{
+    font-size: var(--font-size-30) !important;
+    position: relative; 
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; 
+    padding: 20px;
+}
+
+.card-body-produto-right {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
 }
 
 /* icone de apagar */
-.material-symbols-outlined{
+.container--exclusao-itens {
+    color: var(--black) !important;
     font-weight: bold !important;
+    font-size: 30px !important;
     cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.container--exclusao-itens:hover {
+    transform: translateY(-2px); /* Efeito de 'levantar' */
 }
 
 /* container de baixo - botão e informações do pedido */
@@ -93,21 +185,32 @@
 
 /* Botão de limpar */
 button[type="submit"] {
-    background-color: var(--grey-light);
-    color: var(--grey-dark);
-    font-size: var(--font-size-20) !important;
+    color: var(--white);
+    background-color: var(--orange-dark-color);
     font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
     font-weight: bold;
     border: none;
     border-radius: 12px;
-    padding: 15px;
+    padding: 10px;
     width: 100%;
+    margin-top: 30px;
     cursor: pointer;
-    transition: background 0.5s ;
+    transition: background 0.5s;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
-/* hover do botão */
+/* hover do botão para todas as telas */
 button[type="submit"]:hover {
     background-color: var(--orange-color) !important;
     color: var(--white);
+}
+
+button[type="submit"]:active {
+    background-color: var(--orange-color) !important;
+}
+
+button[type="submit"]:hover{
+    transform: translateY(-1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
 }

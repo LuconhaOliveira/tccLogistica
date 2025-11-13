@@ -52,12 +52,12 @@
     font-family: var(--font-outfit);
     font-size: var(--font-size-24);
     font-weight: bold;
-    padding: 2px 0;
+    padding: 10px 0;
     border-radius: 6px;
     position: absolute;
     z-index: 1; /* Ensure tooltip is displayed above content */
 
-    top: 18px;
+    top: 15px;
     left: -66px;
 }
 
@@ -67,8 +67,10 @@
 
 .icone-voltar{
     margin-left: 20px;
-    margin-top: 10px;
+    margin-top: 20px;
     color: var(--white) !important;
+    cursor: pointer;
+    font-size: 35px !important;
 }
 
 /* container da descrição */
@@ -109,7 +111,14 @@
 }
 
 /* icones */
-.material-symbols-outlined{
+.icone-editar{
+    cursor: pointer;
+    color: var(--white);
+    line-height: 2!important;
+    font-size: 35px !important;
+}
+
+.icone-delete{
     cursor: pointer;
     color: var(--white);
     line-height: 2!important;
