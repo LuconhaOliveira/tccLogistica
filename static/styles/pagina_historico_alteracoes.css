@@ -29,6 +29,38 @@
     color: var(--orange-dark-color);
 }
 
+.aviso{
+    visibility: hidden; /* Hidden by default */
+    width: 80px;
+    background-color: var(--orange-dark-color);
+    color: var(--white);
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: bold;
+    padding: 6px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    left: 650px;
+    top: 122px;
+}
+
+.material-symbols-outlined:hover .aviso {
+    visibility: visible;
+}
+
+.icone-voltar{
+    margin-right: 8px;
+    margin-top: 3px;
+    color: var(--black) !important;
+}
+
+.container--div-titulo{
+    display: flex;
+}
+
 /* container do card todo */
 .container--card{
     display: flex;
