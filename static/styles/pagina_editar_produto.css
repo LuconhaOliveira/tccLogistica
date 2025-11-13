@@ -68,15 +68,6 @@
     display: block !important;
 }
 
-/* icones */
-
-.container--main .material-symbols-outlined {
-    color: var(--black);
-    font-size:larger;
-
-    margin-right: 10px;
-}
-
 .container--div-titulo {
     display: flex;
     justify-content: center;
@@ -84,7 +75,7 @@
     margin: 1.5%;
 }
 
-.material-symbols-outlined{
+.icone-voltar{
     cursor: pointer;
     color: var(--black);
     line-height: 2!important;
