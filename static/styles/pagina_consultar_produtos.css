@@ -59,6 +59,7 @@
     height: 150px !important;
     font-family: var(--font-outfit);
 }
+
 .nome--produto{
     font-size: var(--font-size-12)  !important;
     /* 'ch' mede a largura do caractere '0' para 7 caracteres */
