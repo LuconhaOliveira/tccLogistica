@@ -75,7 +75,7 @@
     position: absolute;
     z-index: 1; /* Ensure tooltip is displayed above content */
 
-    top: -3px;
+    top: -6px;
     right: 30px;
 }
 

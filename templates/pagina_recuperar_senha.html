@@ -40,7 +40,9 @@
         <!-- action/method: backend do login -->
         <form action="/post/recuperar/senha" method="post" class="container--form" id="senhaForm">
 
-            <h1>Redefinir Senha</h1>
+            <h1>Verificação para Redefinir Senha</h1>
+
+            <p class="instrucao-redefinirSenha"><strong>Instrução:</strong> Insira seu CPF para localizarmos sua conta. Em seguida, enviaremos o link de redefinição de senha para o e-mail cadastrado.</p>
 
             <!-- campo de cpf -->
             <div class="mb-3">
@@ -53,7 +55,7 @@
 
             <div class="mb-3 form-check button-adicionar">
 
-                <a href="/"><button type="submit" class="btn btn-primary">Alterar Senha</button></a>
+                <a href="/"><button type="submit" class="btn btn-primary">Enviar Email</button></a>
 
                 <div class="container--label--a-voltar">
 
