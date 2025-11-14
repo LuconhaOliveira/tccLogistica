@@ -43,12 +43,32 @@
     font-weight: normal !important;
 }
 
+.icone-logout{
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.icone-logout:hover{
+    transform: translateY(-1px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.icone-shopping{
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.icone-shopping:hover{
+    transform: translateY(-1px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
 /* NAVEGAÇÃO DO BOTÃO DE CADASTRAMENTOS */
 /* botão principal */
 .botoes-navCadastros .botao-principal {
     background-color: var(--orange-dark-color); 
     color: white; 
-    padding: 5px 10px;
+    padding-bottom: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
     font-size: var(--font-size-16);
     font-weight: bold;
     border: none;
@@ -71,7 +91,7 @@
     min-width: 195px; 
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1; 
-    border-radius: 5px;
+    border-radius: 10px;
     text-align: center;
 }
 
@@ -85,6 +105,7 @@
 
 .botoes-navCadastros-opcoes a:hover {
     background-color: var(--orange-light-color);
+    border-radius: 10px;
 }
 
 .botoes-navCadastros:hover .botoes-navCadastros-opcoes {
@@ -106,7 +127,9 @@
 .botoes-navHistoricos .botao-principal {
     background-color: var(--orange-dark-color); 
     color: white; 
-    padding: 5px 10px;
+    padding-bottom: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
     font-size: var(--font-size-16);
     font-weight: bold;
     border: none;
@@ -143,6 +166,7 @@
 
 .botoes-navHistoricos-opcoes a:hover {
     background-color: var(--orange-light-color);
+    border-radius: 10px;
 }
 
 .botoes-navHistoricos:hover .botoes-navHistoricos-opcoes {

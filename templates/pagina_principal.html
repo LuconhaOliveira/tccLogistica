@@ -211,9 +211,7 @@
     <!-- Card lateral esquerdo, aqui vai as categorias, estantes e produtos cadastrados -->
     <section class="card-filtrosCategoria">
         <div class="card-categoriasFiltros">
-
             <div class="card-body">
-
                 <h5 class="card-title">Filtros</h5>
                 <h6 class="card-subtitle mb-2 text-body-secondary">Categoria</h6>
 
@@ -228,25 +226,34 @@
             </div>
     </section>
 
+    
+    {% if estantes %}
     <!-- quando existir um cadastro de estante, o css vai receber a formatação dessa classe -->
     <div class="container--estantesCriadas" id="estantes">
     </div>
+    {% endif %}
 
     <!-- quando não tiver cadastro de estante -->
     {% if not estantes %}
     <div class="container-estantesNaoCriadas">
 
         <h2 class="h2-aviso">Nenhuma estante cadastrada.</h2>
-        <p class="p-orientacao">Para cadastrar uma estante, selecione o botão <strong>"+"</strong> localizado no canto
+        <div>
+            <p class="p-orientacao">Para cadastrar uma estante, selecione o botão <strong>"+"</strong> localizado no canto
             inferior direito da página. <strong>Importante!</strong> Você só poderá criá-la após o processo de
             cadastramento de <strong>Categoria</strong>, pois, caso contrário, o cadastro não será permitido. Feito
             isso, ainda no <strong>"+"</strong>, selecione a opção <strong>"Estante"</strong>. Em seguida, adicione as
             informações de Nome e a Categoria de sua escolha para adicioná-la. Após o cadastro, ela aparecerá na página
             principal.</p>
-        <img class="img-seta" src="/static/img/seta-img-Photoroom.png" alt="imagem de seta">
+        </div>
+        
     </div>
     {% endif %}
 
+    {% if not estantes %}
+        <img class="img-seta" src="/static/img/seta-img-Photoroom.png" alt="imagem de seta">
+    {% endif %}
+    
 </main>
 
 <!-- JS -->

@@ -234,6 +234,11 @@ button[type="submit"]:active {
     font-weight: bold;
 }
 
+.instrucao-redefinirSenha{
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+}
 
 /* ESPECIFICAÇÕES DO CHECKBOX DE CARACTERISTICAS */
 /* container das caracteristicas */

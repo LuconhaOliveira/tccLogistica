@@ -43,6 +43,21 @@ body {
     background-color: var(--grey-light);
     text-align: left;
     flex-shrink: 0;
+
+    position: fixed;
+    top: 0; /* Começa no topo */
+    left: 0;
+    overflow-x: hidden;
+}
+
+.card-categoriasFiltros {
+    display: block;
+}   
+
+@media (min-width: 1025px) {
+    .card-categoriasFiltros {
+        padding-top: 76px;
+    }   
 }
 
 /*  Grid estantes */
@@ -53,10 +68,63 @@ body {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     gap: 30px;
-    padding: 0px 100px 30px 75px;
+    padding: 0px 100px 30px 295px;
     height: auto;
     overflow-y: visible;
 }
+
+.container-estantesNaoCriadas{
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.25rem;
+
+    
+}
+
+.container-estantesNaoCriadas div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    background-color: var(--orange-color);
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+
+
+
+@media (min-width: 1025px) {
+    .container-estantesNaoCriadas {
+        margin-left: 220px;
+    }
+
+    .container-estantesNaoCriadas{
+        padding-top: 60px;
+    }
+}
+
+
+
+
+
+.p-orientacao {
+    font-family: var(--font-outfit) !important;
+    font-size: var(--font-size-24);
+    color: var(--white);
+    text-align: center;
+
+    margin: 0;
+}
+
+
+
+
+   
 
 .container--estantesCriadas a {
     color: var(--white);
@@ -212,37 +280,14 @@ input[type="radio" i] {
     font-weight: bold !important;
     font-size: var(--font-size-30) !important;
     text-align: center;
-    position: relative;
-    right: 8%;
-    top: 15%;
 }
 
-.p-orientacao {
-    font-family: var(--font-outfit) !important;
-    font-size: var(--font-size-24) !important;
-    color: var(--white);
-    width: 40%;
-    position: relative;
-    left: 22%;
-    top: 28%;
-    text-align: center;
-    background-color: var(--orange-color);
-    padding: 10px;
-    border-radius: 10px;
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-.p-orientacao:hover{
-    transform: translateY(-2px);
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
-}
 
 .img-seta {
     width: 150px;
-    height: auto;
-    position: relative;
-    left: 63%;
-    top: 20%;
+    position: fixed;
+    right: 100px;
+    bottom: 160px;
     transform: rotate(-14deg);
 }
 
@@ -418,11 +463,11 @@ input[type="radio" i] {
 .div-btn--questionTutorial {
     position: fixed;
     bottom: 40px;
-    /* <-- MUDADO DE 180px PARA 40px */
     right: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    z-index: 1000;
 }
 
 #botaoToggleQuestionTutorial {
@@ -628,6 +673,8 @@ input[type="radio" i] {
         width: 100%;
         height: auto;           /* Altura automática */
         margin-bottom: 30px;    /* Espaço antes do grid */
+
+        position: static;
     }
 
     /* AJUSTE DO GRID - TABLET
@@ -653,16 +700,7 @@ input[type="radio" i] {
         */
     }
 
-    /* Ajusta a mensagem "Nenhuma estante" */
-    .p-orientacao {
-        width: 80%;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
-        position: relative;
-        top: 100px;
-        font-size: var(--font-size-20);
-    }
+
 
     .h2-aviso {
         right: 0; /* Reseta o posicionamento */
@@ -678,7 +716,38 @@ input[type="radio" i] {
     }
 
     .button-toggle{
-        background-color: var(--orange-dark-color) !important;
+        background-color: var(--grey-dark) !important;
+    }
+
+}
+
+@media (max-width: 1280px) and (max-height: 800px)  {
+    .img-seta {
+        display: none;
+    }
+}
+
+@media (max-width: 1494px) and (max-height: 754px)  {
+    .img-seta {
+        display: none;
+    }
+}
+
+@media (max-width: 981px) and (max-height: 1018px)  {
+    .img-seta {
+        display: none;
+    }
+}
+
+@media (max-width: 918px) and (max-height: 1098px)  {
+    .img-seta {
+        display: none;
+    }
+}
+
+@media (max-width: 1154x) and (max-height: 902px)  {
+    .img-seta {
+        display: none;
     }
 }
 
@@ -699,13 +768,6 @@ input[type="radio" i] {
         height: 400px;
         /* Se estiver usando aspect-ratio, não precisa mexer aqui.
         */
-    }
-
-    /* Ajusta a mensagem "Nenhuma estante" para celular */
-    .p-orientacao {
-        width: 90%;
-        top: 50px;
-        font-size: var(--font-size-16);
     }
 
     .h2-aviso {
