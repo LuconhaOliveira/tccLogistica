@@ -612,3 +612,146 @@ input[type="radio" i] {
     color: #000000;
     margin-bottom: 1.2rem;
 }
+
+/* RESPONSIVIDADE */
+/* RESPONSIVIDADE - TABLET */
+@media (max-width: 1024px) {
+
+    /* Ajusta o layout principal para tablets */
+    .container--main {
+        flex-direction: column; /* Empilha a sidebar e o conteúdo */
+        margin-top: 80px;      /* Reduz a margem do topo (header) */
+    }
+
+    /* Faz a sidebar de filtros ocupar a largura total */
+    .card-filtrosCategoria {
+        width: 100%;
+        height: auto;           /* Altura automática */
+        margin-bottom: 30px;    /* Espaço antes do grid */
+    }
+
+    /* AJUSTE DO GRID - TABLET
+    Como solicitado, 2 colunas para tablet.
+    */
+    .container--estantesCriadas {
+        grid-template-columns: 1fr 1fr; /* 2 colunas */
+        padding: 0px 40px 30px 40px;    /* Reduz o padding lateral */
+        gap: 30px;
+    }
+
+    /* CORREÇÃO IMPORTANTE: 
+    Remove a largura e altura fixas das estantes para que 
+    elas se adaptem ao grid.
+    */
+    .container--estantesCriadas a {
+        width: 100%;          /* Ocupa 100% da célula do grid */
+        height: 450px;        /* Altura ajustada para tablet */
+        /* Se preferir, use aspect-ratio para manter a proporção 
+        original (360/540 = 2/3)
+        height: auto;
+        aspect-ratio: 2 / 3; 
+        */
+    }
+
+    /* Ajusta a mensagem "Nenhuma estante" */
+    .p-orientacao {
+        width: 80%;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        position: relative;
+        top: 100px;
+        font-size: var(--font-size-20);
+    }
+
+    .h2-aviso {
+        right: 0; /* Reseta o posicionamento */
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Ajusta o modal de ajuda (?) */
+    .section-summary--info {
+        width: 90vw; /* 90% da largura da tela */
+        height: 70vh; /* 70% da altura da tela */
+        max-width: 750px; /* Mantém o limite máximo */
+    }
+
+    .button-toggle{
+        background-color: var(--orange-dark-color) !important;
+    }
+}
+
+/* RESPONSIVIDADE - CELULAR */
+@media (max-width: 767px) {
+
+    /* AJUSTE DO GRID - CELULAR
+    Como solicitado, 1 coluna para celular.
+    */
+    .container--estantesCriadas {
+        grid-template-columns: 1fr; /* 1 coluna */
+        padding: 0px 20px 30px 20px;  /* Padding ainda menor */
+        gap: 20px;
+    }
+
+    /* Ajusta a altura da estante para celular */
+    .container--estantesCriadas a {
+        height: 400px;
+        /* Se estiver usando aspect-ratio, não precisa mexer aqui.
+        */
+    }
+
+    /* Ajusta a mensagem "Nenhuma estante" para celular */
+    .p-orientacao {
+        width: 90%;
+        top: 50px;
+        font-size: var(--font-size-16);
+    }
+
+    .h2-aviso {
+        font-size: var(--font-size-24) !important;
+        top: 10%;
+    }
+
+    /* A seta não faz sentido no layout de 1 coluna, então a escondemos */
+    .img-seta {
+        display: none;
+    }
+
+    /* BOTÕES FLUTUANTES (FAB)
+    Os botões já usam 'position: fixed', o que é ótimo.
+    Apenas ajustamos o pop-up para não sair da tela.
+    */
+    .section-btn--opcoesDentroDoBtn {
+        right: 80px; /* Puxa o menu um pouco mais para a esquerda */
+    }
+
+    .section-btn--opcoesDentroDoBtn a {
+        min-width: 130px; /* Reduz o tamanho mínimo dos botões do pop-up */
+        padding: 8px 12px;
+    }
+
+    /* Ajusta o modal de ajuda (?) para telas pequenas */
+    .section-summary--info {
+        width: 95vw; /* Quase a largura total */
+        height: 80vh; /* Quase a altura total */
+    }
+
+    /* Reduz fontes dentro do modal de ajuda para legibilidade */
+    .span-h1--tituloInfo {
+        font-size: var(--font-size-24);
+        padding: 15px 10px;
+    }
+
+    .details-infoTxt summary h2 {
+        font-size: 1.1rem;
+    }
+
+    .details-infoTxt h3 {
+        font-size: var(--font-size-20);
+    }
+
+    .button-toggle{
+        background-color: var(--grey-dark) !important;
+    }
+}
