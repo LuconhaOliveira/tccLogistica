@@ -24,6 +24,9 @@ span{
     align-items: center;
     width: 100vw;
     height: 100vh;
+    
+    /* separa o header da parte principal */
+    padding: 100px;
 }
 
 .container--nota{
