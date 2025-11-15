@@ -18,8 +18,496 @@ span{
 
 .container--main{
     background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
 }
 
 .container--nota{
     background-color: var(--grey-light);
+    width: 900px;
+    height: 100%;
+    display: grid;
+    /* grid de várias linhas e colunas variadas para moldar a nota fiscal */
+    grid-template-columns: repeat(7, 1tr);
+    grid-template-rows: repeat(19, 1tr);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.nota--titulo{
+    /* início e fim do item na coluna */
+    grid-column: 1, 6;
+    /* início e fim do item na linha */
+    grid-row: 1, 1;
+}
+
+.nota--data-recebimento{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--recebedor{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--serie{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--card-empresa{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--card-danfe{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--codBarras{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--natureza-operacao{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--inscricao-estadual{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--inscricao-estadual2{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--cnpj{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--chave{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.nota--nome-razao{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--cnpj-cpf1{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--data-emissao{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--endereco{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--bairro-distrito{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--cep{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--data-saida{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--municipio{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--fone-fax{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--uf1{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--inscricao-estadual{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--hora-saida{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--card-fatura1{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--card-fatura2{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.nota--base-icms{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-icms{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--base-icsm-substituicao{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-icsm-substituicao{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-total-produtos{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-frete{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-seguro{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--desconto{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--despesas{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-ipi{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-total-nota{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.nota--razao-social{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--frete-conta{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--cod-antt{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--placa-veiculo{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--uf2{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--cnpj-cpf2{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--endereco{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--municipio{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--uf3{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--inscricao-estadual{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--quantidade{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--especie{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--marca{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--numero-volumes{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--peso-bruto{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--peso-liquido{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.nota--cod-produto{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--descricao-prod-servico{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--ncm{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--quantidade{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-dados{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--subtotal-dados{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--base-icms-dados{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.nota--inscricao-municipal{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-total-servicos{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--base-issqn{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--valor-issqn{
+    grid-column: 1, 6;
+    grid-row: 1, 1;
+}
+
+.nota--botao-download{
+    background-color: var(--grey-medium);
 }
