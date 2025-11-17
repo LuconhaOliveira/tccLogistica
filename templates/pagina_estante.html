@@ -1,3 +1,4 @@
+<!-- Componente do header, para deixar padronizado em todas as páginas -->
 {% extends "header_head.html" %}
 
 {% block titulo %}Adicionar Estante{% endblock %}
@@ -30,8 +31,8 @@
             <!-- categoria da estante -->
             <div class="mb-3">
                 <label for="exampleInputCategory" class="form-label">Categoria</label>
+
                 <!-- name: backend do adicionar categoria -->
-                
                 <select name="cod_categoria" id="estante-cod-categoria" class="form-control">
                     {% if categoria %}
                         <option value="" disabled selected>Selecione a categoria:</option>

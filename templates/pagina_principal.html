@@ -1,19 +1,21 @@
+<!-- Componente do header, para deixar padronizado em todas as páginas -->
 {% extends "header_head.html" %}
 
 {% block titulo %}InStock{% endblock %}
 
 {% block estilos %}
-    <!-- link do css da página -->
+    <!-- Link do css da página -->
     <link rel="stylesheet" href="/static/styles/pagina_principal.css">
-    <!-- link imagem -->
+    <!-- Link imagem -->
     <link rel="icon" href="/static/img/logo-topo.png">
 {% endblock %}
 
 {% block conteudo %}
+
+<!-- Container principal -->
 <main class="container--main">
 
-    <!--  -->
-    <!-- botão de adicionar -->
+    <!-- Botão de adicionar -->
     <section class="section-btn--cadastrarProdCatEst">
         <button type="button" id="botaoToggle" class="button-toggle">
             <span class="material-symbols-outlined icone-add">
@@ -23,7 +25,7 @@
         </button>
     </section>
 
-    <!--  Opcoes que estão dentro do botão  -->
+    <!--  Opções que estão dentro do botão de adicionar  -->
     <section>
         <div class="section-btn--opcoesDentroDoBtn" id="opcoesBotao">
             <h1 class="section-div--tituloOpcoesBtn">Adicionar</h1>
@@ -33,8 +35,7 @@
         </div>
     </section>
 
-    <!--  -->
-    <!-- botão historico -->
+    <!-- Botão de histórico -->
     <section class="section-btn--historico">
         <button type="button" id="botaoToggleHistorico" class="button-toggle">
             <span class="material-symbols-outlined">
@@ -44,7 +45,7 @@
         </button>
     </section>
 
-    <!--  Opcoes que estão dentro do botão(histórico)  -->
+    <!--  Opções que estão dentro do botão de histórico  -->
     <section>
         <div class="section-btn--opcoesDentroDoBtn" id="botaoToggleHistoricoOpcoes">
             <h1 class="section-div--tituloOpcoesBtn">Histórico</h1>
@@ -53,7 +54,7 @@
         </div>
     </section>
 
-    <!-- botão question para o tutorial -->
+    <!-- Botão de interrogação para o tutorial do sistema -->
     <div class="div-btn--questionTutorial">
         <button type="button" id="botaoToggleQuestionTutorial" class="button-toggle">
             <span class="material-symbols-outlined">
@@ -65,13 +66,13 @@
 
     <div id="botaoToggleQuestionTutorialInfoTxt" class="section-summary--info">
 
-            <!-- titulo do container - tutorial -->
+            <!-- Titulo do container - tutorial -->
             <h1 class="span-h1--tituloInfo">Prioridade de Cadastro</h1>
 
-            <!-- detalhes do fluxo do sistema -->
+            <!-- Detalhes do fluxo do sistema -->
             <details class="details-infoTxt" id="details-infoTxt">
                 <summary>
-                    <!-- titulo da opção 1 - tutorial -->
+                    <!-- Titulo da opção 1 - tutorial -->
                     <h2> Resumo do Fluxo</h2>
                 </summary>
 
@@ -86,10 +87,10 @@
 
             </details>
 
-            <!-- detalhes da guia do Cadastro de estantes, categorias e produtos -->
+            <!-- Detalhes da guia do Cadastro de estantes, categorias e produtos -->
             <details class="details-infoTxt" id="details-infoTxt">
                 <summary>
-                    <!-- titulo da opção 2 - tutorial -->
+                    <!-- Titulo da opção 2 - tutorial -->
                     <h2>Guia de Cadastro</h2>
                 </summary>
 
@@ -207,7 +208,6 @@
             
     </div>
     
-    <!--  -->
     <!-- Card lateral esquerdo, aqui vai as categorias, estantes e produtos cadastrados -->
     <section class="card-filtrosCategoria">
         <div class="card-categoriasFiltros">
@@ -228,12 +228,12 @@
 
     
     {% if estantes %}
-    <!-- quando existir um cadastro de estante, o css vai receber a formatação dessa classe -->
+    <!-- Quando uma estante for cadastrada, o css vai receber a formatação dessa classe -->
     <div class="container--estantesCriadas" id="estantes">
     </div>
     {% endif %}
 
-    <!-- quando não tiver cadastro de estante -->
+    <!-- Quando não tiver cadastro de estante, vai exibir essa mensagem para o usuario -->
     {% if not estantes %}
     <div class="container-estantesNaoCriadas">
 
@@ -287,13 +287,13 @@
             }
         }
 
-        // primeiro botão
+        // Primeiro botão
         if (botaoToggle && opcoesDiv) {
             botaoToggle.addEventListener('click', function (event) {
                 event.stopPropagation();
                 toggleVisibility(opcoesDiv);
 
-                // fecha os outros menus se estiverem abertos
+                // Fecha os outros menus se estiverem abertos
                 if (opcoesDivHistorico.style.display === 'block') {
                     opcoesDivHistorico.style.display = 'none';
                 }
@@ -303,7 +303,7 @@
             });
         }
 
-        // segundo botão
+        // Segundo botão
         if (botaoToggleHistorico && opcoesDivHistorico) {
             botaoToggleHistorico.addEventListener('click', function (event) {
                 event.stopPropagation();
@@ -318,7 +318,7 @@
             });
         }
 
-        // terceiro botão (tutorial)
+        // Terceiro botão (tutorial)
         if (botaoToggleQuestionTutorial && botaoToggleQuestionTutorialInfoTxt) {
             botaoToggleQuestionTutorial.addEventListener('click', function (event) {
                 event.stopPropagation();
@@ -334,7 +334,7 @@
             });
         }
 
-        // fecha tudo ao clicar fora
+        // Fecha tudo ao clicar fora do botão
         document.addEventListener('click', function (event) {
             if (!opcoesDiv.contains(event.target) && opcoesDiv.style.display === 'block') {
                 opcoesDiv.style.display = 'none';

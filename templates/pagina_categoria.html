@@ -1,17 +1,21 @@
+<!-- Componente do header, para deixar padronizado em todas as páginas -->
 {% extends "header_head.html" %}
 
 {% block titulo %}Adicionar Categoria, Tipo e Característica(s){% endblock %}
 
 {% block estilos %}
+    <!-- Link do css -->
     <link rel="stylesheet" href="/static/styles/pagina_categoria.css">
-    <!-- link imagem -->
+    <!-- Link da logo -->
     <link rel="icon" href="/static/img/logo-topo.png">
 {% endblock %}
 
 {% block conteudo %}
 
+    <!-- Container principal -->
     <main class="container--main">
 
+        <!-- Container do título -->
         <div class="container--div-titulo">
 
             <a href="/principal"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
@@ -21,8 +25,10 @@
 
         </div>
 
+        <!-- Container de cadastro de categoria, tipo e caracteristica -->
         <div class="container--divisao1">
 
+            <!-- Formulário de adicionar categoria -->
             <form action="/post/cadastrar/categoria" method="post" class="container--form container--add-categoria">
                 <h2>Adicionar Categoria</h2>
 
@@ -38,6 +44,7 @@
                 </div>
             </form>
 
+            <!-- Formulário de adicionar tipo -->
             <form action="/post/cadastrar/tipo" method="post" class="container--form container--add-tipo">
                 <h2>Adicionar Tipo</h2>
 
@@ -67,6 +74,7 @@
                 </div>
             </form>
 
+            <!-- Formulário de adicionar caracteristica -->
             <form action="/post/cadastrar/caracteristica" method="post" class="container--form container--add-caracteristica" id="caracteristicaForm">
                 <h2>Adicionar Característica</h2>
 
@@ -97,9 +105,11 @@
             </form>
         </div>
 
+        <!-- Container de exclusão -->
         <h2 class="titulo-exclusao">Exclusão</h2>
           <div class="container--divisao2">
             
+            <!-- Exclusão de categorias -->
             <div class="container--exclusao">
                 <h2 class="form--titulo-exclusao">Excluir Categorias</h2>
                 {% for categorias in categoria %}
@@ -110,6 +120,7 @@
                 {% endfor %}
             </div>
 
+            <!-- Exclusão de tipos -->
             <div class="container--exclusao">
                 <h2 class="form--titulo-exclusao">Excluir Tipos</h2>
                 {% for tipos in tipo_categoria %}
@@ -124,6 +135,7 @@
                 {% endfor %}
             </div>
 
+            <!-- Exclusão de caracteristicas -->
             <div class="container--exclusao">
                 <h2 class="form--titulo-exclusao">Excluir Características</h2>
                 {% for caracteristicas in caracteristica %}
@@ -141,7 +153,7 @@
 
     </main>
 
-
+    
     <script src="/static/script/sweet_alert_caracteristica.js"></script>
 
 {% endblock %}
