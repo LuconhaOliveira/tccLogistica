@@ -1,16 +1,23 @@
 {% extends "header_head.html" %}
 
-{% block titulo %}{{nome_estante}}{% endblock %}
+{% block titulo %}Editar: {{nome_estante}}{% endblock %}
 
 {% block estilos %}
     <!-- link css -->
     <link rel="stylesheet" href="/static/styles/pagina_editar_estante.css">
+    <!-- link imagem -->
+    <link rel="icon" href="/static/img/logo-topo.png">
 {% endblock %}
 
 {% block conteudo %}
     <main class="container--main">
         <!-- action/method: backend do add categoria -->
         <form action="/post/editar/estante/{{estante.cod_estante}}" id="form-cadastro-estante" method="post" class="container--form">
+
+            <!-- voltar -->
+            <a href="/estante/{{estante.cod_estante}}"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+            </span></a>
+            
             <h1>Editar Estante</h1>
 
             <!-- nome da estante -->

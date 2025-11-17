@@ -16,6 +16,7 @@
     width: 100%;
     padding-bottom: 20px;
     padding-top: 20px;
+    margin-top: 100px;
 }
 
 /* Forms para todas as telas */
@@ -187,6 +188,33 @@ button[type="submit"]:active {
     text-transform: uppercase;
 }
 
+.aviso{
+    visibility: hidden; /* Hidden by default */
+    width: 80px;
+    background-color: var(--orange-dark-color);
+    color: var(--white);
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: bold;
+    padding: 6px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: 145px;
+    left: 530px;
+}
+
+.material-symbols-outlined:hover .aviso {
+    visibility: visible;
+}
+
+.icone-voltar{
+    color: var(--black) !important;
+    margin: 0 !important;
+}
+
 /* ESPECIFICAÇÕES DA TELA DE RECUPERAR SENHA */
 .container--label--a-voltar{
     text-align: center;
@@ -206,6 +234,11 @@ button[type="submit"]:active {
     font-weight: bold;
 }
 
+.instrucao-redefinirSenha{
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
+}
 
 /* ESPECIFICAÇÕES DO CHECKBOX DE CARACTERISTICAS */
 /* container das caracteristicas */

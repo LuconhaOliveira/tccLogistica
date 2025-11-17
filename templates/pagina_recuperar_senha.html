@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="/static/styles/sweet-alerts.css">
     <!-- link css header e footer -->
     <link rel="stylesheet" href="/static/styles/header_footer.css">
-
+    <!-- link imagem -->
+    <link rel="icon" href="/static/img/logo-topo.png">
     <!-- ícones Google Icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -39,7 +40,9 @@
         <!-- action/method: backend do login -->
         <form action="/post/recuperar/senha" method="post" class="container--form" id="senhaForm">
 
-            <h1>Redefinir Senha</h1>
+            <h1>Verificação para Redefinir Senha</h1>
+
+            <p class="instrucao-redefinirSenha"><strong>Instrução:</strong> Insira seu CPF para localizarmos sua conta. Em seguida, enviaremos o link de redefinição de senha para o e-mail cadastrado.</p>
 
             <!-- campo de cpf -->
             <div class="mb-3">
@@ -52,7 +55,7 @@
 
             <div class="mb-3 form-check button-adicionar">
 
-                <a href="/"><button type="submit" class="btn btn-primary">Alterar Senha</button></a>
+                <a href="/"><button type="submit" class="btn btn-primary">Enviar Email</button></a>
 
                 <div class="container--label--a-voltar">
 

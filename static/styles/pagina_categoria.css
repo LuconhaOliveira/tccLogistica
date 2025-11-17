@@ -49,7 +49,49 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 20px;
+    padding: 50px;
+    margin-top: 100px;
+}
+
+/* container do titulo */
+.h1-titulo{
+    text-align: center;
+    font-size: var(--font-size-30);
+    font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
+}
+
+.aviso{
+    visibility: hidden; /* Hidden by default */
+    width: 80px;
+    background-color: var(--orange-dark-color);
+    color: var(--white);
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: bold;
+    padding: 6px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: -6px;
+    right: 30px;
+}
+
+.material-symbols-outlined:hover .aviso {
+    visibility: visible;
+}
+
+.icone-voltar{
+    margin-left: 0px;
+    margin-top: 6px;
+    color: var(--black) !important;
+}
+
+.container--div-titulo{
+    display: flex;
+    margin-bottom: 40px;
 }
 
 /* os forms de cadastro */
@@ -115,7 +157,6 @@
 
 .material-symbols-outlined:hover{
     transform: translateY(-2px); 
-
 }
 
 .container--form{
@@ -144,6 +185,7 @@
     text-align: center;
     font-family: var(--font-outfit);
     font-size: var(--font-size-20);
+    font-weight: bold;
     padding: 8px 0;
     border-radius: 6px;
     position: absolute;
@@ -167,6 +209,7 @@
     text-align: center;
     font-family: var(--font-outfit);
     font-size: var(--font-size-20);
+    font-weight: bold;
     padding: 8px 0;
     border-radius: 6px;
     position: absolute;
@@ -190,6 +233,7 @@
     text-align: center;
     font-family: var(--font-outfit);
     font-size: var(--font-size-20);
+    font-weight: bold;
     padding: 8px 0;
     border-radius: 6px;
     position: absolute;
@@ -211,15 +255,6 @@
 .container--form:hover{
     transform: translateY(-5px); 
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
-}
-
-/* Titulo do form */
-.container--main h1{
-    text-align: center;
-    font-size: var(--font-size-30);
-    margin-bottom: 18px;
-    font-family: var(--font-cinzel);
-    color: var(--orange-dark-color);
 }
 
 /* dentro dos inputs, para colocar uma fonte, para todas as telas */

@@ -5,6 +5,8 @@
 {% block estilos %}
 <!-- link css -->
 <link rel="stylesheet" href="/static/styles/pagina_visualizar_produto.css">
+<!-- link imagem -->
+<link rel="icon" href="/static/img/logo-topo.png">
 {% endblock %}
 
 {% block conteudo %}
@@ -131,10 +133,10 @@
                     <div class="container--right-card" style="display: flex; gap: 40px;">
 
                         <a href="/pagina/editar/produto/{{produto.cod_produto}}"><span
-                                class="material-symbols-outlined">edit</span> </a>
+                                class="material-symbols-outlined icone-editar">edit</span> </a>
 
                         <a href="/post/produto/remover/{{produto.cod_produto}}"><span
-                                class="material-symbols-outlined">delete</span></a>
+                                class="material-symbols-outlined icone-delete">delete</span></a>
 
                     </div>
 

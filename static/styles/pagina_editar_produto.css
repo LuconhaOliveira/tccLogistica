@@ -17,6 +17,7 @@
     align-items: center;
     width: 100%;
     padding-bottom: 20px;
+    margin-top: 100px;
 }
 
 .card {
@@ -67,15 +68,6 @@
     display: block !important;
 }
 
-/* icones */
-
-.container--main .material-symbols-outlined {
-    color: var(--black);
-    font-size:larger;
-
-    margin-right: 10px;
-}
-
 .container--div-titulo {
     display: flex;
     justify-content: center;
@@ -83,7 +75,7 @@
     margin: 1.5%;
 }
 
-.material-symbols-outlined{
+.icone-voltar{
     cursor: pointer;
     color: var(--black);
     line-height: 2!important;
@@ -92,7 +84,7 @@
 
 .aviso{
     visibility: hidden; /* Hidden by default */
-    width: 80px;
+    width: 85px;
     background-color: var(--orange-dark-color);
     color: var(--white);
     text-align: center;
@@ -105,7 +97,7 @@
     z-index: 1; /* Ensure tooltip is displayed above content */
 
     top: 18px;
-    left: -60px;
+    left: -66px;
 }
 
 .material-symbols-outlined:hover .aviso {
@@ -223,7 +215,7 @@ figure {
 /* container do titulo */
 .h1-titulo{
     font-family: var(--font-cinzel);
-    font-size: var(--font-size-30);
+    font-size: var(--font-size-30) !important;
     color: var(--orange-dark-color);
 }
 

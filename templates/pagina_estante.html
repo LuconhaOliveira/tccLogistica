@@ -5,12 +5,19 @@
 {% block estilos %}
     <!-- link css -->
     <link rel="stylesheet" href="/static/styles/pagina_adicionar_estante.css">
+    <!-- link imagem -->
+    <link rel="icon" href="/static/img/logo-topo.png">
 {% endblock %}
 
 {% block conteudo %}
     <main class="container--main">
         <!-- action/method: backend do add categoria -->
         <form action="/post/cadastrar/estante" id="form-cadastro-estante" method="post" class="container--form">
+
+            <!-- voltar -->
+            <a href="/principal"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+            </span></a>
+            
             <h1>Adicionar Estante</h1>
 
             <!-- nome da estante -->

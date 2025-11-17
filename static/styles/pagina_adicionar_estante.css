@@ -14,6 +14,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-top: 100px;
 }
 
 .container--form {
@@ -23,6 +24,12 @@
     margin-bottom: 30px;
     width: 750px;
     box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.container--form:hover{
+    transform: translateY(1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* Titulo do form */
@@ -32,6 +39,33 @@
     margin-bottom: 18px;
     font-family: var(--font-cinzel);
     color: var(--orange-dark-color);
+}
+
+.aviso{
+    visibility: hidden; /* Hidden by default */
+    width: 80px;
+    background-color: var(--orange-dark-color);
+    color: var(--white);
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: bold;
+    padding: 6px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: 24px;
+    left: -45px;
+}
+
+.material-symbols-outlined:hover .aviso {
+    visibility: visible;
+}
+
+.icone-voltar{
+    color: var(--black) !important;
+    margin: 0 !important;
 }
 
 /* label (textos em cima dos inputs) para todas as telas */
