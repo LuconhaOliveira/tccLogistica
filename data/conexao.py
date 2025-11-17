@@ -6,18 +6,18 @@ class Conection:
     # Definimos as credenciais para o banco de dados local.
     # Essas variáveis de classe são usadas para manter a configuração de forma organizada.
 
-    # _HOST = 'localhost'
-    # _DATABASE = 'tcc_logistica'
-    # _USER = 'root'
-    # _PASSWORD = 'root'
-    # _PORT = 3306
+    _HOST = 'localhost'
+    _DATABASE = 'tcc_logistica'
+    _USER = 'root'
+    _PASSWORD = 'root'
+    _PORT = 3306
     
     # "Descomente" o código a baixo e comente o código a cima para trocar entre banco de dados online e local
-    _HOST = 'db-instock.mysql.database.azure.com' 
-    _DATABASE = 'tcc_logistica'   
-    _USER = 'gabrieladmin'            
-    _PASSWORD = 'Gbf221212@'   
-    _PORT = 3306                 
+    # _HOST = 'db-instock.mysql.database.azure.com' 
+    # _DATABASE = 'tcc_logistica'   
+    # _USER = 'gabrieladmin'            
+    # _PASSWORD = 'Gbf221212@'   
+    # _PORT = 3306                 
 
     @staticmethod
     def create_connection():
