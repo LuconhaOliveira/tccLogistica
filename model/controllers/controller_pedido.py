@@ -157,7 +157,7 @@ WHERE pedido.cpf=%s;"""
                 if 'conexao' in locals() and conexao:
                     conexao.close()
 
-    def remover_pedido(cod_pedido):
+    def remover_pedido():
             try:
                 conexao = Conection.create_connection()
                 if not conexao:
@@ -165,8 +165,31 @@ WHERE pedido.cpf=%s;"""
 
                 cursor = conexao.cursor()
 
-                sql = """UPDATE pedido SET ativo=0 WHERE cod_pedido=%s;"""
+                itens = Pedido.buscar_itens_pedido()
+
+                mensagem=""
+
+                for item in itens:
+                    mensagem+=f"""cod_produto:{item['cod_produto']},Imagem:{item['imagem']},Nome:{item['nome']},Valor:{item['quantidade']}"""
+                
+
+                sql = """INSERT INTO historico_pedido(cpf,pedido_realizado) 
+                VALUES(%s,%s);"""
+                valores = (session['cpf'],mensagem)
+                
+                cursor.execute(sql, valores)
+                conexao.commit()
+
+
+                cod_pedido=Pedido.buscar_pedido()[0]
+                sql = """DELETE FROM item_pedido WHERE cod_pedido=%s;"""
                 valores = (cod_pedido,)
+                
+                cursor.execute(sql, valores)
+                conexao.commit()
+
+                sql = """DELETE FROM pedido WHERE cpf=%s;"""
+                valores = (session['cpf'],)
                 
                 cursor.execute(sql, valores)
                 conexao.commit()
@@ -187,17 +210,47 @@ WHERE pedido.cpf=%s;"""
             if not conexao:
                 return None
 
+            cursor = conexao.cursor()
+            
+            sql = """SELECT cod_pedido FROM pedido WHERE cpf=%s;"""
+            valores = (session["cpf"],)
+            
+            cursor.execute(sql, valores)
+            resultado=cursor.fetchone()
+            if not resultado: resultado=None
+
+            if resultado:
+                return resultado
+            else:
+                return None
+
+        except Error as e:
+            print(f"Erro ao validar login: {e}")
+            return None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
+
+    def buscar_historico():
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
             cursor = conexao.cursor(dictionary=True)
             
-            sql = """SELECT cod_pedido WHERE cpf=%s;"""
+            sql = """SELECT cod_historico,pedido_realizado,data_hora FROM historico_pedido WHERE cpf=%s;"""
             valores = (session["cpf"],)
             
             cursor.execute(sql, valores)
             
-            resultado = cursor.fetchone()
+            resultado = cursor.fetchall()
 
             if resultado:
-                return resultado[0]
+                return resultado
             else:
                 return None
 

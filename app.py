@@ -959,9 +959,7 @@ def pedido_compra():
                 imagem_blob=item["imagem"]
                 imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
                 item["imagem"]=imagem_base64
-            cod_pedido=Pedido.buscar_pedido()
-            print(cod_pedido)
-            return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal, cod_pedido=cod_pedido)
+            return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal)
         else:
             return render_template("pagina_pedido_compra.html")
     else:
@@ -983,12 +981,12 @@ def remover_produto_pedido(cod_produto):
 
 # FINALIZAR PEDIDO ------------------------------------------------------------------------------------#
 
-@app.route("/post/finalizar/pedido/<cod_pedido>")
-def finalizar_pedido(cod_pedido):
+@app.route("/post/finalizar/pedido")
+def finalizar_pedido():
 
     # Se o CPF estiver na sessão
     if "cpf" in session:
-        Pedido.remover_pedido(cod_pedido)
+        Pedido.remover_pedido()
         return redirect(url_for("nota_fiscal"))
 
 
@@ -999,8 +997,13 @@ def finalizar_pedido(cod_pedido):
 
 @app.route("/historico/pedido/compra")
 def historico_pedido_compra():
+    historico=Pedido.buscar_historico()
+    print(historico)
+    for pedido in historico:
+        lista_produtos = pedido['pedido_realizado'].split(',')
+        print(lista_produtos)   
 
-    return render_template("pagina_historico_pedido.html")
+    return render_template("pagina_historico_pedido.html", historico=historico)
 
 # NOTA FISCAL -------------------------------------------------------------------------------------------------------
 
