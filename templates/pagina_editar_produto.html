@@ -1,15 +1,15 @@
-{% extends "header_head.html" %} {% block titulo %}{{produto.produto}}{% endblock %} {% block estilos %}
+{% extends "header_head.html" %} 
+{% block titulo %}Editar: {{nome_produto}}{% endblock %} 
+{% block estilos %}
 <!-- link css -->
-<link rel="stylesheet" href="/static/styles/pagina_editar_produto.css"> {% endblock %} {% block conteudo %}
+<link rel="stylesheet" href="/static/styles/pagina_editar_produto.css">
+<!-- link imagem -->
+<link rel="icon" href="/static/img/logo-topo.png">
+ {% endblock %} {% block conteudo %}
 <!-- container geral / principal -->
 <main class="container--main">
 
     <div class="container--div-titulo">
-
-        <span class="material-symbols-outlined">
-            arrow_back
-            <span class="aviso">Voltar</span>
-        </span>
 
         <h1 class="h1-titulo">Editar Produto</h1>
 
@@ -17,13 +17,14 @@
 
     <form method="POST" action="/post/editar/produto/{{produto.cod_produto}}" enctype="multipart/form-data" class="container--card-fundo" style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
 
-        <!-- detalhe da prateleira -->
-        <div class="container--div-detalhe esquerda" style="background-size: 100%; background-image: url();"></div>
-
         <!-- card -->
-        <div class="card mb-4" style="width: 600px; min-height:550px; background-color: var(--grey-dark);">
+        <div class="card mb-4" style="width: 1090px; min-height:550px; background-color: var(--grey-dark);">
 
             <div class="row g-0">
+
+                <!-- voltar -->
+                <a href="/visualizar/produto/{{produto.cod_produto}}"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+                </span></a>
 
                 <section class="container--div-top">
 
@@ -189,7 +190,7 @@
                                         {% for caracteristica in caracteristicas %}
                                         <div class="form-check">
 
-                                            <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas" value="{{caracteristica.cod_caracteristica}}" id="caracteristica-{{caracteristicas.cod_caracteristica}}">
+                                            <input required class="form-check-input" type="checkbox" name="cadastro-caracteristicas" value="{{caracteristica.cod_caracteristica}}" id="caracteristica-{{caracteristicas.cod_caracteristica}}">
 
 
                                             <label class="form-check-label" for="caracteristica-{{caracteristica.cod_caracteristica}}">
@@ -228,9 +229,6 @@
 
                 </div>
                 </div>
-
-                <!-- detalhe da prateleira -->
-                <div class="container--div-detalhe direita" style="background-size: 100%; background-image: url(/static/img/textura-de-madeira-riscado.jpg);"></div>
 
     </form>
 

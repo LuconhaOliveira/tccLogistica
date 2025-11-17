@@ -473,7 +473,16 @@ class Categoria:
 
             cursor = conexao.cursor(dictionary = True)
         
-            sql = """select cod_caracteristica, nome AS nome_caracteristica, data_hora, cod_tipo, cpf from caracteristica where cpf = %s;"""
+            sql = """SELECT 
+                        caracteristica.cod_caracteristica, 
+                        caracteristica.nome AS nome_caracteristica, 
+                        caracteristica.data_hora, 
+                        tipo.cod_tipo, 
+                        tipo.nome AS nome_tipo
+                    FROM caracteristica 
+                    LEFT JOIN tipo ON caracteristica.cod_tipo = tipo.cod_tipo
+                    WHERE caracteristica.cpf = %s
+                    ORDER BY caracteristica.cod_caracteristica;"""
 
             valor = (cpf,)
 

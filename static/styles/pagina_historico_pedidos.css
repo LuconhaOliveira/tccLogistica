@@ -18,12 +18,47 @@
     padding-top: 20px;
     flex-direction: column;
     align-items: center;
+    margin-top: 100px;
 }
 
 /* container do titulo */
 .h1-titulo{
-    font-family: var(--font-cinzel);
+    text-align: center;
     font-size: var(--font-size-30);
+    font-family: var(--font-cinzel);
+    color: var(--orange-dark-color);
+}
+
+.aviso{
+    visibility: hidden; /* Hidden by default */
+    width: 80px;
+    background-color: var(--orange-dark-color);
+    color: var(--white);
+    text-align: center;
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-24);
+    font-weight: bold;
+    padding: 6px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1; /* Ensure tooltip is displayed above content */
+
+    top: -3px;
+    right: 30px;
+}
+
+.material-symbols-outlined:hover .aviso {
+    visibility: visible;
+}
+
+.icone-voltar{
+    margin-right: 8px;
+    margin-top: 3px;
+    color: var(--black) !important;
+}
+
+.container--div-titulo{
+    display: flex;
 }
 
 /* container do card todo */
@@ -35,9 +70,16 @@
 
 /* container do header do card */
 .card-header{
-
     display: flex;
     justify-content: space-between;
+}
+
+.icone-nota-fiscal{
+    position: relative;
+    top: 6px;
+    font-size: 26px !important;
+    color: var(--black) !important;
+    margin-right: 8px;
 }
 
 /* todos os p do header */
@@ -53,32 +95,65 @@
 
 /* icone do header */
 .material-symbols-outlined{
-
     font-weight: bold !important;
     cursor: pointer;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.material-symbols-outlined:hover{
+    font-weight: bold !important;
+    cursor: pointer;
+    transform: translateY(-1px); 
 }
 
 /* fundo do header, que consequentemente leva a mesma formatação para o "footer" */
 .card-header{
-
-    background-color: var(--grey-light) !important;
+    background-color: var(--orange-light-color) !important;
 }
 
-/* Botão de limpar */
+.card{
+     border: 2px solid var(--orange-light-color) !important; 
+}
+
+.card-title{
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-30);
+    font-weight: bold;
+    text-align: center !important;
+}
+
+/* button de limpar */
 button[type="submit"] {
-    background-color: var(--grey-light);
-    color: var(--grey-dark);
+    color: var(--white);
+    background-color: var(--orange-dark-color);
+    font-family: var(--font-outfit);
+    font-size: var(--font-size-20);
     font-weight: bold;
     border: none;
     border-radius: 12px;
     padding: 10px;
     width: 100%;
-    margin-top: 10px;
+    margin: 10px 0 10px 0;
     cursor: pointer;
-    transition: background 0.5s ;
+    transition: background 0.5s;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
+/* hover do botão para todas as telas */
 button[type="submit"]:hover {
     background-color: var(--orange-color) !important;
     color: var(--white);
+}
+
+button[type="submit"]:active {
+    background-color: var(--orange-color) !important;
+}
+
+button[type="submit"]:hover{
+    transform: translateY(-1px); 
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.form-check{
+    padding: 0px !important;
 }

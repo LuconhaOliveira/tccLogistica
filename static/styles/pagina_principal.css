@@ -30,6 +30,7 @@ body {
     width: 100%;
     min-height: auto;
     height: auto;
+    margin-top: 100px;
 }
 
 /* Card lateral */
@@ -42,6 +43,21 @@ body {
     background-color: var(--grey-light);
     text-align: left;
     flex-shrink: 0;
+
+    position: fixed;
+    top: 0; /* Começa no topo */
+    left: 0;
+    overflow-x: hidden;
+}
+
+.card-categoriasFiltros {
+    display: block;
+}   
+
+@media (min-width: 1025px) {
+    .card-categoriasFiltros {
+        padding-top: 76px;
+    }   
 }
 
 /*  Grid estantes */
@@ -52,10 +68,63 @@ body {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
     gap: 30px;
-    padding: 0px 100px 30px 75px;
+    padding: 0px 100px 30px 295px;
     height: auto;
     overflow-y: visible;
 }
+
+.container-estantesNaoCriadas{
+    margin-left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.25rem;
+
+    
+}
+
+.container-estantesNaoCriadas div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    background-color: var(--orange-color);
+    padding: 20px;
+    border-radius: 10px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+
+
+
+@media (min-width: 1025px) {
+    .container-estantesNaoCriadas {
+        margin-left: 220px;
+    }
+
+    .container-estantesNaoCriadas{
+        padding-top: 60px;
+    }
+}
+
+
+
+
+
+.p-orientacao {
+    font-family: var(--font-outfit) !important;
+    font-size: var(--font-size-24);
+    color: var(--white);
+    text-align: center;
+
+    margin: 0;
+}
+
+
+
+
+   
 
 .container--estantesCriadas a {
     color: var(--white);
@@ -211,37 +280,14 @@ input[type="radio" i] {
     font-weight: bold !important;
     font-size: var(--font-size-30) !important;
     text-align: center;
-    position: relative;
-    right: 8%;
-    top: 15%;
 }
 
-.p-orientacao {
-    font-family: var(--font-outfit) !important;
-    font-size: var(--font-size-24) !important;
-    color: var(--white);
-    width: 40%;
-    position: relative;
-    left: 22%;
-    top: 28%;
-    text-align: center;
-    background-color: var(--orange-color);
-    padding: 10px;
-    border-radius: 10px;
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-}
-
-.p-orientacao:hover{
-    transform: translateY(-2px);
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
-}
 
 .img-seta {
     width: 150px;
-    height: auto;
-    position: relative;
-    left: 63%;
-    top: 20%;
+    position: fixed;
+    right: 100px;
+    bottom: 160px;
     transform: rotate(-14deg);
 }
 
@@ -302,6 +348,7 @@ input[type="radio" i] {
     border-radius: 6px;
     position: absolute;
     z-index: 1;
+    font-weight: bold;
     /* Ensure tooltip is displayed above content */
 
     top: 8px;
@@ -400,6 +447,7 @@ input[type="radio" i] {
     border-radius: 6px;
     position: absolute;
     z-index: 1;
+    font-weight: bold;
     /* Ensure tooltip is displayed above content */
 
     top: 8px;
@@ -415,11 +463,11 @@ input[type="radio" i] {
 .div-btn--questionTutorial {
     position: fixed;
     bottom: 40px;
-    /* <-- MUDADO DE 180px PARA 40px */
     right: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    z-index: 1000;
 }
 
 #botaoToggleQuestionTutorial {
@@ -453,6 +501,7 @@ input[type="radio" i] {
     border-radius: 6px;
     position: absolute;
     z-index: 1;
+    font-weight: bold;
     /* Ensure tooltip is displayed above content */
 
     top: -5px !important;
@@ -607,4 +656,164 @@ input[type="radio" i] {
     font-size: var(--font-size-16);
     color: #000000;
     margin-bottom: 1.2rem;
+}
+
+/* RESPONSIVIDADE */
+/* RESPONSIVIDADE - TABLET */
+@media (max-width: 1024px) {
+
+    /* Ajusta o layout principal para tablets */
+    .container--main {
+        flex-direction: column; /* Empilha a sidebar e o conteúdo */
+        margin-top: 80px;      /* Reduz a margem do topo (header) */
+    }
+
+    /* Faz a sidebar de filtros ocupar a largura total */
+    .card-filtrosCategoria {
+        width: 100%;
+        height: auto;           /* Altura automática */
+        margin-bottom: 30px;    /* Espaço antes do grid */
+
+        position: static;
+    }
+
+    /* AJUSTE DO GRID - TABLET
+    Como solicitado, 2 colunas para tablet.
+    */
+    .container--estantesCriadas {
+        grid-template-columns: 1fr 1fr; /* 2 colunas */
+        padding: 0px 40px 30px 40px;    /* Reduz o padding lateral */
+        gap: 30px;
+    }
+
+    /* CORREÇÃO IMPORTANTE: 
+    Remove a largura e altura fixas das estantes para que 
+    elas se adaptem ao grid.
+    */
+    .container--estantesCriadas a {
+        width: 100%;          /* Ocupa 100% da célula do grid */
+        height: 450px;        /* Altura ajustada para tablet */
+        /* Se preferir, use aspect-ratio para manter a proporção 
+        original (360/540 = 2/3)
+        height: auto;
+        aspect-ratio: 2 / 3; 
+        */
+    }
+
+
+
+    .h2-aviso {
+        right: 0; /* Reseta o posicionamento */
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Ajusta o modal de ajuda (?) */
+    .section-summary--info {
+        width: 90vw; /* 90% da largura da tela */
+        height: 70vh; /* 70% da altura da tela */
+        max-width: 750px; /* Mantém o limite máximo */
+    }
+
+    .button-toggle{
+        background-color: var(--grey-dark) !important;
+    }
+
+}
+
+@media (max-width: 1280px) and (max-height: 800px)  {
+    .img-seta {
+        display: none;
+    }
+}
+
+@media (max-width: 1494px) and (max-height: 754px)  {
+    .img-seta {
+        display: none;
+    }
+}
+
+@media (max-width: 981px) and (max-height: 1018px)  {
+    .img-seta {
+        display: none;
+    }
+}
+
+@media (max-width: 918px) and (max-height: 1098px)  {
+    .img-seta {
+        display: none;
+    }
+}
+
+@media (max-width: 1154x) and (max-height: 902px)  {
+    .img-seta {
+        display: none;
+    }
+}
+
+/* RESPONSIVIDADE - CELULAR */
+@media (max-width: 767px) {
+
+    /* AJUSTE DO GRID - CELULAR
+    Como solicitado, 1 coluna para celular.
+    */
+    .container--estantesCriadas {
+        grid-template-columns: 1fr; /* 1 coluna */
+        padding: 0px 20px 30px 20px;  /* Padding ainda menor */
+        gap: 20px;
+    }
+
+    /* Ajusta a altura da estante para celular */
+    .container--estantesCriadas a {
+        height: 400px;
+        /* Se estiver usando aspect-ratio, não precisa mexer aqui.
+        */
+    }
+
+    .h2-aviso {
+        font-size: var(--font-size-24) !important;
+        top: 10%;
+    }
+
+    /* A seta não faz sentido no layout de 1 coluna, então a escondemos */
+    .img-seta {
+        display: none;
+    }
+
+    /* BOTÕES FLUTUANTES (FAB)
+    Os botões já usam 'position: fixed', o que é ótimo.
+    Apenas ajustamos o pop-up para não sair da tela.
+    */
+    .section-btn--opcoesDentroDoBtn {
+        right: 80px; /* Puxa o menu um pouco mais para a esquerda */
+    }
+
+    .section-btn--opcoesDentroDoBtn a {
+        min-width: 130px; /* Reduz o tamanho mínimo dos botões do pop-up */
+        padding: 8px 12px;
+    }
+
+    /* Ajusta o modal de ajuda (?) para telas pequenas */
+    .section-summary--info {
+        width: 95vw; /* Quase a largura total */
+        height: 80vh; /* Quase a altura total */
+    }
+
+    /* Reduz fontes dentro do modal de ajuda para legibilidade */
+    .span-h1--tituloInfo {
+        font-size: var(--font-size-24);
+        padding: 15px 10px;
+    }
+
+    .details-infoTxt summary h2 {
+        font-size: 1.1rem;
+    }
+
+    .details-infoTxt h3 {
+        font-size: var(--font-size-20);
+    }
+
+    .button-toggle{
+        background-color: var(--grey-dark) !important;
+    }
 }

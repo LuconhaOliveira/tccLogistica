@@ -118,3 +118,32 @@ class Usuario:
                 cursor.close()
             if 'conexao' in locals() and conexao:
                 conexao.close()
+
+    def buscar_email(cpf):
+        cpf_limpo = cpf.replace('.', '').replace('-', '')
+
+        try:
+            
+            
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor()
+            sql = "SELECT email FROM usuario WHERE cpf = %s"
+            valores = (cpf_limpo,)
+            
+            cursor.execute(sql, valores)
+            resultado = cursor.fetchone()
+            
+            return resultado
+
+        except Error as e:
+            print(f"Erro ao alterar senha: {e}")
+            return None, None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()

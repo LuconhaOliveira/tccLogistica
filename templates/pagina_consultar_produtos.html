@@ -12,7 +12,13 @@
 {% block conteudo %}
 
     <main class="container--main">
-        <h1 class="nome--estante">{{nome_estante}}</h1>
+
+        <div class="container--div-titulo">
+            
+            <h1 class="nome--estante">{{nome_estante}}</h1>
+
+        </div>
+
         <!-- estante selecionada -->
         <div class="container--estante">
             <div class="grid-row row-1">
@@ -80,6 +86,10 @@
         </div>
         
         <div class="container--botoes">
+
+            <!-- voltar -->
+            <a href="/principal"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+            </span></a>
 
             <a href="/post/remover/produtos/{{cod_estante}}"><button class="btn btn-primary">Limpar Produtos</button></a>
 

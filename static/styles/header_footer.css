@@ -12,6 +12,9 @@
     font-family: var(--font-outfit);
     font-size: var(--font-size-16);
     font-weight: bold;
+    
+    position: fixed !important;
+    z-index: 1 !important;
 }
 
 /* Logo para todas as telas */
@@ -38,4 +41,144 @@
 
 .material-symbols-outlined{
     font-weight: normal !important;
+}
+
+.icone-logout{
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.icone-logout:hover{
+    transform: translateY(-1px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.icone-shopping{
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.icone-shopping:hover{
+    transform: translateY(-1px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* NAVEGAÇÃO DO BOTÃO DE CADASTRAMENTOS */
+/* botão principal */
+.botoes-navCadastros .botao-principal {
+    background-color: var(--orange-dark-color); 
+    color: white; 
+    padding-bottom: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
+    font-size: var(--font-size-16);
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* hover para o botao principal */
+.botao-principal:hover {
+    transform: translateY(-1px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* container das opções */
+.botoes-navCadastros-opcoes {
+    display: none; /* esconde o botao pra aparecer só com o mouse */
+    position: absolute;
+    background-color: var(--grey-light); 
+    min-width: 195px; 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1; 
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* link dentro das opções */
+.botoes-navCadastros-opcoes a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block; 
+}
+
+.botoes-navCadastros-opcoes a:hover {
+    background-color: var(--orange-light-color);
+    border-radius: 10px;
+}
+
+.botoes-navCadastros:hover .botoes-navCadastros-opcoes {
+    /* revela o menu ao passar o mouse */
+    display: block;
+}
+
+.botoes-navCadastros {
+    position: relative;
+    display: inline-block; 
+}
+
+.botoes-navCadastros:hover .botoes-navCadastros-opcoes {
+    display: block;
+}
+
+/* NAVEGAÇÃO DO BOTÃO DE HISTÓRICOS */
+/* botão principal */
+.botoes-navHistoricos .botao-principal {
+    background-color: var(--orange-dark-color); 
+    color: white; 
+    padding-bottom: 3px;
+    padding-right: 3px;
+    padding-left: 3px;
+    font-size: var(--font-size-16);
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* hover para o botao principal */
+.botao-principal:hover {
+    transform: translateY(-1px);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* container das opções */
+.botoes-navHistoricos-opcoes {
+    display: none; /* esconde o botao pra aparecer só com o mouse */
+    position: absolute;
+    background-color: var(--grey-light); 
+    min-width: 195px; 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1; 
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* link dentro das opções */
+.botoes-navHistoricos-opcoes a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block; 
+}
+
+.botoes-navHistoricos-opcoes a:hover {
+    background-color: var(--orange-light-color);
+    border-radius: 10px;
+}
+
+.botoes-navHistoricos:hover .botoes-navHistoricos-opcoes {
+    /* revela o menu ao passar o mouse */
+    display: block;
+}
+
+.botoes-navHistoricos {
+    position: relative;
+    display: inline-block; 
+}
+
+.botoes-navHistoricos:hover .botoes-navHistoricos-opcoes {
+    display: block;
 }

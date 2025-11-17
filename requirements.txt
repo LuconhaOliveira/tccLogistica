@@ -1,6 +1,5 @@
 gunicorn
 flask
 mysql-connector-python
-pytest
-pytest-cov
-pytest-html
+flask_mail
+itsdangerous

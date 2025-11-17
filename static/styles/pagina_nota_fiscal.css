@@ -7,3 +7,19 @@ span{
     font-family: var(--font-outfit);
     font-size: var(--font-size-16);
 }
+
+/* todos os blocos da nota fiscal */
+.nota{
+    background-color: var(--grey-medium);
+    border: solid black 2px;
+    border-radius: 2px;
+}
+
+
+.container--main{
+    background-color: var(--white);
+}
+
+.container--nota{
+    background-color: var(--grey-light);
+}

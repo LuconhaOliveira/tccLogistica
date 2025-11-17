@@ -1,10 +1,12 @@
 {% extends "header_head.html" %}
 
-{% block titulo %}Pedido de Compra{% endblock %}
+{% block titulo %}Histórico de Alterações{% endblock %}
 
 {% block estilos %}
     <!-- link css -->
     <link rel="stylesheet" href="/static/styles/pagina_historico_alteracoes.css">
+    <!-- link imagem -->
+    <link rel="icon" href="/static/img/logo-topo.png">
 {% endblock %}
 
 {% block conteudo %}
@@ -14,7 +16,10 @@
 
         <div class="container--div-titulo">
 
-            <h1 class="h1-titulo">Histórico - Alterações de produtos e estantes</h1>
+            <a href="/principal"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+                </span></a>
+                
+            <h1 class="h1-titulo">Histórico de Alterações</h1>
 
         </div>
 
@@ -36,23 +41,20 @@
                 
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{ historico.alteracao_realizada }}</li>
-                    <li class="list-group-item card-header"><p><strong>{{ historico.data_hora }}</strong></p></li>
+                    <li class="list-group-item"><strong>{{ historico.data_hora }}</strong></li>
                     
                 </ul>
                 
             </div>
             {% endfor %}
 
-                {% else %}
-                <div class="row g-0">
-                    <div class="col-md-12">
-                        <div class="card-body">
-                            <h3 class="card-title">Histórico vazio.</h3>
-                {% endif %}
-                        </div>
+            {% else %}
+                <div class="card-aviso">
+                    <div class="card-body">
+                        <h2 class="card-title">Histórico vazio.</h2>
                     </div>
-            </div>
-
+                </div>
+            {% endif %}
         </section>
 
     </main>
