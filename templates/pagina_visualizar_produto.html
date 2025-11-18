@@ -1,5 +1,7 @@
+<!-- Componente do header, para deixar padronizado em todas as páginas -->
 {% extends "header_head.html" %}
 
+<!-- O título da página se ajusta de acordo com o produto selecionado -->
 {% block titulo %}{{nome_produto}}{% endblock %}
 
 {% block estilos %}
@@ -14,6 +16,7 @@
 <!-- container geral / principal -->
 <main class="container--main">
 
+    <!-- Seção que engloba todo o card de visualizar produto com todas as suas informações -->
     <section class="container--card-fundo">
 
         <!-- card -->
@@ -21,13 +24,14 @@
 
             <div class="row g-0">
 
-                <!-- voltar -->
-                <a href="/estante/{{produto.cod_estante}}"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
-                </span></a>
+                <!-- botão pra voltar para a página principal -->
+                <a href="/estante/{{produto.cod_estante}}"><span
+                        class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+                    </span></a>
 
                 <div class="col-md-0 img-produto">
                     <figure>
-                        <!-- imagem -->
+                        <!-- imagem do produto selecionado -->
                         {% if produto.imagem %}
                         <img src="{{ produto.imagem }}" class="img-fluid rounded-start"
                             alt="{{ produto.nome_produto }}">
@@ -38,6 +42,7 @@
                     </figure>
                 </div>
 
+                <!-- Seção que engloba apenas as informações do produto -->
                 <section class="container--div-top">
 
                     <div class="col-md-0">
@@ -75,17 +80,16 @@
                                     <!-- campo de selecionar linha da estante -->
                                     <p class="card-text"><strong>Linha:</strong> {{ produto.linha }}</p>
 
-
                                     <!-- campo de selecionar coluna da estante  -->
                                     <p class="card-text"><strong>Coluna:</strong> {{ produto.coluna }}</p>
 
-
+                                    <!-- campo de categoria -->
                                     <p class="card-text"><strong>Categoria:</strong> {{ produto.nome_categoria }}</p>
 
                                     <!-- campo de tipos de categoria -->
                                     <p class="card-text"><strong>Tipo:</strong> {{ produto.nome_tipo }}</p>
 
-                                    <!-- CARACTERÍSTICAS (NOVO CÓDIGO AQUI) -->
+                                    <!-- campo de seleção de caracteristicas -->
                                     <p class="card-text text-caracteristicas"><strong>Características: </strong>
                                         {% if produto.caracteristicas %}
                                         <!-- Itera sobre a lista de características -->
@@ -101,8 +105,7 @@
 
                                 </div>
                             </fieldset>
-                            <!-- FIM DO NOVO CÓDIGO DE CARACTERÍSTICAS -->
-
+            
                         </div>
 
                     </div>
@@ -112,7 +115,8 @@
                 <!-- descrição -->
                 <div class="container--div-descricao">
 
-                    <span class="label-descricao" style="text-align: left !important;"><strong>Descrição:</strong></span>
+                    <span class="label-descricao"
+                        style="text-align: left !important;"><strong>Descrição:</strong></span>
                     <p class="card-text descricao">{{ produto.descricao }}</p>
 
                 </div>
