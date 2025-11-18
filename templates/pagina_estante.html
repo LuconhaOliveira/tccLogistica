@@ -12,10 +12,11 @@
 
 {% block conteudo %}
     <main class="container--main">
+        <!-- Formulário de cadastrar estante -->
         <!-- action/method: backend do add categoria -->
         <form action="/post/cadastrar/estante" id="form-cadastro-estante" method="post" class="container--form">
 
-            <!-- voltar -->
+            <!-- botão com link para voltar na página principal -->
             <a href="/principal"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
             </span></a>
             
@@ -46,6 +47,7 @@
                 
             </div>
 
+            <!-- botão para enviar os dados inseridos para o banco -->
             <div class="mb-3 form-check">
             <button type="submit" class="btn btn-primary button-adicionar">Adicionar</button>
             <div class="container--a--label-possuiConta">

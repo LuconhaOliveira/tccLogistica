@@ -4,50 +4,52 @@
 {% block titulo %}Adicionar Produto{% endblock %}
 
 {% block estilos %}
-    <!-- link css -->
-    <link rel="stylesheet" href="/static/styles/paginas_de_cadastros_padronizadas.css">
-    <!-- link imagem -->
-    <link rel="icon" href="/static/img/logo-topo.png">
+<!-- link css -->
+<link rel="stylesheet" href="/static/styles/paginas_de_cadastros_padronizadas.css">
+<!-- link imagem -->
+<link rel="icon" href="/static/img/logo-topo.png">
 {% endblock %}
 
 {% block conteudo %}
-    <!-- container geral / principal -->
-    <main class="container--main">
+<!-- container geral / principal -->
+<main class="container--main">
 
-        <!-- action/method: backend do cadastro -->
-        <form id="cadastroProdutoForm" action="{{ url_for('post_produto') }}" method="post" class="container--form"
-            enctype="multipart/form-data">
-            
-            <!-- voltar -->
-            <a href="/principal"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+    <!-- Formulário de cadastrar produto -->
+    <!-- action/method: backend do cadastro -->
+    <form id="cadastroProdutoForm" action="{{ url_for('post_produto') }}" method="post" class="container--form"
+        enctype="multipart/form-data">
+
+        <!-- botão de voltar para a página principal -->
+        <a href="/principal"><span class="material-symbols-outlined icone-voltar">arrow_back<span
+                    class="aviso">Voltar</span>
             </span></a>
 
-            <h1>Adicionar Produto</h1>
+        <h1>Adicionar Produto</h1>
 
-            <fieldset>
-                <legend>Informações do Produto</legend>
+        <fieldset>
+            <legend>Informações do Produto</legend>
 
-                <!-- campo do nome -->
-                <div class="mb-3">
-                    <label for="exampleInputName" class="form-label">Nome</label>
-                    <!-- name: backend do cadastro -->
-                    <input name="cadastro-nome" type="text" maxlength="100" class="form-control" id="exampleInputName"
-                        required placeholder="Insira o nome do produto:">
-                </div>
+            <!-- campo do nome -->
+            <div class="mb-3">
+                <label for="exampleInputName" class="form-label">Nome</label>
+                <!-- name: backend do cadastro -->
+                <input name="cadastro-nome" type="text" maxlength="100" class="form-control" id="exampleInputName"
+                    required placeholder="Insira o nome do produto:">
+            </div>
 
-                <!-- campo da descrição -->
-                <div class="mb-3">
-                    <label for="exampleInputDescription" class="form-label">Descrição</label>
-                    <!-- description: backend do cadastro -->
-                    <input name="cadastro-descricao" type="text" maxlength="255" class="form-control"
-                        id="exampleInputDescription" required placeholder="Insira a descrição do produto:">
-                </div>
+            <!-- campo da descrição -->
+            <div class="mb-3">
+                <label for="exampleInputDescription" class="form-label">Descrição</label>
+                <!-- description: backend do cadastro -->
+                <input name="cadastro-descricao" type="text" maxlength="255" class="form-control"
+                    id="exampleInputDescription" required placeholder="Insira a descrição do produto:">
+            </div>
 
-                <!-- campo de imagem -->
-                <div class="mb-3">
-                    <label for="exampleInputPhoto" class="form-label">Imagem</label>
+            <!-- campo de imagem -->
+            <div class="mb-3">
+                <label for="exampleInputPhoto" class="form-label">Imagem</label>
 
-                    <!-- 
+                <!-- 
 
                     name="cadastro-imagem" = chave que o backend vai usar para receber o arquivo
                     type="file" = transforma o campo em um seletor de arquivo
@@ -57,71 +59,72 @@
                 
                     -->
 
-                    <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto"
-                        accept="image/*" required>
-                </div>
+                <input name="cadastro-imagem" type="file" class="form-control img" id="exampleInputPhoto"
+                    accept="image/*" required>
+            </div>
 
-                <!-- campo de quantidade -->
-                <div class="mb-3">
-                    <label for="exampleInputQuantidade" class="form-label">Quantidade</label>
-                    <!-- quantidade: backend do cadastro -->
-                    <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade"
-                        min="1" placeholder="Insira a quantidade do produto:" required min="1">
-                </div>
+            <!-- campo de quantidade -->
+            <div class="mb-3">
+                <label for="exampleInputQuantidade" class="form-label">Quantidade</label>
+                <!-- quantidade: backend do cadastro -->
+                <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade" min="1"
+                    placeholder="Insira a quantidade do produto:" required min="1">
+            </div>
 
-                <!-- campo de valor -->
-                <div class="mb-3">
-                    <label for="exampleInputValor" class="form-label">Valor</label>
-                    <!-- valor: backend do cadastro -->
-                    <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:" required>
-                </div>
+            <!-- campo de valor -->
+            <div class="mb-3">
+                <label for="exampleInputValor" class="form-label">Valor</label>
+                <!-- valor: backend do cadastro -->
+                <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:" required>
+            </div>
 
-                <!-- campo do SKU -->
-                <div class="mb-3">
-                    <label for="exampleInputSKU" class="form-label">SKU</label>
-                    <!-- SKU: backend do cadastro -->
-                    <input name="cadastro-sku" maxlength="100" class="form-control input-sku" id="exampleInputSKU" required placeholder="exemplo: cpl32">
-                </div>
-            </fieldset>
+            <!-- campo do SKU -->
+            <div class="mb-3">
+                <label for="exampleInputSKU" class="form-label">SKU</label>
+                <!-- SKU: backend do cadastro -->
+                <input name="cadastro-sku" maxlength="100" class="form-control input-sku" id="exampleInputSKU" required
+                    placeholder="exemplo: cpl32">
+            </div>
+        </fieldset>
 
-            <fieldset>
-                <legend>Endereçamento</legend>
+        <fieldset>
+            <legend>Endereçamento</legend>
 
-                <!-- campo de nome da estante -->
-                <div class="mb-3">
+            <!-- campo de nome da estante -->
+            <div class="mb-3">
 
-                    <label for="exampleInputNomeEstante" class="form-label">Nome da Estante</label>
+                <label for="exampleInputNomeEstante" class="form-label">Nome da Estante</label>
 
-                    <select name="cadastro-nome-estante" class="form-select" id="nomeEstanteSelect">
+                <select name="cadastro-nome-estante" class="form-select" id="nomeEstanteSelect">
 
-                        {% if estante %}
-                            <option class="select-estante" disabled selected>Selecione uma estante:</option>
+                    {% if estante %}
+                    <option class="select-estante" disabled selected>Selecione uma estante:</option>
 
-                        {% for estantes in estante %}
-                        <option value="{{estantes.cod_estante}}">{{estantes.nome}}</option>
-                        {% endfor %}
+                    {% for estantes in estante %}
+                    <option value="{{estantes.cod_estante}}">{{estantes.nome}}</option>
+                    {% endfor %}
 
-                        <!-- Caso nenhuma categoria tenha sido cadastrada ainda -->
-                        {% else %}
-                            <option value="" disabled selected>Nenhuma estante cadastrada</option>
-                        {% endif %}
+                    <!-- Caso nenhuma categoria tenha sido cadastrada ainda -->
+                    {% else %}
+                    <option value="" disabled selected>Nenhuma estante cadastrada</option>
+                    {% endif %}
 
-                    </select>
+                </select>
 
-                </div>
+            </div>
 
-                                <!-- campo de linha da estante -->
-                <div class="mb-3">
+            <!-- campo de linha da estante -->
+            <div class="mb-3">
 
-                    <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante</label>
+                <label for="exampleInputLinhaEstante" class="form-label">Linha da Estante</label>
 
-                    <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
-                
+                <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
+
                     {% if linha %}
                     <!-- Opções disponíveis -->
                     <option class="select-coluna" disabled selected>Selecione uma linha:</option>
                     {% for linha in linhas_disponiveis %}
-                        <option value="{{coluna.cod_coluna}}">{{linha.nome_linha}}</option>
+                    <option value="{{coluna.cod_coluna}}">{{linha.nome_linha}}</option>
                     {% endfor %}
                     {% else %}
                     <!-- Mensagem de esgotamento quando a lista está vazia -->
@@ -129,135 +132,121 @@
                     {% endif %}
 
 
-                    </select>
+                </select>
 
-                </div>
+            </div>
 
-                <!-- campo da coluna da estante -->
-                <div class="mb-3">
+            <!-- campo da coluna da estante -->
+            <div class="mb-3">
 
-                    <label for="exampleInputColunaEstante" class="form-label">Coluna da Estante</label>
+                <label for="exampleInputColunaEstante" class="form-label">Coluna da Estante</label>
 
-                    <select name="cadastro-coluna-estante" class="form-select" id="colunaEstanteSelect">
+                <select name="cadastro-coluna-estante" class="form-select" id="colunaEstanteSelect">
                     {% if coluna %}
                     <!-- Opções disponíveis -->
                     <option class="select-coluna" disabled selected>Selecione uma coluna:</option>
                     {% for coluna in colunas_disponiveis %}
-                        <option value="{{coluna.cod_coluna}}">{{coluna.nome_coluna}}</option>
+                    <option value="{{coluna.cod_coluna}}">{{coluna.nome_coluna}}</option>
                     {% endfor %}
-                {% else %}
+                    {% else %}
                     <!-- Mensagem de esgotamento quando a lista está vazia -->
                     <option class="select-coluna" disabled selected>Selecione uma estante</option>
-                {% endif %}
+                    {% endif %}
 
 
-                    </select>
-
-                </div>
-
-            </fieldset>
-
-            <fieldset>
-
-                <legend>Classificação:</legend>
-
-                <!-- campo de categoria-->
-                <div class="mb-3">
-
-                    <label for="exampleInputCategoria" class="form-label">Categoria</label>
-
-                    <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
-
-                        {% if categoria %}
-                            <option value="" disabled selected>Selecione a categoria:</option>
-                            {% for categorias in categoria %}
-                            <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
-                            {% endfor %}
-                            <!-- Caso nenhuma categoria tenha sido cadastrada ainda -->
-                        {% else %}
-                            <option value="" disabled selected>Nenhuma categoria cadastrada</option>
-                        {% endif %}
-
-                    </select>
-
-                </div>
-
-                <!-- campo de tipos de categoria -->
-                <div class="mb-3">
-
-                    <label for="exampleInputTipo" class="form-label">Tipo</label>
-
-                    <select name="cadastro-tipo" class="form-select" id="tipoSelect" required>
-
-                        {% if tipo_categoria %} 
-                        <option value="" disabled selected>Selecione o tipo:</option>
-                            {% for tipo_item in tipo_categoria %}
-                            <option value="{{tipo_item.cod_tipo}}">{{tipo_item.nome_tipo}} - Categoria: {{tipo_item.nome_categoria}}</option>
-                            {% endfor %}
-                            <!-- Caso nenhum tipo tenha sido cadastrado ainda -->
-                        {% else %}
-                            <option value="" disabled selected>Nenhum tipo cadastrado</option>
-                        {% endif %}
-
-                    </select>
-
-                </div>
-
-                <!-- campo de caracteristicas -->
-                <!-- <div class="mb-3">
-
-                    <label for="exampleInputCaracteristicas" class="form-label">Características:</label>
-
-                    <select name="cadastro-caracteristicas" class="form-select" id="caracteristicasSelect" multiple
-                        size="6">
-
-                        {% for caracteristicas in caracteristica %}
-                        <option value="{{caracteristicas.cod_caracteristica}}">{{caracteristicas.nome}}</option>
-                        {% endfor %}
-
-                    </select>
-
-                </div> -->
-
-                <div class="mb-3">
-                    <label class="form-label">Característica(s)</label>
-                
-                    <div class ="checkbox-caracteristicas">
-                            {% for caracteristicas in caracteristica %}
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas"
-                                    value="{{caracteristicas.cod_caracteristica}}"
-                                    id="caracteristica-{{caracteristicas.cod_caracteristica}}">
-
-                                <label class="form-check-label" for="caracteristica-{{caracteristicas.cod_caracteristica}}">
-                                    {{caracteristicas.nome_caracteristica}}
-                                </label>
-                            </div>
-                            {% else %}
-                           <!-- Caso nenhuma caracteristica tenha sido cadastrada ainda -->
-                            <div><span class="aviso-caracteristicaNaoCadastrada">Nenhuma característica cadastrada</span></div>
-                            {% endfor %}
-                        </div>
-                </div>
-
-            </fieldset>
-
-            <!-- container do botão de adicionar -->
-            <div class="mb-3 form-check button-adicionar">
-
-                <a href="/cadastrar/produto">
-                    <button class="btn btn-primary" type="submit">Adicionar</button>
-                </a>    
+                </select>
 
             </div>
 
-        </form>
+        </fieldset>
 
-    </main>
+        <fieldset>
 
-    <!-- Link para importar as máscaras para VALOR -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+            <legend>Classificação:</legend>
 
-    <script src="/static/script/cadastro_produto.js"></script>
+            <!-- campo de selecionar a categoria do produto-->
+            <div class="mb-3">
+
+                <label for="exampleInputCategoria" class="form-label">Categoria</label>
+
+                <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
+
+                    {% if categoria %}
+                    <option value="" disabled selected>Selecione a categoria:</option>
+                    {% for categorias in categoria %}
+                    <option value="{{categorias.cod_categoria}}">{{categorias.nome}}</option>
+                    {% endfor %}
+                    <!-- Caso nenhuma categoria tenha sido cadastrada ainda -->
+                    {% else %}
+                    <option value="" disabled selected>Nenhuma categoria cadastrada</option>
+                    {% endif %}
+
+                </select>
+
+            </div>
+
+            <!-- campo de  selecionar o tipo do produto -->
+            <div class="mb-3">
+
+                <label for="exampleInputTipo" class="form-label">Tipo</label>
+
+                <select name="cadastro-tipo" class="form-select" id="tipoSelect" required>
+
+                    {% if tipo_categoria %}
+                    <option value="" disabled selected>Selecione o tipo:</option>
+                    {% for tipo_item in tipo_categoria %}
+                    <option value="{{tipo_item.cod_tipo}}">{{tipo_item.nome_tipo}} - Categoria:
+                        {{tipo_item.nome_categoria}}</option>
+                    {% endfor %}
+                    <!-- Caso nenhum tipo tenha sido cadastrado ainda -->
+                    {% else %}
+                    <option value="" disabled selected>Nenhum tipo cadastrado</option>
+                    {% endif %}
+
+                </select>
+
+            </div>
+
+            <!-- campo de selecionar as caracteristicas -->
+            <div class="mb-3">
+                <label class="form-label">Característica(s)</label>
+
+                <div class="checkbox-caracteristicas">
+                    {% for caracteristicas in caracteristica %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="cadastro-caracteristicas"
+                            value="{{caracteristicas.cod_caracteristica}}"
+                            id="caracteristica-{{caracteristicas.cod_caracteristica}}">
+
+                        <label class="form-check-label" for="caracteristica-{{caracteristicas.cod_caracteristica}}">
+                            {{caracteristicas.nome_caracteristica}}
+                        </label>
+                    </div>
+                    {% else %}
+                    <!-- Caso nenhuma caracteristica tenha sido cadastrada ainda -->
+                    <div><span class="aviso-caracteristicaNaoCadastrada">Nenhuma característica cadastrada</span></div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </fieldset>
+
+        <!-- container do botão de adicionar o produto, enviando suas informações para o banco -->
+        <div class="mb-3 form-check button-adicionar">
+
+            <a href="/cadastrar/produto">
+                <button class="btn btn-primary" type="submit">Adicionar</button>
+            </a>
+
+        </div>
+
+    </form>
+
+</main>
+
+<!-- Link para importar as máscaras para VALOR -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+
+<script src="/static/script/cadastro_produto.js"></script>
 {% endblock %}

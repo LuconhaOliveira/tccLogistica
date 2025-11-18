@@ -38,6 +38,7 @@
             style="width: 150px;">
     </header>
 
+    <!-- Formulário de login do usuário -->
     <main class="container--main">
         <!-- action/method: backend do login -->
         <form action="/post/login" id="loginForm" method="post" class="container--form">
@@ -61,15 +62,17 @@
                 <input name="login-senha" minlength="8" maxlength="20" type="password" class="form-control input-senha"
                     id="exampleInputPassword1" placeholder="Insira sua senha:">
 
-                <!-- esqueci senha -->
+                <!-- link para a página de esqueci minha senha -->
                 <a href="/recuperar/senha" class="a--esqueci-senha">Esqueci minha senha</a>
 
             </div>
 
+            <!-- link para a página principal caso o login seja bem sucedido -->
             <div class="mb-3 form-check button-adicionar">
 
                 <a href="/principal"><button type="submit" class="btn btn-primary">Login</button></a>
 
+                <!-- link para a página de cadastro caso o usuário não tenha uma conta -->
                 <div class="container--a--label-possuiConta">
                     <label>Ainda não tem uma conta?</label>
                     <a href="/cadastrar/usuario">Cadastre-se!</a>
