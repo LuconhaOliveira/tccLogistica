@@ -146,8 +146,6 @@ CREATE TABLE IF NOT EXISTS pedido (
     cpf VARCHAR(14) NOT NULL,
     -- Data e hora exata em que o pedido foi registrado.
     data_pedido DATETIME,
-    -- Chave para verificar se o pedido é o em uso no momento
-    ativo BOOL,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
 );
 

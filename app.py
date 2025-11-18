@@ -936,7 +936,8 @@ def adicionar_produto_pedido(cod_produto):
     if "cpf" in session:
         quantidade=request.form.get('cadastro-quantidade')  
         cod_pedido=Pedido.buscar_pedido()
-        if not cod_pedido: cod_pedido=Pedido.criar_pedido()
+        if not cod_pedido: cod_pedido=Pedido.criar_pedido() 
+        else:cod_pedido=cod_pedido[0]
         Pedido.adicionar_ao_pedido(cod_pedido,cod_produto,quantidade)
         return redirect(url_for("principal"))
 
@@ -998,12 +999,17 @@ def finalizar_pedido():
 @app.route("/historico/pedido/compra")
 def historico_pedido_compra():
     historico=Pedido.buscar_historico()
-    print(historico)
+    totais=0
     for pedido in historico:
-        lista_produtos = pedido['pedido_realizado'].split(',')
-        print(lista_produtos)   
-
-    return render_template("pagina_historico_pedido.html", historico=historico)
+        print(pedido)
+        lista_produtos = pedido['pedido_realizado'].split(';')
+        lista_produtos.pop()
+        print(lista_produtos)
+        produtos=[]
+        for produto in lista_produtos:
+            produto.split(',')
+            produtos.append(produto)
+    return render_template("pagina_historico_pedido.html", historico=historico, totais=totais)
 
 # NOTA FISCAL -------------------------------------------------------------------------------------------------------
 

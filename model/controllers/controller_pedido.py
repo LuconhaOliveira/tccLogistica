@@ -95,7 +95,7 @@ class Pedido:
 
             cursor = conexao.cursor(dictionary=True)
             
-            sql = """SELECT produto.cod_produto, produto.imagem, produto.nome, produto.valor, item_pedido.quantidade FROM pedido 
+            sql = """SELECT produto.cod_produto, produto.imagem, produto.nome, produto.descricao, produto.valor, item_pedido.quantidade FROM pedido 
 INNER JOIN item_pedido ON item_pedido.cod_pedido = pedido.cod_pedido
 INNER JOIN produto ON produto.cod_produto=item_pedido.cod_produto 
 WHERE pedido.cpf=%s;"""
@@ -170,7 +170,9 @@ WHERE pedido.cpf=%s;"""
                 mensagem=""
 
                 for item in itens:
-                    mensagem+=f"""cod_produto:{item['cod_produto']},Imagem:{item['imagem']},Nome:{item['nome']},Valor:{item['quantidade']}"""
+                    mensagem+=f"""Nome:{item['nome']},Valor:{item['valor']},Quantidade:{item['quantidade']},Descricao:{item['descricao']};"""
+
+                print(mensagem)
                 
 
                 sql = """INSERT INTO historico_pedido(cpf,pedido_realizado) 
