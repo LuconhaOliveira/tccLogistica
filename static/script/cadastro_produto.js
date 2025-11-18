@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         showConfirmButton: false, 
                     }).then(() => { 
                         // Redireciona para recarregar o formulário (limpo)
-                        window.location.href = "/cadastrar/produto"; 
+                        window.location.href = "/principal";
                     });
                     
                 } else {
