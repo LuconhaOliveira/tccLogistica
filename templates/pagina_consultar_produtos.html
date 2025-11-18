@@ -91,14 +91,16 @@
             <a href="/principal"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
             </span></a>
 
-            <a href="/post/remover/produtos/{{cod_estante}}"><button class="btn btn-primary">Limpar Produtos</button></a>
+            <button class="btn btn-primary" id="btn-limpar-produtos" data-url="/post/remover/produtos/{{cod_estante}}">Limpar Produtos</button>
 
             <a href="/pagina/editar/estante/{{cod_estante}}"><button class="btn btn-primary">Editar Estante</button></a>
 
-            <a href="/post/remover/estante/{{cod_estante}}"><button class="btn btn-primary">Excluir Estante</button></a>
+            <button class="btn btn-primary" id="btn-excluir-estante" data-url="/post/remover/estante/{{cod_estante}}">Excluir Estante</button>
 
         </div>
 
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/static/script/consultar_produtos.js"></script>
     
 {% endblock %}
