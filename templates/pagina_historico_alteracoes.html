@@ -24,7 +24,7 @@
         </div>
 
         <div class="mb-3 form-check">
-            <form method="POST" action="/pagina/remover/historico/alteracoes">
+            <form id="form-limpar-historico" method="POST" action="/pagina/remover/historico/alteracoes">
             <button type="submit" class="btn btn-primary">Limpar Histórico</button>
             </form>
         </div>
@@ -58,4 +58,6 @@
         </section>
 
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/static/script/historico_alteracoes.js"></script>
 {% endblock %}
