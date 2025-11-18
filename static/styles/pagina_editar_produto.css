@@ -136,6 +136,12 @@
     margin: 0px !important;
 }
 
+.label{
+    color: var(--white);
+    font-weight: bold;
+    margin-bottom: 4px !important;
+}
+
 .form-select {
     width: 100% !important;
     height: 50px !important;
@@ -236,9 +242,14 @@ figure {
     width: 100% !important;
 }
 
-.left--card-text,
+.left--card-text{
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+
+}
+
 .right--card-text {
-    margin-top: 15px !important;
+    margin-top: 5px !important;
     margin-bottom: 15px !important;
 }
 

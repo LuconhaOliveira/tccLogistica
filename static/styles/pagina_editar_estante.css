@@ -56,8 +56,8 @@
     position: absolute;
     z-index: 1; /* Ensure tooltip is displayed above content */
 
-    top: 21px;
-    left: -40px;
+    top: 24px;
+    left: -45px;
 }
 
 .material-symbols-outlined:hover .aviso {
