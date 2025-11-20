@@ -1,6 +1,6 @@
 # Importando os arquivos
 from flask import Flask, jsonify, render_template, request, redirect, session, url_for
-import datetime
+from datetime import datetime
 import base64
 from model.controllers.controller_usuario import Usuario
 from model.controllers.controller_produtos import ControleProduto
@@ -999,16 +999,34 @@ def finalizar_pedido():
 @app.route("/historico/pedido/compra")
 def historico_pedido_compra():
     historico=Pedido.buscar_historico()
-    totais=0
+    totais=[]
     for pedido in historico:
+        total=0
         print(pedido)
         lista_produtos = pedido['pedido_realizado'].split(';')
         lista_produtos.pop()
         print(lista_produtos)
         produtos=[]
         for produto in lista_produtos:
-            produto.split(',')
+            print(produto)
+            produto2=produto.split(',')
+            produto={}
+            for dado in produto2:
+                dado=dado.split(':')
+                print(dado)
+                produto.update({dado[0]:dado[1]})
+                if dado[0]=='valor':
+                    valor=0
+                    valor=float(dado[1])
+                if dado[0]=='quantidade':
+                    total+=valor*float(dado[1])
+            print(produto)
             produtos.append(produto)
+        pedido['pedido_realizado']=produtos
+        totais.append(total)
+        pedido['data_hora']=pedido['data_hora'].strftime("%d/%m/%Y %Hh%M")
+        print(pedido['data_hora'].split())
+        pedido['data_hora']=pedido['data_hora'].split()[0]+' às '+pedido['data_hora'].split()[1]
     return render_template("pagina_historico_pedido.html", historico=historico, totais=totais)
 
 # NOTA FISCAL -------------------------------------------------------------------------------------------------------

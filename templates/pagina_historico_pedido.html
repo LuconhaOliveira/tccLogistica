@@ -51,8 +51,8 @@
                     {% for produto in pedido.pedido_realizado %}
                     <li class="list-group-item">{{produto.quantidade}}x {{produto.nome}}</li>
                     {% endfor %}
-                    <li class="list-group-item"><strong>Total:</strong> {{total}}</li>
-                    <li class="list-group-item"><strong>19/09/2025 às 15h06  {{pedido.data_hora}}</strong></li>
+                    <li class="list-group-item"><strong>Total:</strong> R$ {{totais[loop.index0]}}</li>
+                    <li class="list-group-item"><strong>{{pedido.data_hora}}</strong></li>
                 </ul>
             </div>
             {% endfor %}

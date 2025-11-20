@@ -170,7 +170,7 @@ WHERE pedido.cpf=%s;"""
                 mensagem=""
 
                 for item in itens:
-                    mensagem+=f"""Nome:{item['nome']},Valor:{item['valor']},Quantidade:{item['quantidade']},Descricao:{item['descricao']};"""
+                    mensagem+=f"""nome:{item['nome']},valor:{item['valor']},quantidade:{item['quantidade']},descricao:{item['descricao']};"""
 
                 print(mensagem)
                 
