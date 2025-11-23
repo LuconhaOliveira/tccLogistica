@@ -41,7 +41,7 @@
                                 <p class="card-text">Quantidade: {{item.quantidade}}</p>
 
                             <div class="card-body-produto-right">
-                                <a href="/post/remover/produto/pedido/{{item.cod_produto}}"><span class="material-symbols-outlined container--exclusao-itens">delete</span></a>
+                                <a href="/post/remover/produto/pedido/{{item.cod_produto}}" class="link--excluir-produto-pedido"><span class="material-symbols-outlined container--exclusao-itens">delete</span></a>
                             </div>
 
                         </div>
@@ -92,4 +92,6 @@
         </div>
 
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/static/script/pedido_compra.js"></script>
 {% endblock %}

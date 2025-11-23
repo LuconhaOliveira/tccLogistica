@@ -54,7 +54,7 @@
                                     <p class="card-text"><strong>SKU:</strong> {{ produto.sku }}</p>
 
                                     <!-- quantidade de produtos existentes -->
-                                    <p class="card-text"><strong>Qntd:</strong> {{ produto.quantidade }}</p>
+                                    <p class="card-text"><strong>Quantidade:</strong> {{ produto.quantidade }}</p>
 
                                     <!-- preço do produto -->
                                     <p class="card-text"><strong>R$ </strong><span id="valor"> {{ produto.valor
@@ -86,7 +86,7 @@
                                     <p class="card-text"><strong>Tipo:</strong> {{ produto.nome_tipo }}</p>
 
                                     <!-- CARACTERÍSTICAS (NOVO CÓDIGO AQUI) -->
-                                    <p class="card-text text-caracteristicas"><strong>Características: </strong>
+                                    <p class="card-text text-caracteristicas"><strong>Característica(s): </strong>
                                         {% if produto.caracteristicas %}
                                         <!-- Itera sobre a lista de características -->
                                         {% for carac in produto.caracteristicas %}
@@ -135,7 +135,7 @@
                         <a href="/pagina/editar/produto/{{produto.cod_produto}}"><span
                                 class="material-symbols-outlined icone-editar">edit</span> </a>
 
-                        <a href="/post/produto/remover/{{produto.cod_produto}}"><span
+                        <a href="/post/produto/remover/{{produto.cod_produto}}" class="link--deletar-produto"><span
                                 class="material-symbols-outlined icone-delete">delete</span></a>
 
                     </div>
@@ -152,14 +152,7 @@
 <!-- Link para importar as máscaras para VALOR -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $('#valor').mask('000.000.000,00', {
-            reverse: true,
-            placeholder: "0,00"
-        });
-    });
-</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/static/script/visualizar_produto.js"></script>
 
 {% endblock %}

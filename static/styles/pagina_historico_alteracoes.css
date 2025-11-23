@@ -44,7 +44,7 @@
     z-index: 1; /* Ensure tooltip is displayed above content */
 
     left: 650px;
-    top: 122px;
+    top: 116px;
 }
 
 .material-symbols-outlined:hover .aviso {

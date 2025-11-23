@@ -175,7 +175,7 @@
     position: absolute;
     z-index: 1; /* Ensure tooltip is displayed above content */
 
-    bottom: 123px;
+    bottom: 118px;
     left: 600px;
 }
 

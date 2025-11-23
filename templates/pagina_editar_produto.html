@@ -1,11 +1,11 @@
-{% extends "header_head.html" %} 
-{% block titulo %}Editar: {{nome_produto}}{% endblock %} 
+{% extends "header_head.html" %}
+{% block titulo %}Editar: {{nome_produto}}{% endblock %}
 {% block estilos %}
 <!-- link css -->
 <link rel="stylesheet" href="/static/styles/pagina_editar_produto.css">
 <!-- link imagem -->
 <link rel="icon" href="/static/img/logo-topo.png">
- {% endblock %} {% block conteudo %}
+{% endblock %} {% block conteudo %}
 <!-- container geral / principal -->
 <main class="container--main">
 
@@ -15,7 +15,9 @@
 
     </div>
 
-    <form method="POST" action="/post/editar/produto/{{produto.cod_produto}}" enctype="multipart/form-data" class="container--card-fundo" style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
+    <form method="POST" action="/post/editar/produto/{{produto.cod_produto}}" enctype="multipart/form-data"
+        class="container--card-fundo"
+        style="background-size: 100%; background-image: url(/static/img/close-up-fundo-de-madeira-com-espaco-de-copia.jpg)">
 
         <!-- card -->
         <div class="card mb-4" style="width: 1090px; min-height:550px; background-color: var(--grey-dark);">
@@ -23,8 +25,9 @@
             <div class="row g-0">
 
                 <!-- voltar -->
-                <a href="/visualizar/produto/{{produto.cod_produto}}"><span class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
-                </span></a>
+                <a href="/visualizar/produto/{{produto.cod_produto}}"><span
+                        class="material-symbols-outlined icone-voltar">arrow_back<span class="aviso">Voltar</span>
+                    </span></a>
 
                 <section class="container--div-top">
 
@@ -32,12 +35,14 @@
 
                         <figure>
                             <!-- imagem -->
-                            <img id="preview" src="data:image/jpeg;base64,{{ imagem_base64 }}" class="img-fluid rounded-start" alt="Editar a foto. Clique em cima!">
+                            <img id="preview" src="data:image/jpeg;base64,{{ imagem_base64 }}"
+                                class="img-fluid rounded-start" alt="Editar a foto. Clique em cima!">
 
                             <!-- <figcaption class="figcaption-descricao">Para editar a foto, escolha um novo arquivo!</figcaption> -->
                         </figure>
 
-                        <input name="cadastro-imagem" type="file" class="form-control input-img" id="exampleInputPhoto" accept="image/*">
+                        <input name="cadastro-imagem" type="file" class="form-control input-img" id="exampleInputPhoto"
+                            accept="image/*">
 
                     </div>
 
@@ -53,40 +58,53 @@
                                     <!-- campo do nome -->
                                     <div class="mb-3">
 
+                                        <label class="label-nome label">Nome</label>
                                         <!-- exemplo -->
-                                        <input name="cadastro-nome" maxlength="100" class="form-control" id="exampleInputSKU" placeholder="Nome:" value="{{produto.nome_produto}}">
+                                        <input name="cadastro-nome" maxlength="100" class="form-control"
+                                            id="exampleInputSKU" placeholder="Nome:" value="{{produto.nome_produto}}">
 
                                     </div>
 
                                     <!-- SKU -->
                                     <div class="mb-3">
 
-                                        <input name="cadastro-sku" maxlength="100" class="form-control" id="exampleInputSKU" placeholder="SKU:" value="{{produto.sku}}">
+                                        <label class="label-SKU label">SKU</label>
+                                        <input name="cadastro-sku" maxlength="100" class="form-control"
+                                            id="exampleInputSKU" placeholder="SKU:" value="{{produto.sku}}">
 
                                     </div>
 
                                     <!-- campo de quantidade -->
                                     <div class="mb-3">
 
-                                        <input name="cadastro-quantidade" type="number" class="form-control" id="exampleInputQuantidade" min="0" placeholder="Quantidade:" value="{{produto.quantidade}}">
+                                        <label class="label-quantidade label">Quantidade</label>
+                                        <input name="cadastro-quantidade" type="number" class="form-control"
+                                            id="exampleInputQuantidade" min="0" placeholder="Quantidade:"
+                                            value="{{produto.quantidade}}">
                                     </div>
 
                                     <!-- campo de valor -->
                                     <div class="mb-3">
 
-                                        <input name="cadastro-valor" class="form-control" id="exampleInputValor" placeholder="R$:" value="{{produto.valor}}">
+                                        <label class="label-valor label">Valor</label>
+                                        <input name="cadastro-valor" class="form-control" id="exampleInputValor"
+                                            placeholder="R$:" value="{{produto.valor}}">
                                     </div>
 
                                     <!-- campo de nome da estante -->
                                     <div class="mb-3">
 
+                                        <label class="label-estante label">Nome da Estante</label>
+
                                         <select name="cadastro-nome-estante" class="form-select" id="nomeEstanteSelect">
 
-                                            <option class="select-estante" disabled selected>Selecione uma Estante:</option>
+                                            <option class="select-estante" disabled selected>Selecione uma Estante:
+                                            </option>
 
                                             {% for estante in estantes %}
                                             {% if estante.estante==produto.nome_estante %}
-                                            <option value="{{estante.cod_estante}}" selected>{{estante.estante}}</option>
+                                            <option value="{{estante.cod_estante}}" selected>{{estante.estante}}
+                                            </option>
                                             {% else %}
                                             <option value="{{estante.cod_estante}}">{{estante.estante}}</option>
                                             {% endif %}
@@ -102,12 +120,40 @@
 
                                 <div class="right--card-text">
 
-                                    <!-- campo de selecionar coluna da estante  -->
+                                    <!-- campo de selecionar linha da estante -->
                                     <div class="mb-3">
 
-                                        <select name="cadastro-coluna-estante" class="form-select" id="colunaEstanteSelect">
+                                        <label class="label-linha label">Linha da Estante</label>
 
-                                                <option class="select-coluna" disabled selected>Selecione uma Coluna:</option>
+                                        <select name="cadastro-linha-estante" class="form-select"
+                                            id="linhaEstanteSelect">
+
+                                            <option class="select-linha" disabled selected>Selecione uma Linha:</option>
+
+                                            {% for i in range(1,4) %}
+                                            {% if i|string==produto.linha[-1] %}
+                                            <option class="select-linha" selected>{{i|string}}</option>
+                                            {% else %}
+                                            <option class="select-linha">{{i|string}}</option>
+                                            {% endif %}
+                                            {% endfor %}
+
+                                        </select>
+
+                                    </div>
+
+                                    <div class="right--card-text">
+
+                                        <!-- campo de selecionar coluna da estante  -->
+                                        <div class="mb-3">
+
+                                            <label class="label-coluna label">Coluna da Estante</label>
+
+                                            <select name="cadastro-coluna-estante" class="form-select"
+                                                id="colunaEstanteSelect">
+
+                                                <option class="select-coluna" disabled selected>Selecione uma Coluna:
+                                                </option>
 
                                                 {% for i in range(1,11) %}
                                                 {% if i|string ==produto.coluna[-1] %}
@@ -119,41 +165,25 @@
 
                                             </select>
 
-                                    </div>
+                                        </div>
 
-                                    <!-- campo de selecionar linha da estante -->
-                                    <div class="mb-3">
+                                        <!-- CATEGORIAS -->
 
-                                        <select name="cadastro-linha-estante" class="form-select" id="linhaEstanteSelect">
+                                        <!-- campo de categoria -->
+                                        <div class="mb-3">
 
-                                                <option class="select-linha" disabled selected>Selecione uma Linha:</option>
+                                            <label class="label-categoria label">Categoria</label>
 
-                                                {% for i in range(1,4) %}
-                                                {% if i|string==produto.linha[-1] %}
-                                                <option class="select-linha" selected>{{i|string}}</option>
-                                                {% else %}
-                                                <option class="select-linha">{{i|string}}</option>
-                                                {% endif %}
-                                                {% endfor %}
+                                            <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
 
-                                            </select>
-
-                                    </div>
-
-
-                                    <!-- CATEGORIAS -->
-
-                                    <!-- campo de categoria -->
-                                    <div class="mb-3">
-
-                                        <select name="cadastro-categoria" class="form-select" id="categoriaSelect">
-
-                                                <option class="select-categoria" disabled selected>Selecione uma categoria:
+                                                <option class="select-categoria" disabled selected>Selecione uma
+                                                    categoria:
                                                 </option>
 
                                                 {% for categoria in categorias %}
                                                 {% if categoria.nome==produto.nome_categoria %}
-                                                <option value="{{categoria.cod_categoria}}" selected>{{categoria.nome}}</option>
+                                                <option value="{{categoria.cod_categoria}}" selected>{{categoria.nome}}
+                                                </option>
                                                 {% else %}
                                                 <option value="{{categoria.cod_categoria}}">{{categoria.nome}}</option>
                                                 {% endif %}
@@ -161,18 +191,22 @@
 
                                             </select>
 
-                                    </div>
+                                        </div>
 
-                                    <!-- campo de tipos de categoria -->
-                                    <div class="mb-3">
+                                        <!-- campo de tipos de categoria -->
+                                        <div class="mb-3">
 
-                                        <select name="cadastro-tipo" class="form-select" id="tipoSelect">
+                                            <label class="label-tipos label">Tipos</label>
 
-                                                <option class="select-tipo" disabled selected>Selecione um tipo:</option>
+                                            <select name="cadastro-tipo" class="form-select" id="tipoSelect">
+
+                                                <option class="select-tipo" disabled selected>Selecione um tipo:
+                                                </option>
 
                                                 {% for tipo in tipos %}
                                                 {% if tipo.nome_tipo == produto.nome_tipo %}
-                                                <option value="{{tipo.cod_tipo}}" selected>{{tipo.nome_tipo}} - Categoria: {{tipo.nome_categoria}}</option>
+                                                <option value="{{tipo.cod_tipo}}" selected>{{tipo.nome_tipo}} -
+                                                    Categoria: {{tipo.nome_categoria}}</option>
                                                 {% else %}
                                                 <option value="{{tipo.cod_tipo}}">{{tipo.nome_tipo}}</option>
                                                 {% endif %}
@@ -180,31 +214,37 @@
 
                                             </select>
 
-                                    </div>
-
-                                    <!-- campo de caracteristicas -->
-                                    <div class="checkbox-caracteristicas">
-
-                                        <label class="label-caracteristicas">Característica(s)</label>
-
-                                        {% for caracteristica in caracteristicas %}
-                                        <div class="form-check">
-
-                                            <input required class="form-check-input" type="checkbox" name="cadastro-caracteristicas" value="{{caracteristica.cod_caracteristica}}" id="caracteristica-{{caracteristicas.cod_caracteristica}}">
-
-
-                                            <label class="form-check-label" for="caracteristica-{{caracteristica.cod_caracteristica}}">
-                                            {{caracteristica.nome_caracteristica}}
-                                            </label>
-
                                         </div>
-                                        {% endfor %}
+
+                                        <!-- campo de caracteristicas -->
+                                        <div class="checkbox-caracteristicas">
+
+                                            <label class="label-caracteristicas label">Característica(s)</label>
+
+                                            {% for caracteristica in caracteristicas %}
+                                            <div class="form-check">
+
+                                                <input required class="form-check-input" type="checkbox"
+                                                    name="cadastro-caracteristicas"
+                                                    value="{{caracteristica.cod_caracteristica}}"
+                                                    id="caracteristica-{{caracteristicas.cod_caracteristica}}">
+
+
+                                                <label class="form-check-label"
+                                                    for="caracteristica-{{caracteristica.cod_caracteristica}}">
+                                                    {{caracteristica.nome_caracteristica}}
+                                                </label>
+
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+
                                     </div>
 
                             </fieldset>
 
-                            </div>
-                            </div>
+                        </div>
+                    </div>
 
                 </section>
 
@@ -215,7 +255,8 @@
 
                     <label class="label-descricao">Descrição</label>
 
-                    <input name="cadastro-descricao" type="text" class="form-control descricao" id="exampleInputName" placeholder="Descrição:" value="{{produto.descricao}}">
+                    <input name="cadastro-descricao" type="text" class="form-control descricao" id="exampleInputName"
+                        placeholder="Descrição:" value="{{produto.descricao}}">
 
                 </div>
 
@@ -227,8 +268,8 @@
 
                 </div>
 
-                </div>
-                </div>
+            </div>
+        </div>
 
     </form>
 
@@ -239,10 +280,10 @@
 
     <script>
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('#exampleInputValor').mask('000.000.000,00', {
-                reverse: true, 
-                placeholder: "0,00" 
+                reverse: true,
+                placeholder: "0,00"
             });
         });
 
@@ -261,4 +302,4 @@
     </script>
 
     <script src="/static/script/verificar_enderecamento.js"></script>
-{% endblock %}
+    {% endblock %}
