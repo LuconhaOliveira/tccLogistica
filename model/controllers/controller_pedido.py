@@ -180,6 +180,7 @@ WHERE pedido.cpf=%s;"""
                 valores = (session['cpf'],mensagem)
                 
                 cursor.execute(sql, valores)
+                cod_historico = cursor.lastrowid
                 conexao.commit()
 
 
@@ -195,6 +196,8 @@ WHERE pedido.cpf=%s;"""
                 
                 cursor.execute(sql, valores)
                 conexao.commit()
+
+                return cod_historico
 
             except Error as e:
                 print(f"Erro ao validar login: {e}")
@@ -250,6 +253,60 @@ WHERE pedido.cpf=%s;"""
             cursor.execute(sql, valores)
             
             resultado = cursor.fetchall()
+
+            if resultado:
+                return resultado
+            else:
+                return None
+
+        except Error as e:
+            print(f"Erro ao validar login: {e}")
+            return None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
+
+    def limpar_historico():
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor(dictionary=True)
+            
+            sql = """DELETE FROM historico_pedido WHERE cpf=%s;"""
+            valores = (session["cpf"],)
+            
+            cursor.execute(sql, valores)
+            conexao.commit()
+
+        except Error as e:
+            print(f"Erro ao validar login: {e}")
+            return None
+
+        finally:
+            if 'cursor' in locals() and cursor:
+                cursor.close()
+            if 'conexao' in locals() and conexao:
+                conexao.close()
+
+    def nota_fiscal(cod_historico):
+        try:
+            conexao = Conection.create_connection()
+            if not conexao:
+                return None
+
+            cursor = conexao.cursor(dictionary=True)
+            
+            sql = """SELECT cod_historico,pedido_realizado,data_hora FROM historico_pedido WHERE cod_historico=%s;"""
+            valores = (cod_historico,)
+            
+            cursor.execute(sql, valores)
+            
+            resultado = cursor.fetchone()
 
             if resultado:
                 return resultado

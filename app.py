@@ -987,8 +987,8 @@ def finalizar_pedido():
 
     # Se o CPF estiver na sessão
     if "cpf" in session:
-        Pedido.remover_pedido()
-        return redirect(url_for("nota_fiscal"))
+        cod_historico=Pedido.remover_pedido()
+        return redirect("/nota/fiscal/"+str(cod_historico))
 
 
     # Se não houver CPF na sessão, redireciona para a página de login
@@ -1000,41 +1000,74 @@ def finalizar_pedido():
 def historico_pedido_compra():
     historico=Pedido.buscar_historico()
     totais=[]
-    for pedido in historico:
-        total=0
-        print(pedido)
-        lista_produtos = pedido['pedido_realizado'].split(';')
-        lista_produtos.pop()
-        print(lista_produtos)
-        produtos=[]
-        for produto in lista_produtos:
-            print(produto)
-            produto2=produto.split(',')
-            produto={}
-            for dado in produto2:
-                dado=dado.split(':')
-                print(dado)
-                produto.update({dado[0]:dado[1]})
-                if dado[0]=='valor':
-                    valor=0
-                    valor=float(dado[1])
-                if dado[0]=='quantidade':
-                    total+=valor*float(dado[1])
-            print(produto)
-            produtos.append(produto)
-        pedido['pedido_realizado']=produtos
-        totais.append(total)
-        pedido['data_hora']=pedido['data_hora'].strftime("%d/%m/%Y %Hh%M")
-        print(pedido['data_hora'].split())
-        pedido['data_hora']=pedido['data_hora'].split()[0]+' às '+pedido['data_hora'].split()[1]
+    if historico:
+        for pedido in historico:
+            total=0
+            print(pedido)
+            lista_produtos = pedido['pedido_realizado'].split(';')
+            lista_produtos.pop()
+            print(lista_produtos)
+            produtos=[]
+            for produto in lista_produtos:
+                print(produto)
+                produto2=produto.split(',')
+                produto={}
+                for dado in produto2:
+                    dado=dado.split(':')
+                    print(dado)
+                    produto.update({dado[0]:dado[1]})
+                    if dado[0]=='valor':
+                        valor=0
+                        valor=float(dado[1])
+                    if dado[0]=='quantidade':
+                        total+=valor*float(dado[1])
+                print(produto)
+                produtos.append(produto)
+            pedido['pedido_realizado']=produtos
+            totais.append(total)
+            pedido['data_hora']=pedido['data_hora'].strftime("%d/%m/%Y %Hh%M")
+            print(pedido['data_hora'].split())
+            pedido['data_hora']=pedido['data_hora'].split()[0]+' às '+pedido['data_hora'].split()[1]
     return render_template("pagina_historico_pedido.html", historico=historico, totais=totais)
+
+@app.route("/post/remover/historico/pedidos")
+def limpar_historico_pedidos():
+
+    Pedido.limpar_historico()
+
+    return redirect(url_for("historico_pedido_compra"))
 
 # NOTA FISCAL -------------------------------------------------------------------------------------------------------
 
-@app.route("/nota/fiscal")
-def nota_fiscal():
+@app.route("/nota/fiscal/<cod_historico>")
+def nota_fiscal(cod_historico):
+
+    pedido=Pedido.nota_fiscal(cod_historico)
+
+    total=0
+    print(pedido)
+    lista_produtos = pedido['pedido_realizado'].split(';')
+    lista_produtos.pop()
+    print(lista_produtos)
+    produtos=[]
+    for produto in lista_produtos:
+        print(produto)
+        produto2=produto.split(',')
+        produto={}
+        for dado in produto2:
+            dado=dado.split(':')
+            print(dado)
+            produto.update({dado[0]:dado[1]})
+            if dado[0]=='valor':
+                valor=0
+                valor=float(dado[1])
+            if dado[0]=='quantidade':
+                total+=valor*float(dado[1])
+        print(produto)
+        produtos.append(produto)
+    pedido['pedido_realizado']=produtos
     
-    return render_template("pagina_nota_fiscal.html")
+    return render_template("pagina_nota_fiscal.html", produtos=pedido["pedido_realizado"], total=total)
 # ----------------------------------------------------------------------------------------------------------------------------# 
 
 if __name__ == '__main__':
