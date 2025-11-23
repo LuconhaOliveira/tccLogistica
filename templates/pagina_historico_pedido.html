@@ -23,64 +23,47 @@
         </div>
 
         <div class="mb-3 form-check">
-            <a href=""><button type="submit" class="btn btn-primary">Limpar Histórico</button></a>
+            <a href="/post/remover/historico/pedidos"><button type="submit" class="btn btn-primary">Limpar Histórico</button></a>
         </div>
 
         <section class="container--card">
-
+            {% if historico %}
+            {% for pedido in historico %}
             <div class="card" style="width: 50rem;">
 
                 <div class="card-header">
 
                     <div class="card--header-esquerdo">
 
-                        <p><strong>Pedido N°0001</strong></p>
+                        <p><strong>Pedido N°{{ loop.index0+1 }}</strong></p>
 
                     </div>
 
                     <div class="card--header-direito">
 
-                        <a href="/nota/fiscal"><span class="material-symbols-outlined icone-nota-fiscal">visibility</span></a>
+                        <a href="/nota/fiscal/{{pedido.cod_historico}}"><span class="material-symbols-outlined icone-nota-fiscal">visibility</span></a>
                         <p><strong>Visualizar Nota Fiscal</strong></p>
 
                     </div>
                 </div>
 
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">3x Camisa branca M</li>
-                    <li class="list-group-item">10x Sapato preto 36</li>
-                    <li class="list-group-item">1x Calça Jeans 42</li>
-                    <li class="list-group-item"><strong>Total:</strong> R$ 120,80</li>
-                    <li class="list-group-item"><strong>19/09/2025 às 15h06</strong></li>
+                    {% for produto in pedido.pedido_realizado %}
+                    <li class="list-group-item">{{produto.quantidade}}x {{produto.nome}}</li>
+                    {% endfor %}
+                    <li class="list-group-item"><strong>Total:</strong> R$ {{totais[loop.index0]}}</li>
+                    <li class="list-group-item"><strong>{{pedido.data_hora}}</strong></li>
                 </ul>
             </div>
+            {% endfor %}
 
-            <div class="card" style="width: 50rem;">
-
-                <div class="card-header">
-
-                    <div class="card--header-esquerdo">
-
-                        <p><strong>Pedido N°0002</strong></p>
-
-                    </div>
-
-                    <div class="card--header-direito">
-
-                        <a href="/nota/fiscal"><span class="material-symbols-outlined icone-nota-fiscal">visibility</span></a>
-                        <p><strong>Visualizar Nota Fiscal</strong></p>
-
+            {% else %}
+                <div class="card-aviso">
+                    <div class="card-body">
+                        <h2 class="card-title">Histórico vazio.</h2>
                     </div>
                 </div>
-
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">3x Camisa branca M</li>
-                    <li class="list-group-item">10x Sapato preto 36</li>
-                    <li class="list-group-item">1x Calça Jeans 42</li>
-                    <li class="list-group-item"><strong>Total:</strong> R$ 120,80</li>
-                    <li class="list-group-item"><strong>19/09/2025 às 15h06</strong></li>
-                </ul>
-            </div>
+            {% endif %}
 
         </section>
 

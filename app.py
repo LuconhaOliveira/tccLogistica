@@ -1,6 +1,6 @@
 # Importando os arquivos
 from flask import Flask, jsonify, render_template, request, redirect, session, url_for
-import datetime
+from datetime import datetime
 import base64
 from model.controllers.controller_usuario import Usuario
 from model.controllers.controller_produtos import ControleProduto
@@ -934,11 +934,10 @@ def adicionar_produto_pedido(cod_produto):
 
     # Se o CPF estiver na sessão
     if "cpf" in session:
-        quantidade=request.form.get('cadastro-quantidade')
-        (ativo,cod_pedido)=Pedido.verificar_pedido_ativo()
-        if not ativo:
-            cod_pedido=Pedido.criar_pedido()
-        print(ativo,cod_pedido,cod_produto,quantidade)
+        quantidade=request.form.get('cadastro-quantidade')  
+        cod_pedido=Pedido.buscar_pedido()
+        if not cod_pedido: cod_pedido=Pedido.criar_pedido() 
+        else:cod_pedido=cod_pedido[0]
         Pedido.adicionar_ao_pedido(cod_pedido,cod_produto,quantidade)
         return redirect(url_for("principal"))
 
@@ -951,22 +950,17 @@ def adicionar_produto_pedido(cod_produto):
 def pedido_compra():
 
     if "cpf" in session:
-        if Pedido.verificar_pedido_ativo()[0]:
-            itens_pedido = Pedido.buscar_itens_pedido()
-            print(itens_pedido)
-            if itens_pedido:
-                quantidade=0
-                subtotal=0
-                for item in itens_pedido:
-                    quantidade+=item["quantidade"]
-                    subtotal+=item["valor"]*item["quantidade"]
-                    imagem_blob=item["imagem"]
-                    imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
-                    item["imagem"]=imagem_base64
-                cod_pedido=Pedido.verificar_pedido_ativo()[1]
-                return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal, cod_pedido=cod_pedido)
-            else:
-                return render_template("pagina_pedido_compra.html")
+        itens_pedido = Pedido.buscar_itens_pedido()
+        if itens_pedido:
+            quantidade=0
+            subtotal=0
+            for item in itens_pedido:
+                quantidade+=item["quantidade"]
+                subtotal+=item["valor"]*item["quantidade"]
+                imagem_blob=item["imagem"]
+                imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
+                item["imagem"]=imagem_base64
+            return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal)
         else:
             return render_template("pagina_pedido_compra.html")
     else:
@@ -988,13 +982,13 @@ def remover_produto_pedido(cod_produto):
 
 # FINALIZAR PEDIDO ------------------------------------------------------------------------------------#
 
-@app.route("/post/finalizar/pedido/<cod_pedido>")
-def finalizar_pedido(cod_pedido):
+@app.route("/post/finalizar/pedido")
+def finalizar_pedido():
 
     # Se o CPF estiver na sessão
     if "cpf" in session:
-        Pedido.remover_pedido(cod_pedido)
-        return redirect(url_for("nota_fiscal"))
+        cod_historico=Pedido.remover_pedido()
+        return redirect("/nota/fiscal/"+str(cod_historico))
 
 
     # Se não houver CPF na sessão, redireciona para a página de login
@@ -1004,15 +998,76 @@ def finalizar_pedido(cod_pedido):
 
 @app.route("/historico/pedido/compra")
 def historico_pedido_compra():
+    historico=Pedido.buscar_historico()
+    totais=[]
+    if historico:
+        for pedido in historico:
+            total=0
+            print(pedido)
+            lista_produtos = pedido['pedido_realizado'].split(';')
+            lista_produtos.pop()
+            print(lista_produtos)
+            produtos=[]
+            for produto in lista_produtos:
+                print(produto)
+                produto2=produto.split(',')
+                produto={}
+                for dado in produto2:
+                    dado=dado.split(':')
+                    print(dado)
+                    produto.update({dado[0]:dado[1]})
+                    if dado[0]=='valor':
+                        valor=0
+                        valor=float(dado[1])
+                    if dado[0]=='quantidade':
+                        total+=valor*float(dado[1])
+                print(produto)
+                produtos.append(produto)
+            pedido['pedido_realizado']=produtos
+            totais.append(total)
+            pedido['data_hora']=pedido['data_hora'].strftime("%d/%m/%Y %Hh%M")
+            print(pedido['data_hora'].split())
+            pedido['data_hora']=pedido['data_hora'].split()[0]+' às '+pedido['data_hora'].split()[1]
+    return render_template("pagina_historico_pedido.html", historico=historico, totais=totais)
 
-    return render_template("pagina_historico_pedido.html")
+@app.route("/post/remover/historico/pedidos")
+def limpar_historico_pedidos():
+
+    Pedido.limpar_historico()
+
+    return redirect(url_for("historico_pedido_compra"))
 
 # NOTA FISCAL -------------------------------------------------------------------------------------------------------
 
-@app.route("/nota/fiscal")
-def nota_fiscal():
+@app.route("/nota/fiscal/<cod_historico>")
+def nota_fiscal(cod_historico):
+
+    pedido=Pedido.nota_fiscal(cod_historico)
+
+    total=0
+    print(pedido)
+    lista_produtos = pedido['pedido_realizado'].split(';')
+    lista_produtos.pop()
+    print(lista_produtos)
+    produtos=[]
+    for produto in lista_produtos:
+        print(produto)
+        produto2=produto.split(',')
+        produto={}
+        for dado in produto2:
+            dado=dado.split(':')
+            print(dado)
+            produto.update({dado[0]:dado[1]})
+            if dado[0]=='valor':
+                valor=0
+                valor=float(dado[1])
+            if dado[0]=='quantidade':
+                total+=valor*float(dado[1])
+        print(produto)
+        produtos.append(produto)
+    pedido['pedido_realizado']=produtos
     
-    return render_template("pagina_nota_fiscal.html")
+    return render_template("pagina_nota_fiscal.html", produtos=pedido["pedido_realizado"], total=total)
 # ----------------------------------------------------------------------------------------------------------------------------# 
 
 if __name__ == '__main__':
