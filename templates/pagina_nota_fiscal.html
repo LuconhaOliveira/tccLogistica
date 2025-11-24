@@ -340,13 +340,13 @@
             <div class="nota nota--valor-dados">
                 <span>Valor</span>
                 {% for produto in produtos %}
-                <p id="valor">{{produto.valor}}</p>
+                <p>R$ <span id="valor" style="display: inline; font-weight: 400;">{{produto.valor}}</span></p>
                 {% endfor %}
             </div>
             <div></div>
             <div class="nota nota--subtotal-dados">
                 <span>Subtotal</span>
-                <p id="total">{{total}}</p>
+                <P>R$ <span id="total" style="display: inline; font-weight: 400;">{{total}}</span></P>
             </div>
             <div></div>
         </section>
