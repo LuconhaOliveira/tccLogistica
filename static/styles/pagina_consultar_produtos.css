@@ -142,7 +142,6 @@
     border: none !important;
     border-radius: 12px !important;
     padding: 10px !important;
-    width: 100% !important;
     cursor: pointer !important;
     transition: background 0.5s !important;
 }
