@@ -957,10 +957,11 @@ def pedido_compra():
             for item in itens_pedido:
                 quantidade+=item["quantidade"]
                 subtotal+=item["valor"]*item["quantidade"]
+                item["valor"]=f"%.2f"%item["valor"]
                 imagem_blob=item["imagem"]
                 imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
                 item["imagem"]=imagem_base64
-            return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal)
+            return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=f"%.2f"%subtotal)
         else:
             return render_template("pagina_pedido_compra.html")
     else:
