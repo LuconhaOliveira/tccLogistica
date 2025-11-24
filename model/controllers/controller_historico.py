@@ -16,7 +16,7 @@ class Historico:
                     cod_alteracao,
                     alteracao_realizada,
                     DATE_FORMAT(
-                        CONVERT_TZ(data_hora, 'UTC', 'America/Sao_Paulo'),
+                        data_hora,
                         '%d/%m/%Y %H:%i' 
                     ) AS data_hora
                 FROM
