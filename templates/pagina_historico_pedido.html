@@ -51,7 +51,7 @@
                     {% for produto in pedido.pedido_realizado %}
                     <li class="list-group-item">{{produto.quantidade}}x {{produto.nome}}</li>
                     {% endfor %}
-                    <li class="list-group-item"><strong>Total:</strong> R$ {{totais[loop.index0]}}</li>
+                    <li class="list-group-item"><strong>Total:</strong> R$ <span>{{totais[loop.index0]}}</span></li>
                     <li class="list-group-item"><strong>{{pedido.data_hora}}</strong></li>
                 </ul>
             </div>
@@ -69,4 +69,8 @@
 
     </main>
 
+    <!-- Link para importar as máscaras para VALOR -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+    <script src="/static/script/historico_pedido.js"></script>
 {% endblock %}
