@@ -169,8 +169,6 @@ def logar():
 @app.route("/post/login", methods=["POST"])
 def post_login():
 
-    #olha o gemini
-
     # 1. Captura os dados do formulário enviado via POST
     # Obtém o valor do campo 'login-cpf' do formulário
     cpf = request.form.get("login-cpf")
@@ -763,7 +761,7 @@ def post_editar_estante(cod_estante):
     
     print(Estante.editar_estante(nome,categoria,cod_estante))
     
-    return redirect(url_for('principal'))
+    return redirect(f"/estante/{cod_estante}")
 
 # CADASTRO DE CATEGORIA ------------------------------------------------------------------------------------------------------# 
 
