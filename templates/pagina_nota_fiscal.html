@@ -312,13 +312,18 @@
         <span class="titulo">Dados do Produto ou Serviço</span>
 
         <section>
-
             <div class="nota nota--cod-produto">
                 <span>Nome do Produto</span>
+                {% for produto in produtos %}
+                <p>{{produto.nome}}</p>
+                {% endfor %}
             </div>
             <div></div>
             <div class="nota nota--descricao-prod-servico">
                 <span>Descrição do Produto ou Serviço</span>
+                {% for produto in produtos %}
+                <p>{{produto.descricao}}</p>
+                {% endfor %}
             </div>
             <div></div>
             <div class="nota nota--ncm">
@@ -327,17 +332,23 @@
             <div></div>
             <div class="nota nota--quantidade">
                 <span>Quantidade</span>
+                {% for produto in produtos %}
+                <p>{{produto.quantidade}}</p>
+                {% endfor %}
             </div>
             <div></div>
             <div class="nota nota--valor-dados">
                 <span>Valor</span>
+                {% for produto in produtos %}
+                <p>{{produto.valor}}</p>
+                {% endfor %}
             </div>
             <div></div>
             <div class="nota nota--subtotal-dados">
                 <span>Subtotal</span>
+                {{total}}
             </div>
             <div></div>
-
         </section>
 
 

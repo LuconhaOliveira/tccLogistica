@@ -146,8 +146,6 @@ CREATE TABLE IF NOT EXISTS pedido (
     cpf VARCHAR(14) NOT NULL,
     -- Data e hora exata em que o pedido foi registrado.
     data_pedido DATETIME,
-    -- Chave para verificar se o pedido é o em uso no momento
-    ativo BOOL,
     FOREIGN KEY (cpf) REFERENCES usuario (cpf)
 );
 
@@ -212,27 +210,9 @@ CREATE TABLE IF NOT EXISTS produto_caracteristica (
     FOREIGN KEY (cod_caracteristica) REFERENCES caracteristica (cod_caracteristica)
 );
 
--- ---------------------------------------------------------------------------------------------------------
--- 10. TABELA ARMAZENAMENTO
--- Propósito: Rastrear a quantidade de um produto em uma estante específica (controle de estoque por localização).
--- É uma tabela de junção com chave primária composta (PK composta).
--- ---------------------------------------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS armazenamento (
-    -- Colunas da chave primária composta (identificador de armazém/posição).
-    cod_armazem INT NOT NULL,
-    cod_produto INT NOT NULL,
-    cod_estante INT NOT NULL,
-    -- Quantidade do produto no local especificado.
-    quantidade INT,
-    PRIMARY KEY (cod_armazem, cod_produto, cod_estante),
-    -- Chave estrangeira: Produto em estoque.
-    FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto),
-    -- Chave estrangeira: Localização (endereçamento) na estante.
-    FOREIGN KEY (cod_estante) REFERENCES estante (cod_estante)
-);
 
 -- ---------------------------------------------------------------------------------------------------------
--- 11. TABELA ITEM_PEDIDO
+-- 10. TABELA ITEM_PEDIDO
 -- Propósito: Detalhar os produtos e quantidades de cada pedido (relação M:N entre Pedido e Produto).
 -- ---------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS item_pedido (
@@ -246,6 +226,14 @@ CREATE TABLE IF NOT EXISTS item_pedido (
     FOREIGN KEY (cod_pedido) REFERENCES pedido (cod_pedido),
     -- Chave estrangeira: Produto que está sendo pedido.
     FOREIGN KEY (cod_produto) REFERENCES produto (cod_produto)
+);
+
+CREATE TABLE IF NOT EXISTS historico_pedido(
+	cod_historico INT PRIMARY KEY AUTO_INCREMENT,
+    pedido_realizado TEXT, 
+    cpf VARCHAR(11),
+    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (cpf) REFERENCES usuario (cpf)
 );
 
 -- =========================================================================================================
