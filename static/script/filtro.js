@@ -45,7 +45,7 @@ function alterar_filtros(filtros){
                 <label class="label-filtro" for=${filtro.cod_categoria}>${filtro.nome}</label><br />`;
     });
 
-    checkbox+=`<button class="card-section--btnLimparFiltro" type="reset">Limpar filtro</button>`
+    checkbox+=`<button class="card-section--btnLimparFiltro" type="reset">Limpar Filtro</button>`
 
     document.querySelector('#filtros').innerHTML = '';
     document.querySelector('#filtros').innerHTML = checkbox;
