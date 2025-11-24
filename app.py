@@ -1024,6 +1024,7 @@ def historico_pedido_compra():
                 print(produto)
                 produtos.append(produto)
             pedido['pedido_realizado']=produtos
+            total=f"%.2f"%total
             totais.append(total)
             pedido['data_hora']=pedido['data_hora'].strftime("%d/%m/%Y %Hh%M")
             print(pedido['data_hora'].split())
@@ -1061,13 +1062,14 @@ def nota_fiscal(cod_historico):
             if dado[0]=='valor':
                 valor=0
                 valor=float(dado[1])
+                produto.update({dado[0]:f"%.2f"%float(dado[1])})
             if dado[0]=='quantidade':
                 total+=valor*float(dado[1])
-        print(produto)
+                total=f"%.2f"%total
         produtos.append(produto)
     pedido['pedido_realizado']=produtos
     
-    return render_template("pagina_nota_fiscal.html", produtos=pedido["pedido_realizado"], total=f"%.2f"%total)
+    return render_template("pagina_nota_fiscal.html", produtos=pedido["pedido_realizado"], total=total)
 # ----------------------------------------------------------------------------------------------------------------------------# 
 
 if __name__ == '__main__':
