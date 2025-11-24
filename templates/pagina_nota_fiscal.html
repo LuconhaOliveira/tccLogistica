@@ -340,13 +340,13 @@
             <div class="nota nota--valor-dados">
                 <span>Valor</span>
                 {% for produto in produtos %}
-                <p>{{produto.valor}}</p>
+                <p>R$ <span id="valor" style="display: inline; font-weight: 400;">{{produto.valor}}</span></p>
                 {% endfor %}
             </div>
             <div></div>
             <div class="nota nota--subtotal-dados">
                 <span>Subtotal</span>
-                {{total}}
+                <P>R$ <span id="total" style="display: inline; font-weight: 400;">{{total}}</span></P>
             </div>
             <div></div>
         </section>
@@ -383,5 +383,11 @@
     <a class="nota--botao-download" href=""><button type="submit">Download</button></a>
 
 </main>
+
+
+<!-- Link para importar as máscaras para VALOR -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+<script src="/static/script/nota_fiscal.js"></script>
 
 {% endblock %} 
