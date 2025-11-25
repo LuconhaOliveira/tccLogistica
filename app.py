@@ -996,36 +996,76 @@ def finalizar_pedido():
 
 @app.route("/historico/pedido/compra")
 def historico_pedido_compra():
-    historico=Pedido.buscar_historico()
-    totais=[]
+    historico = Pedido.buscar_historico()
+    totais = []
+    
     if historico:
         for pedido in historico:
-            total=0
+            total = 0.0 # Inicializado como float para os cálculos
             print(pedido)
+            
+            # Divide os produtos por ';'
             lista_produtos = pedido['pedido_realizado'].split(';')
-            lista_produtos.pop()
+            lista_produtos.pop() # Remove o último item vazio (se houver)
             print(lista_produtos)
-            produtos=[]
-            for produto in lista_produtos:
-                print(produto)
-                produto2=produto.split(',')
-                produto={}
-                for dado in produto2:
-                    dado=dado.split(':')
+            
+            produtos = []
+            
+            # Itera sobre cada produto (como string)
+            for produto_str in lista_produtos:
+                print(produto_str)
+                # Divide os atributos do produto por ','
+                produto2 = produto_str.split(',')
+                produto_dict = {} # Dicionário para armazenar o produto atual
+                
+                valor = 0.0 # Inicializa o valor do produto
+                
+                # Itera sobre cada par chave:valor 
+                for dado_str in produto2:
+                    dado_str_limpa = dado_str.strip() # Limpa espaços em branco
+                    dado = dado_str_limpa.split(':', 1) # Divide por ':', limitando a 1 split
+                    
                     print(dado)
-                    produto.update({dado[0]:dado[1]})
-                    if dado[0]=='valor':
-                        valor=0
-                        valor=float(dado[1])
-                    if dado[0]=='quantidade':
-                        total+=valor*float(dado[1])
-                print(produto)
-                produtos.append(produto)
-            pedido['pedido_realizado']=produtos
-            totais.append(total)
-            pedido['data_hora']=pedido['data_hora'].strftime("%d/%m/%Y %Hh%M")
-            print(pedido['data_hora'].split())
-            pedido['data_hora']=pedido['data_hora'].split()[0]+' às '+pedido['data_hora'].split()[1]
+                    
+                    # Verifica se a lista dado tem 2 elementos (chave e valor)
+                    if len(dado) == 2:
+                        chave = dado[0].strip()
+                        valor_str = dado[1].strip()
+                        
+                        # Atualiza o dicionário do produto
+                        produto_dict.update({chave: valor_str})
+                        
+                        # Calculo do total
+                        if chave == 'valor':
+                            try:
+                                valor = float(valor_str)
+                            except ValueError:
+                                print(f"Aviso: Valor inválido '{valor_str}' ignorado.")
+                                valor = 0.0
+
+                        if chave == 'quantidade':
+                            try:
+                                quantidade = float(valor_str)
+                                total += valor * quantidade
+                            except ValueError:
+                                print(f"Aviso: Quantidade inválida '{valor_str}' ignorada.")
+                    
+                    # Se len(dado) != 2, a linha é simplesmente ignorada, evitando o IndexError.
+                    
+                print(produto_dict)
+                produtos.append(produto_dict)
+                
+            pedido['pedido_realizado'] = produtos
+            
+            # Formata o total para exibição
+            totais.append(f"%.2f" % total) 
+            
+            # Formatação de data e hora
+            pedido['data_hora'] = pedido['data_hora'].strftime("%d/%m/%Y %Hh%M")
+            data_part = pedido['data_hora'].split()[0]
+            hora_part = pedido['data_hora'].split()[1]
+            pedido['data_hora'] = f"{data_part} às {hora_part}"
+            
     return render_template("pagina_historico_pedido.html", historico=historico, totais=totais)
 
 @app.route("/post/remover/historico/pedidos")
@@ -1042,30 +1082,66 @@ def nota_fiscal(cod_historico):
 
     pedido=Pedido.nota_fiscal(cod_historico)
 
-    total=0
+    total=0.0 # Alterado para float desde o início para evitar conversão de string
     print(pedido)
+    
+    # Divide por ';'
     lista_produtos = pedido['pedido_realizado'].split(';')
+    # O pop() remove o último elemento, que é vazio se a string termina com ';'
     lista_produtos.pop()
+    
     print(lista_produtos)
     produtos=[]
-    for produto in lista_produtos:
-        print(produto)
-        produto2=produto.split(',')
-        produto={}
-        for dado in produto2:
-            dado=dado.split(':')
-            print(dado)
-            produto.update({dado[0]:dado[1]})
-            if dado[0]=='valor':
-                valor=0
-                valor=float(dado[1])
-            if dado[0]=='quantidade':
-                total+=valor*float(dado[1])
-        print(produto)
-        produtos.append(produto)
-    pedido['pedido_realizado']=produtos
     
-    return render_template("pagina_nota_fiscal.html", produtos=pedido["pedido_realizado"], total=total)
+    for produto_str in lista_produtos: 
+        print(produto_str)
+        # Divide por ','
+        produto2 = produto_str.split(',')
+        produto_dict = {} 
+        
+        for dado_str in produto2: 
+            # Limpa espaços e divide por ':'
+            dado_limpo = dado_str.strip() 
+            dado = dado_limpo.split(':', 1) 
+            
+            print(dado)
+            
+            # Verifica se a lista 'dado' tem pelo menos 2 elementos
+            if len(dado) == 2:
+                chave = dado[0].strip() 
+                valor_str = dado[1].strip() 
+                
+                produto_dict.update({chave: valor_str})
+                
+                if chave == 'valor':
+                    try:
+                        valor = float(valor_str)
+                        # Armazena o valor formatado no dicionário
+                        produto_dict.update({chave: f"%.2f" % valor}) 
+                    except ValueError:
+                        print(f"Aviso: Valor inválido encontrado: {valor_str}")
+                        valor = 0.0
+
+                if chave == 'quantidade':
+                    try:
+                        quantidade = float(valor_str)
+                        # Converte total para float para a soma
+                        total += valor * quantidade
+                        # Formata o total no final
+                    except ValueError:
+                        print(f"Aviso: Quantidade inválida encontrada: {valor_str}")
+            else:
+                # Caso a lista 'dado' tenha menos de 2 elementos, ignoramos 
+                print(f"Valor incompleto encontrado e ignorado: {dado_limpo}")
+                
+        produtos.append(produto_dict)
+        
+    pedido['pedido_realizado'] = produtos
+    
+    # Formata o total final após todos os cálculos
+    total_formatado = f"%.2f" % total 
+    
+    return render_template("pagina_nota_fiscal.html", produtos=pedido["pedido_realizado"], total=total_formatado)
 # ----------------------------------------------------------------------------------------------------------------------------# 
 
 if __name__ == '__main__':

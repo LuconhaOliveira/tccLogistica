@@ -221,11 +221,10 @@ WHERE pedido.cpf=%s;"""
             valores = (session["cpf"],)
             
             cursor.execute(sql, valores)
-            resultado=cursor.fetchone()
-            if not resultado: resultado=None
-
-            if resultado:
-                return resultado
+            resultados = cursor.fetchall()
+            if resultados:
+            # Retorna apenas o primeiro resultado (o código do pedido)
+                return resultados[0] 
             else:
                 return None
 
