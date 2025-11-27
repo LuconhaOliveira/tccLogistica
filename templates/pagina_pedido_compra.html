@@ -30,14 +30,14 @@
                 
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="data:image/jpeg;base64,{{ item["imagem"] }}" class="img-fluid rounded-start" alt="...">
+                        <img src="data:image/jpeg;base64,{{ item['imagem'] }}" class="img-fluid rounded-start" alt="...">
                     </div>
                     <div class="col-md-8 container-card-body-produto">
                         <div class="card-body-produto">
 
                                 <h3 class="card-title">{{item.nome}}</h3>
-                                <p class="card-text">Valor Unitário: {{item.valor}}</p>
-                                <p class="card-text">Subtotal: {{"%.2f"|format(item.valor * item.quantidade)}}</p>
+                                <p class="card-text">Valor Unitário: R$ <span class="valor">{{item.valor}}</span></p>
+                                <p class="card-text">Subtotal: R$ <span class="valor">{{item.valor|float * item.quantidade|int * 10}}</span></p>
                                 <p class="card-text">Quantidade: {{item.quantidade}}</p>
 
                             <div class="card-body-produto-right">
@@ -83,7 +83,7 @@
             <div class="div-info">
                 <p>Quantidade: {{quantidade}}</p>
                 {% if subtotal %}
-                <p>Subtotal: {{"%.2f"|format(subtotal)}}</p>
+                <p>Subtotal: R$ <span class="valor">{{subtotal}}</span></p>
                 {% else %}
                 <p>Subtotal:</p>
                 {% endif %}
@@ -92,6 +92,10 @@
         </div>
 
     </main>
+
+    <!-- Link para importar as máscaras para VALOR -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/static/script/pedido_compra.js"></script>
 {% endblock %}

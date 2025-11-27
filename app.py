@@ -955,10 +955,11 @@ def pedido_compra():
             for item in itens_pedido:
                 quantidade+=item["quantidade"]
                 subtotal+=item["valor"]*item["quantidade"]
+                item["valor"]=f"%.2f"%item["valor"]
                 imagem_blob=item["imagem"]
                 imagem_base64 = base64.b64encode(imagem_blob).decode('utf-8')
                 item["imagem"]=imagem_base64
-            return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=subtotal)
+            return render_template("pagina_pedido_compra.html", itens_pedido=itens_pedido, quantidade=quantidade, subtotal=f"%.2f"%subtotal)
         else:
             return render_template("pagina_pedido_compra.html")
     else:
@@ -1062,12 +1063,11 @@ def nota_fiscal(cod_historico):
                 valor=float(dado[1])
                 produto.update({dado[0]:f"%.2f"%float(dado[1])})
             if dado[0]=='quantidade':
-                total+=valor*float(dado[1])
-                total=f"%.2f"%total
+                total+=float(valor)*float(dado[1])
         produtos.append(produto)
     pedido['pedido_realizado']=produtos
     
-    return render_template("pagina_nota_fiscal.html", produtos=pedido["pedido_realizado"], total=total)
+    return render_template("pagina_nota_fiscal.html", produtos=pedido["pedido_realizado"], total=f"%.2f"%total)
 # ----------------------------------------------------------------------------------------------------------------------------# 
 
 if __name__ == '__main__':
