@@ -219,7 +219,7 @@ class ControleProduto:
             if conexao:
                 conexao.close()
 
-        # Recupera as categorias registradas anteriormente
+    # Recupera as categorias registradas anteriormente
     def recuperar_produtos(cpf):
         
         conexao = Conection.create_connection()

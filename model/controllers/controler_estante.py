@@ -288,24 +288,21 @@ class Estante:
         
 
         try:
-            # 2. CONEXÃO
+   
             conexao = Conection.create_connection()
             if not conexao:
                 return False, "Falha na conexão com o banco de dados."
 
             cursor = conexao.cursor()
 
-            # 3. COMANDO SQL
             sql = "UPDATE estante SET nome=%s, cod_categoria=%s WHERE cod_estante=%s"
-            
-            # 4. VALORES: Ordem deve ser EXATA à do SQL
+
             valores = (nome,cod_categoria,cod_estante)
 
-            # 5. EXECUÇÃO
             cursor.execute(sql, valores)
             conexao.commit()
             
-            # MUDANÇA: Retorna True e o ID do novo produto
+            # Retorna True e o ID do novo produto
             return True, cursor.lastrowid
 
         except Error as e:
