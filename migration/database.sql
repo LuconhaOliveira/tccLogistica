@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS alteracao_produto_estante;
 DROP TABLE IF EXISTS estante;
 DROP TABLE IF EXISTS tipo;
 DROP TABLE IF EXISTS categoria;
+DROP TABLE IF EXISTS historico_pedido;
 DROP TABLE IF EXISTS usuario;
 
 -- ---------------------------------------------------------------------------------------------------------

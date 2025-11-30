@@ -937,7 +937,7 @@ def adicionar_produto_pedido(cod_produto):
         if not cod_pedido: cod_pedido=Pedido.criar_pedido() 
         else:cod_pedido=cod_pedido[0]
         Pedido.adicionar_ao_pedido(cod_pedido,cod_produto,quantidade)
-        return redirect(url_for("principal"))
+        return redirect(f"/visualizar/produto/{cod_produto}")
 
 
     # Se não houver CPF na sessão, redireciona para a página de login
@@ -1014,7 +1014,8 @@ def historico_pedido_compra():
                 for dado in produto2:
                     dado=dado.split(':')
                     print(dado)
-                    produto.update({dado[0]:dado[1]})
+                    if len(dado) >= 2:
+                        produto.update({dado[0]:dado[1]})
                     if dado[0]=='valor':
                         valor=0
                         valor=float(dado[1])
@@ -1057,7 +1058,8 @@ def nota_fiscal(cod_historico):
         for dado in produto2:
             dado=dado.split(':')
             print(dado)
-            produto.update({dado[0]:dado[1]})
+            if len(dado) >= 2:
+                produto.update({dado[0]:dado[1]})
             if dado[0]=='valor':
                 valor=0
                 valor=float(dado[1])
